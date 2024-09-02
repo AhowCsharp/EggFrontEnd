@@ -65,7 +65,7 @@ const Title = styled.div`
 
 const CountTag = styled.div`
   padding: 1px 15px 1px 5px;
-  background: #d3373b;
+  background: #000;
   box-sizing: border-box;
   clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
   color: #fff;
