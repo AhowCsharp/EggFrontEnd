@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import drawOutAnimation from '@app/static/draw-out-animation.gif'
+import drawOutAnimation from '@app/static/drawOutAnimation'
 import GifPlayer from '@app/shared/gitPlayer'
 import DollarSign from '@app/shared/dollarSign'
 import { DRAW_OUT_STATUS, CATEGORY } from '@app/utils/constants'
@@ -92,7 +92,11 @@ export default function ConfirmDialog({
 
   if (drawOutStatus === DRAW_OUT_STATUS.DRAWING)
     return (
-      <GifPlayer src={drawOutAnimation} onComplete={onClose} duration={3100} />
+      <GifPlayer
+        src={drawOutAnimation[category]}
+        onComplete={onClose}
+        duration={1300}
+      />
     )
   if (drawOutStatus === DRAW_OUT_STATUS.CONFIRMING)
     return (
