@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/": ["./src/"]
+    }
+  },
+  "include": ["src/**/*"]
+}

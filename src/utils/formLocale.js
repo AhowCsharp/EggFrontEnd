@@ -1,0 +1,20 @@
+const locale = {
+  account: '帳號',
+  nickname: '暱稱',
+  password: '密碼',
+  name: '收貨姓名',
+  email: 'E-mail',
+  phonenum: '手機',
+  districtno: '郵遞區號',
+  address: '詳細地址',
+  city: '居住城市',
+  districtname: '居住地區',
+  shipway: '配送方式',
+  addressee: '收件人',
+  mobilenumber: '聯絡電話',
+  zipcode: '郵遞區號',
+  conveniencestorename: '超商店號',
+  recipientaddress: '詳細地址（超商地址）',
+  memo: '備註',
+}
+export default locale

@@ -1,0 +1,184 @@
+import styled from 'styled-components'
+import { useSelector, dataStore } from '@app/store'
+import { DrawOutBtn } from '@app/pages/commodity'
+import { useState, useEffect, lazy, Suspense, Fragment } from 'react'
+import { INFO_DIALOG_TYPE } from '@app/utils/constants'
+import { Checkbox } from 'antd'
+import privacyPolicyWording from './privacyPolicy.json'
+import topUpWording from './topUp.json'
+import drawProbability from './drawProbability.json'
+
+const Mask = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${(p) => p.theme.color.mask};
+  border-radius: ${(p) => p.theme.borderRadius.content};
+  z-index: ${(p) => p.theme.zIndex.mask};
+`
+
+const Container = styled.div`
+  position: absolute;
+  color: #000;
+  opacity: 1;
+  top: 10px;
+  width: 60%;
+  left: 20%;
+  max-height: 80vh;
+  z-index: ${(p) => p.theme.zIndex.dialog};
+  display: flex;
+  min-height: 250px;
+  flex-direction: column;
+  background: ${(p) => p.theme.color.background};
+  border: 1px solid ${(p) => p.theme.color.dialogBorder};
+  border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
+  padding: 20px 40px 60px;
+  display: flex;
+  @media (max-width: 768px) {
+    width: 90%;
+    left: 5%;
+  }
+`
+
+const Block = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`
+
+const Header = styled(Block)`
+  position: relative;
+  top: 0;
+  h3 {
+    margin: 0;
+  }
+`
+
+const P = styled.p`
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  justify-content: ${(p) => (p.center ? 'center' : 'unset')};
+`
+
+const Footer = styled(Block)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 10px 0;
+`
+
+const Content = styled(Block)`
+  padding: 20px 0;
+  flex-direction: column;
+  max-height: 70vh;
+  overflow-y: auto;
+`
+
+const Button = styled(DrawOutBtn)`
+  opacity: ${(p) => (p.checked ? 1 : 0.5)};
+  cursor: ${(p) => (p.checked ? 'pointer' : 'not-allowed')};
+`
+
+function getWording(type) {
+  switch (type) {
+    case INFO_DIALOG_TYPE.PRIVACY:
+      return privacyPolicyWording
+    case INFO_DIALOG_TYPE.TOP_UP:
+      return topUpWording
+    case INFO_DIALOG_TYPE.DRAWING_PROBABILITY:
+      return drawProbability
+    case INFO_DIALOG_TYPE.REGISTER:
+      return {
+        ...privacyPolicyWording,
+        others: { ...privacyPolicyWording.others, ...topUpWording.others },
+      }
+    default:
+      return null
+  }
+}
+
+export default function InfoDialog() {
+  const type = useSelector(() => dataStore.infoDialogType)
+  const onClose = () => dataStore.setInfoDialogType()
+  const [wording, setWording] = useState()
+  const [checked, setChecked] = useState(false)
+  useEffect(() => {
+    setWording(getWording(type))
+    setChecked(false)
+  }, [type])
+
+  useEffect(() => {
+    if (!type || !wording) return
+    document.getElementById('header').scrollIntoView({ behavior: 'smooth' })
+  }, [type, wording])
+
+  if (!type || !wording) return null
+  const keys = Object.keys(wording?.others)
+
+  return (
+    <>
+      <Mask />
+      <Container>
+        <Header>
+          <h3>{type}</h3>
+        </Header>
+        <Content>
+          {(wording.content || []).map((item, index) => (
+            <P key={index}>{item}</P>
+          ))}
+          {keys.map((key, index) => (
+            <Fragment key={`h${index}`}>
+              <P center={true}>{key}</P>
+              {wording.others[key].map((item, index) => {
+                if (typeof item === 'object' && item.imgSrc) {
+                  return <Image key={index} src={item.imgSrc} />
+                }
+                return <P key={index}>{item}</P>
+              })}
+            </Fragment>
+          ))}
+          {type === INFO_DIALOG_TYPE.REGISTER ? (
+            <P center={true}>
+              <Checkbox onChange={(e) => setChecked(e.target.checked)}>
+                我已閱讀並同意
+              </Checkbox>
+            </P>
+          ) : null}
+        </Content>
+        <Footer>
+          <Button onClick={onClose} checked={true}>
+            關閉
+          </Button>
+          {type === INFO_DIALOG_TYPE.REGISTER ? (
+            <Button onClick={onRegister} checked={checked}>
+              註冊
+            </Button>
+          ) : null}
+        </Footer>
+      </Container>
+    </>
+  )
+  function onRegister() {
+    if (!checked) {
+      dataStore.setAlertMessage('請先閱讀並同意條款')
+      return
+    }
+    dataStore.register()
+  }
+}
+
+function Image({ src }) {
+  const Img = lazy(() =>
+    import(`@app/static/${src}`).then((module) => ({
+      default: () => <img src={module.default} />,
+    }))
+  )
+  return (
+    <Suspense fallback={<div>圖片載入中...</div>}>
+      <Img />
+    </Suspense>
+  )
+}
