@@ -190,6 +190,7 @@ export default class DataStore {
       localStorage.setItem(encodedKey, encodedToken)
       this.isLogged = true
       yield this.loadMember()
+      this.alertMessage = '登入成功'
     } catch (e) {
       console.log('login failed', e)
       const msg = e.response?.data
@@ -261,6 +262,7 @@ export default class DataStore {
       this.isLogged = true
       this.registerReq = undefined
       this.setInfoDialogType()
+      this.alertMessage = '註冊成功'
     } catch (e) {
       const failedColumns = Object.keys(e.response?.data?.errors || {})
       if (failedColumns.length)
