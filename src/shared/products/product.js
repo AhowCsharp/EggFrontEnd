@@ -3,6 +3,7 @@ import Tag from '@app/shared/tag'
 import DollarSign from '@app/shared/dollarSign'
 import { PRIZE_LEVEL, CATEGORY } from '@app/utils/constants'
 import soldOutImg from '@app/static/sold-out.png'
+import prizeTagImg from '@app/static/prize-tag.png'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -145,19 +146,32 @@ const Count = styled.span`
 
 const PrizeTag = styled.div`
   font-size: 0.95rem;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 85%);
-  padding: 10px 5px 25px;
-  background: ${(p) => p.color || p.theme.color.defaultPrizeTag};
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url(${prizeTagImg});
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-width: 1.875rem;
+  min-width: 2.5rem;
   min-height: 6.85rem;
+  padding: 20px 8px 35px;
   flex: 0;
+  color: #000;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
   font-weight: 700;
+  span:first-child {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-start;
+  }
+  span:last-child {
+    margin-top: 5px;
+  }
 `
 
 const PrizeTagContainer = styled.div`
@@ -167,9 +181,7 @@ const PrizeTagContainer = styled.div`
   color: #fff;
   overflow-x: auto;
   width: 100%;
-  span {
-    margin-top: 5px;
-  }
+
   ${PrizeTag} + ${PrizeTag} {
     margin-left: 5px;
   }
@@ -219,11 +231,9 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         <PrizeTagContainer>
           {prizesOfCommodity.map((p) => {
             const prizeInfo = PRIZE_LEVEL[p.prizeLevel]
-            const isSoldOut = p.amount === 0
-            const color = isSoldOut ? '#ff0000' : '#000'
             return (
-              <PrizeTag key={p.id} color={color}>
-                {prizeInfo.name} <span>{p.amount}</span>
+              <PrizeTag key={p.id}>
+                <span> {prizeInfo.name}</span> <span>{p.amount}</span>
               </PrizeTag>
             )
           })}
