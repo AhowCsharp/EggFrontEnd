@@ -47,7 +47,7 @@ const GifPlayer = ({ src, onComplete, duration }) => {
     shouldDisplay && (
       <>
         <Mask />
-        <Container>
+        <Container className="img-container">
           <img ref={imgRef} src={src} />
         </Container>
       </>

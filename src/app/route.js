@@ -65,7 +65,7 @@ const ContainerHeader = styled.div`
   width: 95%;
   height: 115px;
   margin: 105px auto 0;
-  z-index: ${(p) => p.theme.zIndex.layoutImg};
+  z-index: ${(p) => p.theme.zIndex.header};
   position: relative;
   top: -60px;
   @media (max-width: 768px) {

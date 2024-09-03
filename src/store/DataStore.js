@@ -352,7 +352,15 @@ export default class DataStore {
   signInOptions = undefined
 
   @observable
-  signInResult = undefined;
+  signInResult = undefined
+
+  @observable
+  isSigning = false
+
+  @action
+  setIsSigning(value) {
+    this.isSigning = value
+  }
 
   @flow
   *getSignIn() {
@@ -387,15 +395,18 @@ export default class DataStore {
     try {
       if (!this.isLogged) return
       const token = getToken()
+      this.isSigning = true
       const res = yield Api.signIn(token)
       if (!res) return
       yield this.loadMember()
       this.isSigned = true
       const source = res.source
-      this.signInResult = this.signInOptions.findIndex(
+      this.signInResult = this.signInOptions.find(
         (p) => p.type === source.prizeType && p.value === source.prizeValue
-      )
+      )?.title
     } catch (e) {
+      this.isSigning = false
+
       const msg = e.response?.data
       this.alertMessage = `簽到失敗，${msg}`
       console.log('signIn failed', e, msg)
