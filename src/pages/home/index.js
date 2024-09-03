@@ -17,12 +17,14 @@ const Header = styled.div`
   width: 100%;
   position: relative;
   img:first-child {
-    width: 100%;
+    position: relative;
+    width: 110%;
+    left: -5%;
   }
   img:last-child {
     position: absolute;
     left: 50%;
-    bottom: 15%;
+    bottom: 17%;
     transform: translate(-50%, 0);
     width: 7%;
   }
@@ -40,6 +42,15 @@ const Carousel = styled(BaseCarousel)`
   max-height: 1080px;
   max-width: 1080px;
   overflow: hidden;
+  .slick-center {
+    padding: 10px;
+  }
+  .slick-center + .slick-slide {
+    transform: scale(0.7) translateX(-20%);
+  }
+  .slick-slide:has(+ .slick-center) {
+    transform: scale(0.7) translateX(20%);
+  }
 `
 
 export default function Home() {
@@ -66,6 +77,7 @@ export default function Home() {
           autoplay={true}
           speed={700}
           dots={false}
+          centerMode={true}
         >
           {ads.map((src, index) => (
             <img src={src} key={index} />
