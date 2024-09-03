@@ -9,6 +9,7 @@ import Tag from '@app/shared/tag'
 import { CATEGORY, DRAW_OUT_STATUS } from '@app/utils/constants'
 import lotteryImg from '@app/static/lottery/lottery.png'
 import lotteryDoneImg from '@app/static/lottery/lottery-done.png'
+import lotteryHoverAnimation from '@app/static/lottery/lottery-hover.gif'
 import { useNavigate } from 'react-router-dom'
 import { Radio } from 'antd'
 import Chip from '@mui/material/Chip'
@@ -147,11 +148,27 @@ const BaseLottery = styled.div`
   padding: 5px;
   background-color: ${(p) => (p.isSelected ? '#f4c221' : '#fff')};
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
+  position: relative;
   img {
     width: 100%;
+    &.hover-animation {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+    }
   }
-  ${Info} {
+  img ${Info} {
     text-align: center;
+  }
+  &:hover {
+    img {
+      opacity: 0;
+      &.hover-animation {
+        opacity: 1;
+      }
+    }
   }
   @media (max-width: 768px) {
     width: 33%;
@@ -389,6 +406,7 @@ export default function Commodity() {
                     key={index}
                     index={index}
                     src={lotteryImg}
+                    hover={lotteryHoverAnimation}
                     enableDrawOut={enableDrawOut}
                     onClick={handleSelectPrize}
                     isSelected={selectedPrizes.includes(index)}
@@ -496,7 +514,14 @@ export default function Commodity() {
   }
 }
 
-function Lottery({ src, index, enableDrawOut = false, onClick, isSelected }) {
+function Lottery({
+  src,
+  index,
+  enableDrawOut = false,
+  onClick,
+  isSelected,
+  hover,
+}) {
   return (
     <BaseLottery
       enableDrawOut={enableDrawOut}
@@ -505,6 +530,7 @@ function Lottery({ src, index, enableDrawOut = false, onClick, isSelected }) {
     >
       <Info>
         <img src={src} />
+        <img className="hover-animation" src={hover} />
         {index + 1}
       </Info>
     </BaseLottery>
