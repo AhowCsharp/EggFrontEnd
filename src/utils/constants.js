@@ -3,9 +3,9 @@ import rankListImg from '@app/static/rankList'
 import coinImg from '@app/static/coin.png'
 
 export const CATEGORY = {
-  ICHIBAN: '一番賞',
-  SELF_MADE: '自製賞',
-  CAMPAIGN: '活動賞',
+  ICHIBAN: '扭蛋',
+  SELF_MADE: '盲盒',
+  CAMPAIGN: '福袋',
 }
 
 export const PROFILE_TAB = {
