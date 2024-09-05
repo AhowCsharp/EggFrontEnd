@@ -6,7 +6,7 @@ const paths = {
   signIn: '/sign-in',
   member: '/member',
   profile: '/profile',
-  ichiban: '/ichiban',
+  gacha: '/gacha',
   selfMade: '/self-made',
   campaign: '/campaign',
   register: '/register',
@@ -18,9 +18,9 @@ const paths = {
 
 export const breadCrumbs = {
   default: ['首頁'],
-  [paths.ichiban]: ['首頁', '一番賞'],
-  [paths.selfMade]: ['首頁', '自製賞'],
-  [paths.campaign]: ['首頁', '活動賞'],
+  [paths.gacha]: ['首頁', '扭蛋'],
+  [paths.selfMade]: ['首頁', '盲盒'],
+  [paths.campaign]: ['首頁', '福袋'],
   [paths.profile]: ['首頁', '會員中心'],
   [paths.login]: ['首頁', '會員登入'],
   [paths.register]: ['首頁', '加入會員'],

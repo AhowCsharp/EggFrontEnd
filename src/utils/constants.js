@@ -3,7 +3,7 @@ import rankListImg from '@app/static/rankList'
 import coinImg from '@app/static/coin.png'
 
 export const CATEGORY = {
-  ICHIBAN: '扭蛋',
+  GACHA: '扭蛋',
   SELF_MADE: '盲盒',
   CAMPAIGN: '福袋',
 }

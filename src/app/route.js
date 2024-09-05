@@ -14,7 +14,7 @@ import Danmaku from '@app/shared/danmaku'
 
 const Login = lazy(() => import('@app/pages/login'))
 const Profile = lazy(() => import('@app/pages/profile'))
-const Ichiban = lazy(() => import('@app/pages/ichiban'))
+const Gacha = lazy(() => import('@app/pages/gacha'))
 const SelfMade = lazy(() => import('@app/pages/selfMade'))
 const Campaign = lazy(() => import('@app/pages/campaign'))
 const Register = lazy(() => import('@app/pages/register'))
@@ -93,7 +93,7 @@ function AppRoute() {
                     <Route path={paths.register} element={<Register />} />
                     <Route path={paths.profile} element={<Profile />} />
                     <Route path={paths.signIn} element={<SignIn />} />
-                    <Route path={paths.ichiban} element={<Ichiban />} />
+                    <Route path={paths.gacha} element={<Gacha />} />
                     <Route path={paths.selfMade} element={<SelfMade />} />
                     <Route path={paths.campaign} element={<Campaign />} />
                     <Route path={paths.commodity} element={<Commodity />} />

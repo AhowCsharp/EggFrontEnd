@@ -9,12 +9,12 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
-export default function Ichiban() {
+export default function Gacha() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   useEffect(() => {
     const req = {
-      category: CATEGORY.ICHIBAN,
+      category: CATEGORY.GACHA,
       status,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }
@@ -28,7 +28,7 @@ export default function Ichiban() {
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
-            category: CATEGORY.ICHIBAN,
+            category: CATEGORY.GACHA,
             pageNumber,
             pageSize,
           }

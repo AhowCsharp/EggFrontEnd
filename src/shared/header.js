@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import logoImg from '@app/static/logo.png'
 import paths from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
-import ichibanImg from '@app/static/ichiban.png'
+import gachaImg from '@app/static/gacha.png'
 import selfMadeImg from '@app/static/self-made.png'
 import signInImg from '@app/static/sign-in.png'
 import rankListImg from '@app/static/rank-list.png'
@@ -219,9 +219,9 @@ function NavItem({ title, type, src }) {
 
 const NavList = [
   {
-    title: CATEGORY.ICHIBAN,
-    type: 'ichiban',
-    src: ichibanImg,
+    title: CATEGORY.GACHA,
+    type: 'gacha',
+    src: gachaImg,
     checkIsLogged: false,
   },
   {
