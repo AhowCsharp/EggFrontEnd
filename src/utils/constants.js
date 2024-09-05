@@ -4,7 +4,7 @@ import coinImg from '@app/static/coin.png'
 
 export const CATEGORY = {
   GACHA: '扭蛋',
-  SELF_MADE: '盲盒',
+  BLIND_BOX: '盲盒',
   CAMPAIGN: '福袋',
 }
 

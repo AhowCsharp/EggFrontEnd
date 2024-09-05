@@ -4,7 +4,7 @@ import logoImg from '@app/static/logo.png'
 import paths from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
 import gachaImg from '@app/static/gacha.png'
-import selfMadeImg from '@app/static/self-made.png'
+import blindBoxImg from '@app/static/blind-box.png'
 import signInImg from '@app/static/sign-in.png'
 import rankListImg from '@app/static/rank-list.png'
 import manufacturerImg from '@app/static/manufacturer.png'
@@ -225,9 +225,9 @@ const NavList = [
     checkIsLogged: false,
   },
   {
-    title: CATEGORY.SELF_MADE,
-    type: 'selfMade',
-    src: selfMadeImg,
+    title: CATEGORY.BLIND_BOX,
+    type: 'blindBox',
+    src: blindBoxImg,
     checkIsLogged: false,
   },
   {

@@ -1,10 +1,10 @@
 import gacha from './gacha.gif'
-import selfMade from './self-made.gif'
+import blindBox from './blind-box.gif'
 import campaign from './campaign.gif'
 import { CATEGORY } from '@app/utils/constants'
 
 export default {
   [CATEGORY.GACHA]: gacha,
-  [CATEGORY.SELF_MADE]: selfMade,
+  [CATEGORY.BLIND_BOX]: blindBox,
   [CATEGORY.CAMPAIGN]: campaign,
 }

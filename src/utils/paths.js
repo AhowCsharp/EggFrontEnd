@@ -7,7 +7,7 @@ const paths = {
   member: '/member',
   profile: '/profile',
   gacha: '/gacha',
-  selfMade: '/self-made',
+  blindBox: '/blind-box',
   campaign: '/campaign',
   register: '/register',
   rankList: '/rank-list',
@@ -19,7 +19,7 @@ const paths = {
 export const breadCrumbs = {
   default: ['首頁'],
   [paths.gacha]: ['首頁', '扭蛋'],
-  [paths.selfMade]: ['首頁', '盲盒'],
+  [paths.blindBox]: ['首頁', '盲盒'],
   [paths.campaign]: ['首頁', '福袋'],
   [paths.profile]: ['首頁', '會員中心'],
   [paths.login]: ['首頁', '會員登入'],
