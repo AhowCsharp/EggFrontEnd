@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import logoImg from '@app/static/logo.png'
 import paths from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
-import ichibanImg from '@app/static/ichiban.png'
-import selfMadeImg from '@app/static/self-made.png'
+import gachaImg from '@app/static/gacha.png'
+import blindBoxImg from '@app/static/blind-box.png'
 import signInImg from '@app/static/sign-in.png'
 import rankListImg from '@app/static/rank-list.png'
 import manufacturerImg from '@app/static/manufacturer.png'
 import coinImg from '@app/static/coin.png'
 import ticket2000Img from '@app/static/ticket-2000.png'
-import campaignImg from '@app/static/campaign.png'
+import luckyBagImg from '@app/static/lucky-bag.png'
 import ticketPlatformImg from '@app/static/ticket-platform.png'
 import coinWelfareImg from '@app/static/coin-welfare.png'
 import userImg from '@app/static/profile/member.png'
@@ -219,21 +219,21 @@ function NavItem({ title, type, src }) {
 
 const NavList = [
   {
-    title: CATEGORY.ICHIBAN,
-    type: 'ichiban',
-    src: ichibanImg,
+    title: CATEGORY.GACHA,
+    type: 'gacha',
+    src: gachaImg,
     checkIsLogged: false,
   },
   {
-    title: CATEGORY.SELF_MADE,
-    type: 'selfMade',
-    src: selfMadeImg,
+    title: CATEGORY.BLIND_BOX,
+    type: 'blindBox',
+    src: blindBoxImg,
     checkIsLogged: false,
   },
   {
-    title: CATEGORY.CAMPAIGN,
-    type: 'campaign',
-    src: campaignImg,
+    title: CATEGORY.LUCKY_BAG,
+    type: 'luckyBag',
+    src: luckyBagImg,
     checkIsLogged: false,
   },
   { title: '每日簽到', type: 'signIn', src: signInImg, checkIsLogged: true },

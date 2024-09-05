@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Layout from '@app/shared/layout'
 import { useEffect } from 'react'
-import ichibanHeaderWordingImg from '@app/static/ichiban-header.png'
+import gachaHeaderWordingImg from '@app/static/gacha-header.png'
 import headerBg from '@app/static/header-bg.png'
 import Products from '@app/shared/products'
 import BaseCarousel from '@app/shared/carousel'
@@ -59,7 +59,7 @@ export default function Home() {
 
   useEffect(() => {
     const req = {
-      category: CATEGORY.ICHIBAN,
+      category: CATEGORY.GACHA,
       status: COMMODITY_STATUS.OPENING,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }
@@ -86,7 +86,7 @@ export default function Home() {
       ) : null}
       <Header>
         <img src={headerBg} />
-        <img src={ichibanHeaderWordingImg} />
+        <img src={gachaHeaderWordingImg} />
       </Header>
       <Products data={commodities?.data} />
     </Layout>

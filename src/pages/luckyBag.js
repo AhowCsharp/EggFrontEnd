@@ -9,12 +9,13 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
-export default function Ichiban() {
+export default function LuckyBag() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+
   useEffect(() => {
     const req = {
-      category: CATEGORY.ICHIBAN,
+      category: CATEGORY.LUCKY_BAG,
       status,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }
@@ -28,7 +29,7 @@ export default function Ichiban() {
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
-            category: CATEGORY.ICHIBAN,
+            category: CATEGORY.LUCKY_BAG,
             pageNumber,
             pageSize,
           }
