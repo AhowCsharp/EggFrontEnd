@@ -5,7 +5,7 @@ import coinImg from '@app/static/coin.png'
 export const CATEGORY = {
   GACHA: '扭蛋',
   BLIND_BOX: '盲盒',
-  CAMPAIGN: '福袋',
+  LUCKY_BAG: '福袋',
 }
 
 export const PROFILE_TAB = {

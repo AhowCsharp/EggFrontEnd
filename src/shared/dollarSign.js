@@ -12,7 +12,7 @@ const Image = styled.img.attrs((p) => ({ src: p.src }))`
 export default function DollarSign({ category, size }) {
   return (
     <Image
-      src={category === CATEGORY.CAMPAIGN ? ticket2000Img : coinImg}
+      src={category === CATEGORY.LUCKY_BAG ? ticket2000Img : coinImg}
       size={size}
     />
   )

@@ -302,7 +302,7 @@ export default function Commodity() {
           <Block>
             <Price>
               <DollarSign category={commodity.category} size="2.5" />
-              {CATEGORY.CAMPAIGN === commodity.category
+              {CATEGORY.LUCKY_BAG === commodity.category
                 ? '1'
                 : commodity.drawOut1Price}
             </Price>

@@ -10,7 +10,7 @@ import rankListImg from '@app/static/rank-list.png'
 import manufacturerImg from '@app/static/manufacturer.png'
 import coinImg from '@app/static/coin.png'
 import ticket2000Img from '@app/static/ticket-2000.png'
-import campaignImg from '@app/static/campaign.png'
+import luckyBagImg from '@app/static/lucky-bag.png'
 import ticketPlatformImg from '@app/static/ticket-platform.png'
 import coinWelfareImg from '@app/static/coin-welfare.png'
 import userImg from '@app/static/profile/member.png'
@@ -231,9 +231,9 @@ const NavList = [
     checkIsLogged: false,
   },
   {
-    title: CATEGORY.CAMPAIGN,
-    type: 'campaign',
-    src: campaignImg,
+    title: CATEGORY.LUCKY_BAG,
+    type: 'luckyBag',
+    src: luckyBagImg,
     checkIsLogged: false,
   },
   { title: '每日簽到', type: 'signIn', src: signInImg, checkIsLogged: true },

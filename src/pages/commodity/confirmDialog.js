@@ -117,7 +117,7 @@ export default function ConfirmDialog({
               共花費
               <Cost>
                 <DollarSign category={category} />
-                {CATEGORY.CAMPAIGN === category ? '1' : totalCost}
+                {CATEGORY.LUCKY_BAG === category ? '1' : totalCost}
               </Cost>
             </p>
           </Content>

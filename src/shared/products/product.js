@@ -214,7 +214,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
       <ImageContainer>
         <Image src={imgUrl} />
         <Price>
-          {CATEGORY.CAMPAIGN === category ? '1' : drawOut1Price}
+          {CATEGORY.LUCKY_BAG === category ? '1' : drawOut1Price}
           <DollarSign category={category} />
         </Price>
         <CountTag>
