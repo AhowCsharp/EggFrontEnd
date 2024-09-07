@@ -83,7 +83,7 @@ export const Content = styled.div`
 
 const navList = [
   { title: '會員管理', src: profileIcon.member, type: PROFILE_TAB.MEMBER },
-  { title: '代幣儲值', src: profileIcon.topUp, type: PROFILE_TAB.TOP_UP },
+  { title: '金幣儲值', src: profileIcon.topUp, type: PROFILE_TAB.TOP_UP },
   {
     title: '消費紀錄',
     src: profileIcon.consumeLog,

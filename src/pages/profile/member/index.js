@@ -86,14 +86,14 @@ export default function Member() {
       <Container>
         <InfoContainer>
           <InfoItem>
-            <img src={coinImg} alt="代幣" />
+            <img src={coinImg} alt="金幣" />
             <span>{member.moneyAmount}</span>
-            <span>代幣</span>
+            <span>金幣</span>
           </InfoItem>
           <InfoItem>
-            <img src={coinWelfareImg} alt="鑽石" />
+            <img src={coinWelfareImg} alt="御守" />
             <span>{member.welfareAmount}</span>
-            <span>鑽石</span>
+            <span>御守</span>
           </InfoItem>
           <InfoItem>
             <img src={ticketPlatformImg} alt="平台抽獎券" />

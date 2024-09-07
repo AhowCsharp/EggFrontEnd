@@ -525,7 +525,7 @@ export default class DataStore {
       const msg = e.response?.data
       this.topUpResult = TOP_UP_RESULT.FAILED
       console.log('get top up result failed', e, msg)
-      this.alertMessage = `${!!msg ? msg : '代幣儲值失敗，請聯繫客服'}`
+      this.alertMessage = `${!!msg ? msg : '金幣儲值失敗，請聯繫客服'}`
     }
   }
 

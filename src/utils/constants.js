@@ -69,7 +69,7 @@ export const SIGN_PRIZE_TYPE = {
 }
 
 export const SIGN_PRIZE_TYPE_LOCALE = {
-  [SIGN_PRIZE_TYPE.COIN]: '代幣',
+  [SIGN_PRIZE_TYPE.COIN]: '金幣',
   [SIGN_PRIZE_TYPE.LOTTERY]: '抽獎券',
 }
 
@@ -354,6 +354,6 @@ export const TOP_UP_RESULT = {
 
 export const TOP_UP_RESULT_LOCALE = {
   [TOP_UP_RESULT.NONE]: '未知',
-  [TOP_UP_RESULT.SUCCESS]: '代幣儲值成功',
-  [TOP_UP_RESULT.FAILED]: '代幣儲值失敗',
+  [TOP_UP_RESULT.SUCCESS]: '金幣儲值成功',
+  [TOP_UP_RESULT.FAILED]: '金幣儲值失敗',
 }
