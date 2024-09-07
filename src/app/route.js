@@ -30,12 +30,12 @@ const SiteContainer = styled.div`
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translate3d(0, 0, 0);
   /* This webkit only work in iOS devices. */
-  background: url(${bgImg});
+  background-image: url(${bgImg});
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
   @media (max-width: 768px) {
-    background: url(${bgMobileImg});
+    background-image: url(${bgMobileImg});
   }
 `
 
@@ -65,7 +65,7 @@ const ContainerHeader = styled.div`
   width: 95%;
   height: 115px;
   margin: 105px auto 0;
-  z-index: ${(p) => p.theme.zIndex.header};
+  z-index: ${(p) => p.theme.zIndex.layoutImg};
   position: relative;
   top: -60px;
   @media (max-width: 768px) {

@@ -22,6 +22,7 @@ const LogoContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10px;
+  font-size: 0.7rem;
 `
 
 const FooterContainer = styled.div`
