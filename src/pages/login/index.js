@@ -82,11 +82,11 @@ export default function Login() {
           </Button>
         </Section>
         <Section>
-          <h4>歡迎來到 製販所 官方網站！</h4>
+          <h4>歡迎來到 剩蛋快樂-扭蛋所 官方網站！</h4>
           <p>如果你還沒有帳號~</p>
           <Button onClick={() => goto(paths.register)}>立即註冊</Button>
           <p>
-            加入 <span className="highlight">製販所</span>{' '}
+            加入 <span className="highlight">剩蛋快樂-扭蛋所</span>{' '}
             會員後，你將獲得無數刺激和創新的功能。
             只需線上儲值，就能立即獲得豐富的回饋！
             免去親自走訪門市的麻煩，趕緊來試試你的抽獎運氣吧！

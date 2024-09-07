@@ -100,7 +100,7 @@ export default function Footer() {
     <FooterContainer>
       <LeftContainer>
         <LogoContainer>
-          <Logo />© 2024 製販所 版權所有
+          <Logo />© 2024 剩蛋快樂-扭蛋所 版權所有
         </LogoContainer>
         <Content>
           <p>客服時間『週一至週日』</p>
