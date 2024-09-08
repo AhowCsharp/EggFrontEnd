@@ -33,23 +33,34 @@ const Header = styled.div`
   }
 `
 
+const ImageContainer = styled.div`
+  width: 720px !important;
+  height: 720px;
+  overflow: hidden;
+  img {
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+  }
+`
+
 const Carousel = styled(BaseCarousel)`
   width: calc(90vw - 20px);
   height: calc(90vw - 20px);
   margin: 0 auto 30px;
   padding: 8px;
   border: 1px solid #bbb;
-  max-height: 1080px;
-  max-width: 1080px;
+  max-height: 860px;
+  max-width: 860px;
   overflow: hidden;
   .slick-center {
-    padding: 10px;
+    padding: 10px 10px 0;
   }
   .slick-center + .slick-slide {
-    transform: scale(0.7) translateX(-20%);
+    transform: scale(0.5) translateX(-50%) translateY(53%);
   }
   .slick-slide:has(+ .slick-center) {
-    transform: scale(0.7) translateX(20%);
+    transform: scale(0.5) translateX(50%) translateY(53%);
   }
 `
 
@@ -80,7 +91,9 @@ export default function Home() {
           centerMode={true}
         >
           {ads.map((src, index) => (
-            <img src={src} key={index} />
+            <ImageContainer key={index}>
+              <img src={src} />
+            </ImageContainer>
           ))}
         </Carousel>
       ) : null}
