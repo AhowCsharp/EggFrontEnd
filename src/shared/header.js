@@ -244,6 +244,24 @@ const NavList = [
     src: manufacturerImg,
     checkIsLogged: false,
   },
+  {
+    title: CATEGORY.ICHIBAN,
+    type: 'ichiban',
+    src: luckyBagImg, // TODO
+    checkIsLogged: false,
+  },
+  {
+    title: CATEGORY.OUTSIDE_WALL_WORLD,
+    type: 'outsideWallWorld',
+    src: luckyBagImg, // TODO
+    checkIsLogged: false,
+  },
+  {
+    title: CATEGORY.DIGITAL_WORLD,
+    type: 'digitalWorld',
+    src: luckyBagImg, // TODO
+    checkIsLogged: false,
+  },
 ]
 
 const getNavList = (isLogged) => {

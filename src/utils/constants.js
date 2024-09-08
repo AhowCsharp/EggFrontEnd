@@ -6,6 +6,9 @@ export const CATEGORY = {
   GACHA: '扭蛋',
   BLIND_BOX: '盲盒',
   LUCKY_BAG: '福袋',
+  ICHIBAN: '一番賞',
+  OUTSIDE_WALL_WORLD: '牆外世界',
+  DIGITAL_WORLD: '數碼世界',
 }
 
 export const PROFILE_TAB = {

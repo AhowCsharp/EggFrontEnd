@@ -16,6 +16,9 @@ const Login = lazy(() => import('@app/pages/login'))
 const Profile = lazy(() => import('@app/pages/profile'))
 const Gacha = lazy(() => import('@app/pages/gacha'))
 const BlindBox = lazy(() => import('@app/pages/blindBox'))
+const Ichiban = lazy(() => import('@app/pages/ichiban'))
+const OutsideWallWorld = lazy(() => import('@app/pages/outsideWallWorld'))
+const DigitalWorld = lazy(() => import('@app/pages/digitalWorld'))
 const LuckyBag = lazy(() => import('@app/pages/luckyBag'))
 const Register = lazy(() => import('@app/pages/register'))
 const SignIn = lazy(() => import('@app/pages/signIn'))
@@ -95,6 +98,15 @@ function AppRoute() {
                     <Route path={paths.signIn} element={<SignIn />} />
                     <Route path={paths.gacha} element={<Gacha />} />
                     <Route path={paths.blindBox} element={<BlindBox />} />
+                    <Route path={paths.ichiban} element={<Ichiban />} />
+                    <Route
+                      path={paths.outsideWallWorld}
+                      element={<OutsideWallWorld />}
+                    />
+                    <Route
+                      path={paths.digitalWorld}
+                      element={<DigitalWorld />}
+                    />
                     <Route path={paths.luckyBag} element={<LuckyBag />} />
                     <Route path={paths.commodity} element={<Commodity />} />
                     <Route path={paths.rankList} element={<RankList />} />
