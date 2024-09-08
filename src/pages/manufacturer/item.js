@@ -1,5 +1,9 @@
 import styled, { keyframes } from 'styled-components'
-import { faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons'
+import {
+  faLocationDot,
+  faPhone,
+  faArrowUpRightFromSquare,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const neon = keyframes`
@@ -54,6 +58,19 @@ const Info = styled.div`
   }
 `
 
+const Link = styled.a.attrs((p) => ({ href: p.url, target: '_blank' }))`
+  font-size: 1rem;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #000;
+  svg {
+    font-size: 0.85rem;
+  }
+  * + * {
+    margin-left: 6px;
+  }
+`
+
 const Title = styled.div`
   font-size: 1.25rem;
   height: 40px;
@@ -69,13 +86,19 @@ const Title = styled.div`
 `
 
 export default function Product({ data, handleClick }) {
-  const { logoUrl, name, mobileNumber, address } = data
+  const { logoUrl, name, mobileNumber, address, officialWebsite } = data
 
   return (
     <BaseProduct onClick={handleClick(data)}>
       <Image src={logoUrl} />
       <InfoContainer>
         <Title>{name}</Title>
+        {!!officialWebsite && (
+          <Link url={officialWebsite} onClick={(e) => e.stopPropagation()}>
+            <span>{officialWebsite}</span>
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          </Link>
+        )}
         <Info>
           <FontAwesomeIcon icon={faPhone} />
           <span>{mobileNumber}</span>
