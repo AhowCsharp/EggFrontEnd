@@ -49,11 +49,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader',
-      },
-      {
-        test: /\.(png|jpe?g|gif|ico)$/i,
+        test: /\.(svg|png|jpe?g|gif|ico)$/i,
         use: [
           {
             loader: 'file-loader',
