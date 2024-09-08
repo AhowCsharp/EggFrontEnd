@@ -7,9 +7,6 @@ import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import Tag from '@app/shared/tag'
 import { CATEGORY, DRAW_OUT_STATUS } from '@app/utils/constants'
-import lotteryImg from '@app/static/lottery/lottery.png'
-import lotteryDoneImg from '@app/static/lottery/lottery-done.png'
-import lotteryHoverAnimation from '@app/static/lottery/lottery-hover.gif'
 import { useNavigate } from 'react-router-dom'
 import { Radio } from 'antd'
 import Chip from '@mui/material/Chip'
@@ -20,13 +17,14 @@ import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
 import ConfirmDialog from './confirmDialog'
+import LotteryBlock from './lotteryBlock'
 
 const multiDrawOutStyle = `
   background: #a80502;
   color: #fff;
 `
 
-const Info = styled.div`
+export const Info = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -139,47 +137,6 @@ const Desc = styled.p`
   color: ${(p) => p.warning && p.theme.color.warning};
   ${(p) => p.large && 'font-size: 1.25rem;'}
   margin:10px 0 0;
-`
-
-const LotteryContainer = styled.div`
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 100%;
-`
-
-const BaseLottery = styled.div`
-  width: 20%;
-  display: flex;
-  padding: 5px;
-  background-color: ${(p) => (p.isSelected ? '#f4c221' : '#fff')};
-  cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
-  position: relative;
-  img {
-    width: 100%;
-    &.hover-animation {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      opacity: 0;
-    }
-  }
-  img ${Info} {
-    text-align: center;
-  }
-  &:hover {
-    img {
-      opacity: 0;
-      &.hover-animation {
-        opacity: 1;
-      }
-    }
-  }
-  @media (max-width: 768px) {
-    width: 33%;
-  }
 `
 
 const BtnBlock = styled.div`
@@ -405,24 +362,13 @@ export default function Commodity() {
             <span>/</span>
             <span>總數量： {commodity.fixedTotalDrawOutTimes}</span>
           </DrawOutInfo>
-          <LotteryContainer id="lottery">
-            {commodity.prizeIndexs.map((p, index) => {
-              if (!p)
-                return (
-                  <Lottery
-                    key={index}
-                    index={index}
-                    src={lotteryImg}
-                    hover={lotteryHoverAnimation}
-                    enableDrawOut={enableDrawOut}
-                    onClick={handleSelectPrize}
-                    isSelected={selectedPrizes.includes(index)}
-                  />
-                )
-              const src = p?.prizeLevel ? lotteryDoneImg : lotteryImg
-              return <Lottery key={index} index={index} src={src} />
-            })}
-          </LotteryContainer>
+          <LotteryBlock
+            prizes={commodity.prizeIndexs || []}
+            enableDrawOut={enableDrawOut}
+            selectedPrizes={selectedPrizes}
+            setSelectedPrizes={setSelectedPrizes}
+            drawOutTimes={drawOutTimes}
+          />
           {enableDrawOut && (
             <BtnBlock>
               {drawOutTimes > 1 && (
@@ -498,52 +444,9 @@ export default function Commodity() {
     dataStore.clearDrawOutResult()
   }
 
-  function handleSelectPrize(index) {
-    if (selectedPrizes.length === drawOutTimes) {
-      if (drawOutTimes === 1) setSelectedPrizes([index])
-      return
-    }
-    let newSelectedPrizes = [...selectedPrizes]
-
-    const alreadySelectedIndex = selectedPrizes.findIndex((i) => i === index)
-    if (alreadySelectedIndex > -1) {
-      newSelectedPrizes.splice(alreadySelectedIndex, 1)
-    } else {
-      newSelectedPrizes.push(index)
-    }
-    setSelectedPrizes(newSelectedPrizes)
-  }
-
   function getTotalCost(drawOutTimes, commodity) {
     if (drawOutTimes === 5) return drawOutTimes * commodity.drawOut5Price
     if (drawOutTimes === 10) return drawOutTimes * commodity.drawOut10Price
     return commodity.drawOut1Price
-  }
-}
-
-function Lottery({
-  src,
-  index,
-  enableDrawOut = false,
-  onClick,
-  isSelected,
-  hover,
-}) {
-  return (
-    <BaseLottery
-      enableDrawOut={enableDrawOut}
-      onClick={handleClick}
-      isSelected={isSelected}
-    >
-      <Info>
-        <img src={src} />
-        <img className="hover-animation" src={hover} />
-        {index + 1}
-      </Info>
-    </BaseLottery>
-  )
-  function handleClick() {
-    if (!enableDrawOut) return
-    onClick?.(index)
   }
 }
