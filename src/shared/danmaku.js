@@ -65,7 +65,7 @@ export default function Danmaku() {
   useEffect(() => {
     // Create Connection
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl('https://api.n7tzu.org/rankingHub', {
+      .withUrl('https://api.lucky-egg.club/rankingHub', {
         withCredentials: true,
       })
       .withAutomaticReconnect()
