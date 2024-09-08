@@ -22,12 +22,13 @@ const Container = styled.div`
   left: 20%;
   z-index: ${(p) => p.theme.zIndex.alertDialog};
   display: flex;
-  min-height: 250px;
+  min-height: 230px;
+  font-size: 1.15rem;
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
-  padding: 20px 40px 40px;
+  padding: 15px 35px 40px;
   display: flex;
   @media (max-width: 768px) {
     width: 90%;
