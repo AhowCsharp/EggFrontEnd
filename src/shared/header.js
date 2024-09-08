@@ -20,12 +20,12 @@ import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fonta
 import { faCircleDollarToSlot, faBars } from '@fortawesome/free-solid-svg-icons'
 import { useSelector, dataStore } from '@app/store'
 import { CATEGORY } from '@app/utils/constants'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCircleDollarToSlot)
 library.add(faBars)
 
 const HeaderModule = styled.div`
-  height: 60px;
   width: 100%;
   top: 10px;
   position: sticky;
@@ -43,7 +43,7 @@ const BaseNavItem = styled.div`
   text-decoration: none;
   align-items: center;
   display: flex;
-  margin-right: 15px;
+  margin-right: 5px;
   background-color: ${(p) => p.bg};
   cursor: pointer;
   box-shadow: 1px 2px 0 #ffffff;
@@ -135,17 +135,32 @@ const Logo = styled.img`
   }
 `
 
+const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
+  color: #fff;
+`
+
 const Nav = styled.div`
   display: flex;
   margin-left: 10px;
   flex-wrap: wrap;
+  max-width: 630px;
+  overflow-x: hidden;
+  position: relative;
+  height: ${(p) => (p.isNavOpened ? '77px' : '36px')};
+  ${BaseNavItem} {
+    margin-bottom: 8px;
+  }
+  ${FontAwesomeIcon} {
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    top: 10px;
+  }
   @media (max-width: 768px) {
     display: none;
   }
-`
-
-const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
-  color: #fff;
 `
 
 const MobileNavItem = styled.div`
@@ -155,7 +170,7 @@ const MobileNavItem = styled.div`
   flex-wrap: wrap;
   font-size: 140%;
   justify-content: flex-start;
-  padding: 18px;
+  padding: 14px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -171,11 +186,11 @@ const MobileNav = styled.div`
   flex-direction: column;
   background: rgba(0, 0, 0, 0.8);
   position: absolute;
-  top: 70px;
+  top: 55px;
   width: 320px;
   right: 0;
   z-index: 1;
-  padding: 15px 0;
+  padding: 10px 0;
   ${MobileNav}:last-child {
     border-bottom: none;
   }
@@ -194,7 +209,6 @@ const MobileNav = styled.div`
 const MobileNavButton = styled.div`
   display: none;
   width: 38px;
-  /* height: 38px; */
   font-size: 3rem;
   margin-right: 10px;
   cursor: pointer;
@@ -274,13 +288,14 @@ function Header() {
   const member = useSelector(() => dataStore.member)
   const navList = getNavList(isLogged)
   const [openSider, setOpenSider] = useState(false)
+  const [isNavOpened, setIsNavOpened] = useState(false)
 
   return (
     <HeaderModule>
       <HeaderModuleContainer>
         <LeftContainer>
           <Logo src={logoImg} onClick={() => goto(paths.index)} />
-          <Nav>
+          <Nav isNavOpened={isNavOpened}>
             {navList.map((item, index) => (
               <NavItem
                 key={index}
@@ -289,6 +304,10 @@ function Header() {
                 src={item.src}
               />
             ))}
+            <FontAwesomeIcon
+              icon={isNavOpened ? faCaretUp : faCaretDown}
+              onClick={() => setIsNavOpened((v) => !v)}
+            />
           </Nav>
         </LeftContainer>
         <MemberNav>
