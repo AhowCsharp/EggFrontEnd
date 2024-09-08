@@ -66,6 +66,13 @@ const PrizeContainer = styled.div`
   height: 300px;
   width: 100%;
   overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+    display: none;
+  }
 `
 
 const Description = styled.div`

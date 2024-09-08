@@ -158,7 +158,7 @@ const PrizeTag = styled.div`
   text-align: center;
   min-width: 2.5rem;
   min-height: 6.85rem;
-  padding: 20px 8px 35px;
+  padding: 15px 8px 35px;
   flex: 0;
   color: #000;
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
@@ -168,6 +168,8 @@ const PrizeTag = styled.div`
     flex-direction: column;
     display: flex;
     align-items: flex-start;
+    width: 1rem;
+    font-size: 0.75rem;
   }
   span:last-child {
     margin-top: 5px;
@@ -181,7 +183,13 @@ const PrizeTagContainer = styled.div`
   color: #fff;
   overflow-x: auto;
   width: 100%;
-
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+    display: none;
+  }
   ${PrizeTag} + ${PrizeTag} {
     margin-left: 5px;
   }
@@ -199,6 +207,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     category,
     manufacturerId,
     prizesOfCommodity,
+    isUsePrizeName,
   } = data
   if (isBase)
     return (
@@ -233,7 +242,8 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
             const prizeInfo = PRIZE_LEVEL[p.prizeLevel]
             return (
               <PrizeTag key={p.id}>
-                <span> {prizeInfo.name}</span> <span>{p.amount}</span>
+                <span>{!isUsePrizeName ? p.prizeName : prizeInfo.name}</span>
+                <span>{p.amount}</span>
               </PrizeTag>
             )
           })}

@@ -3,9 +3,11 @@ import { PRIZE_LEVEL } from '@app/utils/constants'
 
 const Container = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   padding: 20px 20px 0;
+  width: 190px;
   justify-content: space-between;
   cursor: pointer;
   img {
@@ -17,6 +19,13 @@ const Container = styled.div`
   }
   h4 {
     margin: 8px 0;
+    max-height: 37px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
   }
 `
 
