@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Radio, Input } from 'antd'
+import { Radio } from 'antd'
 import styled from 'styled-components'
 import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants'
 import { dataStore, useSelector } from '@app/store'
@@ -86,25 +86,10 @@ const Price = styled.div`
   font-weight: 700;
 `
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 315px;
-  margin: 0 auto;
-`
-
-const Label = styled.div`
-  font-weight: 700;
-  margin-right: 10px;
-  min-width: 60px;
-`
-
 export default function TopUp() {
   const [selected, setSelected] = useState(TOP_UP_PRICE_OPTIONS[0].value)
   const [showTapPayPage, setShowTapPayPage] = useState(false)
   const paymentUrl = useSelector(() => dataStore.paymentUrl)
-  const [discountCode, setDiscountCode] = useState('')
   useEffect(() => {
     if (paymentUrl) {
       window.open(paymentUrl, '_self')
@@ -112,13 +97,7 @@ export default function TopUp() {
   }, [paymentUrl])
 
   if (showTapPayPage)
-    return (
-      <TapPay
-        onSubmit={dataStore.topUp}
-        selected={selected}
-        discountCode={discountCode}
-      />
-    )
+    return <TapPay onSubmit={dataStore.topUp} selected={selected} />
 
   return (
     <Content>
@@ -145,13 +124,6 @@ export default function TopUp() {
             />
           ))}
         </OptionContainer>
-        <Row>
-          <Label>折扣碼</Label>
-          <Input
-            value={discountCode}
-            onChange={({ target }) => setDiscountCode(target.value)}
-          />
-        </Row>
         <ButtonContainer>
           <Button onClick={() => setShowTapPayPage(true)}>確認</Button>
         </ButtonContainer>

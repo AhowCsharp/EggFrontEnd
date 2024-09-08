@@ -57,7 +57,7 @@ const config = {
   },
 }
 
-export default function TapPay({ onSubmit, selected, discountCode }) {
+export default function TapPay({ onSubmit, selected }) {
   const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function TapPay({ onSubmit, selected, discountCode }) {
     event.preventDefault()
     const { canGetPrime } = TPDirect.card.getTappayFieldsStatus()
     if (!canGetPrime) return
-    const req = { amount: selected, discountCode }
+    const req = { amount: selected }
     onSubmit(req)
   }
 }
