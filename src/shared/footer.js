@@ -8,7 +8,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import { INFO_DIALOG_TYPE } from '@app/utils/constants'
 import { dataStore } from '@app/store'
-import { useNavigate } from 'react-router-dom'
 
 const Logo = styled.img.attrs(() => ({
   src: logoImg,
@@ -30,17 +29,19 @@ const FooterContainer = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  margin: 20px auto 0;
   width: 90%;
-  padding: 0 30px 95px;
+  margin: 20px 30px 95px;
+  padding: 20px;
   position: relative;
   z-index: ${(p) => p.theme.zIndex.layoutImg};
   font-size: 0.875rem;
   line-height: 21px;
   color: #fff;
-  width: 100%;
+  border-radius: 20px;
+  background-color: rgb(19, 34, 57, 0.35);
+  border: 1px solid rgb(255, 255, 255, 0.35);
   @media (max-width: 768px) {
-    margin: 10px auto 0;
+    margin: 10px auto;
     align-items: center;
     ${LogoContainer} {
       align-self: center;
