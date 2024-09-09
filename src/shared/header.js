@@ -143,10 +143,10 @@ const Nav = styled.div`
   display: flex;
   margin-left: 10px;
   flex-wrap: wrap;
-  max-width: 630px;
-  overflow-x: hidden;
+  max-width: 510px;
+  overflow: hidden;
   position: relative;
-  height: ${(p) => (p.isNavOpened ? '77px' : '36px')};
+  height: ${(p) => (p.isNavOpened ? '80px' : '36px')};
   ${BaseNavItem} {
     margin-bottom: 8px;
   }

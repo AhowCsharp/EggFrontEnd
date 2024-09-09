@@ -30,7 +30,7 @@ const FooterContainer = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   width: 90%;
-  margin: 20px 30px 95px;
+  margin: 20px auto 95px;
   padding: 20px;
   position: relative;
   z-index: ${(p) => p.theme.zIndex.layoutImg};

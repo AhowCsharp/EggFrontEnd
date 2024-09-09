@@ -25,6 +25,7 @@ const BaseLottery = styled.div`
   background-color: ${(p) => (p.isSelected ? '#f4c221' : '#fff')};
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
   position: relative;
+  text-align: center;
   img {
     width: 100%;
     &.hover-animation {
