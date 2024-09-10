@@ -4,7 +4,7 @@ import coinImg from '@app/static/coin.png'
 import { CATEGORY } from '@app/utils/constants'
 
 const Image = styled.img.attrs((p) => ({ src: p.src }))`
-  width: ${(p) => (p.size ? `${p.size}rem` : '2rem')};
+  width: auto;
   height: ${(p) => (p.size ? `${p.size}rem` : '2rem')};
   margin-left: 3px;
 `
