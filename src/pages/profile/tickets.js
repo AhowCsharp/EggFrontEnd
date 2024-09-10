@@ -42,6 +42,11 @@ export default function Tickets() {
             },
           }}
         >
+          <Column
+            title="廠商名稱"
+            dataIndex="manufacturerName"
+            key="manufacturerName"
+          />
           <Column title="取得方式" dataIndex="sourceType" key="sourceType" />
           <Column
             title="取得時間"
