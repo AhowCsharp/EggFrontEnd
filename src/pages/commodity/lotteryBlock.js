@@ -1,9 +1,7 @@
 import styled from 'styled-components'
-import lotteryImg from '@app/static/lottery/lottery.png'
-import lotteryDoneImg from '@app/static/lottery/lottery-done.png'
-import lotteryHoverAnimation from '@app/static/lottery/lottery-hover.gif'
+import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
 import { Info } from './index'
 
@@ -16,6 +14,17 @@ const LotteryContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
 `
+
+const hoverStyle = `  
+&:hover {
+  img {
+    opacity: 0;
+    &.hover-animation {
+      opacity: 1;
+
+    }
+  }
+}`
 
 const BaseLottery = styled.div`
   width: calc(20% - 34px);
@@ -39,14 +48,8 @@ const BaseLottery = styled.div`
   img ${Info} {
     text-align: center;
   }
-  &:hover {
-    img {
-      opacity: 0;
-      &.hover-animation {
-        opacity: 1;
-      }
-    }
-  }
+  ${(p) => !p.isDone && hoverStyle}
+
   @media (max-width: 768px) {
     margin: 10px 8px;
     width: calc(33% - 16px);
@@ -59,10 +62,11 @@ export default function LotteryBlock({
   selectedPrizes,
   setSelectedPrizes,
   drawOutTimes,
+  category,
 }) {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
-
+  const lotteryImg = lotteryImgs[category] || lotteryImgs.default
   useEffect(() => {
     setData(prizes.slice((page - 1) * PageSize, page * PageSize))
   }, [prizes, page])
@@ -78,15 +82,15 @@ export default function LotteryBlock({
               <Lottery
                 key={index}
                 index={index}
-                src={lotteryImg}
-                hover={lotteryHoverAnimation}
+                src={lotteryImg.img}
+                hover={lotteryImg.hover}
                 enableDrawOut={enableDrawOut}
                 onClick={handleSelectPrize}
                 isSelected={selectedPrizes.includes(index)}
               />
             )
-          const src = p?.prizeLevel ? lotteryDoneImg : lotteryImg
-          return <Lottery key={index} index={index} src={src} />
+          const src = lotteryImg.done
+          return <Lottery key={index} index={index} src={src} isDone={true} />
         })}
       </LotteryContainer>
     </>
@@ -114,17 +118,27 @@ function Lottery({
   enableDrawOut = false,
   onClick,
   isSelected,
+  isDone = false,
   hover,
 }) {
+  const gifRef = useRef(null)
   return (
     <BaseLottery
       enableDrawOut={enableDrawOut}
       onClick={handleClick}
       isSelected={isSelected}
+      isDone={isDone}
+      onMouseEnter={() => {
+        if (gifRef.current) {
+          gifRef.current.src = hover
+        }
+      }}
     >
       <Info>
         <img src={src} />
-        <img className="hover-animation" src={hover} />
+        {!isDone && (
+          <img ref={gifRef} className="hover-animation" src={hover} />
+        )}
         {index + 1}
       </Info>
     </BaseLottery>

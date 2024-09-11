@@ -368,6 +368,7 @@ export default function Commodity() {
             selectedPrizes={selectedPrizes}
             setSelectedPrizes={setSelectedPrizes}
             drawOutTimes={drawOutTimes}
+            category={commodity.category}
           />
           {enableDrawOut && (
             <BtnBlock>
