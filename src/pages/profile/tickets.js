@@ -4,6 +4,8 @@ import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { Table } from 'antd'
 import dayjs from 'dayjs'
 import { DrawOutBtn } from '@app/pages/commodity'
+import useRandomColors from '@app/utils/hooks/useRandomColors'
+import Tag from '@app/shared/tag'
 import { Content } from './index'
 import { Container, Search } from './tabStyle'
 
@@ -12,12 +14,12 @@ const { Column } = Table
 export default function Tickets() {
   const ticket = useSelector(() => dataStore.ticket)
   const [req, setReq] = useState(DEFAULT_PAGINATION)
+  const data = ticket?.data || []
+  const manufacturerColor = useRandomColors(ticket?.data, 'manufacturerName')
 
   useEffect(() => {
     dataStore.getTickets(req)
   }, [req])
-
-  const data = ticket?.data || []
 
   return (
     <Content>
@@ -44,8 +46,8 @@ export default function Tickets() {
         >
           <Column
             title="廠商名稱"
-            dataIndex="manufacturerName"
             key="manufacturerName"
+            render={renderManufacturerName}
           />
           <Column title="取得方式" dataIndex="sourceType" key="sourceType" />
           <Column
@@ -64,4 +66,13 @@ export default function Tickets() {
       </Container>
     </Content>
   )
+  function renderManufacturerName({ manufacturerName, id }) {
+    return (
+      <Tag
+        name={manufacturerName}
+        id={id}
+        color={manufacturerColor[manufacturerName]}
+      />
+    )
+  }
 }

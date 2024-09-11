@@ -5,11 +5,14 @@ export default function useRandomColors(data = [], key) {
   const [colors, setColors] = useState({})
   useEffect(() => {
     if (!data) return
-    const colorDict = data.reduce((acc, cur) => {
-      if (acc[cur[key]]) return acc
-      acc[cur[key]] = getRandomDarkColor()
-      return acc
-    }, {})
+    const colorDict = data.reduce(
+      (acc, cur) => {
+        if (acc[cur[key]]) return acc
+        acc[cur[key]] = getRandomDarkColor()
+        return acc
+      },
+      { ...colors }
+    )
     setColors(colorDict)
   }, [data])
   return colors
