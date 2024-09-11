@@ -55,17 +55,6 @@ export const DEFAULT_COMMODITIES_PAGINATION = {
 
 export const INCLUDE_MEMBER_COLUMNS = ['account']
 
-export const EXCLUDE_MEMBER_COLUMNS = [
-  'id',
-  'moneyAmount',
-  'welfareAmount',
-  'createDate',
-  'editDate',
-  'ticketAmount',
-  'ticket2000Amount',
-  'ticketEverydayAmount',
-]
-
 export const SIGN_PRIZE_TYPE = {
   COIN: 0,
   LOTTERY: 1,

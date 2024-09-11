@@ -327,7 +327,7 @@ function Header() {
               </BaseNavItem>
               <BaseNavItem onClick={() => goto(`${paths.profile}?type=member`)}>
                 <img src={ticket2000Img} />
-                {member?.ticket2000Amount || 0}
+                {member?.ticketAmount || 0}
               </BaseNavItem>
             </>
           )}

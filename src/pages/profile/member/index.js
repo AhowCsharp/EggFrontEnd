@@ -102,7 +102,7 @@ export default function Member() {
           </InfoItem>
           <InfoItem>
             <img src={ticket2000Img} alt="廠商抽獎券" />
-            <span>{member.ticket2000Amount}</span>
+            <span>{member.ticketAmount}</span>
             <span>廠商抽獎券</span>
           </InfoItem>
         </InfoContainer>
