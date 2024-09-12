@@ -5,12 +5,14 @@ import paths from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
 import gachaImg from '@app/static/gacha.png'
 import blindBoxImg from '@app/static/blind-box.png'
+import luckyBagImg from '@app/static/lucky-bag.png'
+import ichibanImg from '@app/static/ichiban.png'
+import digitalWorldImg from '@app/static/digital-world.png'
 import signInImg from '@app/static/sign-in.png'
 import rankListImg from '@app/static/rank-list.png'
 import manufacturerImg from '@app/static/manufacturer.png'
 import coinImg from '@app/static/coin.svg'
 import ticket2000Img from '@app/static/ticket-2000.svg'
-import luckyBagImg from '@app/static/lucky-bag.png'
 import ticketPlatformImg from '@app/static/ticket-platform.svg'
 import coinWelfareImg from '@app/static/coin-welfare.svg'
 import userImg from '@app/static/profile/member.png'
@@ -261,7 +263,7 @@ const NavList = [
   {
     title: CATEGORY.ICHIBAN,
     type: 'ichiban',
-    src: luckyBagImg, // TODO
+    src: ichibanImg,
     checkIsLogged: false,
   },
   {
@@ -273,7 +275,7 @@ const NavList = [
   {
     title: CATEGORY.DIGITAL_WORLD,
     type: 'digitalWorld',
-    src: luckyBagImg, // TODO
+    src: digitalWorldImg,
     checkIsLogged: false,
   },
 ]
