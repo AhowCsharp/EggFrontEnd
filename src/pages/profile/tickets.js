@@ -14,12 +14,19 @@ const { Column } = Table
 export default function Tickets() {
   const ticket = useSelector(() => dataStore.ticket)
   const [req, setReq] = useState(DEFAULT_PAGINATION)
+  const [usefulTicketCount, setUsefulTicketCount] = useState()
   const data = ticket?.data || []
   const manufacturerColor = useRandomColors(ticket?.data, 'manufacturerName')
 
   useEffect(() => {
     dataStore.getTickets(req)
   }, [req])
+
+  useEffect(() => {
+    if (!data || !data.length) return
+    const count = data.filter((t) => !t.isUsed).length
+    setUsefulTicketCount(count)
+  }, [data])
 
   return (
     <Content>
@@ -33,6 +40,7 @@ export default function Tickets() {
             setReq({ ...req, manufacturerName: value })
           }}
         />
+        <div>可使用抽獎券：{usefulTicketCount}</div>
         <Table
           dataSource={data}
           pagination={{
