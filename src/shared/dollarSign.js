@@ -6,14 +6,15 @@ import { CATEGORY } from '@app/utils/constants'
 const Image = styled.img.attrs((p) => ({ src: p.src }))`
   width: auto;
   height: ${(p) => (p.size ? `${p.size}rem` : '2rem')};
-  margin-left: 3px;
+  ${(p) => (p.mr8 ? `margin-right: 8px;` : ' margin-left: 5px')}
 `
 
-export default function DollarSign({ category, size }) {
+export default function DollarSign({ category, size, ...p }) {
   return (
     <Image
       src={category === CATEGORY.LUCKY_BAG ? ticket2000Img : coinImg}
       size={size}
+      {...p}
     />
   )
 }
