@@ -89,7 +89,8 @@ export default function LotteryBlock({
                 isSelected={selectedPrizes.includes(index)}
               />
             )
-          const src = lotteryImg.done
+
+          const src = lotteryImg.done[p?.prizeLevel] && lotteryImg.done
           return <Lottery key={index} index={index} src={src} isDone={true} />
         })}
       </LotteryContainer>
