@@ -5,8 +5,10 @@ import {
   COMMODITY_STATUS_OPTIONS,
   COMMODITY_STATUS,
 } from '@app/utils/constants'
-import { Radio } from 'antd'
+import { Radio as AntdRadio } from 'antd'
 import Product from './product'
+
+const { Group: BaseRadio } = AntdRadio
 
 const ProductContainer = styled.div`
   display: flex;
@@ -22,6 +24,32 @@ const ProductContainer = styled.div`
   }
 `
 
+const Radio = styled(BaseRadio)`
+  .ant-radio-button-wrapper {
+    border: none;
+    background-color: #fff;
+    border-radius: 32px;
+    color: #101a29;
+    padding: 6px 20px;
+    line-height: 20px;
+    margin: 0 4px;
+    &.ant-radio-button-wrapper-checked,
+    &:hover {
+      background-color: #f2f3f9;
+      color: #3a64ce;
+    }
+    &::before {
+      content: none;
+    }
+  }
+  .ant-wave {
+    left: unset !important;
+    top: unset !important;
+    display: none !important;
+    color: inherit !important;
+  }
+`
+
 export default function Products({
   data,
   isBase = false,
@@ -34,7 +62,7 @@ export default function Products({
   return (
     <>
       {status && (
-        <Radio.Group
+        <Radio
           onChange={(e) => setStatus(e.target.value)}
           value={status}
           optionType="button"
