@@ -12,6 +12,7 @@ import { Radio } from 'antd'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import CountdownTimer from '@app/shared/countdownTimer'
+import { hideScrollBarStyle } from '@app/shared/header'
 import DollarSign from '@app/shared/dollarSign'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
@@ -64,13 +65,7 @@ const PrizeContainer = styled.div`
   height: 300px;
   width: 100%;
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
-    display: none;
-  }
+  ${hideScrollBarStyle}
 `
 
 const Description = styled.div`

@@ -4,6 +4,7 @@ import DollarSign from '@app/shared/dollarSign'
 import { PRIZE_LEVEL, CATEGORY } from '@app/utils/constants'
 import soldOutImg from '@app/static/sold-out.png'
 import prizeTagImg from '@app/static/prize-tag.png'
+import { hideScrollBarStyle } from '@app/shared/header'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -183,13 +184,7 @@ const PrizeTagContainer = styled.div`
   color: #fff;
   overflow-x: auto;
   width: 100%;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
-    display: none;
-  }
+  ${hideScrollBarStyle}
   ${PrizeTag} + ${PrizeTag} {
     margin-left: 5px;
   }

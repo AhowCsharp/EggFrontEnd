@@ -8,6 +8,7 @@ const Container = styled.div`
   border-radius: ${(p) => p.theme.borderRadius.content};
   background: ${(p) => p.theme.color.background};
   padding: 30px 10px;
+  overflow: hidden;
   width: 100%;
 `
 

@@ -27,6 +27,16 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 library.add(faCircleDollarToSlot)
 library.add(faBars)
 
+export const hideScrollBarStyle = `
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+    display: none;
+  }
+`
+
 const HeaderModule = styled.div`
   width: 100%;
   top: 10px;
@@ -75,6 +85,7 @@ const LeftContainer = styled.div`
   height: 100%;
   padding-left: 16px;
   flex-wrap: wrap;
+  ${hideScrollBarStyle}
 `
 
 const MemberNav = styled.div`
@@ -160,6 +171,7 @@ const Nav = styled.div`
     cursor: pointer;
     top: 10px;
   }
+  ${hideScrollBarStyle}
   @media (max-width: 768px) {
     display: none;
   }
