@@ -5,7 +5,7 @@ import { useSelector, dataStore } from '@app/store'
 import { useParams } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
-import Tag from '@app/shared/tag'
+import ManufacturerTag from '@app/shared/tag'
 import { CATEGORY, DRAW_OUT_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
 import { Radio } from 'antd'
@@ -93,6 +93,31 @@ const SelectionNav = styled.div`
   font-size: 0.75rem;
   ${NavItem}+${NavItem} {
     margin-left: 10px;
+  }
+`
+
+const Tag = styled.div`
+  position: relative;
+  width: 100px;
+  height: 40px;
+  background-color: #eed9c4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 15px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px; /* 調整這裡讓箭頭部分和長方形對齊 */
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #eed9c4; /* 和背景色相同 */
+    z-index: 1;
   }
 `
 
@@ -247,7 +272,7 @@ export default function Commodity() {
       <InfoContainer>
         <ImgContainer img={nowDisplay?.imgUrl} />
         <Info>
-          <Tag
+          <ManufacturerTag
             name={commodity.manufacturerName}
             id={commodity.manufacturerId}
           />
@@ -318,6 +343,11 @@ export default function Commodity() {
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
         </Info>
       </InfoContainer>
+      <div>
+        {commodity.tags.map((t) => (
+          <Tag>{t.tagName}</Tag>
+        ))}
+      </div>
       <PrizeContainer id="prize">
         {nowDisplay !== commodity && (
           <Prize
