@@ -1,7 +1,9 @@
 import styled from 'styled-components'
+import { useSelector, dataStore } from '@app/store'
 import AlertDialog from './alertDialog'
 import InfoDialog from './infoDialog'
 import BreadCrumb from './breadCrumb'
+import Spinner from './spinner'
 
 const Container = styled.div`
   width: 100%;
@@ -13,12 +15,17 @@ const Container = styled.div`
 `
 
 export default function Layout({ children }) {
+  const isLoading = useSelector(() => dataStore.isLoading)
+
   return (
-    <Container>
-      <BreadCrumb />
-      {children}
-      <AlertDialog />
-      <InfoDialog />
-    </Container>
+    <>
+      {isLoading && <Spinner />}
+      <Container>
+        <BreadCrumb />
+        {children}
+        <AlertDialog />
+        <InfoDialog />
+      </Container>
+    </>
   )
 }

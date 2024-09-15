@@ -28,6 +28,15 @@ const handleTimer = (time) => {
 
 @store
 export default class DataStore {
+  // Loading
+  @observable
+  isLoading = false
+
+  @action
+  setIsLoading(value) {
+    this.isLoading = value
+  }
+
   // Info Dialog
   @observable
   infoDialogType = undefined
@@ -57,10 +66,15 @@ export default class DataStore {
 
   @flow
   *getCommodities(req) {
+    this.isLoading = true
     const res = yield Api.getCommodities(req)
-    if (!res) return
+    if (!res) {
+      this.isLoading = false
+      return
+    }
     const { source: data, totalItemCount: totalCount } = res
     this.commodities = { data, totalCount }
+    this.isLoading = false
   }
 
   // Ads
@@ -69,8 +83,10 @@ export default class DataStore {
 
   @flow
   *getAds() {
+    this.isLoading = true
     const res = yield Api.getAds()
     if (res) this.ads = res.source
+    this.isLoading = false
   }
 
   // Commodity
