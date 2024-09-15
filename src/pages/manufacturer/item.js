@@ -6,24 +6,37 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const neon = keyframes`
-  from {
-    text-shadow: 0 0 20px #A3FFA3, 0 0 100px #A3FFA3, 0 0 20px #A3FFA3;
-  }
-  to {
-    text-shadow: 0 0 50px #A3FFA3, 0 0 150px #A3FFA3, 0 0 50px #A3FFA3;
-    color: #00B200;
-  }
+const neonBorder = keyframes`
+    0% {
+        box-shadow: 0 0 0 rgba(34,198,15, 0.4); /* Green shadow, no blur initially */
+    }
+    50% {
+        box-shadow: 0 0 4px rgba(34,198,15, 0.9); /* Bright green glow */
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(34,198,15, 0.4); /* Fade back to no glow */
+    }
 `
 
-const Image = styled.img.attrs((p) => ({
-  src: p.src,
-}))`
-  min-height: 100%;
-  height: auto;
-  min-width: 100%;
+const neonBg = keyframes`
+    0% {
+        background-color: rgba(201,20,20,0.7); /* 深紅色 */
+    }
+    50% {
+        background-color: rgba(201,20,20,0.9); /* 明亮的紅色 */
+    }
+    100% {
+        background-color: rgba(201,20,20,0.7); /* 回到深紅色 */
+    }`
+
+const Image = styled.div`
+  width: 100%;
+  height: 180px;
   vertical-align: middle;
-  width: 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(${(p) => p.src});
 `
 
 const BaseProduct = styled.div`
@@ -72,17 +85,25 @@ const Link = styled.a.attrs((p) => ({ href: p.url, target: '_blank' }))`
 `
 
 const Title = styled.div`
+  animation: ${neonBorder} 2s infinite;
   font-size: 1.25rem;
-  height: 40px;
-  font-weight: 700;
   text-align: center;
-  padding: 10px;
+  font-weight: 700;
   margin-bottom: 10px;
+  height: 45px;
+  border: 6px double rgba(34, 198, 15, 0.9);
+  display: flex;
   position: relative;
-  overflow: hidden;
-  color: #00ff00;
-  text-shadow: 0 0 50px #00ff00, 0 0 150px #00ff00, 0 0 20px #00ff00;
-  animation: ${neon} 1.5s infinite alternate;
+  box-shadow: 0 0 5px lime, 0 0 5px lime, 0 0 5px lime;
+  div {
+    font-family: 'LXGW WenKai Mono TC', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex: 1;
+    animation: ${neonBg} 2s infinite;
+  }
 `
 
 export default function Product({ data, handleClick }) {
@@ -92,7 +113,9 @@ export default function Product({ data, handleClick }) {
     <BaseProduct onClick={handleClick(data)}>
       <Image src={logoUrl} />
       <InfoContainer>
-        <Title>{name}</Title>
+        <Title>
+          <div>{name}</div>
+        </Title>
         {!!officialWebsite && (
           <Link url={officialWebsite} onClick={(e) => e.stopPropagation()}>
             <span>{officialWebsite}</span>
