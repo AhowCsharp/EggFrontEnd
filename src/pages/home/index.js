@@ -35,35 +35,20 @@ const Header = styled.div`
 `
 
 const ImageContainer = styled.div`
-  width: 720px !important;
-  height: 720px;
   overflow: hidden;
   position: relative;
   img {
-    margin: 0 auto;
+    margin: 10px;
     width: 100%;
     height: auto;
   }
 `
 
 const Carousel = styled(BaseCarousel)`
-  width: calc(90vw - 20px);
-  height: calc(90vw - 20px);
   margin: 0 auto 30px;
   padding: 8px;
   border: 1px solid #bbb;
-  max-height: 860px;
-  max-width: 860px;
   overflow: hidden;
-  .slick-center {
-    padding: 10px 10px 0;
-  }
-  .slick-center + .slick-slide {
-    transform: scale(0.5) translateX(-50%) translateY(53%);
-  }
-  .slick-slide:has(+ .slick-center) {
-    transform: scale(0.5) translateX(50%) translateY(53%);
-  }
 `
 
 const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
@@ -98,7 +83,7 @@ export default function Home() {
           autoplay={true}
           speed={700}
           dots={false}
-          centerMode={true}
+          slidesToShow={3}
         >
           {ads.map((src, index) => (
             <ImageContainer key={index}>
