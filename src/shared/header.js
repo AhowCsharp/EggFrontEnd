@@ -158,7 +158,7 @@ const Nav = styled.div`
   display: flex;
   margin-left: 10px;
   flex-wrap: wrap;
-  max-width: 510px;
+  max-width: 640px;
   overflow: hidden;
   position: relative;
   height: ${(p) => (p.isNavOpened ? '80px' : '36px')};
@@ -186,7 +186,7 @@ const MobileNavItem = styled.div`
   flex-wrap: wrap;
   font-size: 140%;
   justify-content: flex-start;
-  padding: 14px;
+  padding: 10px 14px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -202,8 +202,8 @@ const MobileNav = styled.div`
   flex-direction: column;
   background: rgba(0, 0, 0, 0.8);
   position: absolute;
-  top: 55px;
-  width: 320px;
+  top: 50px;
+  width: 250px;
   right: 0;
   z-index: 1;
   padding: 10px 0;
@@ -416,10 +416,6 @@ function Header() {
                 <MobileNavItem onClick={() => mobileGoto(paths.login)}>
                   <img src={userImg} />
                   登入
-                </MobileNavItem>
-                <MobileNavItem onClick={() => mobileGoto(paths.register)}>
-                  <img src={userImg} />
-                  註冊
                 </MobileNavItem>
               </>
             )}
