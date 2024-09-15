@@ -8,11 +8,14 @@ import { Info } from './index'
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 const LotteryContainer = styled.div`
-  padding: 0 20px;
+  padding: 0 60px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
 `
 
 const hoverStyle = `  
@@ -73,7 +76,6 @@ export default function LotteryBlock({
 
   return (
     <>
-      <Pagination onChange={setPage} totalCount={prizes.length} />
       <LotteryContainer id="lottery">
         {data.map((p, i) => {
           const index = (page - 1) * PageSize + i
@@ -94,6 +96,7 @@ export default function LotteryBlock({
           return <Lottery key={index} index={index} src={src} isDone={true} />
         })}
       </LotteryContainer>
+      <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
     </>
   )
   function handleSelectPrize(index) {
