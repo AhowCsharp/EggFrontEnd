@@ -11,6 +11,7 @@ import {
   DEFAULT_COMMODITIES_PAGINATION,
   COMMODITY_STATUS,
 } from '@app/utils/constants'
+import newArrivalsImg from '@app/static/new-arrivals.png'
 
 const Header = styled.div`
   height: auto;
@@ -37,6 +38,7 @@ const ImageContainer = styled.div`
   width: 720px !important;
   height: 720px;
   overflow: hidden;
+  position: relative;
   img {
     margin: 0 auto;
     width: 100%;
@@ -62,6 +64,14 @@ const Carousel = styled(BaseCarousel)`
   .slick-slide:has(+ .slick-center) {
     transform: scale(0.5) translateX(50%) translateY(53%);
   }
+`
+
+const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25% !important;
+  height: auto !important;
 `
 
 export default function Home() {
@@ -93,6 +103,7 @@ export default function Home() {
           {ads.map((src, index) => (
             <ImageContainer key={index}>
               <img src={src} />
+              <NewArrivalTag />
             </ImageContainer>
           ))}
         </Carousel>
