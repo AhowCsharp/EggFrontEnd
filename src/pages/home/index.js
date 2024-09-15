@@ -84,6 +84,14 @@ export default function Home() {
           speed={700}
           dots={false}
           slidesToShow={3}
+          responsive={[
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 1,
+              },
+            },
+          ]}
         >
           {ads.map((src, index) => (
             <ImageContainer key={index}>
