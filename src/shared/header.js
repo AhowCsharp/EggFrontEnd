@@ -7,6 +7,8 @@ import gachaImg from '@app/static/gacha.png'
 import blindBoxImg from '@app/static/blind-box.png'
 import luckyBagImg from '@app/static/lucky-bag.png'
 import ichibanImg from '@app/static/ichiban.png'
+import specialImg from '@app/static/special.svg'
+import outsideWallWorldImg from '@app/static/outsideWallWorld.svg'
 import digitalWorldImg from '@app/static/digital-world.png'
 import signInImg from '@app/static/sign-in.png'
 import rankListImg from '@app/static/rank-list.png'
@@ -281,13 +283,19 @@ const NavList = [
   {
     title: CATEGORY.OUTSIDE_WALL_WORLD,
     type: 'outsideWallWorld',
-    src: luckyBagImg, // TODO
+    src: outsideWallWorldImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.DIGITAL_WORLD,
     type: 'digitalWorld',
     src: digitalWorldImg,
+    checkIsLogged: false,
+  },
+  {
+    title: CATEGORY.SPECIAL,
+    type: 'special',
+    src: specialImg,
     checkIsLogged: false,
   },
 ]

@@ -9,6 +9,7 @@ export const CATEGORY = {
   ICHIBAN: '一番賞',
   OUTSIDE_WALL_WORLD: '牆外世界',
   DIGITAL_WORLD: '數碼世界',
+  SPECIAL: '特別賞',
 }
 
 export const PROFILE_TAB = {
