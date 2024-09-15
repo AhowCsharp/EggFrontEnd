@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import animation from '@app/static/lottery/gacha-hover.gif'
+import animation from '@app/static/loading.gif'
 
 const Mask = styled.div`
   position: absolute;
@@ -15,7 +15,7 @@ const Mask = styled.div`
 const Layout = styled.div`
   position: absolute;
   opacity: 1;
-  top: 25vh;
+  top: 10%;
   width: 50%;
   left: 25%;
   z-index: ${(p) => p.theme.zIndex.alertDialog};
@@ -28,11 +28,14 @@ const Layout = styled.div`
 `
 
 const ImgContainer = styled.div`
-  width: 30%;
+  width: 50%;
   display: flex;
   z-index: ${(p) => p.theme.zIndex.dialog};
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
   img {
     width: 100%;
     height: auto;
@@ -48,7 +51,6 @@ const Spinner = () => {
         <ImgContainer>
           <img className="loading" src={animation} />
         </ImgContainer>
-        出發異世界取資料中 請稍候...
       </Layout>
     </>
   )

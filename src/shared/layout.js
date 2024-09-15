@@ -12,20 +12,19 @@ const Container = styled.div`
   padding: 30px 10px;
   overflow: hidden;
   width: 100%;
+  position: relative;
 `
 
 export default function Layout({ children }) {
   const isLoading = useSelector(() => dataStore.isLoading)
 
   return (
-    <>
+    <Container>
+      <BreadCrumb />
+      {children}
+      <AlertDialog />
+      <InfoDialog />
       {isLoading && <Spinner />}
-      <Container>
-        <BreadCrumb />
-        {children}
-        <AlertDialog />
-        <InfoDialog />
-      </Container>
-    </>
+    </Container>
   )
 }
