@@ -122,3 +122,22 @@ export const recordVisitCount = async () => {
   const res = await Request.get('/visit')
   return res
 }
+
+export const getLoginByLineUrl = async () => {
+  const res = await Request.get('/oauth2.0/line/loginurl')
+  return res
+}
+
+export const getAccessTokenByLine = async (req) => {
+  const res = await Request.get('/oauth2.0/line/accesstoken').params(req)
+  return res
+}
+
+export const registerByLine = async (req) => {
+  const res = await Request.get('/oauth2.0/line/register').params(req)
+  return res
+}
+export const getProfileByLine = async (req) => {
+  const res = await Request.get('/oauth2.0/line/profile').params(req)
+  return res
+}

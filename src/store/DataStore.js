@@ -6,6 +6,7 @@ import {
   INFO_DIALOG_TYPE,
   DRAW_OUT_STATUS,
   TOP_UP_RESULT,
+  REGISTER_STATUS,
 } from '@app/utils/constants'
 import locale from '@app/utils/formLocale'
 import wait from '@app/utils/wait'
@@ -266,7 +267,7 @@ export default class DataStore {
   }
 
   @flow
-  *register() {
+  *register(referralCode) {
     if (!this.registerReq) return
     try {
       const res = yield Api.register(this.registerReq)
@@ -557,6 +558,89 @@ export default class DataStore {
       sessionStorage.setItem('isVisited', true)
     } catch (e) {
       console.log('record visit count failed', e)
+    }
+  }
+
+  // Line Auth
+
+  @observable
+  loginByLineUrl = undefined
+
+  @observable
+  accessToken = undefined;
+
+  @flow
+  *getLoginByLineUrl() {
+    try {
+      const res = yield Api.getLoginByLineUrl()
+      if (!res || !res?.source) throw res
+      this.loginByLineUrl = res.source
+    } catch (e) {
+      console.log('login by line failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `登入失敗，${msg}`
+    }
+  }
+
+  @flow
+  *getAccessTokenByLine(req) {
+    try {
+      const res = yield Api.getAccessTokenByLine(req)
+      if (!res || !res?.source || !res?.source?.access_token) throw res
+      yield this.getProfileByLine({ accessToken: res.source.access_token })
+    } catch (e) {
+      console.log('get access token by line failed', e)
+      this.alertMessage = `登入失敗`
+    }
+  }
+
+  @flow
+  *getProfileByLine(req) {
+    try {
+      const res = yield Api.getProfileByLine(req)
+      if (!res || !res?.source) throw res
+      const { jwtToken, status } = res.source
+      if (status === REGISTER_STATUS.REGISTER_BY_WEB) {
+        this.alertMessage = '已透過網站註冊，請使用網站登入'
+        return
+      }
+      if (status === REGISTER_STATUS.NOT_REGISTERED_YET) {
+        this.setInfoDialogType(INFO_DIALOG_TYPE.REGISTER)
+        this.accessToken = req.accessToken
+        return
+      }
+      if (jwtToken) throw new Error('get jwt token error ' + result.msg)
+      const encodedKey = btoa('token')
+      const encodedToken = btoa(jwtToken)
+      localStorage.setItem(encodedKey, encodedToken)
+      this.isLogged = true
+      yield this.loadMember()
+      this.alertMessage = '登入成功'
+    } catch (e) {
+      console.log('get profile by line failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `登入失敗，${msg}`
+    }
+  }
+
+  @flow
+  *registerByLine(referralCode) {
+    try {
+      const res = yield Api.registerByLine({
+        referralCode,
+        accessToken: this.accessToken,
+      })
+      const { source: token } = res
+      const encodedKey = btoa('token')
+      const encodedToken = btoa(token)
+      localStorage.setItem(encodedKey, encodedToken)
+      this.isLogged = true
+      this.alertMessage = '註冊成功'
+      this.setInfoDialogType()
+    } catch (e) {
+      console.log('register by line failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `註冊失敗，${msg}`
     }
   }
 }

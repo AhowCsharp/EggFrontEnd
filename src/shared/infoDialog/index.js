@@ -3,7 +3,7 @@ import { useSelector, dataStore } from '@app/store'
 import { DrawOutBtn } from '@app/pages/commodity'
 import { useState, useEffect, lazy, Suspense, Fragment } from 'react'
 import { INFO_DIALOG_TYPE } from '@app/utils/constants'
-import { Checkbox } from 'antd'
+import { Checkbox, Input } from 'antd'
 import privacyPolicyWording from './privacyPolicy.json'
 import topUpWording from './topUp.json'
 import drawProbability from './drawProbability.json'
@@ -61,6 +61,9 @@ const P = styled.p`
   align-items: center;
   margin: 5px 0;
   justify-content: ${(p) => (p.center ? 'center' : 'unset')};
+  input {
+    width: 50%;
+  }
 `
 
 const Footer = styled(Block)`
@@ -102,9 +105,16 @@ function getWording(type) {
 
 export default function InfoDialog() {
   const type = useSelector(() => dataStore.infoDialogType)
+  const isRegisterByLine = useSelector(
+    () =>
+      !!dataStore.accessToken &&
+      dataStore.infoDialogType === INFO_DIALOG_TYPE.REGISTER
+  )
   const onClose = () => dataStore.setInfoDialogType()
   const [wording, setWording] = useState()
+  const [referralCode, setReferralCode] = useState('')
   const [checked, setChecked] = useState(false)
+  const isRegister = type === INFO_DIALOG_TYPE.REGISTER
   useEffect(() => {
     setWording(getWording(type))
     setChecked(false)
@@ -140,19 +150,28 @@ export default function InfoDialog() {
               })}
             </Fragment>
           ))}
-          {type === INFO_DIALOG_TYPE.REGISTER ? (
-            <P center={true}>
-              <Checkbox onChange={(e) => setChecked(e.target.checked)}>
-                我已閱讀並同意
-              </Checkbox>
-            </P>
+          {isRegister ? (
+            <>
+              <P center={true}>
+                <Input
+                  placeholder="請輸入推薦碼"
+                  value={referralCode}
+                  onChange={setReferralCode}
+                />
+              </P>
+              <P center={true}>
+                <Checkbox onChange={(e) => setChecked(e.target.checked)}>
+                  我已閱讀並同意
+                </Checkbox>
+              </P>
+            </>
           ) : null}
         </Content>
         <Footer>
           <Button onClick={onClose} checked={true}>
             關閉
           </Button>
-          {type === INFO_DIALOG_TYPE.REGISTER ? (
+          {isRegister ? (
             <Button onClick={onRegister} checked={checked}>
               註冊
             </Button>
@@ -166,7 +185,8 @@ export default function InfoDialog() {
       dataStore.setAlertMessage('請先閱讀並同意條款')
       return
     }
-    dataStore.register()
+    if (isRegisterByLine) dataStore.registerByLine(referralCode)
+    else dataStore.register(referralCode)
   }
 }
 

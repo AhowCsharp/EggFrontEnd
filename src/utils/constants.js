@@ -350,3 +350,9 @@ export const TOP_UP_RESULT_LOCALE = {
   [TOP_UP_RESULT.SUCCESS]: '金幣儲值成功',
   [TOP_UP_RESULT.FAILED]: '金幣儲值失敗',
 }
+
+export const REGISTER_STATUS = {
+  LOGIN_BY_LINE_SUCCESS: 1,
+  REGISTER_BY_WEB: 0,
+  NOT_REGISTERED_YET: -1,
+}

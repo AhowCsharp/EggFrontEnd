@@ -4,7 +4,9 @@ import { useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { useSelector, dataStore } from '@app/store'
 import paths from '@app/utils/paths'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLine } from '@fortawesome/free-brands-svg-icons'
 
 const loginButtonStyle = (p) => `
   background-color: #000;
@@ -17,19 +19,6 @@ const Container = styled.div`
   flex-direction: row;
   @media (max-width: 768px) {
     flex-direction: column;
-  }
-`
-
-const Section = styled.div`
-  display: flex;
-  padding: 20px;
-  flex: 1;
-  flex-direction: column;
-  h4 {
-    margin: 10px 0;
-  }
-  .highlight {
-    color: rgb(208, 74, 38);
   }
 `
 
@@ -47,11 +36,38 @@ export const Button = styled.button.attrs({ type: 'submit' })`
   ${(p) => p.isLogin && loginButtonStyle(p)}
 `
 
+const Section = styled.div`
+  display: flex;
+  padding: 20px;
+  flex: 1;
+  flex-direction: column;
+  h4 {
+    margin: 10px 0;
+  }
+  .highlight {
+    color: rgb(208, 74, 38);
+  }
+  ${Button} {
+    margin: 0 0 20px;
+  }
+`
+
+const LineButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
+  margin-right: 10px;
+  font-size: 1.25rem;
+`
+
 export default function Login() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const goto = useNavigate()
   const [form] = Form.useForm()
-
+  useLoginByLine()
   useEffect(() => {
     if (!isLogged) return
     goto(paths.index)
@@ -80,6 +96,10 @@ export default function Login() {
           <Button isLogin onClick={onSubmit}>
             立即登入
           </Button>
+          <LineButton isLogin onClick={dataStore.getLoginByLineUrl}>
+            <FontAwesomeIcon icon={faLine} />
+            登入
+          </LineButton>
         </Section>
         <Section>
           <h4>歡迎來到 剩蛋快樂-扭蛋所 官方網站！</h4>
@@ -105,5 +125,20 @@ export default function Login() {
       },
       () => {}
     )
+  }
+  function useLoginByLine() {
+    const loginByLineUrl = useSelector(() => dataStore.loginByLineUrl)
+    const [searchParams] = useSearchParams()
+    const code = searchParams.get('code')
+
+    useEffect(() => {
+      if (!code) return
+      dataStore.getAccessTokenByLine({ code })
+    }, [code])
+
+    useEffect(() => {
+      if (!loginByLineUrl) return
+      window.open(loginByLineUrl, '_self')
+    }, [loginByLineUrl])
   }
 }
