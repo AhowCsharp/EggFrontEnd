@@ -112,7 +112,7 @@ export default function TopUp() {
           </div>
         </WarningBlock>
         <Title>
-          <span>step 3</span>請選擇儲值金額
+          <span>step 2</span>請選擇儲值金額
         </Title>
         <OptionContainer>
           {TOP_UP_PRICE_OPTIONS.map((option) => (

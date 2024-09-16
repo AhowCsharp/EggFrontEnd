@@ -1,6 +1,6 @@
 import lotteryImg from '@app/static/lottery'
 import rankListImg from '@app/static/rankList'
-import coinImg from '@app/static/coin.png'
+import coinImg from '@app/static/profile/coin.png'
 
 export const CATEGORY = {
   GACHA: '扭蛋',
