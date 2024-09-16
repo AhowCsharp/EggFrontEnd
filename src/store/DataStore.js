@@ -615,7 +615,8 @@ export default class DataStore {
       localStorage.setItem(encodedKey, encodedToken)
       this.isLogged = true
       yield this.loadMember()
-      this.alertMessage = '登入成功'
+      this.alertMessage =
+        '登入成功，請記得去會員中心修改個資 以避免影響您的權利'
     } catch (e) {
       console.log('get profile by line failed', e)
       const msg = e.response?.data
@@ -635,7 +636,8 @@ export default class DataStore {
       const encodedToken = btoa(token)
       localStorage.setItem(encodedKey, encodedToken)
       this.isLogged = true
-      this.alertMessage = '註冊成功'
+      this.alertMessage =
+        '註冊成功，請記得去會員中心修改個資 以避免影響您的權利'
       this.setInfoDialogType()
     } catch (e) {
       console.log('register by line failed', e)
