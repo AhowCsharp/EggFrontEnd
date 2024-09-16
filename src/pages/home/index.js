@@ -48,7 +48,15 @@ const Carousel = styled(BaseCarousel)`
   margin: 0 auto 30px;
   padding: 8px;
   border: 1px solid #bbb;
-  overflow: hidden;
+  .slick-slide {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  .slick-slide.slick-current + .slick-slide {
+    opacity: 1;
+    transform: scale(1.1);
+    margin-top: 5px;
+  }
 `
 
 const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
