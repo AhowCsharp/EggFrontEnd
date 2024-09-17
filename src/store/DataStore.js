@@ -609,7 +609,7 @@ export default class DataStore {
         this.accessToken = req.accessToken
         return
       }
-      if (jwtToken) throw new Error('get jwt token error ' + result.msg)
+      if (jwtToken) throw new Error('get jwt token error ' + res)
       const encodedKey = btoa('token')
       const encodedToken = btoa(jwtToken)
       localStorage.setItem(encodedKey, encodedToken)
@@ -636,6 +636,7 @@ export default class DataStore {
       const encodedToken = btoa(token)
       localStorage.setItem(encodedKey, encodedToken)
       this.isLogged = true
+      yield this.loadMember()
       this.alertMessage =
         '註冊成功，請記得去會員中心修改個資 以避免影響您的權利'
       this.setInfoDialogType()

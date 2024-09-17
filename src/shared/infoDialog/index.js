@@ -26,7 +26,7 @@ const Container = styled.div`
   top: 10px;
   width: 60%;
   left: 20%;
-  max-height: 80vh;
+  max-height: 90%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
