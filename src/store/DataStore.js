@@ -567,7 +567,7 @@ export default class DataStore {
   loginByLineUrl = undefined
 
   @observable
-  accessToken = undefined;
+  userInfo = { accessToken: undefined, userId: undefined };
 
   @flow
   *getLoginByLineUrl() {
@@ -606,7 +606,7 @@ export default class DataStore {
       }
       if (status === REGISTER_STATUS.NOT_REGISTERED_YET) {
         this.setInfoDialogType(INFO_DIALOG_TYPE.REGISTER)
-        this.accessToken = req.accessToken
+        this.userInfo = { accessToken: req.accessToken, userId: jwtToken }
         return
       }
       if (jwtToken) throw new Error('get jwt token error ' + res)
@@ -629,7 +629,7 @@ export default class DataStore {
     try {
       const res = yield Api.registerByLine({
         referralCode,
-        accessToken: this.accessToken,
+        ...this.userInfo,
       })
       const { source: token } = res
       const encodedKey = btoa('token')
