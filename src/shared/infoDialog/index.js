@@ -107,7 +107,7 @@ export default function InfoDialog() {
   const type = useSelector(() => dataStore.infoDialogType)
   const isRegisterByLine = useSelector(
     () =>
-      !!dataStore.accessToken &&
+      !!dataStore.userInfo.accessToken &&
       dataStore.infoDialogType === INFO_DIALOG_TYPE.REGISTER
   )
   const onClose = () => dataStore.setInfoDialogType()
