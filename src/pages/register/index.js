@@ -24,6 +24,7 @@ const Container = styled.div`
 
 export default function Register() {
   const isLogged = useSelector(() => dataStore.isLogged)
+  const enableSendSms = useSelector(() => dataStore.enableSendSms)
   const goto = useNavigate()
   useLoginByLine()
   useEffect(() => {
@@ -40,7 +41,12 @@ export default function Register() {
         </h4>
         <LineButton wording="註冊" />
       </Container>
-      <Form onSubmit={dataStore.setRegisterReq} />
+      <Form
+        onSubmit={dataStore.setRegisterReq}
+        onSendSms={dataStore.sendSms}
+        enableSendSms={enableSendSms}
+        onCountdownEnd={dataStore.setSendSmsEnable}
+      />
     </Layout>
   )
   function useLoginByLine() {

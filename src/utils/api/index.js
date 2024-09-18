@@ -137,7 +137,18 @@ export const registerByLine = async (req) => {
   const res = await Request.get('/oauth2.0/line/register').params(req)
   return res
 }
+
 export const getProfileByLine = async (req) => {
   const res = await Request.get('/oauth2.0/line/profile').params(req)
+  return res
+}
+
+export const sendSms = async (req) => {
+  const res = await Request.get('/sms').params(req)
+  return res
+}
+
+export const verifySms = async (req) => {
+  const res = await Request.post('/sms').body(req)
   return res
 }

@@ -14,6 +14,11 @@ const loginButtonStyle = (p) => `
   border-color: ${p.theme.color.orange};
 `
 
+const disableStyle = `
+  cursor: not-allowed;
+  opacity: 0.5;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -34,6 +39,7 @@ export const Button = styled.button.attrs({ type: 'submit' })`
   padding: 7px 20px;
   font-size: 0.875rem;
   ${(p) => p.isLogin && loginButtonStyle(p)}
+  ${(p) => p.disable && disableStyle}
 `
 
 const Section = styled.div`

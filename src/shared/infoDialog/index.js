@@ -23,10 +23,10 @@ const Container = styled.div`
   position: absolute;
   color: #000;
   opacity: 1;
-  top: 10px;
+  top: 20px;
   width: 60%;
   left: 20%;
-  max-height: 90%;
+  max-height: calc(90% - 20px);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;

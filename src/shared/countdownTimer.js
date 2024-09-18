@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 
-export default function CountdownTimer({ initialSeconds, cb }) {
+export default function CountdownTimer({
+  initialSeconds,
+  isSmall = false,
+  cb,
+}) {
   const [seconds, setSeconds] = useState(initialSeconds)
 
   useEffect(() => {
@@ -18,8 +22,6 @@ export default function CountdownTimer({ initialSeconds, cb }) {
   }, [seconds])
 
   return (
-    <div>
-      <h1>{seconds} 秒</h1>
-    </div>
+    <div>{isSmall ? <span>{seconds} 秒</span> : <h1>{seconds} 秒</h1>}</div>
   )
 }

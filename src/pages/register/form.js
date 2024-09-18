@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Form, Input } from 'antd'
 import { Button } from '@app/pages/login'
+import CountdownTimer from '@app/shared/countdownTimer'
 
 export const PasswordRule = /^(?=.*[!@#$%^&*.])(?=.*[0-9])(?=.*[a-zA-Z])/
 
@@ -10,6 +11,15 @@ export const Row = styled.div`
   justify-content: space-between;
   .ant-form-item {
     flex: 1;
+    &.btn-col .ant-form-item-control-input-content {
+      display: flex;
+      align-items: end;
+      ${Button} {
+        margin: 0 0 0 8px;
+        width: 160px;
+        padding: 5px 20px;
+      }
+    }
   }
   .ant-form-item + .ant-form-item {
     margin-left: 8px;
@@ -28,7 +38,12 @@ const Footer = styled.div`
   justify-content: center;
 `
 
-export default function RegisterForm({ onSubmit }) {
+export default function RegisterForm({
+  onSubmit,
+  onSendSms,
+  enableSendSms,
+  onCountdownEnd,
+}) {
   const [form] = Form.useForm()
 
   return (
@@ -38,6 +53,66 @@ export default function RegisterForm({ onSubmit }) {
           <Form.Item
             label="帳號"
             name="account"
+            rules={[{ required: true, message: '不可為空' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="E-mail"
+            name="email"
+            rules={[
+              { required: true, message: '不可為空' },
+              { type: 'email', message: '格式錯誤' },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Row>
+        <Row>
+          <Form.Item
+            label="手機"
+            name="phoneNum"
+            rules={[
+              { required: true, message: '不可為空' },
+              {
+                type: 'string',
+                len: 10,
+                message: '請輸入正確的手機號碼',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            className="btn-col"
+            label="手機驗證碼"
+            rules={[{ required: true, message: '不可為空' }]}
+          >
+            <Input />
+            <Button
+              isLogin
+              onClick={() => {
+                const phoneNum = form.getFieldValue().phoneNum
+                phoneNum && onSendSms({ phoneNum })
+              }}
+              disable={!enableSendSms}
+            >
+              {enableSendSms ? (
+                '發送驗證碼'
+              ) : (
+                <CountdownTimer
+                  initialSeconds={10}
+                  isSmall
+                  cb={onCountdownEnd}
+                />
+              )}
+            </Button>
+          </Form.Item>
+        </Row>
+        <Row>
+          <Form.Item
+            label="收貨姓名"
+            name="name"
             rules={[{ required: true, message: '不可為空' }]}
           >
             <Input />
@@ -66,15 +141,6 @@ export default function RegisterForm({ onSubmit }) {
             <Input.Password />
           </Form.Item>
           <Form.Item
-            label="收貨姓名"
-            name="name"
-            rules={[{ required: true, message: '不可為空' }]}
-          >
-            <Input />
-          </Form.Item>
-        </Row>
-        <Row>
-          <Form.Item
             label="確認密碼"
             name="confirmPassword"
             dependencies={['password']}
@@ -92,32 +158,8 @@ export default function RegisterForm({ onSubmit }) {
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item
-            label="E-mail"
-            name="email"
-            rules={[
-              { required: true, message: '不可為空' },
-              { type: 'email', message: '格式錯誤' },
-            ]}
-          >
-            <Input />
-          </Form.Item>
         </Row>
         <Row>
-          <Form.Item
-            label="手機"
-            name="phoneNum"
-            rules={[
-              { required: true, message: '不可為空' },
-              {
-                type: 'string',
-                len: 10,
-                message: '請輸入正確的手機號碼',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
           <Form.Item
             label="郵遞區號"
             name="districtNo"

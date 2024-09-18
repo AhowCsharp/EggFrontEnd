@@ -650,4 +650,27 @@ export default class DataStore {
       this.alertMessage = `註冊失敗，${msg}`
     }
   }
+
+  // SMS
+  @observable
+  enableSendSms = true
+
+  @action
+  setSendSmsEnable() {
+    this.enableSendSms = true
+  }
+
+  @flow
+  *sendSms(req) {
+    if (!this.enableSendSms) return
+    try {
+      const res = yield Api.sendSms(req)
+      if (!res || !res.success) throw res
+      this.enableSendSms = false
+    } catch (e) {
+      console.log('send sms failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `發送簡訊失敗，${msg}`
+    }
+  }
 }
