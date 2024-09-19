@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useSelector, dataStore } from '@app/store'
 import { DrawOutBtn } from '@app/pages/commodity'
-import { useSearchParams } from 'react-router-dom'
 import { useState, useEffect, lazy, Suspense, Fragment } from 'react'
 import { INFO_DIALOG_TYPE } from '@app/utils/constants'
 import { Checkbox, Input } from 'antd'
@@ -111,8 +110,7 @@ export default function InfoDialog() {
       !!dataStore.userInfo.accessToken &&
       dataStore.infoDialogType === INFO_DIALOG_TYPE.REGISTER
   )
-  const [searchParams] = useSearchParams()
-  const defaultReferralCode = searchParams.get('referralCode')
+  const defaultReferralCode = useSelector(() => dataStore.referralCode)
   const onClose = () => dataStore.setInfoDialogType()
   const [wording, setWording] = useState()
   const [referralCode, setReferralCode] = useState(defaultReferralCode || '')

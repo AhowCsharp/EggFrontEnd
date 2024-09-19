@@ -259,6 +259,7 @@ export default class DataStore {
   logout() {
     const encodedKey = btoa('token')
     localStorage.removeItem(encodedKey)
+    localStorage.removeItem('referralCode')
     this.member = undefined
     this.isLogged = false
     this.countdownSec = {}
@@ -583,7 +584,16 @@ export default class DataStore {
   loginByLineUrl = undefined
 
   @observable
-  userInfo = { accessToken: undefined, lineLoginUserId: undefined };
+  userInfo = { accessToken: undefined, lineLoginUserId: undefined }
+
+  @observable
+  referralCode = localStorage.getItem('referralCode')
+
+  @action
+  setReferralCode(code) {
+    this.referralCode = code
+    localStorage.setItem('referralCode', code)
+  }
 
   @flow
   *getLoginByLineUrl() {

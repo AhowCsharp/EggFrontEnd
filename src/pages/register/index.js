@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Layout from '@app/shared/layout'
 import { dataStore, useSelector } from '@app/store'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import paths from '@app/utils/paths'
 import { useEffect } from 'react'
 import { LineButton } from '../login'
@@ -26,8 +26,12 @@ export default function Register() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const enableSendSms = useSelector(() => dataStore.enableSendSms)
   const alreadySentSms = useSelector(() => !!dataStore.sentSmsReq)
-
   const goto = useNavigate()
+  const [searchParams] = useSearchParams()
+  const defaultReferralCode = searchParams.get('referralCode')
+  useEffect(() => {
+    if (defaultReferralCode) dataStore.setReferralCode(defaultReferralCode)
+  }, [defaultReferralCode])
   useLoginByLine()
   useEffect(() => {
     if (!isLogged) return
