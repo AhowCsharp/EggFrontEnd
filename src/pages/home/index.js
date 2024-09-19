@@ -29,9 +29,6 @@ const Header = styled.div`
     transform: translate(-50%, 0);
     width: 7%;
   }
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-  }
 `
 
 const ImageContainer = styled.div`
@@ -41,6 +38,9 @@ const ImageContainer = styled.div`
     margin: 10px;
     width: 100%;
     height: auto;
+    @media (max-width: 768px) {
+      margin: 0;
+    }
   }
 `
 
@@ -56,6 +56,14 @@ const Carousel = styled(BaseCarousel)`
     opacity: 1;
     transform: scale(1.1);
     margin-top: 5px;
+  }
+  @media (max-width: 768px) {
+    .slick-slide.slick-current + .slick-slide,
+    .slick-slide {
+      opacity: 1;
+      transform: scale(1);
+      margin-top: 0;
+    }
   }
 `
 
