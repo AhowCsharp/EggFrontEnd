@@ -4,6 +4,7 @@ import { dataStore, useSelector } from '@app/store'
 import { useNavigate } from 'react-router-dom'
 import paths from '@app/utils/paths'
 import { useEffect } from 'react'
+import { LineButton } from '../login'
 import Form from './form'
 
 const Warning = styled.span`
@@ -24,7 +25,7 @@ const Container = styled.div`
 export default function Register() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const goto = useNavigate()
-
+  useLoginByLine()
   useEffect(() => {
     if (!isLogged) return
     goto(paths.index)
@@ -37,8 +38,17 @@ export default function Register() {
         <h4>
           <Warning>*</Warning>為必填項目
         </h4>
+        <LineButton wording="註冊" />
       </Container>
       <Form onSubmit={dataStore.setRegisterReq} />
     </Layout>
   )
+  function useLoginByLine() {
+    const loginByLineUrl = useSelector(() => dataStore.loginByLineUrl)
+
+    useEffect(() => {
+      if (!loginByLineUrl) return
+      window.open(loginByLineUrl, '_self')
+    }, [loginByLineUrl])
+  }
 }

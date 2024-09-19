@@ -52,7 +52,7 @@ const Section = styled.div`
   }
 `
 
-const LineButton = styled(Button)`
+const BaseLineButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,10 +96,7 @@ export default function Login() {
           <Button isLogin onClick={onSubmit}>
             立即登入
           </Button>
-          <LineButton isLogin onClick={dataStore.getLoginByLineUrl}>
-            <FontAwesomeIcon icon={faLine} />
-            登入
-          </LineButton>
+          <LineButton wording="登入" />
         </Section>
         <Section>
           <h4>歡迎來到 剩蛋快樂-扭蛋所 官方網站！</h4>
@@ -141,4 +138,13 @@ export default function Login() {
       window.open(loginByLineUrl, '_self')
     }, [loginByLineUrl])
   }
+}
+
+export function LineButton({ wording }) {
+  return (
+    <BaseLineButton isLogin onClick={dataStore.getLoginByLineUrl}>
+      <FontAwesomeIcon icon={faLine} />
+      {wording}
+    </BaseLineButton>
+  )
 }
