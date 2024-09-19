@@ -279,10 +279,6 @@ export default class DataStore {
   @flow
   *register(referralCode) {
     if (!this.registerReq) return
-    if (!this.phoneVerified) {
-      this.alertMessage = '手機尚未驗證成功'
-      return
-    }
     try {
       const req = referralCode
         ? { ...this.registerReq, usedReferralCode: referralCode }
@@ -682,9 +678,6 @@ export default class DataStore {
   enableSendSms = true
 
   @observable
-  phoneVerified = false
-
-  @observable
   sentSmsReq = undefined
 
   @action
@@ -700,7 +693,6 @@ export default class DataStore {
       if (!res || !res.success) throw res
       this.enableSendSms = false
       this.sentSmsReq = { phoneNumber: req.phoneNum }
-      this.phoneVerified = false
     } catch (e) {
       console.log('send sms failed', e)
       const msg = e.response?.data
@@ -713,7 +705,6 @@ export default class DataStore {
     try {
       const res = yield Api.verifySms({ ...this.sentSmsReq, sms })
       if (!res || !res.success) throw res
-      this.phoneVerified = true
       this.alertMessage = '手機驗證成功'
     } catch (e) {
       console.log('verify sms failed', e)
