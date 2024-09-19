@@ -96,12 +96,7 @@ export default function RegisterForm({
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            className="btn-col"
-            label="手機驗證碼"
-            name="verifyCode"
-            rules={[{ required: true, message: '不可為空' }]}
-          >
+          <Form.Item className="btn-col" label="手機驗證碼">
             <Input
               value={verifyCode}
               onChange={(e) => {

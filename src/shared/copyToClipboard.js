@@ -2,11 +2,16 @@ import copy from 'copy-to-clipboard'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { dataStore } from '@app/store'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Container = styled.div`
   cursor: pointer;
   &:hover {
     opacity: 0.8;
+  }
+  svg {
+    margin-left: 5px;
   }
 `
 
@@ -21,6 +26,7 @@ export default function CopyToClipboard({
   return (
     <Container ref={ref} className={className} onClick={handleClick}>
       {children}
+      <FontAwesomeIcon icon={faCopy} />
     </Container>
   )
 

@@ -44,11 +44,6 @@ function handleMemberInfo(member) {
             <CopyToClipboard>{member[key]}</CopyToClipboard>
           </Descriptions.Item>
         )
-      // return {
-      //   key,
-      //   label: labelDisplay[key],
-      //   children: () => <h1>${member[key]}</h1>,
-      // }
     })
     .filter(Boolean)
 }

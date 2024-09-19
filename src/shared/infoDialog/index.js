@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useSelector, dataStore } from '@app/store'
 import { DrawOutBtn } from '@app/pages/commodity'
+import { useSearchParams } from 'react-router-dom'
 import { useState, useEffect, lazy, Suspense, Fragment } from 'react'
 import { INFO_DIALOG_TYPE } from '@app/utils/constants'
 import { Checkbox, Input } from 'antd'
@@ -56,13 +57,13 @@ const Header = styled(Block)`
   }
 `
 
-const P = styled.p`
+export const P = styled.p`
   display: flex;
   align-items: center;
   margin: 5px 0;
   justify-content: ${(p) => (p.center ? 'center' : 'unset')};
   input {
-    width: 50%;
+    width: 80%;
   }
 `
 
@@ -110,9 +111,11 @@ export default function InfoDialog() {
       !!dataStore.userInfo.accessToken &&
       dataStore.infoDialogType === INFO_DIALOG_TYPE.REGISTER
   )
+  const [searchParams] = useSearchParams()
+  const defaultReferralCode = searchParams.get('referralCode')
   const onClose = () => dataStore.setInfoDialogType()
   const [wording, setWording] = useState()
-  const [referralCode, setReferralCode] = useState('')
+  const [referralCode, setReferralCode] = useState(defaultReferralCode || '')
   const [checked, setChecked] = useState(false)
   const isRegister = type === INFO_DIALOG_TYPE.REGISTER
   useEffect(() => {
@@ -158,6 +161,9 @@ export default function InfoDialog() {
                   value={referralCode}
                   onChange={setReferralCode}
                 />
+              </P>
+              <P center={true}>
+                如果使用其他用戶的推薦碼進行註冊，在首次儲值超過300元時，您的朋友會額外得到50元的御守，價值等同於金幣
               </P>
               <P center={true}>
                 <Checkbox onChange={(e) => setChecked(e.target.checked)}>

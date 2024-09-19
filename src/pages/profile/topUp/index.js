@@ -6,6 +6,7 @@ import { dataStore, useSelector } from '@app/store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { DrawOutBtn as Button } from '@app/pages/commodity'
+import { P } from '@app/shared/infoDialog'
 import { Container, ButtonContainer } from '../tabStyle'
 import { Content } from '../index'
 import TapPay from './tapPay'
@@ -114,6 +115,7 @@ export default function TopUp() {
         <Title>
           <span>step 2</span>請選擇儲值金額
         </Title>
+        <P center={true}>首次儲值超過300元 會得到新手禮包50元的御守</P>
         <OptionContainer>
           {TOP_UP_PRICE_OPTIONS.map((option) => (
             <Option
