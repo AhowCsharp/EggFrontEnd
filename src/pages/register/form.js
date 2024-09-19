@@ -4,6 +4,8 @@ import { Button } from '@app/pages/login'
 import { useState } from 'react'
 import CountdownTimer from '@app/shared/countdownTimer'
 
+const VerifyCodeBlockSec = 120
+
 export const PasswordRule = /^(?=.*[!@#$%^&*.])(?=.*[0-9])(?=.*[a-zA-Z])/
 
 export const Row = styled.div`
@@ -115,7 +117,7 @@ export default function RegisterForm({
                 '發送驗證碼'
               ) : (
                 <CountdownTimer
-                  initialSeconds={10}
+                  initialSeconds={VerifyCodeBlockSec}
                   isSmall
                   cb={onCountdownEnd}
                 />

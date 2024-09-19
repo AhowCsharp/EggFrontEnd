@@ -45,7 +45,7 @@ export default function Register() {
         <h4>
           <Warning>*</Warning>為必填項目
         </h4>
-        <LineButton wording="註冊" />
+        <LineButton wording="註冊" width="200px" />
       </Container>
       <Form
         onSubmit={dataStore.setRegisterReq}

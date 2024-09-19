@@ -62,6 +62,8 @@ const BaseLineButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: ${(p) => p.width || 'auto'};
+  margin: 20px auto;
 `
 
 const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
@@ -146,9 +148,9 @@ export default function Login() {
   }
 }
 
-export function LineButton({ wording }) {
+export function LineButton({ wording, ...props }) {
   return (
-    <BaseLineButton isLogin onClick={dataStore.getLoginByLineUrl}>
+    <BaseLineButton isLogin onClick={dataStore.getLoginByLineUrl} {...props}>
       <FontAwesomeIcon icon={faLine} />
       {wording}
     </BaseLineButton>
