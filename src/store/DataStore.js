@@ -51,6 +51,14 @@ export default class DataStore {
   @observable
   alertMessage = undefined
 
+  @observable
+  isToast = false
+
+  @action
+  setIsToast(value) {
+    this.isToast = value
+  }
+
   @action
   setAlertMessage(msg) {
     this.alertMessage = msg
@@ -59,6 +67,7 @@ export default class DataStore {
   @action
   clearAlertMessage() {
     this.alertMessage = undefined
+    this.isToast = false
   }
 
   // Commodities

@@ -56,6 +56,11 @@ export const DEFAULT_COMMODITIES_PAGINATION = {
 
 export const INCLUDE_MEMBER_COLUMNS = ['account']
 
+export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
+  'referralCode',
+  'referralCodeUrl',
+]
+
 export const SIGN_PRIZE_TYPE = {
   COIN: 0,
   LOTTERY: 1,

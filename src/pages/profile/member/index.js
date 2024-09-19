@@ -2,7 +2,11 @@ import styled from 'styled-components'
 import { Descriptions } from 'antd'
 import { useSelector, dataStore } from '@app/store'
 import { useEffect, useState } from 'react'
-import { INCLUDE_MEMBER_COLUMNS } from '@app/utils/constants'
+import CopyToClipboard from '@app/shared/copyToClipboard'
+import {
+  INCLUDE_MEMBER_COLUMNS,
+  INCLUDE_MEMBER_COLUMNS_ENABLE_COPY,
+} from '@app/utils/constants'
 import coinImg from '@app/static/profile/coin.png'
 import ticket2000Img from '@app/static/profile/ticket-2000.png'
 import ticketPlatformImg from '@app/static/profile/ticket-platform.png'
@@ -21,13 +25,30 @@ const labelDisplay = {
   districtNo: '郵遞區號',
   districtName: '居住地區',
   address: '詳細地址',
+  referralCode: '推薦碼',
+  referralCodeUrl: '推薦連結',
 }
 
 function handleMemberInfo(member) {
   return Object.keys(member)
     .map((key) => {
       if (INCLUDE_MEMBER_COLUMNS.includes(key))
-        return { key, label: labelDisplay[key], children: member[key] }
+        return (
+          <Descriptions.Item key={key} label={labelDisplay[key]}>
+            {member[key]}
+          </Descriptions.Item>
+        )
+      if (INCLUDE_MEMBER_COLUMNS_ENABLE_COPY.includes(key))
+        return (
+          <Descriptions.Item key={key} label={labelDisplay[key]}>
+            <CopyToClipboard>{member[key]}</CopyToClipboard>
+          </Descriptions.Item>
+        )
+      // return {
+      //   key,
+      //   label: labelDisplay[key],
+      //   children: () => <h1>${member[key]}</h1>,
+      // }
     })
     .filter(Boolean)
 }
@@ -70,6 +91,7 @@ const InfoItem = styled.div`
 export default function Member() {
   const member = useSelector(() => dataStore.member)
   const [memberDisplayInfos, setMemberDisplayInfos] = useState(null)
+  console.log('🚀 ~ Member ~ memberDisplayInfos:', memberDisplayInfos)
 
   useEffect(() => {
     if (member) {
@@ -109,9 +131,11 @@ export default function Member() {
         <Descriptions
           title="修改會員資料"
           layout="vertical"
-          items={memberDisplayInfos}
+          // items={memberDisplayInfos}
           column={1}
-        />
+        >
+          {memberDisplayInfos?.map((item) => item)}
+        </Descriptions>
         <EditMember member={member} />
         <EditPassword />
       </Container>
