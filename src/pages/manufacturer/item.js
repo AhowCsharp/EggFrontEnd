@@ -91,9 +91,10 @@ const Title = styled.div`
   font-weight: 700;
   margin-bottom: 10px;
   height: 45px;
-  border: 6px double rgba(34, 198, 15, 0.9);
+  border: 2px dashed rgba(34, 198, 15, 0.9);
   display: flex;
   position: relative;
+  padding: 1px;
   box-shadow: 0 0 5px lime, 0 0 5px lime, 0 0 5px lime;
   div {
     font-family: 'LXGW WenKai Mono TC', Roboto, Helvetica, Arial, sans-serif;
@@ -102,7 +103,8 @@ const Title = styled.div`
     align-items: center;
     overflow: hidden;
     flex: 1;
-    animation: ${neonBg} 2s infinite;
+    border: 2px dashed rgba(34, 198, 15, 0.9);
+    animation: ${neonBg} 2s infinite, ${neonBorder} 2s infinite;
   }
 `
 
