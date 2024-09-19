@@ -664,6 +664,9 @@ export default class DataStore {
   @observable
   enableSendSms = true
 
+  @observable
+  sentSmsReq = undefined
+
   @action
   setSendSmsEnable() {
     this.enableSendSms = true
@@ -676,10 +679,24 @@ export default class DataStore {
       const res = yield Api.sendSms(req)
       if (!res || !res.success) throw res
       this.enableSendSms = false
+      this.sentSmsReq = { phoneNumber: req.phoneNum }
     } catch (e) {
       console.log('send sms failed', e)
       const msg = e.response?.data
       this.alertMessage = `發送簡訊失敗，${msg}`
+    }
+  }
+
+  @flow
+  *verifySms(sms) {
+    try {
+      const res = yield Api.verifySms({ ...this.sentSmsReq, sms })
+      if (!res || !res.success) throw res
+      this.alertMessage = '手機驗證成功'
+    } catch (e) {
+      console.log('verify sms failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `驗證失敗，${msg}`
     }
   }
 }

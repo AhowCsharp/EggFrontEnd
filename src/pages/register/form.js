@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Form, Input } from 'antd'
 import { Button } from '@app/pages/login'
+import { useState } from 'react'
 import CountdownTimer from '@app/shared/countdownTimer'
 
 export const PasswordRule = /^(?=.*[!@#$%^&*.])(?=.*[0-9])(?=.*[a-zA-Z])/
@@ -11,13 +12,22 @@ export const Row = styled.div`
   justify-content: space-between;
   .ant-form-item {
     flex: 1;
-    &.btn-col .ant-form-item-control-input-content {
+    &.btn-col {
       display: flex;
       align-items: end;
-      ${Button} {
-        margin: 0 0 0 8px;
-        width: 160px;
-        padding: 5px 20px;
+      width: 100%;
+      & .ant-form-item-control-input-content {
+        display: flex;
+        align-items: end;
+        ${Button} {
+          margin: 0 0 0 8px;
+          width: 160px;
+          padding: 5px 20px;
+          flex: 1 0 40%;
+          &.verify-btn {
+            flex: 1 0 80px;
+          }
+        }
       }
     }
   }
@@ -43,8 +53,11 @@ export default function RegisterForm({
   onSendSms,
   enableSendSms,
   onCountdownEnd,
+  shouldShowVerifyBtn,
+  onVerifySms,
 }) {
   const [form] = Form.useForm()
+  const [verifyCode, setVerifyCode] = useState('')
 
   return (
     <>
@@ -86,9 +99,15 @@ export default function RegisterForm({
           <Form.Item
             className="btn-col"
             label="手機驗證碼"
+            name="verifyCode"
             rules={[{ required: true, message: '不可為空' }]}
           >
-            <Input />
+            <Input
+              value={verifyCode}
+              onChange={(e) => {
+                setVerifyCode(e.target.value)
+              }}
+            />
             <Button
               isLogin
               onClick={() => {
@@ -107,6 +126,17 @@ export default function RegisterForm({
                 />
               )}
             </Button>
+            {shouldShowVerifyBtn && (
+              <Button
+                className="verify-btn"
+                isLogin
+                onClick={() => {
+                  verifyCode && onVerifySms(verifyCode)
+                }}
+              >
+                驗證
+              </Button>
+            )}
           </Form.Item>
         </Row>
         <Row>

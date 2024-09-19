@@ -25,6 +25,8 @@ const Container = styled.div`
 export default function Register() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const enableSendSms = useSelector(() => dataStore.enableSendSms)
+  const alreadySentSms = useSelector(() => !!dataStore.sentSmsReq)
+
   const goto = useNavigate()
   useLoginByLine()
   useEffect(() => {
@@ -46,6 +48,8 @@ export default function Register() {
         onSendSms={dataStore.sendSms}
         enableSendSms={enableSendSms}
         onCountdownEnd={dataStore.setSendSmsEnable}
+        shouldShowVerifyBtn={alreadySentSms}
+        onVerifySms={dataStore.verifySms}
       />
     </Layout>
   )
