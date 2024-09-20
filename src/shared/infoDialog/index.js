@@ -122,6 +122,10 @@ export default function InfoDialog() {
   }, [type])
 
   useEffect(() => {
+    if (defaultReferralCode) setReferralCode(defaultReferralCode)
+  }, [defaultReferralCode])
+
+  useEffect(() => {
     if (!type || !wording) return
     document.getElementById('header').scrollIntoView({ behavior: 'smooth' })
   }, [type, wording])
