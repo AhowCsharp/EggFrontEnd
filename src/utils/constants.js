@@ -1,6 +1,6 @@
 import lotteryImg from '@app/static/lottery'
 import rankListImg from '@app/static/rankList'
-import coinImg from '@app/static/profile/coin.png'
+import coinImg from '@app/static/topUp'
 
 export const CATEGORY = {
   GACHA: '扭蛋',
@@ -255,91 +255,91 @@ export const TOP_UP_PRICE_OPTIONS = [
   {
     id: 1,
     name: '150',
-    src: coinImg,
+    src: coinImg.f,
     value: 150,
   },
   {
     id: 2,
     name: '300',
-    src: coinImg,
+    src: coinImg.f,
     value: 300,
   },
   {
     id: 3,
     name: '500',
-    src: coinImg,
+    src: coinImg.e,
     value: 500,
   },
   {
     id: 4,
     name: '1000',
-    src: coinImg,
+    src: coinImg.e,
     value: 1000,
   },
   {
     id: 5,
     name: '1500',
-    src: coinImg,
+    src: coinImg.e,
     value: 1500,
   },
   {
     id: 6,
     name: '3000',
-    src: coinImg,
+    src: coinImg.d,
     value: 3000,
   },
   {
     id: 7,
     name: '5000',
-    src: coinImg,
+    src: coinImg.d,
     value: 5000,
   },
   {
     id: 8,
     name: '8000',
-    src: coinImg,
+    src: coinImg.d,
     value: 8000,
   },
   {
     id: 9,
     name: '10000',
-    src: coinImg,
+    src: coinImg.c,
     value: 10000,
   },
   {
     id: 10,
     name: '15000',
-    src: coinImg,
+    src: coinImg.c,
     value: 15000,
   },
   {
     id: 11,
     name: '20000',
-    src: coinImg,
+    src: coinImg.c,
     value: 20000,
   },
   {
     id: 12,
     name: '50000',
-    src: coinImg,
+    src: coinImg.b,
     value: 50000,
   },
   {
     id: 13,
     name: '80000',
-    src: coinImg,
+    src: coinImg.b,
     value: 80000,
   },
   {
     id: 14,
     name: '100000',
-    src: coinImg,
+    src: coinImg.a,
     value: 100000,
   },
   {
     id: 15,
     name: '測試金流用',
-    src: coinImg,
+    src: coinImg.f,
     value: 1,
   },
 ]
