@@ -97,12 +97,25 @@ const ContactContainer = styled.div`
   }
 `
 
+const RightWording = styled.div`
+  position: absolute;
+  bottom: 10px;
+  font-size: 0.7rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
+    position: relative;
+    bottom: 0;
+  }
+`
+
 export default function Footer() {
   return (
     <FooterContainer>
       <LeftContainer>
         <LogoContainer>
-          <Logo />© 2024 剩蛋快樂-扭蛋所 版權所有
+          <Logo />
         </LogoContainer>
         <Content>
           <p>客服時間『週一至週日』</p>
@@ -113,6 +126,7 @@ export default function Footer() {
           <p>統一編號：94867552</p>
         </Content>
       </LeftContainer>
+      <RightWording>© 2024 剩蛋快樂-扭蛋所 版權所有</RightWording>
       <ContactContainer>
         <p onClick={openInfoDialog(INFO_DIALOG_TYPE.PRIVACY)}>
           {INFO_DIALOG_TYPE.PRIVACY}
