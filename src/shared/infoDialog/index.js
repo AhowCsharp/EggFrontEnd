@@ -61,6 +61,7 @@ export const P = styled.p`
   align-items: center;
   margin: 5px 0;
   justify-content: ${(p) => (p.center ? 'center' : 'unset')};
+  opacity: ${(p) => p.opacity || 1};
   input {
     width: 80%;
   }
@@ -159,12 +160,12 @@ export default function InfoDialog() {
             <>
               <P center={true}>
                 <Input
-                  placeholder="請輸入推薦碼"
+                  placeholder="請輸入推薦碼（選填）"
                   value={referralCode}
-                  onChange={setReferralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
                 />
               </P>
-              <P center={true}>
+              <P center={true} opacity="0.6">
                 如果使用其他用戶的推薦碼進行註冊，在首次儲值超過300元時，您的朋友會額外得到50元的御守，價值等同於金幣
               </P>
               <P center={true}>
