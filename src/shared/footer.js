@@ -75,6 +75,13 @@ const ContactInfo = styled.div`
   justify-content: center;
 `
 
+const QrCode = styled.img.attrs({
+  src: 'https://qr-official.line.me/gs/M_125dyajm_BW.png?oat_content=qr',
+  alt: 'lineOA qrcode',
+})`
+  width: 80px;
+`
+
 const ContactContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -94,6 +101,20 @@ const ContactContainer = styled.div`
   }
   p + p {
     border-left: 1px solid #fff;
+  }
+`
+
+const QrCodeContainer = styled(ContactContainer)`
+  ${QrCode} + ${QrCode} {
+    margin-left: 16px;
+  }
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  @media (max-width: 768px) {
+    position: relative;
+    bottom: 0;
+    right: 0;
   }
 `
 
@@ -149,6 +170,10 @@ export default function Footer() {
           <FontAwesomeIcon icon={faInstagram} />
         </ContactInfo>
       </ContactContainer>
+      <QrCodeContainer>
+        <QrCode />
+        <QrCode />
+      </QrCodeContainer>
     </FooterContainer>
   )
   function openInfoDialog(type) {
