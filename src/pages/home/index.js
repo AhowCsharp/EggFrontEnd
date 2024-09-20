@@ -50,7 +50,7 @@ const Carousel = styled(BaseCarousel)`
   border: 1px solid #bbb;
   .slick-slide {
     opacity: 0.5;
-    transform: scale(0.9);
+    transform: scale(0.8);
   }
   .slick-slide.slick-current + .slick-slide {
     opacity: 1;
