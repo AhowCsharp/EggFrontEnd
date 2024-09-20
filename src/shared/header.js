@@ -158,7 +158,7 @@ const Nav = styled.div`
   display: flex;
   margin-left: 10px;
   flex-wrap: wrap;
-  max-width: 640px;
+  max-width: 610px;
   overflow: hidden;
   position: relative;
   height: ${(p) => (p.isNavOpened ? '80px' : '36px')};
@@ -167,7 +167,7 @@ const Nav = styled.div`
   }
   ${FontAwesomeIcon} {
     position: absolute;
-    right: 0;
+    right: 100px;
     width: 1rem;
     height: 1rem;
     cursor: pointer;
@@ -281,6 +281,12 @@ const NavList = [
     checkIsLogged: false,
   },
   {
+    title: CATEGORY.SPECIAL,
+    type: 'special',
+    src: specialImg,
+    checkIsLogged: false,
+  },
+  {
     title: CATEGORY.OUTSIDE_WALL_WORLD,
     type: 'outsideWallWorld',
     src: outsideWallWorldImg,
@@ -290,12 +296,6 @@ const NavList = [
     title: CATEGORY.DIGITAL_WORLD,
     type: 'digitalWorld',
     src: digitalWorldImg,
-    checkIsLogged: false,
-  },
-  {
-    title: CATEGORY.SPECIAL,
-    type: 'special',
-    src: specialImg,
     checkIsLogged: false,
   },
 ]

@@ -99,10 +99,9 @@ const SelectionNav = styled.div`
 const Tag = styled.div`
   position: relative;
   width: 100px;
-  height: 40px;
-  background-color: #eed9c4;
+  height: 28px;
+  background-color: #bdaa96;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -111,12 +110,12 @@ const Tag = styled.div`
     content: '';
     position: absolute;
     top: 0;
-    right: -20px; /* 調整這裡讓箭頭部分和長方形對齊 */
+    right: -14px; /* 調整這裡讓箭頭部分和長方形對齊 */
     width: 0;
     height: 0;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-left: 20px solid #eed9c4; /* 和背景色相同 */
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 14px solid #bdaa96; /* 和背景色相同 */
     z-index: 1;
   }
 `

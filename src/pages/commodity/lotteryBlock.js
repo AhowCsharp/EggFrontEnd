@@ -3,7 +3,6 @@ import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-import { Info } from './index'
 
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
@@ -16,6 +15,15 @@ const LotteryContainer = styled.div`
   @media (max-width: 768px) {
     padding: 0 20px;
   }
+`
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 `
 
 const hoverStyle = `  
@@ -38,24 +46,29 @@ const BaseLottery = styled.div`
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
   position: relative;
   text-align: center;
+  justify-content: center;
+  align-items: center;
   img {
-    width: 100%;
+    width: 67%;
     &.hover-animation {
       position: absolute;
-      left: 0;
+      left: 16.5%;
       top: 0;
-      width: 100%;
       opacity: 0;
     }
   }
-  img ${Info} {
-    text-align: center;
-  }
+
   ${(p) => !p.isDone && hoverStyle}
 
   @media (max-width: 768px) {
     margin: 10px 8px;
     width: calc(33% - 16px);
+    img {
+      width: 100%;
+      &.hover-animation {
+        left: 0;
+      }
+    }
   }
 `
 

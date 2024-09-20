@@ -29,9 +29,6 @@ const Header = styled.div`
     transform: translate(-50%, 0);
     width: 7%;
   }
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-  }
 `
 
 const ImageContainer = styled.div`
@@ -41,6 +38,9 @@ const ImageContainer = styled.div`
     margin: 10px;
     width: 100%;
     height: auto;
+    @media (max-width: 768px) {
+      margin: 0;
+    }
   }
 `
 
@@ -48,7 +48,23 @@ const Carousel = styled(BaseCarousel)`
   margin: 0 auto 30px;
   padding: 8px;
   border: 1px solid #bbb;
-  overflow: hidden;
+  .slick-slide {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  .slick-slide.slick-current + .slick-slide {
+    opacity: 1;
+    transform: scale(1.1);
+    margin-top: 5px;
+  }
+  @media (max-width: 768px) {
+    .slick-slide.slick-current + .slick-slide,
+    .slick-slide {
+      opacity: 1;
+      transform: scale(1);
+      margin-top: 0;
+    }
+  }
 `
 
 const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
