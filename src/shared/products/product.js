@@ -159,7 +159,7 @@ const PrizeTag = styled.div`
   text-align: center;
   min-width: 2.5rem;
   min-height: 6.85rem;
-  padding: 15px 8px 35px;
+  padding: 0.9375rem 0.5rem 2.1875rem;
   flex: 0;
   color: #000;
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
@@ -183,6 +183,7 @@ const PrizeTagContainer = styled.div`
   margin-top: 10px;
   color: #fff;
   overflow-x: auto;
+  min-height: 6.85rem;
   width: 100%;
   ${hideScrollBarStyle}
   ${PrizeTag} + ${PrizeTag} {

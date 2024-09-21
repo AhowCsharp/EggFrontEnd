@@ -38,8 +38,10 @@ const SiteContainer = styled.div`
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
+  overflow-x: hidden;
   @media (max-width: 768px) {
     background-image: url(${bgMobileImg});
+    padding-bottom: 80px;
   }
 `
 

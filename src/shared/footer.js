@@ -88,7 +88,7 @@ const ContactContainer = styled.div`
   margin-left: 20px;
   color: #fff;
   @media (max-width: 768px) {
-    margin: 20px 0;
+    margin: 5px 0;
     width: 100%;
     justify-content: center;
   }
