@@ -15,7 +15,8 @@ const Mask = styled.div`
 const Layout = styled.div`
   position: absolute;
   opacity: 1;
-  top: 10%;
+  top: 50%;
+  transform: translateY(-50%);
   width: 50%;
   left: 25%;
   z-index: ${(p) => p.theme.zIndex.alertDialog};
