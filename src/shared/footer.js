@@ -141,10 +141,11 @@ export default function Footer() {
         <Content>
           <p>客服時間『週一至週日』</p>
           <p>09:00～22:00</p>
-          <p>客服LINE：887kopkm</p>
-          <p>客服信箱：ntzu.toys@gmail.com</p>
-          <p>公司名稱：皓恩工作室</p>
-          <p>統一編號：94867552</p>
+          <p>客服LINE：@125dyajm</p>
+          <p>客服信箱：onlyeggisreal@gmail.com</p>
+          <p>公司名稱：尊嘟假嘟工作室</p>
+          <p>統一編號：91214848</p>
+          <p>Version 2024.0919</p>
         </Content>
       </LeftContainer>
       <RightWording>© 2024 剩蛋快樂-扭蛋所 版權所有</RightWording>
