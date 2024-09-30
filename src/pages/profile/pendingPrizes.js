@@ -127,8 +127,7 @@ export default function PendingPrizes() {
           <div>
             A賞運費價格150，B賞運費價格120，此筆訂單運費則挑150最高價格最為此單運費。
           </div>
-          <Warning>不同廠商的賞品不得合併出貨</Warning>
-          <Warning>若未處理獎品超過30天，則廠商會自動回收該獎品!!</Warning>
+          <Warning>不同廠商的賞品不得合併出貨，若未處理獎品超過30天，則廠商會自動回收該獎品!!</Warning>
         </Info>
         <RangePicker
           showTime={{

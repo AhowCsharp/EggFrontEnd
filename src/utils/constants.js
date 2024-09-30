@@ -99,7 +99,7 @@ export const INFO_DIALOG_TYPE = {
   PRIVACY: '隱私權條款',
   TOP_UP: '儲值說明',
   REGISTER: '服務條款',
-  DRAWING_PROBABILITY: '抽獎機率說明',
+  DRAWING_PROBABILITY: '抽獎消費說明',
 }
 
 export const LAST_PRIZE_LEVEL = 27
