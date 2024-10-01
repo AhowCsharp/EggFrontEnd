@@ -11,6 +11,7 @@ const theme = {
     defaultPrizeTag: '#06b9d4',
     gray: '#999',
     topUpSelected: '#d04a26',
+    discount: 'rgba(255, 0, 0)',
   },
   tagColor: {
     [MANUFACTURER_ID]: '#FF0062',

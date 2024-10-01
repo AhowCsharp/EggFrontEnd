@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import Tag from '@app/shared/tag'
-import DollarSign from '@app/shared/dollarSign'
-import { PRIZE_LEVEL, CATEGORY } from '@app/utils/constants'
+import { PRIZE_LEVEL } from '@app/utils/constants'
 import soldOutImg from '@app/static/sold-out.png'
 import prizeTagImg from '@app/static/prize-tag.png'
 import { hideScrollBarStyle } from '@app/shared/header'
+import Price from './price'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -25,19 +25,6 @@ const SoldOutImg = styled.img.attrs((p) => ({
   left: 0;
   right: 0;
   width: 100%;
-`
-
-const Price = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 5px;
-  z-index: 1;
-  color: ${(p) => p.theme.color.orange};
-  font-size: 2rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
 `
 
 const BaseProduct = styled.div`
@@ -204,6 +191,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     manufacturerId,
     prizesOfCommodity,
     isUsePrizeName,
+    discount,
   } = data
   if (isBase)
     return (
@@ -218,10 +206,11 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     <BaseProduct onClick={handleClick(data)}>
       <ImageContainer>
         <Image src={imgUrl} />
-        <Price>
-          {CATEGORY.LUCKY_BAG === category ? '1' : drawOut1Price}
-          <DollarSign category={category} />
-        </Price>
+        <Price
+          category={category}
+          drawOut1Price={drawOut1Price}
+          discount={discount}
+        />
         <CountTag>
           <Count>{totalDrawOutTimes}</Count>/
           <Count>{fixedTotalDrawOutTimes}</Count>抽

@@ -6,19 +6,19 @@ import { useParams } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
-import { CATEGORY, DRAW_OUT_STATUS } from '@app/utils/constants'
+import { DRAW_OUT_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
 import { Radio } from 'antd'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
-import DollarSign from '@app/shared/dollarSign'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
 import ConfirmDialog from './confirmDialog'
 import LotteryBlock from './lotteryBlock'
+import Price from './price'
 
 const multiDrawOutStyle = `
   background: #a80502;
@@ -132,7 +132,7 @@ export const DrawOutBtn = styled.div`
   ${(p) => p.isMultiDrawOut && multiDrawOutStyle}
 `
 
-const Block = styled.div`
+export const Block = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -143,13 +143,6 @@ const DrawOutBtnBlock = styled(Block)`
   ${DrawOutBtn} {
     margin: 0 10px 15px 0;
   }
-`
-
-const Price = styled.div`
-  color: #ffc107;
-  font-size: 3.75rem;
-  font-weight: 700;
-  margin-right: 10px;
 `
 
 const Desc = styled.p`
@@ -282,15 +275,11 @@ export default function Commodity() {
               商品說明
             </NavItem>
           </SelectionNav>
-          <Block>
-            <Price>
-              <DollarSign category={commodity.category} size="2.5" mr8 />
-              {CATEGORY.LUCKY_BAG === commodity.category
-                ? '1'
-                : commodity.drawOut1Price}
-            </Price>
-            /抽
-          </Block>
+          <Price
+            category={commodity.category}
+            drawOut1Price={commodity.drawOut1Price}
+            discount={commodity.discount}
+          />
           <Stack direction="row" spacing={1} sx={{ marginBottom: 2 }}>
             {commodity.drawOut5Price !== null && (
               <Chip
