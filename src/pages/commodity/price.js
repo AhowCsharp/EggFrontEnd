@@ -38,17 +38,19 @@ export default function Price({ category, drawOut1Price, discount }) {
         /抽
       </Block>
     )
-  if (discount)
+  if (discount) {
+    const discountPrice = Math.round((drawOut1Price * discount) / 100)
     return (
       <Block>
         <DiscountPrice>
           <DollarSign category={category} />
           <span>{drawOut1Price}</span>
-          <span className="discount">{discount}</span>
+          <span className="discount">{discountPrice}</span>
         </DiscountPrice>
         /抽
       </Block>
     )
+  }
   return (
     <Block>
       <BasePrice>

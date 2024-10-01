@@ -17,12 +17,12 @@ const BasePrice = styled.div`
 
 const DiscountPrice = styled(BasePrice)`
   color: #fff;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: normal;
   span {
     text-decoration: line-through;
     &.discount {
-      color: ${(p) => p.theme.color.discount};
+      color: ${(p) => p.theme.color.orange};
       font-size: 2rem;
       font-weight: 700;
       text-decoration: none;
@@ -38,14 +38,16 @@ export default function Price({ category, drawOut1Price, discount }) {
         1<DollarSign category={category} />
       </BasePrice>
     )
-  if (discount)
+  if (discount) {
+    const discountPrice = Math.round((drawOut1Price * discount) / 100)
     return (
       <DiscountPrice>
         <span>{drawOut1Price}</span>
-        <span className="discount">{discount}</span>
+        <span className="discount">{discountPrice}</span>
         <DollarSign category={category} />
       </DiscountPrice>
     )
+  }
   return (
     <BasePrice>
       {drawOut1Price}
