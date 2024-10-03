@@ -1,4 +1,4 @@
-import { MANUFACTURER_ID } from '../hardCode';
+import { MANUFACTURER_ID } from '../hardCode'
 
 const theme = {
 	color: {
@@ -13,6 +13,7 @@ const theme = {
 		gray: '#999',
 		topUpSelected: '#d04a26',
 		discount: 'rgba(255, 0, 0)',
+		red: '#a21a2b',
 	},
 	tagColor: {
 		[MANUFACTURER_ID]: '#FF0062',
@@ -33,6 +34,6 @@ const theme = {
 		header: 6,
 		danmaku: 7,
 	},
-};
+}
 
-export default theme;
+export default theme

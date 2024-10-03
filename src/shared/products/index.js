@@ -18,10 +18,13 @@ const ProductContainer = styled.div`
 	justify-content: ${p => (p.center ? 'center' : 'flex-start')};
 	align-items: center;
 	padding: 10px 0;
-	margin: 1rem;
+	margin: 1rem 0;
 	flex-wrap: wrap;
 	margin-top: -20px;
 	min-height: 150px;
+	.item + .item {
+		margin-left: 15px;
+	}
 	@media (max-width: 768px) {
 		margin: 1rem 0;
 	}
@@ -54,8 +57,8 @@ const Radio = styled(BaseRadio)`
 `
 
 const Button = styled.div`
-	background-color: #ad1412;
-	padding: 8px;
+	background-color: ${p => p.theme.color.red};
+	padding: 8px 16px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -97,16 +100,18 @@ export default function Products({
 						options={COMMODITY_STATUS_OPTIONS}
 					/>
 				)}
-				<ButtonContainer>
-					<Button>
-						<img src={filterIcon} />
-						篩選
-					</Button>
-					<Button>
-						<img src={orderIcon} />
-						排序
-					</Button>
-				</ButtonContainer>
+				{!!category && (
+					<ButtonContainer>
+						<Button>
+							<img src={filterIcon} />
+							篩選
+						</Button>
+						<Button>
+							<img src={orderIcon} />
+							排序
+						</Button>
+					</ButtonContainer>
+				)}
 			</ButtonContainer>
 			{!!category && <Header category={category} />}
 			{data && data.length ? (
