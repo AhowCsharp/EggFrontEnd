@@ -159,6 +159,7 @@ const Nav = styled.div`
   margin-left: 10px;
   flex-wrap: wrap;
   max-width: 610px;
+  padding-right: 100px;
   overflow: hidden;
   position: relative;
   padding-right: 100px;

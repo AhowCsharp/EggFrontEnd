@@ -9,7 +9,7 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
-export default function OutsideWallWorld() {
+export default function Special() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
 

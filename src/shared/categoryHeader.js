@@ -6,8 +6,10 @@ import specialHeaderWordingImg from '@app/static/special-header.png'
 import ichibanHeaderWordingImg from '@app/static/ichiban-header.png'
 import luckyBagHeaderWordingImg from '@app/static/lucky-bag-header.png'
 import headerBg from '@app/static/header-bg.png'
+import headerMobileBg from '@app/static/header-bg_m.png'
 import styled from 'styled-components'
 import { CATEGORY } from '@app/utils/constants'
+import { useEffect, useState } from 'react'
 
 const Wording = {
   [CATEGORY.GACHA]: gachaHeaderWordingImg,
@@ -24,6 +26,13 @@ const Setting = {
   [CATEGORY.SPECIAL]: { width: '10%' },
   [CATEGORY.ICHIBAN]: { width: '10%' },
 }
+const MobileSetting = {
+  [CATEGORY.DIGITAL_WORLD]: { width: '15%', bottom: '20%' },
+  [CATEGORY.OUTSIDE_WALL_WORLD]: { width: '15%', bottom: '20%' },
+  [CATEGORY.SPECIAL]: { width: '15%' },
+  [CATEGORY.ICHIBAN]: { width: '15%' },
+}
+
 const Header = styled.div`
   height: auto;
   width: 100%;
@@ -39,14 +48,31 @@ const Header = styled.div`
     left: 50%;
     bottom: ${(p) => p.setting?.bottom || '17%'};
     transform: translate(-50%, 0);
-    width: ${(p) => p.setting?.width || '7%'};
+    width: ${(p) => p.setting?.width || '11%'};
+  }
+  @media (max-width: 768px) {
+    img:last-child {
+      bottom: ${(p) => p.setting?.bottom || '17%'};
+      width: ${(p) => p.setting?.width || '11%'};
+    }
   }
 `
 
 export default function CategoryHeader({ category }) {
+  const mobileQuery = window.matchMedia('(max-width: 768px)')
+  const [isMobile, setIsMobile] = useState(mobileQuery.matches)
+  useEffect(() => {
+    const handleChange = (event) => {
+      setIsMobile(event.matches)
+    }
+    mobileQuery.addEventListener('change', handleChange)
+    return () => {
+      mobileQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
   return (
-    <Header setting={Setting[category]}>
-      <img src={headerBg} />
+    <Header setting={isMobile ? MobileSetting[category] : Setting[category]}>
+      <img src={isMobile ? headerMobileBg : headerBg} />
       <img src={Wording[category]} />
     </Header>
   )
