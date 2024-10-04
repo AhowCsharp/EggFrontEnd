@@ -25,7 +25,12 @@ export default function DigitalWorld() {
   if (!commodities) return <Layout />
   return (
     <Layout>
-      <Products data={commodities.data} status={status} setStatus={setStatus} />
+      <Products
+        data={commodities.data}
+        status={status}
+        setStatus={setStatus}
+        category={CATEGORY.DIGITAL_WORLD}
+      />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {

@@ -31,15 +31,14 @@ const BaseProduct = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   overflow: hidden;
-  width: calc((100% - 45px) / 4);
-  /* margin: 20px 10px 0; */
+  width: calc((100% - 10px) / 4);
   margin-top: 20px;
   cursor: pointer;
   &:hover ${Image} {
     transform: scale(1.07);
   }
-  ${BaseProduct}+${BaseProduct} {
-    margin-left: 15px;
+  ${BaseProduct} + ${BaseProduct} {
+    margin-left: 10px;
   }
   @media (max-width: 768px) {
     width: 100%;
@@ -57,7 +56,7 @@ const Title = styled.div`
 `
 
 const CountTag = styled.div`
-  padding: 8px 16px;
+  padding: 4px 16px;
   background: #000;
   color: #fff;
   font-weight: 700;

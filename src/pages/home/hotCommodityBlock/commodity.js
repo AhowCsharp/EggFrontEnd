@@ -15,7 +15,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   overflow: hidden;
-  width: calc((100% - 45px) / 4);
+  width: calc((100% - 30px) / 4);
   margin-top: 20px;
   cursor: pointer;
   &:hover ${Image} {

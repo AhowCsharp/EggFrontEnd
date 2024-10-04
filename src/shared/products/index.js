@@ -7,8 +7,7 @@ import {
 } from '@app/utils/constants'
 import { Radio as AntdRadio } from 'antd'
 import Header from '@app/shared/categoryHeader'
-import filterIcon from '@app/static/filter.png'
-import orderIcon from '@app/static/order.png'
+import Button, { BUTTON_TYPE } from './button'
 import Product from './product'
 
 const { Group: BaseRadio } = AntdRadio
@@ -56,25 +55,11 @@ const Radio = styled(BaseRadio)`
   }
 `
 
-const Button = styled.div`
-  background-color: ${(p) => p.theme.color.red};
-  padding: 8px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-  img {
-    width: 1.2rem;
-    height: 1.2rem;
-    margin-right: 8px;
-  }
-`
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   border-radius: 4px;
-  ${Button} + ${Button} {
+  div + div {
     margin-left: 8px;
   }
 `
@@ -102,14 +87,8 @@ export default function Products({
         )}
         {!!category && (
           <ButtonContainer>
-            <Button>
-              <img src={filterIcon} />
-              篩選
-            </Button>
-            <Button>
-              <img src={orderIcon} />
-              排序
-            </Button>
+            <Button type={BUTTON_TYPE.FILTER} />
+            <Button />
           </ButtonContainer>
         )}
       </ButtonContainer>

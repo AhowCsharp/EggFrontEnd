@@ -13,6 +13,7 @@ import headerImg from '@app/static/header.png'
 import { url } from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
 import newArrivalsImg from '@app/static/new-arrivals.png'
+import Button from '@app/shared/products/button'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 
 const ImageContainer = styled.div`
@@ -134,8 +135,13 @@ export default function Home() {
       <Layout>
         <HotCommodityBlock data={hotAds} />
         <Header>
-          <img src={headerImg} />
-          全部商品
+          <div className="block">
+            <img src={headerImg} />
+            全部商品
+          </div>
+          <div className="block">
+            <Button />
+          </div>
         </Header>
         <Products data={commodities?.data} />
       </Layout>

@@ -3,6 +3,25 @@ import Commodity from './commodity'
 import headerImg from '@app/static/header.png'
 import { url } from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
+import {
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+const ArrowButton = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: ${(p) => p.theme.color.red};
+  color: #fff;
+  font-size: 0.875rem;
+  opacity: ${(p) => (p.disabled ? 0.6 : 1)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 export const Header = styled.div`
   border-bottom: 1px solid ${(p) => p.theme.color.red};
@@ -11,11 +30,18 @@ export const Header = styled.div`
   font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
   padding-bottom: 8px;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  div.block {
+    display: flex;
+    align-items: center;
+  }
   img {
     width: 40px;
     height: 40px;
     margin-right: 20px;
+  }
+  ${ArrowButton} + ${ArrowButton} {
+    margin-left: 8px;
   }
 `
 
@@ -29,7 +55,7 @@ const Container = styled.div`
   margin-top: -20px;
   min-height: 150px;
   .item + .item {
-    margin-left: 15px;
+    margin-left: 10px;
   }
   @media (max-width: 768px) {
     margin: 1rem 0;
@@ -42,8 +68,18 @@ export default function HotCommodityBlock({ data }) {
   return (
     <>
       <Header>
-        <img src={headerImg} />
-        熱銷商品
+        <div className="block">
+          <img src={headerImg} />
+          熱銷商品
+        </div>
+        <div className="block">
+          <ArrowButton disabled>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </ArrowButton>
+          <ArrowButton>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </ArrowButton>
+        </div>
       </Header>
       {data && data.length ? (
         <Container>

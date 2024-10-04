@@ -8,7 +8,6 @@ import {
   COMMODITY_STATUS,
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
-import Header from '@app/shared/categoryHeader'
 
 export default function BlindBox() {
   const commodities = useSelector(() => dataStore.commodities)

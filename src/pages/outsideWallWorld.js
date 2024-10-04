@@ -25,7 +25,12 @@ export default function OutsideWallWorld() {
   if (!commodities) return <Layout />
   return (
     <Layout>
-      <Products data={commodities.data} status={status} setStatus={setStatus} />
+      <Products
+        data={commodities.data}
+        status={status}
+        setStatus={setStatus}
+        category={CATEGORY.OUTSIDE_WALL_WORLD}
+      />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
