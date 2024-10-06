@@ -48,7 +48,7 @@ const BaseProduct = styled.div`
 
 const Title = styled.div`
   font-size: 1.25rem;
-  height: 20px;
+  height: 22px;
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -100,7 +100,7 @@ const ImageContainer = styled.div`
   }
   ${CountTag} {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     margin: 8px;
     z-index: 1;
@@ -154,6 +154,7 @@ const Count = styled.span`
 
 const PrizeTag = styled.div`
   font-size: 0.95rem;
+  position: relative;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -167,6 +168,7 @@ const PrizeTag = styled.div`
   min-width: 2.5rem;
   min-height: 6.85rem;
   padding: 0.9375rem 0.5rem 2.1875rem;
+  padding: 0 0.5rem;
   flex: 0;
   color: #000;
   text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
@@ -176,18 +178,26 @@ const PrizeTag = styled.div`
     flex-direction: column;
     display: flex;
     align-items: flex-start;
-    width: 1rem;
+    max-width: 2rem;
     font-size: 0.75rem;
+    position: absolute;
+    top: 15%;
+    max-height: 2.5rem;
+    overflow: hidden;
+    ${(p) => p.length <= 3 && `width: 1.3rem;`}
   }
   span:last-child {
     margin-top: 5px;
+    position: absolute;
+    bottom: 29%;
+    font-size: 0.75rem;
   }
 `
 
 const PrizeTagContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 16px;
+  margin-top: 8px;
   color: #fff;
   overflow-x: auto;
   min-height: 6.85rem;
@@ -247,9 +257,11 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         <PrizeTagContainer>
           {prizesOfCommodity.map((p) => {
             const prizeInfo = PRIZE_LEVEL[p.prizeLevel]
+            const name = !isUsePrizeName ? p.prizeName : prizeInfo.name
+
             return (
-              <PrizeTag key={p.id}>
-                <span>{!isUsePrizeName ? p.prizeName : prizeInfo.name}</span>
+              <PrizeTag key={p.id} length={name.length}>
+                <span>{name}</span>
                 <span>{p.amount}</span>
               </PrizeTag>
             )

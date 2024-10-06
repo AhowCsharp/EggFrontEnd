@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Tag from '@app/shared/tag'
+import Price from './price'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -29,7 +30,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.25rem;
-  height: 20px;
+  height: 22px;
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -68,16 +69,23 @@ const InfoContainer = styled.div`
 const TagContainer = styled.div`
   display: flex;
   width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  .tag {
+    margin: 0;
+  }
 `
 
 export default function Commodity({ data, handleClick }) {
   const {
     imgUrl,
     name,
-    totalDrawOutTimes,
+    drawOut1Price,
     manufacturerName,
     manufacturerId,
     discount,
+    category,
   } = data
   return (
     <Container onClick={handleClick(data)} className="item">
@@ -88,6 +96,11 @@ export default function Commodity({ data, handleClick }) {
       <InfoContainer>
         <Title>{name}</Title>
         <TagContainer>
+          <Price
+            category={category}
+            drawOut1Price={drawOut1Price}
+            discount={discount}
+          />
           <Tag name={manufacturerName} id={manufacturerId} />
         </TagContainer>
       </InfoContainer>

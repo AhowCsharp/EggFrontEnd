@@ -9,8 +9,7 @@ const Container = styled.div`
     p.color || p.theme.tagColor[p.id] || p.theme.tagColor.others};
   line-height: 24px;
   max-height: 30px;
-  //todo
-  /* max-width: 105px; */
+  max-width: 130px;
   text-align: center;
   font-size: 0.875rem;
   overflow: hidden;

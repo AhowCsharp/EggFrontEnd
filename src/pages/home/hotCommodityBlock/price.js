@@ -3,13 +3,10 @@ import DollarSign from '@app/shared/dollarSign'
 import { CATEGORY } from '@app/utils/constants'
 
 const BasePrice = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
   margin: 8px;
   z-index: 1;
-  color: ${(p) => p.theme.color.orange};
-  font-size: 2rem;
+  color: #000;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
 `
@@ -20,9 +17,10 @@ const DiscountPrice = styled(BasePrice)`
   font-weight: normal;
   span {
     text-decoration: line-through;
+    color: #565656;
     &.discount {
-      color: ${(p) => p.theme.color.orange};
-      font-size: 2rem;
+      color: #000;
+      font-size: 1.5rem;
       font-weight: 700;
       text-decoration: none;
       margin-left: 5px;

@@ -51,7 +51,6 @@ const Container = styled.div`
   align-items: center;
   padding: 10px 0;
   margin: 1rem 0;
-  flex-wrap: wrap;
   margin-top: -20px;
   min-height: 150px;
   .item + .item {
