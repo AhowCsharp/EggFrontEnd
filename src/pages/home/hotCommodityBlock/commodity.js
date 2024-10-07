@@ -72,6 +72,7 @@ const TagContainer = styled.div`
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
+  margin-top: 10px;
   .tag {
     margin: 0;
   }

@@ -3,7 +3,7 @@ import DollarSign from '@app/shared/dollarSign'
 import { CATEGORY } from '@app/utils/constants'
 
 const BasePrice = styled.div`
-  margin: 8px;
+  margin-right: 8px;
   z-index: 1;
   color: #000;
   font-size: 1.5rem;

@@ -12,6 +12,7 @@ const BaseButton = styled.div`
   border-radius: 4px;
   color: #fff;
   font-size: 1rem !important;
+  word-break: keep-all;
   img {
     width: 1.2rem !important;
     height: 1.2rem !important;

@@ -27,8 +27,8 @@ const Setting = {
   [CATEGORY.ICHIBAN]: { width: '10%' },
 }
 const MobileSetting = {
-  [CATEGORY.DIGITAL_WORLD]: { width: '15%', bottom: '20%' },
-  [CATEGORY.OUTSIDE_WALL_WORLD]: { width: '15%', bottom: '20%' },
+  [CATEGORY.DIGITAL_WORLD]: { width: '15%', bottom: '22%' },
+  [CATEGORY.OUTSIDE_WALL_WORLD]: { width: '15%', bottom: '22%' },
   [CATEGORY.SPECIAL]: { width: '15%' },
   [CATEGORY.ICHIBAN]: { width: '15%' },
 }
@@ -48,7 +48,7 @@ const Header = styled.div`
     left: 50%;
     bottom: ${(p) => p.setting?.bottom || '17%'};
     transform: translate(-50%, 0);
-    width: ${(p) => p.setting?.width || '11%'};
+    width: ${(p) => p.setting?.width || '7%'};
   }
   @media (max-width: 768px) {
     img:last-child {
