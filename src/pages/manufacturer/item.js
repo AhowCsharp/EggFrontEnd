@@ -155,9 +155,20 @@ const Tag = styled.span`
   margin: 4px 4px 0 0;
 `;
 
+// 定義 ThresholdTag 樣式組件
+const ThresholdTag = styled.span`
+  display: inline-block;
+  background-color: #f0f0f0; /* 灰色背景 */
+  color: #000; /* 黑色文字 */
+  padding: 2px 6px; /* 內邊距 */
+  border-radius: 4px; /* 圓角 */
+  font-size: 0.75rem; /* 字體大小 */
+  margin: 4px 4px 0 0; /* 外邊距，避免標籤之間過於擁擠 */
+`;
+
 // Product 元件
 export default function Product({ data, handleClick }) {
-  const { logoUrl, name, mobileNumber, address, officialWebsite, major } = data;
+  const { logoUrl, name, mobileNumber, address, officialWebsite, major, lotteryTicketThreshold, transportTicketThreshold } = data;
 
   // 將 major 字串以 '、' 分割成陣列
   const majorTags = major ? major.split('、') : [];
@@ -165,6 +176,18 @@ export default function Product({ data, handleClick }) {
   // 隨機選擇顏色
   const getRandomColor = () => {
     return tagColors[Math.floor(Math.random() * tagColors.length)];
+  };
+
+  // 複製到剪貼簿的函數（如需可擴展）
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        // 可選：顯示複製成功的提示
+        console.log('Copied to clipboard:', text);
+      })
+      .catch((err) => {
+        console.error('Could not copy text: ', err);
+      });
   };
 
   return (
@@ -188,7 +211,20 @@ export default function Product({ data, handleClick }) {
           <FontAwesomeIcon icon={faLocationDot} />
           <span>{address}</span>
         </Info>
-        {/* 新增「專營領域」區塊 */}
+        {(lotteryTicketThreshold > 0 || transportTicketThreshold > 0) && (
+          <Info>
+            {lotteryTicketThreshold > 0 && (
+              <ThresholdTag>
+                消費滿 {lotteryTicketThreshold} 送抽獎券
+              </ThresholdTag>
+            )}
+            {transportTicketThreshold > 0 && (
+              <ThresholdTag>
+                消費滿 {transportTicketThreshold} 送免運券
+              </ThresholdTag>
+            )}
+          </Info>
+        )}
         {majorTags.length > 0 && (
           <Info>
             <strong>領域展開：</strong>
