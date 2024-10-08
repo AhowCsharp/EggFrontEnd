@@ -63,7 +63,7 @@ export default function TaskLog() {
           <Column title="任務名稱" dataIndex="taskTitle" key="taskTitle" />
           <Column title="獎勵內容" dataIndex="award" key="award" />
           <Column
-            title="回收時間"
+            title="達成時間"
             key="completingTime"
             dataIndex="completingTime"
             render={renderDate}
