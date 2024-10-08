@@ -15,6 +15,7 @@ import Member from './member'
 import TopUp from './topUp'
 import TopUpResult from './topUpResult'
 import FreeshippingTicketLog from './freeshippingTicketLog'
+import StoredLog from './storedLog'
 
 const Nav = styled.div`
   width: 180px;
@@ -86,6 +87,11 @@ const navList = [
   { title: '會員管理', src: profileIcon.member, type: PROFILE_TAB.MEMBER },
   { title: '金幣儲值', src: profileIcon.topUp, type: PROFILE_TAB.TOP_UP },
   {
+    title: '儲值紀錄',
+    src: profileIcon.consumeLog,
+    type: PROFILE_TAB.STORED_LOG,
+  },
+  {
     title: '消費紀錄',
     src: profileIcon.consumeLog,
     type: PROFILE_TAB.CONSUME_LOG,
@@ -155,6 +161,8 @@ export default function Profile() {
         return <PendingPrizes />
       case PROFILE_TAB.RECLAIM_LOG:
         return <ReclaimLog />
+      case PROFILE_TAB.STORED_LOG:
+        return <StoredLog />
       case PROFILE_TAB.SHIP_LOG:
         return <ShipLog />
       case PROFILE_TAB.TICKETS:
