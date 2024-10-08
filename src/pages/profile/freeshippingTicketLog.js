@@ -64,7 +64,6 @@ export default function freeshippingTicketLog() {
           <Column title="消費門檻" dataIndex="threshold" key="threshold" />
           <Column title="免運序號" dataIndex="freeShippingNo" key="freeShippingNo" />
           <Column title="訂單編號" dataIndex="orderId" key="orderId" />
-          <Column title="訂單編號" dataIndex="orderId" key="orderId" />
           <Column title="免運金額" dataIndex="shippingCost" key="shippingCost" />
           <Column
             title="取得時間"
