@@ -18,6 +18,7 @@ export const PROFILE_TAB = {
   PENDING_PRIZES: 'pendingPrizes',
   STORED_LOG: 'stordLogs',
   FREE_SHIPPING: 'freeshippingLogs',
+  TASK_HISTORY: 'taskHistory',
   RECLAIM_LOG: 'reclaimLog',
   SHIP_LOG: 'shipLog',
   TICKETS: 'tickets',

@@ -217,6 +217,9 @@ export default class DataStore {
   freeshipping = undefined
 
   @observable
+  taskHistoryLogs= undefined
+
+  @observable
   shipLog = undefined
 
   @observable
@@ -386,6 +389,24 @@ export default class DataStore {
       console.log('freeshipping failed', e, msg)
     }
   }
+
+  @flow
+  *getTaskHistoryLogs(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getHistoryTaskLogs(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.taskHistoryLogs = { data, totalCount }
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `取得失敗，${msg}`
+      console.log('freeshipping failed', e, msg)
+    }
+  }
+
   @flow
   *getStoredLogs(req) {
     try {

@@ -73,6 +73,11 @@ export const getFreeshippingticketLogs = async (req, token) => {
   return res
 }
 
+export const getHistoryTaskLogs = async (req, token) => {
+  const res = await Request.get('/taskhistory').bearer(token).params(req)
+  return res
+}
+
 export const getStoredLogs = async (req, token) => {
   const res = await Request.get('/stored').bearer(token).params(req)
   return res
