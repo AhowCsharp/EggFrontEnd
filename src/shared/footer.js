@@ -139,14 +139,16 @@ export default function Footer() {
           <Logo />
         </LogoContainer>
         <Content>
-          <p>歡迎加入官方LINE好友</p>
-          <p>第一手掌握訂單、新品、優惠消息☝️真的很強的LineBot服務😍</p>
           <p>官方LINE：@lucky.egg</p>
           <p>客服LINE：only.egg.club</p>
           <p>客服信箱：onlyeggisreal@gmail.com</p>
           <p>公司名稱：尊嘟假嘟工作室</p>
           <p>統一編號：91214848</p>
-          <p>合作邀約、疑難雜症請洽客服LINE</p>
+          <p>合作邀約、疑難雜症請洽客服LINE💘</p>
+          <p>歡迎加入官方LINE好友💯</p>
+          <p>第一手掌握訂單、新品、優惠消息☝️</p>
+          <p>真的很強的LineBot服務😍沒騙你🈹</p>
+
         </Content>
       </LeftContainer>
       <RightWording>© 2024 剩蛋快樂-扭蛋所 版權所有</RightWording>
