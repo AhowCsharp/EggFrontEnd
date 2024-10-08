@@ -8,6 +8,10 @@ export function formatDate(date) {
   return dayjs(date).format('YYYY/MM/DD HH:mm')
 }
 
+export function formatDateToYmd(date) {
+  return dayjs(date).format('YYYY/MM/DD')
+}
+
 export function renderDate(date) {
   return date ? dayjs(date).format('YYYY/MM/DD HH:mm') : ''
 }

@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import newArrivalsImg from '@app/static/new-arrivals.png'
 import Button from '@app/shared/products/button'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
+import CampaignBlock from './campaignBlock/index'
 
 const ImageContainer = styled.div`
   overflow: hidden;
@@ -90,6 +91,7 @@ const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
 export default function Home() {
   const commodities = useSelector(() => dataStore.commodities)
   const newAds = useSelector(() => dataStore.newAds)
+  const news = useSelector(() => dataStore.news)
   const hotAds = useSelector(() => dataStore.hotAds)
   const goto = useNavigate()
 
@@ -133,6 +135,7 @@ export default function Home() {
         </Carousel>
       ) : null}
       <Layout>
+        <CampaignBlock data={news} />
         <HotCommodityBlock data={hotAds} />
         <Header>
           <div className="block">

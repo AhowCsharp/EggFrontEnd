@@ -18,6 +18,7 @@ const paths = {
   rankList: '/rank-list',
   manufacturer: '/manufacturer',
   commodity: '/commodity/:commodityId',
+  campaign: '/campaign/:campaignId',
   others: '/*',
 }
 
@@ -40,7 +41,6 @@ export const breadCrumbs = {
 
 export const url = Object.keys(paths).reduce((obj, key) => {
   obj[key] = (params) => generatePath(paths[key], params)
-  console.log(obj)
   return obj
 }, {})
 

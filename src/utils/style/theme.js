@@ -8,6 +8,7 @@ const theme = {
     dialogBorder: '#aaa',
     mask: 'rgba(0, 0, 0, 0.8)',
     danmakuMask: 'rgba(0, 0, 0, 0.6)',
+    desc: 'rgba(0, 0, 0, 0.72)',
     warning: '#a80502',
     defaultPrizeTag: '#06b9d4',
     gray: '#999',

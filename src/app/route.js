@@ -26,6 +26,7 @@ const Register = lazy(() => import('@app/pages/register'))
 const SignIn = lazy(() => import('@app/pages/signIn'))
 const Commodity = lazy(() => import('@app/pages/commodity'))
 const RankList = lazy(() => import('@app/pages/rankList'))
+const Campaign = lazy(() => import('@app/pages/campaign'))
 const Manufacturer = lazy(() => import('@app/pages/manufacturer'))
 const NotFoundPage = lazy(() => import('@app/pages/notFound'))
 
@@ -93,7 +94,7 @@ function AppRoute() {
             <Wrapper>
               <Main>
                 <MobileViewController>
-                  <Suspense fallback={<Spinner />}>                
+                  <Suspense fallback={<Spinner />}>
                     <Routes>
                       <Route path={paths.index} element={<Home />} />
                       <Route path={paths.login} element={<Login />} />
@@ -115,6 +116,7 @@ function AppRoute() {
                       <Route path={paths.luckyBag} element={<LuckyBag />} />
                       <Route path={paths.commodity} element={<Commodity />} />
                       <Route path={paths.rankList} element={<RankList />} />
+                      <Route path={paths.campaign} element={<Campaign />} />
                       <Route
                         path={paths.manufacturer}
                         element={<Manufacturer />}
