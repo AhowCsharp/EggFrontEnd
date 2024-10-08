@@ -22,7 +22,7 @@ export default function Tag({ name, id }) {
   const manufacturerColors = useSelector(() => dataStore.manufacturerColors)
 
   return (
-    <Container color={manufacturerColors[id]} id={id} className="tag">
+    <Container color={manufacturerColors?.[id]} id={id} className="tag">
       {name}
     </Container>
   )

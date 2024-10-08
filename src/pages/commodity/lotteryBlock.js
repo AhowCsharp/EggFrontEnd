@@ -6,14 +6,19 @@ import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
 
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
+const DisplayMode = {
+  Default: 0,
+  Pagination: 1,
+  Simple: 2,
+}
 const LotteryContainer = styled.div`
-  padding: 0 60px;
+  margin: 0 60px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
   @media (max-width: 768px) {
-    padding: 0 20px;
+    margin: 0 20px;
   }
 `
 
@@ -72,6 +77,20 @@ const BaseLottery = styled.div`
   }
 `
 
+const SimpleLottery = styled.div`
+  width: calc(16.666% - 4px);
+  margin: 10px 4px;
+  cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
+  background-color: ${(p) => {
+    if (!p.enableDrawOut) return p.theme.color.gray
+    return p.isSelected ? p.theme.color.orange : '#000'
+  }};
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px;
+  color: #fff;
+`
+
 export default function LotteryBlock({
   prizes,
   enableDrawOut,
@@ -81,15 +100,16 @@ export default function LotteryBlock({
   category,
 }) {
   const [page, setPage] = useState(1)
+  const [displayMode, setDisplayMode] = useState(DisplayMode.Simple)
   const [data, setData] = useState([])
   const lotteryImg = lotteryImgs[category] || lotteryImgs.default
   useEffect(() => {
     setData(prizes.slice((page - 1) * PageSize, page * PageSize))
   }, [prizes, page])
-
+  const isSimple = displayMode === DisplayMode.Simple
   return (
     <>
-      <LotteryContainer id="lottery">
+      <LotteryContainer id="lottery" isSimple={isSimple}>
         {data.map((p, i) => {
           const index = (page - 1) * PageSize + i
           if (!p)
@@ -102,14 +122,25 @@ export default function LotteryBlock({
                 enableDrawOut={enableDrawOut}
                 onClick={handleSelectPrize}
                 isSelected={selectedPrizes.includes(index)}
+                isSimple={isSimple}
               />
             )
 
           const src = lotteryImg.done[p?.prizeLevel] && lotteryImg.done
-          return <Lottery key={index} index={index} src={src} isDone={true} />
+          return (
+            <Lottery
+              key={index}
+              index={index}
+              src={src}
+              isDone={true}
+              isSimple={isSimple}
+            />
+          )
         })}
       </LotteryContainer>
-      <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
+      {displayMode === DisplayMode.Pagination && (
+        <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
+      )}
     </>
   )
   function handleSelectPrize(index) {
@@ -137,8 +168,20 @@ function Lottery({
   isSelected,
   isDone = false,
   hover,
+  isSimple,
 }) {
   const gifRef = useRef(null)
+  if (isSimple) {
+    return (
+      <SimpleLottery
+        enableDrawOut={enableDrawOut}
+        onClick={handleClick}
+        isSelected={isSelected}
+      >
+        {index + 1}
+      </SimpleLottery>
+    )
+  }
   return (
     <BaseLottery
       enableDrawOut={enableDrawOut}
