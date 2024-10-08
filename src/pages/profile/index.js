@@ -14,6 +14,7 @@ import ConsumeLog from './consumeLog'
 import Member from './member'
 import TopUp from './topUp'
 import TopUpResult from './topUpResult'
+import FreeshippingTicketLog from './freeshippingTicketLog'
 
 const Nav = styled.div`
   width: 180px;
@@ -100,7 +101,12 @@ const navList = [
     type: PROFILE_TAB.RECLAIM_LOG,
   },
   { title: '配送紀錄', src: profileIcon.shipLog, type: PROFILE_TAB.SHIP_LOG },
-  { title: '優惠查詢', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },
+  {
+    title: '免運券紀錄',
+    src: profileIcon.reclaimLog,
+    type: PROFILE_TAB.FREE_SHIPPING,
+  },
+  { title: '抽獎券查詢', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },
 ]
 
 export default function Profile() {
@@ -155,6 +161,8 @@ export default function Profile() {
         return <Tickets />
       case PROFILE_TAB.TOP_UP:
         return <TopUp />
+      case PROFILE_TAB.FREE_SHIPPING:
+        return <FreeshippingTicketLog />
       case PROFILE_TAB.TOP_UP_RESULT:
         return (
           <TopUpResult

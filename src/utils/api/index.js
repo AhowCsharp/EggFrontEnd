@@ -68,6 +68,11 @@ export const getReclaimLog = async (req, token) => {
   return res
 }
 
+export const getFreeshippingticketLogs = async (req, token) => {
+  const res = await Request.get('/freeshippingtickets').bearer(token).params(req)
+  return res
+}
+
 export const getShipLog = async (req, token) => {
   const res = await Request.get('/shippingorders').bearer(token).params(req)
   return res

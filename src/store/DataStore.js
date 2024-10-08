@@ -211,6 +211,9 @@ export default class DataStore {
   reclaimLog = undefined
 
   @observable
+  freeshipping = undefined
+
+  @observable
   shipLog = undefined
 
   @observable
@@ -361,6 +364,23 @@ export default class DataStore {
       const msg = e.response?.data
       this.alertMessage = `回收失敗，${msg}`
       console.log('reclaim failed', e, msg)
+    }
+  }
+
+  @flow
+  *getFreeshippingticketLogs(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getFreeshippingticketLogs(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.freeshippingTicketLogs = { data, totalCount }
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `取得失敗，${msg}`
+      console.log('freeshipping failed', e, msg)
     }
   }
 

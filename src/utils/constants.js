@@ -16,6 +16,7 @@ export const PROFILE_TAB = {
   MEMBER: 'member',
   CONSUME_LOG: 'consumeLog',
   PENDING_PRIZES: 'pendingPrizes',
+  FREE_SHIPPING: 'freeshippingLogs',
   RECLAIM_LOG: 'reclaimLog',
   SHIP_LOG: 'shipLog',
   TICKETS: 'tickets',
