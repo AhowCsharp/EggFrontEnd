@@ -571,13 +571,21 @@ export default class DataStore {
 
   // Manufacturers
   @observable.ref
-  manufacturers = undefined;
+  manufacturers = undefined
+
+  @observable.ref
+  manufacturerColors = undefined;
 
   @flow
   *getManufacturers() {
     const res = yield Api.getManufacturers()
     if (!res) return
     this.manufacturers = res.source
+  }
+
+  @action
+  setManufacturerColors(colors) {
+    this.manufacturerColors = colors
   }
 
   // Edit Member

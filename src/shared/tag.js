@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useSelector, dataStore } from '@app/store'
 
 const Container = styled.div`
   border-radius: 4px;
@@ -17,9 +18,11 @@ const Container = styled.div`
   white-space: nowrap;
 `
 
-export default function Tag({ name, id, color }) {
+export default function Tag({ name, id }) {
+  const manufacturerColors = useSelector(() => dataStore.manufacturerColors)
+
   return (
-    <Container color={color} id={id} className="tag">
+    <Container color={manufacturerColors[id]} id={id} className="tag">
       {name}
     </Container>
   )

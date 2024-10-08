@@ -29,8 +29,8 @@ export default function Manufacturer() {
   const manufacturer = searchParams.get('manufacturer')
 
   useEffect(() => {
-    dataStore.getManufacturers()
-  }, [])
+    if (!manufacturers) dataStore.getManufacturers()
+  }, [manufacturers])
 
   if (!manufacturers) return <Layout />
   if (manufacturer) return <Commodities manufacturerName={manufacturer} />

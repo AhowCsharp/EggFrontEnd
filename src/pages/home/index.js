@@ -14,6 +14,7 @@ import { url } from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
 import newArrivalsImg from '@app/static/new-arrivals.png'
 import Button from '@app/shared/products/button'
+import useRandomColors from '@app/utils/hooks/useRandomColors'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 
@@ -93,7 +94,13 @@ export default function Home() {
   const newAds = useSelector(() => dataStore.newAds)
   const news = useSelector(() => dataStore.news)
   const hotAds = useSelector(() => dataStore.hotAds)
+  const manufacturers = useSelector(() => dataStore.manufacturers)
   const goto = useNavigate()
+  const manufacturerColors = useRandomColors(manufacturers, 'id')
+
+  useEffect(() => {
+    dataStore.setManufacturerColors(manufacturerColors)
+  }, [manufacturerColors])
 
   useEffect(() => {
     const req = {
@@ -104,6 +111,7 @@ export default function Home() {
     dataStore.getCommodities(req)
     dataStore.getAds()
     dataStore.recordVisitCount()
+    dataStore.getManufacturers()
   }, [])
 
   return (
