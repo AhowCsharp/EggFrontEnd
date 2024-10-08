@@ -103,7 +103,10 @@ export default class DataStore {
     const res = yield Api.getAds()
     if (res) {
       this.newAds = res.source.newCommodities
-      this.hotAds = res.source.hotsCommodities
+      this.hotAds = res.source.hotsCommodities.map((c, i) => ({
+        ...c,
+        index: i + 1,
+      }))
       this.news = res.source.news
     }
     this.isLoading = false

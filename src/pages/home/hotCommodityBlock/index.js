@@ -8,6 +8,7 @@ import {
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
 
 const ArrowButton = styled.div`
   width: 24px;
@@ -63,7 +64,16 @@ const Container = styled.div`
 
 export default function HotCommodityBlock({ data }) {
   const goto = useNavigate()
+  const pageSize = 4
+  const pageCount = Math.ceil(data.length / pageSize)
+  const [page, setPage] = useState(1)
+  const [showData, setShowData] = useState([])
 
+  useEffect(() => {
+    setShowData(data.slice((page - 1) * pageSize, page * pageSize))
+  }, [data, page])
+
+  if (!data || !data?.length) return null
   return (
     <>
       <Header>
@@ -72,21 +82,25 @@ export default function HotCommodityBlock({ data }) {
           熱銷商品
         </div>
         <div className="block">
-          <ArrowButton disabled>
+          <ArrowButton
+            disabled={page === 1}
+            onClick={() => setPage(() => page - 1)}
+          >
             <FontAwesomeIcon icon={faChevronLeft} />
           </ArrowButton>
-          <ArrowButton>
+          <ArrowButton
+            disabled={page === pageCount}
+            onClick={() => setPage(() => page + 1)}
+          >
             <FontAwesomeIcon icon={faChevronRight} />
           </ArrowButton>
         </div>
       </Header>
-      {data && data.length ? (
-        <Container>
-          {data.map((p, index) => (
-            <Commodity key={index} data={p} handleClick={handleClick} />
-          ))}
-        </Container>
-      ) : null}
+      <Container>
+        {showData.map((p, index) => (
+          <Commodity key={index} data={p} handleClick={handleClick} />
+        ))}
+      </Container>
     </>
   )
   function handleClick(data) {

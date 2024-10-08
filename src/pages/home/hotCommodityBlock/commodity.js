@@ -46,6 +46,14 @@ const SaleTag = styled.div`
   font-weight: 600;
 `
 
+const BaseRankTag = styled.div`
+  background: ${(p) => (p.isHighLight ? p.theme.color.red : '#081324')};
+  border-radius: 1rem;
+  color: #fff;
+  padding: 4px 16px;
+  margin: 10px;
+`
+
 const ImageContainer = styled.div`
   height: 280px;
   overflow: hidden;
@@ -55,6 +63,12 @@ const ImageContainer = styled.div`
     position: absolute;
     top: 0;
     right: 16px;
+  }
+  ${BaseRankTag} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.25rem;
   }
 `
 
@@ -87,12 +101,14 @@ export default function Commodity({ data, handleClick }) {
     manufacturerId,
     discount,
     category,
+    index,
   } = data
   return (
     <Container onClick={handleClick(data)} className="item">
       <ImageContainer>
         <Image src={imgUrl} />
         {!!discount && <SaleTag>{discount} 折</SaleTag>}
+        <RankTag rank={index} />
       </ImageContainer>
       <InfoContainer>
         <Title>{name}</Title>
@@ -107,4 +123,8 @@ export default function Commodity({ data, handleClick }) {
       </InfoContainer>
     </Container>
   )
+}
+function RankTag({ rank }) {
+  if (rank > 10) return
+  return <BaseRankTag isHighLight={rank <= 3}>NO {rank}.</BaseRankTag>
 }
