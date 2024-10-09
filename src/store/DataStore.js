@@ -217,10 +217,10 @@ export default class DataStore {
   storedLogs = undefined
 
   @observable
-  freeshipping = undefined
+  freeshippingTicketLogs = undefined
 
   @observable
-  taskHistoryLogs= undefined
+  taskHistoryLogs = undefined
 
   @observable
   shipLog = undefined

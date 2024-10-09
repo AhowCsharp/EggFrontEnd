@@ -83,6 +83,9 @@ export const Content = styled.div`
     padding: 8px !important;
     min-width: 50px;
   }
+  .tag {
+    margin: 0;
+  }
 `
 
 const navList = [

@@ -219,6 +219,9 @@ function ShipDialogForm({ form }) {
       >
         <Input />
       </Form.Item>
+      <Form.Item label="免運券序號" name="freeshippingNo">
+        <Input />
+      </Form.Item>
       <Form.Item label="備註" name="memo">
         <Input.TextArea />
       </Form.Item>
