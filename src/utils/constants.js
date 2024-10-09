@@ -20,6 +20,7 @@ export const PROFILE_TAB = {
   FREE_SHIPPING: 'freeshippingLogs',
   TASK_HISTORY: 'taskHistory',
   RECLAIM_LOG: 'reclaimLog',
+  CRATE_LOG: 'crateLog',
   SHIP_LOG: 'shipLog',
   TICKETS: 'tickets',
   TOP_UP: 'topUp',

@@ -78,6 +78,11 @@ export const getHistoryTaskLogs = async (req, token) => {
   return res
 }
 
+export const getCrateLogs = async (req, token) => {
+  const res = await Request.get('/crateandkey').bearer(token).params(req)
+  return res
+}
+
 export const getStoredLogs = async (req, token) => {
   const res = await Request.get('/stored').bearer(token).params(req)
   return res
@@ -90,6 +95,11 @@ export const getShipLog = async (req, token) => {
 
 export const reclaim = async (req, token) => {
   const res = await Request.post('/reclaim').bearer(token).body(req)
+  return res
+}
+
+export const openCrate = async (req, token) => {
+  const res = await Request.post('/open').bearer(token).body(req)
   return res
 }
 

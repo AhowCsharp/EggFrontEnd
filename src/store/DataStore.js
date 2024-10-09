@@ -211,6 +211,9 @@ export default class DataStore {
   reclaimLog = undefined
 
   @observable
+  crateLogs = undefined
+
+  @observable
   storedLogs = undefined
 
   @observable
@@ -343,6 +346,32 @@ export default class DataStore {
       if (!res) return
       const { source: data, totalItemCount: totalCount } = res
       this.reclaimLog = { data, totalCount }
+    }
+  }
+
+  @flow
+  *getCrateLogs(req) {
+    const token = getToken()
+    if (token) {
+      const res = yield Api.getCrateLogs(req, token)
+      if (!res) return
+      const { source: data, totalItemCount: totalCount } = res
+      this.crateLogs = { data, totalCount }
+    }
+  }
+
+  @flow
+  *openCrate(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        yield Api.openCrate(req, token)
+        this.alertMessage = '開箱成功'
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `開箱失敗，${msg}`
+      console.log('reclaim failed', e, msg)
     }
   }
 
