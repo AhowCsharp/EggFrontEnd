@@ -4,10 +4,10 @@ import { useEffect } from 'react'
 import { Container, ButtonContainer } from '../tabStyle'
 import { Content } from '../index'
 
-const isDev = process.env.NODE_ENV !== 'production'
-const APP_ID = 149631
+const isDev = true // process.env.NODE_ENV !== 'production'
+const APP_ID = 154437
 const APP_KEY =
-  'app_wR6OJ6ZaJ57avxC2DtMB5Y92SykYTnKp6mqWtBLqMUJontaYT7k9u8iXlmOJ'
+  'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
 
 const TapPayContainer = styled.div`
   padding: 10px;

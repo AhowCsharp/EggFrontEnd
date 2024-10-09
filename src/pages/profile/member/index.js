@@ -132,7 +132,8 @@ export default function Member() {
           {memberDisplayInfos?.map((item) => item)}
         </Descriptions>
         <EditMember member={member} />
-        <EditPassword />
+        {member.lineUserId == null ? <EditPassword /> : null}
+        
       </Container>
     </Content>
   )

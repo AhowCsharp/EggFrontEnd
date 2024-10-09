@@ -1,1 +1,1 @@
-export const MANUFACTURER_ID = 148
+export const MANUFACTURER_ID = 1

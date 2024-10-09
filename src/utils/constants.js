@@ -62,7 +62,7 @@ export const INCLUDE_MEMBER_COLUMNS = ['account']
 
 export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
   'referralCode',
-  'referralCodeUrl',
+  'referralCodeUrl'
 ]
 
 export const SIGN_PRIZE_TYPE = {

@@ -98,6 +98,11 @@ export const reclaim = async (req, token) => {
   return res
 }
 
+export const sendInvoice = async (req, token) => {
+  const res = await Request.post('/invoice').bearer(token).body(req)
+  return res
+}
+
 export const openCrate = async (req, token) => {
   const res = await Request.post('/open').bearer(token).body(req)
   return res

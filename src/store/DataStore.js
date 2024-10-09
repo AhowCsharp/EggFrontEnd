@@ -220,6 +220,9 @@ export default class DataStore {
   freeshippingTicketLogs = undefined
 
   @observable
+  invoiceData = undefined
+
+  @observable
   taskHistoryLogs = undefined
 
   @observable
@@ -399,6 +402,28 @@ export default class DataStore {
       const msg = e.response?.data
       this.alertMessage = `回收失敗，${msg}`
       console.log('reclaim failed', e, msg)
+    }
+  }
+  @flow
+  *setInvoiceData(data) {
+    this.invoiceData = data;
+  }
+  @flow
+  *getInvoiceData() {
+    return this.invoiceData;
+  }
+
+  @flow
+  *sendInvoice(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        yield Api.sendInvoice(req, token)
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `寄送失敗，${msg}`
+      console.log('sendInvoice failed', e, msg)
     }
   }
 
