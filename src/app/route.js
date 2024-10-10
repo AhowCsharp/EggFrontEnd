@@ -11,6 +11,7 @@ import Header from '@app/shared/header'
 import Footer from '@app/shared/footer'
 import Home from '@app/pages/home'
 import Danmaku from '@app/shared/danmaku'
+import { InvoiceProvider } from '../pages/profile/topUp/InvoiceContext'
 
 const Login = lazy(() => import('@app/pages/login'))
 const Profile = lazy(() => import('@app/pages/profile'))
@@ -83,49 +84,51 @@ const ContainerHeader = styled.div`
 function AppRoute() {
   return (
     <>
-      <Danmaku />
-      <GlobalStyle />
-      <BrowserRouter>
-        <SiteContainer id="app-container">
-          <Header id="header" />
-          <Wrapper>
-            <Main>
-              <MobileViewController>
-                <Suspense fallback={<Spinner />}>                
-                  <Routes>
-                    <Route path={paths.index} element={<Home />} />
-                    <Route path={paths.login} element={<Login />} />
-                    <Route path={paths.register} element={<Register />} />
-                    <Route path={paths.profile} element={<Profile />} />
-                    <Route path={paths.signIn} element={<SignIn />} />
-                    <Route path={paths.gacha} element={<Gacha />} />
-                    <Route path={paths.blindBox} element={<BlindBox />} />
-                    <Route path={paths.ichiban} element={<Ichiban />} />
-                    <Route path={paths.special} element={<Special />} />
-                    <Route
-                      path={paths.outsideWallWorld}
-                      element={<OutsideWallWorld />}
-                    />
-                    <Route
-                      path={paths.digitalWorld}
-                      element={<DigitalWorld />}
-                    />
-                    <Route path={paths.luckyBag} element={<LuckyBag />} />
-                    <Route path={paths.commodity} element={<Commodity />} />
-                    <Route path={paths.rankList} element={<RankList />} />
-                    <Route
-                      path={paths.manufacturer}
-                      element={<Manufacturer />}
-                    />
-                    <Route path={paths.others} element={<NotFoundPage />} />
-                  </Routes>
-                </Suspense>
-              </MobileViewController>
-            </Main>
-          </Wrapper>
-          <Footer />
-        </SiteContainer>
-      </BrowserRouter>
+      <InvoiceProvider>
+        <Danmaku />
+        <GlobalStyle />
+        <BrowserRouter>
+          <SiteContainer id="app-container">
+            <Header id="header" />
+            <Wrapper>
+              <Main>
+                <MobileViewController>
+                  <Suspense fallback={<Spinner />}>                
+                    <Routes>
+                      <Route path={paths.index} element={<Home />} />
+                      <Route path={paths.login} element={<Login />} />
+                      <Route path={paths.register} element={<Register />} />
+                      <Route path={paths.profile} element={<Profile />} />
+                      <Route path={paths.signIn} element={<SignIn />} />
+                      <Route path={paths.gacha} element={<Gacha />} />
+                      <Route path={paths.blindBox} element={<BlindBox />} />
+                      <Route path={paths.ichiban} element={<Ichiban />} />
+                      <Route path={paths.special} element={<Special />} />
+                      <Route
+                        path={paths.outsideWallWorld}
+                        element={<OutsideWallWorld />}
+                      />
+                      <Route
+                        path={paths.digitalWorld}
+                        element={<DigitalWorld />}
+                      />
+                      <Route path={paths.luckyBag} element={<LuckyBag />} />
+                      <Route path={paths.commodity} element={<Commodity />} />
+                      <Route path={paths.rankList} element={<RankList />} />
+                      <Route
+                        path={paths.manufacturer}
+                        element={<Manufacturer />}
+                      />
+                      <Route path={paths.others} element={<NotFoundPage />} />
+                    </Routes>
+                  </Suspense>
+                </MobileViewController>
+              </Main>
+            </Wrapper>
+            <Footer />
+          </SiteContainer>
+        </BrowserRouter>
+      </InvoiceProvider>
     </>
   )
 }

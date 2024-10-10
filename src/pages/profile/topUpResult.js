@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { DrawOutBtn as Button } from '@app/pages/commodity';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { dataStore, useSelector } from '@app/store/index';
 import { TOP_UP_RESULT, TOP_UP_RESULT_LOCALE } from '@app/utils/constants';
 import { Container, ButtonContainer } from './tabStyle';
@@ -15,13 +15,12 @@ const Title = styled.div`
 
 export default function TopUpResult({ result, goBack,rec_trade_id,number,invoiceType}) {
   const topUpResult = useSelector(() => dataStore.topUpResult);
-
+  const [req, setReq] = useState({
+    rec_trade_id
+  })
   useEffect(() => {
     if (+result !== TOP_UP_RESULT.FAILED) {
-      // 獲取儲值結果
-      dataStore.getTopUpResult(rec_trade_id);
-
-      // 發送發票資訊給後端 API
+      dataStore.getTopUpResult(req);
       console.log('topUpResult:'+topUpResult);
       console.log(result);
       console.log('invoiceType'+invoiceType);
