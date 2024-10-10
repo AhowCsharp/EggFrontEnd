@@ -91,7 +91,7 @@ function AppRoute() {
           <Wrapper>
             <Main>
               <MobileViewController>
-                <Suspense fallback={<Spinner />}>
+                <Suspense fallback={<Spinner />}>                
                   <Routes>
                     <Route path={paths.index} element={<Home />} />
                     <Route path={paths.login} element={<Login />} />

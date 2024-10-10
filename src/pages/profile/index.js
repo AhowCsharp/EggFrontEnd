@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Layout from '@app/shared/layout'
 import useAuth from '@app/utils/hooks/useAuth'
 import paths from '@app/utils/paths'
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useContext } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PROFILE_TAB } from '@app/utils/constants'
 import profileIcon from '@app/static/profile'
@@ -18,6 +18,7 @@ import FreeshippingTicketLog from './freeshippingTicketLog'
 import StoredLog from './storedLog'
 import TaskLog from './taskLog'
 import CrateLog from './crateLog'
+import { InvoiceContext } from './topUp/InvoiceContext'
 
 const Nav = styled.div`
   width: 180px;
@@ -128,7 +129,13 @@ export default function Profile() {
   const [searchParams] = useSearchParams()
   const type = searchParams.get('type')
   const result = searchParams.get('result')
+  const rec_trade_id = searchParams.get('rec_trade_id')
   const [activeType, setActiveType] = useState(type || 'member')
+
+  const {
+    invoiceType,
+    number,
+  } = useContext(InvoiceContext);
 
   useEffect(() => {
     setActiveType(type)
@@ -187,6 +194,9 @@ export default function Profile() {
           <TopUpResult
             goBack={onNavClick(PROFILE_TAB.MEMBER)}
             result={result}
+            rec_trade_id={rec_trade_id}
+            number = {number}
+            invoiceType= {invoiceType}
           />
         )
       default:

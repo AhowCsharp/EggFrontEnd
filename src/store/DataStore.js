@@ -220,9 +220,6 @@ export default class DataStore {
   freeshippingTicketLogs = undefined
 
   @observable
-  invoiceData = undefined
-
-  @observable
   taskHistoryLogs = undefined
 
   @observable
@@ -403,14 +400,6 @@ export default class DataStore {
       this.alertMessage = `回收失敗，${msg}`
       console.log('reclaim failed', e, msg)
     }
-  }
-  @flow
-  *setInvoiceData(data) {
-    this.invoiceData = data;
-  }
-  @flow
-  *getInvoiceData() {
-    return this.invoiceData;
   }
 
   @flow
@@ -657,19 +646,18 @@ export default class DataStore {
   }
 
   @flow
-  *getTopUpResult() {
+  *getTopUpResult(req) {
     try {
       const token = getToken()
       if (token) {
-        const res = yield Api.getTopUpResult(token)
-
+        const res = yield Api.getTopUpResult(req,token)
         if (res && res.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
           yield this.loadMember()
           return
         }
         yield wait(5000)
-        const res2 = yield Api.getTopUpResult(token)
+        const res2 = yield Api.getTopUpResult(req,token)
         if (res2 && res2.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
           yield this.loadMember()

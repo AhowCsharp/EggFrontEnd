@@ -143,8 +143,8 @@ export const validateMember = async (token) => {
   return res
 }
 
-export const getTopUpResult = async (token) => {
-  const res = await Request.get('/topupresult').bearer(token)
+export const getTopUpResult = async (req,token) => {
+  const res = await Request.get('/topupresult').params(req).bearer(token)
   return res
 }
 

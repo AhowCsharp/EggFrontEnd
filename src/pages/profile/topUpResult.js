@@ -13,17 +13,27 @@ const Title = styled.div`
   justify-content: center;
 `;
 
-export default function TopUpResult({ result, goBack }) {
+export default function TopUpResult({ result, goBack,rec_trade_id,number,invoiceType}) {
   const topUpResult = useSelector(() => dataStore.topUpResult);
-  const invoiceData = useSelector(() => dataStore.getInvoiceData());
 
   useEffect(() => {
     if (+result !== TOP_UP_RESULT.FAILED) {
       // 獲取儲值結果
-      dataStore.getTopUpResult();
+      dataStore.getTopUpResult(rec_trade_id);
 
       // 發送發票資訊給後端 API
-      dataStore.sendInvoice(invoiceData);
+      console.log('topUpResult:'+topUpResult);
+      console.log(result);
+      console.log('invoiceType'+invoiceType);
+      console.log('number'+number);
+      console.log('rec_trade_id'+rec_trade_id);
+
+      const body = {
+          RecTracdeId : rec_trade_id,
+          InvoiceType: invoiceType,
+          Number:number
+      }
+      dataStore.sendInvoice(body);
     }
   }, [result]);
 

@@ -1,34 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Radio, Modal, Input, Select } from 'antd';
 import styled from 'styled-components';
 import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants';
 import { dataStore, useSelector } from '@app/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { faLine } from '@fortawesome/free-brands-svg-icons'; // 引入 LinePay 圖示
+import { faLine } from '@fortawesome/free-brands-svg-icons';
 import { DrawOutBtn as Button } from '@app/pages/commodity';
 import { P } from '@app/shared/infoDialog';
 import { Container, ButtonContainer } from '../tabStyle';
 import { Content } from '../index';
+import { InvoiceContext } from './InvoiceContext';
 import TapPay from './tapPay';
 
 const PayWayOptions = [
   { value: 'credit_card', label: '信用卡', icon: faCreditCard },
-  { value: 'line_pay', label: 'LINEPAY', icon: faLine }, // 新增 LINEPAY 選項
+  { value: 'line_pay', label: 'LINEPAY', icon: faLine },
 ];
 
 // 定義發票類型和選項
 const INVOICE_TYPES = [
   {
-    value: 'personal_cloud',
+    value: 1,
     label: '個人雲端發票',
-    subTypes: [
-      { value: 'mobile_barcode', label: '手機條碼載具', placeholder: '請輸入您的手機條碼載具' },
-      { value: 'citizen_certificate', label: '自然人憑證載具', placeholder: '請輸入您的自然人憑證載具' },
-    ],
+    placeholder: '請輸入您的載具號碼',
   },
   {
-    value: 'donate_invoice',
+    value: 2,
+    label: '自然人憑證',
+    placeholder: '請輸入您的自然人憑證號碼',
+  },
+  {
+    value: 3,
     label: '發票捐贈',
     donateOptions: [
       { value: '38626905', label: '社團法人臺北市毛小孩幸福聯盟協會' },
@@ -126,18 +129,18 @@ const StyledRadioGroup = styled(Radio.Group)`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* 使用 gap 屬性控制圖示和文字之間的間距 */
+    gap: 8px;
     width: 120px;
     height: 50px;
     line-height: 50px;
     text-align: center;
-    margin: 0 5px; /* 調整為左右各 5px，確保總間距為 10px */
+    margin: 0 5px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: bold;
     color: #666;
     background-color: #f5f5f5;
-    border: none; /* 移除邊框 */
+    border: none;
     transition: background-color 0.3s, color 0.3s;
   }
 
@@ -146,77 +149,66 @@ const StyledRadioGroup = styled(Radio.Group)`
     color: #fff;
   }
 
-  /* 移除 hover 時的樣式變化 */
   .ant-radio-button-wrapper:hover {
-    background-color: #f5f5f5; /* 保持原有背景色 */
-    color: #666; /* 保持原有文字顏色 */
+    background-color: #f5f5f5;
+    color: #666;
   }
 `;
 
 const StyledInvoiceRadioGroup = styled(Radio.Group)`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 
   .ant-radio-button-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 40px;
-    line-height: 40px;
+    flex: 1;
     text-align: center;
     margin: 0 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 14px;
-    font-weight: bold;
-    color: #666;
+    font-weight: 500;
+    height: 40px;
+    line-height: 38px;
     background-color: #f5f5f5;
-    border: none;
+    color: #333;
   }
 
   .ant-radio-button-wrapper-checked {
-    background-color: ${(p) => p.theme.color.topUpSelected};
+    background-color: #f98d00;
     color: #fff;
-  }
-
-  .ant-radio-button-wrapper:hover {
-    background-color: #f5f5f5;
-    color: #666;
   }
 `;
 
-const StyledCarrierRadioGroup = styled(Radio.Group)`
-  display: flex;
-  justify-content: center;
+const InvoiceSection = styled.div`
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fafafa;
+`;
+
+const InvoiceOptionLabel = styled.label`
+  display: block;
+  font-weight: bold;
   margin-bottom: 10px;
+`;
 
-  .ant-radio-button-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin: 0 5px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #666;
-    background-color: #f5f5f5;
-    border: none;
-  }
+const InvoiceInput = styled(Input)`
+  width: 100%;
+  height: 40px;
+  margin-bottom: 10px;
+`;
 
-  .ant-radio-button-wrapper-checked {
-    background-color: ${(p) => p.theme.color.topUpSelected};
-    color: #fff;
-  }
+const InvoiceSelect = styled(Select)`
+  width: 100%;
+  margin-bottom: 10px;
+`;
 
-  .ant-radio-button-wrapper:hover {
-    background-color: #f5f5f5;
-    color: #666;
-  }
+const InvoiceNote = styled.p`
+  font-size: 12px;
+  color: #888;
+  margin-top: -10px;
+  margin-bottom: 20px;
 `;
 
 export default function TopUp() {
@@ -226,11 +218,13 @@ export default function TopUp() {
   const [showTapPayPage, setShowTapPayPage] = useState(false);
   const paymentUrl = useSelector(() => dataStore.paymentUrl);
 
-  // 發票資訊狀態
-  const [invoiceType, setInvoiceType] = useState('personal_cloud');
-  const [personalCarrierType, setPersonalCarrierType] = useState('mobile_barcode');
-  const [carrierNumber, setCarrierNumber] = useState('');
-  const [donateOrganization, setDonateOrganization] = useState('');
+  // 使用 context
+  const {
+    invoiceType,
+    setInvoiceType,
+    number,
+    setNumber,
+  } = useContext(InvoiceContext);
 
   useEffect(() => {
     if (paymentUrl) {
@@ -241,13 +235,11 @@ export default function TopUp() {
   const handlePayWayChange = (e) => {
     const value = e.target.value;
     if (value === 'line_pay') {
-      // 顯示尚未開放的提示框
       Modal.info({
         title: 'LINEPAY 尚未開放',
         content: '抱歉，LINEPAY 付款方式尚未開放，請選擇其他付款方式。',
         okText: '確定',
       });
-      // 重置選擇為信用卡
       setSelectedPayWay('credit_card');
     } else {
       setSelectedPayWay(value);
@@ -256,16 +248,16 @@ export default function TopUp() {
 
   const handleConfirm = () => {
     // 驗證發票資訊
-    if (invoiceType === 'personal_cloud') {
-      if (!carrierNumber) {
+    if (invoiceType === 1 || invoiceType === 2) {
+      if (!number) {
         Modal.error({
           title: '請輸入載具號碼',
           content: '請輸入您的載具號碼',
         });
         return;
       }
-    } else if (invoiceType === 'donate_invoice') {
-      if (!donateOrganization) {
+    } else if (invoiceType === 3) {
+      if (!number) {
         Modal.error({
           title: '請選擇捐贈機構',
           content: '請選擇要捐贈的機構',
@@ -273,16 +265,6 @@ export default function TopUp() {
         return;
       }
     }
-
-    // 保存發票資訊到 dataStore
-    dataStore.setInvoiceData({
-      invoiceType,
-      personalCarrierType,
-      carrierNumber,
-      donateOrganization,
-    });
-
-    // 進入 TapPay 付款頁面
     setShowTapPayPage(true);
   };
 
@@ -322,65 +304,71 @@ export default function TopUp() {
             />
           ))}
         </OptionContainer>
-        {/* 新增發票資訊區塊 */}
-        <Title>
-          <span>step 3</span>請填寫發票資訊
-        </Title>
-        <StyledInvoiceRadioGroup
-          onChange={(e) => setInvoiceType(e.target.value)}
-          value={invoiceType}
-        >
-          {INVOICE_TYPES.map((type) => (
-            <Radio.Button key={type.value} value={type.value}>
-              {type.label}
-            </Radio.Button>
-          ))}
-        </StyledInvoiceRadioGroup>
-        {invoiceType === 'personal_cloud' && (
-          <>
-            <SubTitle>請選擇載具類型</SubTitle>
-            <StyledCarrierRadioGroup
-              onChange={(e) => setPersonalCarrierType(e.target.value)}
-              value={personalCarrierType}
-            >
-              {INVOICE_TYPES.find((type) => type.value === 'personal_cloud').subTypes.map(
-                (subType) => (
-                  <Radio.Button key={subType.value} value={subType.value}>
-                    {subType.label}
-                  </Radio.Button>
-                )
-              )}
-            </StyledCarrierRadioGroup>
-            <Input
-              placeholder={
-                INVOICE_TYPES.find((type) => type.value === 'personal_cloud').subTypes.find(
-                  (subType) => subType.value === personalCarrierType
-                ).placeholder
-              }
-              value={carrierNumber}
-              onChange={(e) => setCarrierNumber(e.target.value)}
-            />
-          </>
-        )}
-        {invoiceType === 'donate_invoice' && (
-          <>
-            <SubTitle>請選擇捐贈機構</SubTitle>
-            <Select
-              placeholder="請選擇捐贈機構"
-              value={donateOrganization}
-              onChange={(value) => setDonateOrganization(value)}
-              style={{ width: '100%' }}
-            >
-              {INVOICE_TYPES.find((type) => type.value === 'donate_invoice').donateOptions.map(
-                (option) => (
-                  <Select.Option key={option.value} value={option.value}>
-                    {option.label}
-                  </Select.Option>
-                )
-              )}
-            </Select>
-          </>
-        )}
+
+        {/* 發票資訊區塊 */}
+        <InvoiceSection>
+          <Title>
+            <span>step 3</span>請填寫發票資訊
+          </Title>
+
+          {/* 發票類型選擇 */}
+          <InvoiceOptionLabel>發票類型：</InvoiceOptionLabel>
+          <StyledInvoiceRadioGroup
+            onChange={(e) => {
+              setInvoiceType(e.target.value);
+              setNumber(''); // 重置 number
+            }}
+            value={invoiceType}
+          >
+            {INVOICE_TYPES.map((type) => (
+              <Radio.Button key={type.value} value={type.value}>
+                {type.label}
+              </Radio.Button>
+            ))}
+          </StyledInvoiceRadioGroup>
+
+          {/* 載具號碼輸入框 */}
+          {(invoiceType === 1 || invoiceType === 2) && (
+            <>
+              <InvoiceOptionLabel>
+                {invoiceType === 1 ? '載具號碼：' : '自然人憑證號碼：'}
+              </InvoiceOptionLabel>
+              <InvoiceInput
+                placeholder={
+                  INVOICE_TYPES.find((type) => type.value === invoiceType).placeholder
+                }
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+              />
+              <InvoiceNote>
+                {invoiceType === 1
+                  ? '載具號碼為8碼，請輸入正確的載具號碼。'
+                  : '自然人憑證號碼為16碼，請輸入正確的號碼。'}
+              </InvoiceNote>
+            </>
+          )}
+
+          {/* 捐贈機構選擇 */}
+          {invoiceType === 3 && (
+            <>
+              <InvoiceOptionLabel>捐贈機構：</InvoiceOptionLabel>
+              <InvoiceSelect
+                placeholder="請選擇捐贈機構"
+                value={number}
+                onChange={(value) => setNumber(value)}
+              >
+                {INVOICE_TYPES.find((type) => type.value === 3).donateOptions.map(
+                  (option) => (
+                    <Select.Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Option>
+                  )
+                )}
+              </InvoiceSelect>
+            </>
+          )}
+        </InvoiceSection>
+
         <ButtonContainer>
           <Button type="primary" onClick={handleConfirm}>
             確認
