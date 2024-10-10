@@ -3,16 +3,23 @@ import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-
+import { Header } from './index'
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 const DisplayMode = {
-  Default: 0,
-  Pagination: 1,
+  Pagination: 0,
+  Default: 1,
   Simple: 2,
 }
+
+const DisplayModeLocale = {
+  [DisplayMode.Default]: '普通模式',
+  [DisplayMode.Pagination]: '分頁模式',
+  [DisplayMode.Simple]: '演唱會模式',
+}
+
 const LotteryContainer = styled.div`
-  margin: 0 60px;
+  padding: 0 60px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -77,12 +84,21 @@ const BaseLottery = styled.div`
   }
 `
 
+const Button = styled.div`
+  background-color: ${(p) => p.isActive && p.theme.color.red};
+  color: ${(p) => (p.isActive ? '#fff' : p.theme.color.red)};
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: normal;
+`
+
 const SimpleLottery = styled.div`
-  width: calc(16.666% - 4px);
+  width: calc(16.666% - 8px);
   margin: 10px 4px;
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
   background-color: ${(p) => {
-    if (!p.enableDrawOut) return p.theme.color.gray
+    if (p.isDone) return p.theme.color.gray
     return p.isSelected ? p.theme.color.orange : '#000'
   }};
   padding: 8px;
@@ -100,8 +116,8 @@ export default function LotteryBlock({
   category,
 }) {
   const [page, setPage] = useState(1)
-  const [displayMode, setDisplayMode] = useState(DisplayMode.Simple)
   const [data, setData] = useState([])
+  const [displayMode, setDisplayMode] = useState(DisplayMode.Default)
   const lotteryImg = lotteryImgs[category] || lotteryImgs.default
   useEffect(() => {
     setData(prizes.slice((page - 1) * PageSize, page * PageSize))
@@ -109,6 +125,20 @@ export default function LotteryBlock({
   const isSimple = displayMode === DisplayMode.Simple
   return (
     <>
+      <Header isLotteryBlock>
+        幸運抽大獎
+        <div className="block">
+          {Object.values(DisplayMode).map((mode) => (
+            <Button
+              key={mode}
+              onClick={() => setDisplayMode(mode)}
+              isActive={mode === displayMode}
+            >
+              {DisplayModeLocale[mode]}
+            </Button>
+          ))}
+        </div>
+      </Header>
       <LotteryContainer id="lottery" isSimple={isSimple}>
         {data.map((p, i) => {
           const index = (page - 1) * PageSize + i
@@ -177,6 +207,7 @@ function Lottery({
         enableDrawOut={enableDrawOut}
         onClick={handleClick}
         isSelected={isSelected}
+        isDone={isDone}
       >
         {index + 1}
       </SimpleLottery>

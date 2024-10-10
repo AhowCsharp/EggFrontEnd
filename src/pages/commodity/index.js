@@ -165,6 +165,22 @@ const BtnBlock = styled.div`
   }
 `
 
+export const Header = styled.div`
+  border-bottom: 1px solid
+    ${(p) => (p.isLotteryBlock ? p.theme.color.red : p.theme.color.gray)};
+  color: #160d00;
+  font-size: 1.5rem;
+  padding-bottom: ${(p) => !p.isLotteryBlock && '8px'};
+  margin: 1rem 0;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  div.block {
+    display: flex;
+    align-items: center;
+  }
+`
+
 function getDrawTimeOptions(drawOutMultiplePriceStatus) {
   if (!drawOutMultiplePriceStatus) return [{ value: 1, label: '單抽' }]
   return [
@@ -336,6 +352,7 @@ export default function Commodity() {
           <Tag>{t.tagName}</Tag>
         ))}
       </div>
+      <Header>獎品一覽</Header>
       <PrizeContainer id="prize">
         {nowDisplay !== commodity && (
           <Prize
@@ -395,6 +412,7 @@ export default function Commodity() {
           )}
         </>
       )}
+      <Header>獎品說明</Header>
       <Description
         id="description"
         dangerouslySetInnerHTML={{ __html: nowDisplay?.introduce }}
