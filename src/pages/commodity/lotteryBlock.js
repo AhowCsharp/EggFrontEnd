@@ -2,9 +2,8 @@ import styled from 'styled-components'
 import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
-import { Radio } from 'antd'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-import { Header, Block } from './index'
+import { Header } from './index'
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 function getDrawTimeOptions(drawOutMultiplePriceStatus) {
@@ -28,6 +27,13 @@ const DisplayModeLocale = {
   [DisplayMode.Simple]: '演唱會模式',
 }
 
+const Block = styled.div`
+  align-items: baseline;
+  justify-content: center;
+  display: flex;
+  margin: 2rem 0;
+`
+
 const DrawOutInfo = styled.div`
   span + span {
     margin-left: 2rem;
@@ -45,6 +51,13 @@ const DrawOutBtn = styled.div`
   color: #fff;
 `
 
+const DrawOutTimeBtn = styled(DrawOutBtn)`
+  background: unset;
+  color: ${(p) => p.theme.color.drawOutTimeBtn};
+  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
+  margin-left: 1rem;
+`
+
 const BtnBlock = styled.div`
   background-color: #f2f2f2;
   border-radius: 1rem;
@@ -55,11 +68,11 @@ const BtnBlock = styled.div`
   justify-content: space-between;
   flex-direction: row;
   margin: 10px 0;
+  ${Block} {
+    margin: 0;
+  }
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
-  }
-  .ant-radio-button-wrapper-checked {
-    z-index: 0 !important;
   }
 `
 
@@ -208,14 +221,17 @@ export default function LotteryBlock({
       {enableDrawOut && (
         <>
           <BtnBlock>
-            <div>
-              <Radio.Group
-                onChange={(e) => setDrawOutTimes(e.target.value)}
-                value={drawOutTimes}
-                optionType="button"
-                options={drawTimeOptions}
-              />
-            </div>
+            <Block>
+              <span className="bold">選擇玩法</span>
+              {drawTimeOptions.map((option) => (
+                <DrawOutTimeBtn
+                  key={option.value}
+                  onClick={() => setDrawOutTimes(option.value)}
+                >
+                  {option.label}
+                </DrawOutTimeBtn>
+              ))}
+            </Block>
             <Block>
               {drawOutTimes > 1 && (
                 <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
@@ -261,12 +277,18 @@ export default function LotteryBlock({
       {displayMode === DisplayMode.Pagination && (
         <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
       )}
-      {enableDrawOut && <DrawOutBtn onClick={handleDrawOut}>送出</DrawOutBtn>}
+      {enableDrawOut && (
+        <Block>
+          <DrawOutBtn onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+        </Block>
+      )}
     </>
   )
 
   function handleRandomSelectPrizes() {
-    const nowPagePrizes = data.map((p, index) => !p && index).filter((p) => p)
+    const nowPagePrizes = data
+      .map((p, index) => !p && (page - 1) * PageSize + index)
+      .filter((p) => p)
     const randomPrizes = []
     while (randomPrizes.length < drawOutTimes) {
       if (nowPagePrizes.length) {

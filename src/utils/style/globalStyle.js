@@ -10,6 +10,10 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  .bold{
+    font-weight: bold;
+  }
+
   @media (max-width: 768px) {
     body, html {
       font-size: 14px;

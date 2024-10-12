@@ -63,7 +63,6 @@ const PrizeContainer = styled.div`
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
   p {
     margin: 5px 0;
   }
@@ -319,7 +318,7 @@ export default function Commodity() {
           <DescBlock>
             {!!countdownSec ? (
               <Desc warning>
-                賞品鎖定中，解鎖倒數：
+                賞品鎖定中，解鎖倒數
                 <CountdownTimer
                   initialSeconds={countdownSec}
                   cb={() => dataStore.setCountdownSec(commodityId)}
@@ -358,6 +357,11 @@ export default function Commodity() {
           <Prize key={p.id} data={p} onClick={() => setNowDisplay(p)} />
         ))}
       </PrizeContainer>
+      <Header>獎品說明</Header>
+      <Description
+        id="description"
+        dangerouslySetInnerHTML={{ __html: nowDisplay?.introduce }}
+      />
       {showLotteryContainer && (
         <>
           <LotteryBlock
@@ -371,11 +375,7 @@ export default function Commodity() {
           />
         </>
       )}
-      <Header>獎品說明</Header>
-      <Description
-        id="description"
-        dangerouslySetInnerHTML={{ __html: nowDisplay?.introduce }}
-      />
+      <Header>下單前須知</Header>
       <Description>
         <p>【雙重中獎】無二次中獎且不附籤紙。</p>
         <p>

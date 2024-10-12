@@ -14,6 +14,7 @@ const theme = {
     gray: '#999',
     topUpSelected: '#d04a26',
     discount: 'rgba(255, 0, 0)',
+    drawOutTimeBtn: '#081324',
     red: '#a21a2b',
   },
   tagColor: {
