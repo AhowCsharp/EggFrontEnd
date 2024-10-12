@@ -2,9 +2,19 @@ import styled from 'styled-components'
 import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
+import { Radio } from 'antd'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-import { Header } from './index'
+import { Header, Block } from './index'
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
+
+function getDrawTimeOptions(drawOutMultiplePriceStatus) {
+  if (!drawOutMultiplePriceStatus) return [{ value: 1, label: '單抽' }]
+  return [
+    { value: 1, label: '單抽' },
+    { value: 5, label: '五連抽' },
+    { value: 10, label: '十連抽' },
+  ]
+}
 
 const DisplayMode = {
   Pagination: 0,
@@ -17,6 +27,41 @@ const DisplayModeLocale = {
   [DisplayMode.Pagination]: '分頁模式',
   [DisplayMode.Simple]: '演唱會模式',
 }
+
+const DrawOutInfo = styled.div`
+  span + span {
+    margin-left: 2rem;
+  }
+  span.value {
+    color: ${(p) => p.theme.color.red};
+  }
+`
+
+const DrawOutBtn = styled.div`
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: ${(p) => p.theme.color.red};
+  color: #fff;
+`
+
+const BtnBlock = styled.div`
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  width: 100%;
+  display: flex;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 10px 0;
+  ${DrawOutBtn} + ${DrawOutBtn} {
+    margin-left: 1rem;
+  }
+  .ant-radio-button-wrapper-checked {
+    z-index: 0 !important;
+  }
+`
 
 const LotteryContainer = styled.div`
   padding: 0 60px;
@@ -108,21 +153,32 @@ const SimpleLottery = styled.div`
 `
 
 export default function LotteryBlock({
-  prizes,
   enableDrawOut,
   selectedPrizes,
   setSelectedPrizes,
   drawOutTimes,
-  category,
+  commodity,
+  handleDrawOut,
+  setDrawOutTimes,
 }) {
+  const prizes = commodity.prizeIndexs || []
+  const category = commodity.category
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
-  const [displayMode, setDisplayMode] = useState(DisplayMode.Default)
+  const [displayMode, setDisplayMode] = useState(DisplayMode.Pagination)
   const lotteryImg = lotteryImgs[category] || lotteryImgs.default
+  const drawTimeOptions = getDrawTimeOptions(
+    commodity?.drawOutMultiplePriceStatus
+  )
   useEffect(() => {
     setData(prizes.slice((page - 1) * PageSize, page * PageSize))
   }, [prizes, page])
+
+  useEffect(() => {
+    if (displayMode === DisplayMode.Pagination) setPage(1)
+  }, [displayMode])
   const isSimple = displayMode === DisplayMode.Simple
+  const isPaginationMode = displayMode === DisplayMode.Pagination
   return (
     <>
       <Header isLotteryBlock>
@@ -139,9 +195,43 @@ export default function LotteryBlock({
           ))}
         </div>
       </Header>
+      <DrawOutInfo>
+        <span>
+          剩餘數量：
+          <span className="value">{commodity.totalDrawOutTimes}</span>
+        </span>
+        <span>
+          總數量：
+          <span className="value">{commodity.fixedTotalDrawOutTimes}</span>
+        </span>
+      </DrawOutInfo>
+      {enableDrawOut && (
+        <>
+          <BtnBlock>
+            <div>
+              <Radio.Group
+                onChange={(e) => setDrawOutTimes(e.target.value)}
+                value={drawOutTimes}
+                optionType="button"
+                options={drawTimeOptions}
+              />
+            </div>
+            <Block>
+              {drawOutTimes > 1 && (
+                <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
+                  重新選擇
+                </DrawOutBtn>
+              )}
+              <DrawOutBtn isActive onClick={handleRandomSelectPrizes}>
+                隨機選號
+              </DrawOutBtn>
+            </Block>
+          </BtnBlock>
+        </>
+      )}
       <LotteryContainer id="lottery" isSimple={isSimple}>
-        {data.map((p, i) => {
-          const index = (page - 1) * PageSize + i
+        {(isPaginationMode ? data : prizes).map((p, i) => {
+          const index = isPaginationMode ? (page - 1) * PageSize + i : i
           if (!p)
             return (
               <Lottery
@@ -171,8 +261,30 @@ export default function LotteryBlock({
       {displayMode === DisplayMode.Pagination && (
         <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
       )}
+      {enableDrawOut && <DrawOutBtn onClick={handleDrawOut}>送出</DrawOutBtn>}
     </>
   )
+
+  function handleRandomSelectPrizes() {
+    const nowPagePrizes = data.map((p, index) => !p && index).filter((p) => p)
+    const randomPrizes = []
+    while (randomPrizes.length < drawOutTimes) {
+      if (nowPagePrizes.length) {
+        const randomIndex = Math.floor(Math.random() * nowPagePrizes.length)
+        if (!randomPrizes.includes(nowPagePrizes[randomIndex])) {
+          randomPrizes.push(nowPagePrizes[randomIndex])
+          nowPagePrizes.splice(randomIndex, 1)
+        }
+      } else {
+        const randomIndex = Math.floor(Math.random() * prizes.length)
+        if (!randomPrizes.includes(randomIndex) && !prizes[randomIndex]) {
+          randomPrizes.push(randomIndex)
+        }
+      }
+    }
+    setSelectedPrizes(randomPrizes)
+  }
+
   function handleSelectPrize(index) {
     if (selectedPrizes.length === drawOutTimes) {
       if (drawOutTimes === 1) setSelectedPrizes([index])

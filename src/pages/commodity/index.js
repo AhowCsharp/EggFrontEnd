@@ -8,7 +8,6 @@ import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
 import { DRAW_OUT_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
-import { Radio } from 'antd'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import CountdownTimer from '@app/shared/countdownTimer'
@@ -29,13 +28,6 @@ export const Info = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-`
-
-const DrawOutInfo = styled.div`
-  padding: 20px;
-  span {
-    margin: 10px;
-  }
 `
 
 const ImgContainer = styled.div`
@@ -105,7 +97,7 @@ const Tag = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 10px 15px;
+  margin: 10px 0;
   &::before {
     content: '';
     position: absolute;
@@ -120,7 +112,13 @@ const Tag = styled.div`
   }
 `
 
-export const DrawOutBtn = styled.div`
+const TagBlock = styled.div`
+  ${Tag} + ${Tag} {
+    margin-left: 1.5rem;
+  }
+`
+
+const DrawOutBtn_old = styled.div`
   cursor: pointer;
   background: #000;
   color: ${(p) => p.theme.color.orange};
@@ -132,6 +130,17 @@ export const DrawOutBtn = styled.div`
   ${(p) => p.isMultiDrawOut && multiDrawOutStyle}
 `
 
+const DrawOutBtn = styled.div`
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  border: 1px solid ${(p) => p.theme.color.red};
+  background: ${(p) => (p.isWhite ? '#fff' : p.theme.color.red)};
+  color: ${(p) => (p.isWhite ? p.theme.color.red : '#fff')};
+`
+
+export { DrawOutBtn_old as DrawOutBtn }
+
 export const Block = styled.div`
   display: flex;
   flex-direction: row;
@@ -139,30 +148,24 @@ export const Block = styled.div`
 `
 
 const DrawOutBtnBlock = styled(Block)`
-  flex-direction: column;
-  ${DrawOutBtn} {
-    margin: 0 10px 15px 0;
+  margin: 1.75rem 0;
+  ${DrawOutBtn} + ${DrawOutBtn} {
+    margin-left: 1rem;
   }
+`
+
+const DescBlock = styled.div`
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
 `
 
 const Desc = styled.p`
+  line-height: 1.25rem;
   color: ${(p) => p.warning && p.theme.color.warning};
   ${(p) => p.large && 'font-size: 1.25rem;'}
+  ${(p) => p.bold && 'font-weight: bold;'}
   margin:10px 0 0;
-`
-
-const BtnBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  flex-direction: row;
-  margin: 10px 0;
-  ${DrawOutBtn} {
-    margin: 0 10px;
-  }
-  .ant-radio-button-wrapper-checked {
-    z-index: 0 !important;
-  }
 `
 
 export const Header = styled.div`
@@ -171,7 +174,7 @@ export const Header = styled.div`
   color: #160d00;
   font-size: 1.5rem;
   padding-bottom: ${(p) => !p.isLotteryBlock && '8px'};
-  margin: 1rem 0;
+  margin: 2rem 0;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
@@ -180,15 +183,6 @@ export const Header = styled.div`
     align-items: center;
   }
 `
-
-function getDrawTimeOptions(drawOutMultiplePriceStatus) {
-  if (!drawOutMultiplePriceStatus) return [{ value: 1, label: '單抽' }]
-  return [
-    { value: 1, label: '單抽' },
-    { value: 5, label: '五連抽' },
-    { value: 10, label: '十連抽' },
-  ]
-}
 
 export default function Commodity() {
   const params = useParams()
@@ -212,9 +206,7 @@ export default function Commodity() {
   const [drawOutReq, setDrawOutReq] = useState()
   const [enableDrawOut, setEnableDrawOut] = useState(false)
   const [nowDisplay, setNowDisplay] = useState()
-  const drawTimeOptions = getDrawTimeOptions(
-    commodity?.drawOutMultiplePriceStatus
-  )
+
   useEffect(() => {
     dataStore.getCommodity(commodityId)
   }, [])
@@ -320,38 +312,39 @@ export default function Commodity() {
             >
               開抽
             </DrawOutBtn>
-            <DrawOutBtn onClick={() => setShowLotteryContainer(true)}>
+            <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
               檢視抽況
             </DrawOutBtn>
           </DrawOutBtnBlock>
-          {!!countdownSec ? (
-            <Desc warning>
-              賞品鎖定中，解鎖倒數：
-              <CountdownTimer
-                initialSeconds={countdownSec}
-                cb={() => dataStore.setCountdownSec(commodityId)}
-              />
+          <DescBlock>
+            {!!countdownSec ? (
+              <Desc warning>
+                賞品鎖定中，解鎖倒數：
+                <CountdownTimer
+                  initialSeconds={countdownSec}
+                  cb={() => dataStore.setCountdownSec(commodityId)}
+                />
+              </Desc>
+            ) : null}
+            <Desc bold>注意事項</Desc>
+            <Desc>
+              單抽開獎保護360秒，五連抽開獎保護900秒，十連抽開獎保護1200秒。
             </Desc>
-          ) : null}
-          <Desc warning>注意事項：</Desc>
-          <Desc>
-            單抽開獎保護360秒，五連抽開獎保護900秒，十連抽開獎保護1200秒。
-          </Desc>
-          <Desc warning large>
-            下單前須知：
-          </Desc>
-          <Desc warning>
-            一番賞、盲盒商品為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
-          </Desc>
-
+            <Desc warning bold>
+              下單前須知
+            </Desc>
+            <Desc warning>
+              一番賞、盲盒商品為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
+            </Desc>
+          </DescBlock>
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
         </Info>
       </InfoContainer>
-      <div>
+      <TagBlock>
         {commodity.tags.map((t) => (
           <Tag>{t.tagName}</Tag>
         ))}
-      </div>
+      </TagBlock>
       <Header>獎品一覽</Header>
       <PrizeContainer id="prize">
         {nowDisplay !== commodity && (
@@ -367,49 +360,15 @@ export default function Commodity() {
       </PrizeContainer>
       {showLotteryContainer && (
         <>
-          {enableDrawOut && (
-            <>
-              <BtnBlock>
-                <Radio.Group
-                  onChange={(e) => setDrawOutTimes(e.target.value)}
-                  value={drawOutTimes}
-                  optionType="button"
-                  options={drawTimeOptions}
-                />
-              </BtnBlock>
-              <BtnBlock>
-                {drawOutTimes > 1 && (
-                  <DrawOutBtn onClick={() => setSelectedPrizes([])}>
-                    重新選擇
-                  </DrawOutBtn>
-                )}
-                <DrawOutBtn onClick={handleDrawOut}>送出</DrawOutBtn>
-              </BtnBlock>
-            </>
-          )}
-          <DrawOutInfo>
-            <span>剩餘數量： {commodity.totalDrawOutTimes} </span>
-            <span>/</span>
-            <span>總數量： {commodity.fixedTotalDrawOutTimes}</span>
-          </DrawOutInfo>
           <LotteryBlock
-            prizes={commodity.prizeIndexs || []}
+            commodity={commodity}
             enableDrawOut={enableDrawOut}
             selectedPrizes={selectedPrizes}
             setSelectedPrizes={setSelectedPrizes}
             drawOutTimes={drawOutTimes}
-            category={commodity.category}
+            handleDrawOut={handleDrawOut}
+            setDrawOutTimes={setDrawOutTimes}
           />
-          {enableDrawOut && (
-            <BtnBlock>
-              {drawOutTimes > 1 && (
-                <DrawOutBtn onClick={() => setSelectedPrizes([])}>
-                  重新選擇
-                </DrawOutBtn>
-              )}
-              <DrawOutBtn onClick={handleDrawOut}>送出</DrawOutBtn>
-            </BtnBlock>
-          )}
         </>
       )}
       <Header>獎品說明</Header>
