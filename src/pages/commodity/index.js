@@ -10,6 +10,7 @@ import { DRAW_OUT_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
+import BaseShipFeeIcon from '@app/static/truck.png'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
@@ -202,6 +203,46 @@ const DrawOutTimesTagBlock = styled(Block)`
   }
 `
 
+const ShipFeeIcon = styled.div`
+  background-color: ${(p) => p.theme.color.red};
+  position: relative;
+  padding: 0.5rem;
+  padding-right: 0.75rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  &::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    transform: translate(-50%, -50%) rotate(45deg);
+    display: block;
+    position: absolute;
+    right: -8px;
+    top: 50%;
+  }
+  img {
+    width: 1rem;
+    height: auto;
+  }
+`
+
+const ShipFee = styled.div`
+  border: 1px solid ${(p) => p.theme.color.red};
+  border-radius: 4px;
+  color: ${(p) => p.theme.color.red};
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  .value {
+    margin: 0 0.5rem;
+  }
+`
+
 export default function Commodity() {
   const params = useParams()
   const goto = useNavigate()
@@ -290,15 +331,19 @@ export default function Commodity() {
       <InfoContainer>
         <ImgContainer img={nowDisplay?.imgUrl} />
         <Info>
-          <ManufacturerTag
-            name={commodity.manufacturerName}
-            id={commodity.manufacturerId}
-          />
+          <Block className="between">
+            <ManufacturerTag
+              name={commodity.manufacturerName}
+              id={commodity.manufacturerId}
+            />
+            <ShipFeeTag freight={nowDisplay?.freight} />
+          </Block>
+
           <Name>{commodity.name}</Name>
           <SelectionNav>
-            <NavItem onClick={onSectionNavClick('prize')}>賞品一覽</NavItem>
+            <NavItem onClick={onSectionNavClick('prize')}>獎品一覽</NavItem>
             <NavItem onClick={onSectionNavClick('description')}>
-              商品說明
+              獎品說明
             </NavItem>
           </SelectionNav>
           <Price
@@ -460,4 +505,16 @@ export default function Commodity() {
     if (drawOutTimes === 10) return drawOutTimes * commodity.drawOut10Price
     return commodity.drawOut1Price
   }
+}
+
+function ShipFeeTag({ freight }) {
+  if (!freight) return null
+  return (
+    <ShipFee>
+      <ShipFeeIcon>
+        <img src={BaseShipFeeIcon} />
+      </ShipFeeIcon>
+      <span className="value"> {`NT$ ${freight}`}</span>
+    </ShipFee>
+  )
 }

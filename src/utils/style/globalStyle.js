@@ -13,6 +13,10 @@ export default createGlobalStyle`
   .bold{
     font-weight: bold;
   }
+  .between{
+    display: flex;
+    justify-content: space-between;
+  }
 
   @media (max-width: 768px) {
     body, html {
