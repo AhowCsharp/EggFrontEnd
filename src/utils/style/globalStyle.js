@@ -6,7 +6,7 @@ export default createGlobalStyle`
     font-size: 16px;
   }
   * {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
   }
 

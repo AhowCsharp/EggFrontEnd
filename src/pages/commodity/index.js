@@ -8,8 +8,6 @@ import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
 import { DRAW_OUT_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
-import Chip from '@mui/material/Chip'
-import Stack from '@mui/material/Stack'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import Prize from './prize'
@@ -183,6 +181,27 @@ export const Header = styled.div`
   }
 `
 
+const DrawOutTimesTag = styled.div`
+  border-radius: 100px;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
+  color: ${(p) => p.theme.color.drawOutTimeBtn};
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const DrawOutTimesTagBlock = styled(Block)`
+  margin-top: 1.25rem;
+  ${DrawOutTimesTag} + ${DrawOutTimesTag} {
+    margin-left: 0.75rem;
+  }
+  .label {
+    padding-right: 6px;
+    margin-right: 6px;
+    border-right: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
+  }
+`
+
 export default function Commodity() {
   const params = useParams()
   const goto = useNavigate()
@@ -287,20 +306,21 @@ export default function Commodity() {
             drawOut1Price={commodity.drawOut1Price}
             discount={commodity.discount}
           />
-          <Stack direction="row" spacing={1} sx={{ marginBottom: 2 }}>
+          <DrawOutTimesTagBlock>
             {commodity.drawOut5Price !== null && (
-              <Chip
-                label={commodity.drawOut5Price + ' / 五連抽'}
-                color="warning"
-              />
+              <DrawOutTimesTag>
+                <span className="label">五連抽</span>
+                {`每抽 ${Math.round(commodity.drawOut5Price)} 元`}
+              </DrawOutTimesTag>
             )}
             {commodity.drawOut10Price !== null && (
-              <Chip
-                label={commodity.drawOut10Price + ' / 十連抽'}
-                color="warning"
-              />
+              <DrawOutTimesTag>
+                <span className="label">十連抽</span>
+
+                {`每抽 ${Math.round(commodity.drawOut10Price)} 元`}
+              </DrawOutTimesTag>
             )}
-          </Stack>
+          </DrawOutTimesTagBlock>
           <DrawOutBtnBlock>
             <DrawOutBtn
               onClick={() => {
