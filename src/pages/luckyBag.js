@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 export default function LuckyBag() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
 
   useEffect(() => {
     const req = {
@@ -30,6 +31,8 @@ export default function LuckyBag() {
         status={status}
         setStatus={setStatus}
         category={CATEGORY.LUCKY_BAG}
+        shouldSortDialogOpen={shouldSortDialogOpen}
+        setShouldSortDialogOpen={setShouldSortDialogOpen}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

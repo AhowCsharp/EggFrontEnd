@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { url } from '@app/utils/paths'
 import {
@@ -9,6 +10,7 @@ import { Radio as AntdRadio } from 'antd'
 import Header from '@app/shared/categoryHeader'
 import Button, { BUTTON_TYPE } from './button'
 import Product from './product'
+import SortDialog, { SortType } from './sortDialog'
 
 const { Group: BaseRadio } = AntdRadio
 
@@ -70,9 +72,60 @@ export default function Products({
   isBase = false,
   status = false,
   setStatus,
+  shouldDisplayControlBar = true,
+  shouldSortDialogOpen,
+  setShouldSortDialogOpen,
 }) {
   const goto = useNavigate()
   const isSoldOut = status === COMMODITY_STATUS.CLOSED
+  const [sortType, setSortType] = useState(SortType.Default)
+  const [sortedData, setSortedData] = useState(data)
+
+  useEffect(() => {
+    setSortedData(data)
+    setSortType(SortType.Default)
+  }, [data])
+
+  useEffect(() => {
+    if (shouldSortDialogOpen)
+      document.getElementById('layout').scrollIntoView({ behavior: 'smooth' })
+  }, [shouldSortDialogOpen])
+
+  useEffect(() => {
+    if (isBase || !sortType || !data || !data.length) return
+    const d = [...data]
+    switch (sortType) {
+      case SortType.Default:
+        setSortedData(d)
+        break
+      case SortType.TimeNewToOld:
+        setSortedData(
+          d.sort((a, b) => new Date(b.createDate) - new Date(a.createDate))
+        )
+        break
+      case SortType.TimeOldToNew:
+        setSortedData(
+          d.sort((a, b) => new Date(a.createDate) - new Date(b.createDate))
+        )
+        break
+      case SortType.PriceHighToLow:
+        setSortedData(d.sort((a, b) => b.drawOut1Price - a.drawOut1Price))
+        break
+      case SortType.PriceLowToHigh:
+        setSortedData(d.sort((a, b) => a.drawOut1Price - b.drawOut1Price))
+        break
+      case SortType.CountMoreToLess:
+        setSortedData(
+          d.sort((a, b) => b.totalDrawOutTimes - a.totalDrawOutTimes)
+        )
+        break
+      case SortType.CountLessToMore:
+        setSortedData(
+          d.sort((a, b) => a.totalDrawOutTimes - b.totalDrawOutTimes)
+        )
+        break
+    }
+  }, [category, sortType])
 
   return (
     <>
@@ -85,17 +138,17 @@ export default function Products({
             options={COMMODITY_STATUS_OPTIONS}
           />
         )}
-        {!!category && (
+        {!isBase && shouldDisplayControlBar && (
           <ButtonContainer>
             <Button type={BUTTON_TYPE.FILTER} />
-            <Button />
+            <Button onClick={() => setShouldSortDialogOpen(true)} />
           </ButtonContainer>
         )}
       </ButtonContainer>
       {!!category && <Header category={category} />}
-      {data && data.length ? (
+      {sortedData && sortedData.length ? (
         <ProductContainer>
-          {data.map((p, index) => (
+          {sortedData.map((p, index) => (
             <Product
               key={index}
               data={p}
@@ -107,6 +160,13 @@ export default function Products({
         </ProductContainer>
       ) : (
         <ProductContainer center={true}>無結果</ProductContainer>
+      )}
+      {shouldSortDialogOpen && (
+        <SortDialog
+          onClose={() => setShouldSortDialogOpen(false)}
+          onClick={setSortType}
+          type={sortType}
+        />
       )}
     </>
   )

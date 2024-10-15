@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react'
 export default function Gacha() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
+
   useEffect(() => {
     const req = {
       category: CATEGORY.GACHA,
@@ -29,6 +31,8 @@ export default function Gacha() {
         status={status}
         setStatus={setStatus}
         category={CATEGORY.GACHA}
+        shouldSortDialogOpen={shouldSortDialogOpen}
+        setShouldSortDialogOpen={setShouldSortDialogOpen}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

@@ -137,7 +137,7 @@ const DrawOutBtn = styled.div`
   color: ${(p) => (p.isWhite ? p.theme.color.red : '#fff')};
 `
 
-export { DrawOutBtn_old as DrawOutBtn }
+export { DrawOutBtn_old as DrawOutBtn, DrawOutBtn as Button }
 
 export const Block = styled.div`
   display: flex;

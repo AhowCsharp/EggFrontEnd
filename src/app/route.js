@@ -59,8 +59,6 @@ const Main = styled.div`
 `
 
 const MobileViewController = styled.div`
-  font-family: -apple-system, Helvetica Neue, Roboto, Droid Sans, Segoe UI,
-    Verdana, Arial, Lucida Grande, sans-serif;
   font-weight: 400;
   position: relative;
   margin: -70px auto 0;

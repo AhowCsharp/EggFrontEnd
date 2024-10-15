@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 export default function DigitalWorld() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
 
   useEffect(() => {
     const req = {
@@ -30,6 +31,8 @@ export default function DigitalWorld() {
         status={status}
         setStatus={setStatus}
         category={CATEGORY.DIGITAL_WORLD}
+        shouldSortDialogOpen={shouldSortDialogOpen}
+        setShouldSortDialogOpen={setShouldSortDialogOpen}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

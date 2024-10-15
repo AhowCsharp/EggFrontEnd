@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 export default function Ichiban() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
 
   useEffect(() => {
     const req = {
@@ -30,6 +31,8 @@ export default function Ichiban() {
         status={status}
         setStatus={setStatus}
         category={CATEGORY.ICHIBAN}
+        shouldSortDialogOpen={shouldSortDialogOpen}
+        setShouldSortDialogOpen={setShouldSortDialogOpen}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

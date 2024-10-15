@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Layout from '@app/shared/layout'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Products from '@app/shared/products'
 import BaseCarousel from '@app/shared/carousel'
 import { useSelector, dataStore } from '@app/store'
@@ -97,7 +97,7 @@ export default function Home() {
   const manufacturers = useSelector(() => dataStore.manufacturers)
   const goto = useNavigate()
   const manufacturerColors = useRandomColors(manufacturers, 'id')
-
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
   useEffect(() => {
     dataStore.setManufacturerColors(manufacturerColors)
   }, [manufacturerColors])
@@ -151,10 +151,15 @@ export default function Home() {
             全部商品
           </div>
           <div className="block">
-            <Button />
+            <Button onClick={() => setShouldSortDialogOpen(true)} />
           </div>
         </Header>
-        <Products data={commodities?.data} />
+        <Products
+          data={commodities?.data}
+          shouldSortDialogOpen={shouldSortDialogOpen}
+          setShouldSortDialogOpen={setShouldSortDialogOpen}
+          shouldDisplayControlBar={false}
+        />
       </Layout>
     </>
   )

@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react'
 export default function Commodities({ manufacturerName }) {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
+  const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
+
   useEffect(() => {
     const req = {
       manufacturerName,
@@ -23,7 +25,13 @@ export default function Commodities({ manufacturerName }) {
   if (!commodities) return <Layout />
   return (
     <Layout>
-      <Products data={commodities.data} status={status} setStatus={setStatus} />
+      <Products
+        data={commodities.data}
+        status={status}
+        setStatus={setStatus}
+        shouldSortDialogOpen={shouldSortDialogOpen}
+        setShouldSortDialogOpen={setShouldSortDialogOpen}
+      />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {

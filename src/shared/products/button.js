@@ -13,6 +13,7 @@ const BaseButton = styled.div`
   color: #fff;
   font-size: 1rem !important;
   word-break: keep-all;
+  cursor: pointer;
   img {
     width: 1.2rem !important;
     height: 1.2rem !important;
@@ -25,17 +26,17 @@ export const BUTTON_TYPE = {
   SORT: 'sort',
 }
 
-export default function Button({ type }) {
+export default function Button({ type, onClick }) {
   if (type === BUTTON_TYPE.FILTER) {
     return (
-      <BaseButton>
+      <BaseButton onClick={onClick}>
         <img src={filterIcon} />
         篩選
       </BaseButton>
     )
   }
   return (
-    <BaseButton>
+    <BaseButton onClick={onClick}>
       <img src={sortIcon} />
       排序
     </BaseButton>
