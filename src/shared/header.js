@@ -206,7 +206,6 @@ const Block = styled.div`
 const Nav = styled(Block)`
   width: 100%;
   justify-content: center;
-  margin-bottom: 30px;
   @media (max-width: 768px) {
     display: none;
   }
