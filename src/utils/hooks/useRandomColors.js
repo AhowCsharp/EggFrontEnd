@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 const usedHues = new Set()
 
-export default function useRandomColors(data = [], key) {
+export default function useRandomColors(data, key) {
   const [colors, setColors] = useState({})
   useEffect(() => {
-    if (!data) return
+    if (!data || !data.length) return
     const colorDict = data.reduce(
       (acc, cur) => {
         if (acc[cur[key]]) return acc
