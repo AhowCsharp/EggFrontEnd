@@ -33,7 +33,7 @@ const ImageContainer = styled.div`
 `
 
 const Carousel = styled(BaseCarousel)`
-  margin: 70px auto 50px;
+  margin: 0px auto 50px;
   padding: 16px 8px;
   .slick-slide {
     opacity: 0.6;

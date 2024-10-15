@@ -4,9 +4,9 @@ export default createGlobalStyle`
   body, html {
     overflow: hidden;
     font-size: 16px;
+    font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
   }
   * {
-    font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
   }
 
@@ -16,6 +16,9 @@ export default createGlobalStyle`
   .between{
     display: flex;
     justify-content: space-between;
+  }
+  .digital-font{
+  font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif ;
   }
 
   @media (max-width: 768px) {

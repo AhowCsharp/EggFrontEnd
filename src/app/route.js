@@ -51,7 +51,6 @@ const Wrapper = styled.div`
   transition: transform 0.2s, -webkit-transform 0.2s;
   z-index: auto !important;
   position: relative;
-  top: -30px;
 `
 
 const Main = styled.div`
@@ -61,23 +60,9 @@ const Main = styled.div`
 const MobileViewController = styled.div`
   font-weight: 400;
   position: relative;
-  margin: -70px auto 0;
+  margin: 50px auto 0;
   width: 90%;
   border-radius: 30px;
-`
-
-const ContainerHeader = styled.div`
-  background: url(${containerHeaderImg}) no-repeat top / contain;
-  width: 95%;
-  height: 115px;
-  margin: 105px auto 0;
-  z-index: ${(p) => p.theme.zIndex.layoutImg};
-  position: relative;
-  top: -60px;
-  @media (max-width: 768px) {
-    height: 100px;
-    margin-top: 0;
-  }
 `
 
 function AppRoute() {

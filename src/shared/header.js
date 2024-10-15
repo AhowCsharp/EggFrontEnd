@@ -24,7 +24,6 @@ import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fonta
 import { faCircleDollarToSlot, faBars } from '@fortawesome/free-solid-svg-icons'
 import { useSelector, dataStore } from '@app/store'
 import { CATEGORY } from '@app/utils/constants'
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faCircleDollarToSlot)
 library.add(faBars)
@@ -41,53 +40,22 @@ export const hideScrollBarStyle = `
 
 const HeaderModule = styled.div`
   width: 100%;
-  top: 10px;
-  position: sticky;
-  z-index: ${(p) => p.theme.zIndex.header};
-  transition: transform 0.2s, -webkit-transform 0.2s;
 `
 
 const BaseNavItem = styled.div`
-  border-radius: 30px;
-  background: #08090b;
   padding: 4px 10px;
   color: #fff;
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
   text-decoration: none;
   align-items: center;
   display: flex;
-  margin-right: 5px;
-  background-color: ${(p) => p.bg};
   cursor: pointer;
-  box-shadow: 1px 2px 0 #ffffff;
-  border: 1px solid #ffffff;
-
+  flex-direction: column;
   img {
     width: 25px;
     height: 25px;
-    margin-right: 3px;
+    margin-bottom: 3px;
   }
-`
-
-const HeaderModuleContainer = styled.div`
-  display: flex;
-  align-items: start;
-  position: relative;
-  height: 100%;
-  transition: transform 0.2s, -webkit-transform 0.2s;
-  transform: translateY(0);
-  justify-content: space-between;
-  flex-wrap: wrap;
-`
-
-const LeftContainer = styled.div`
-  display: flex;
-  align-items: start;
-  height: 100%;
-  padding-left: 16px;
-  flex-wrap: wrap;
-  ${hideScrollBarStyle}
 `
 
 const MemberNav = styled.div`
@@ -112,37 +80,25 @@ const MemberNav = styled.div`
   }
 `
 
-const NavItemAfterLogin = styled(BaseNavItem)`
+const TopUpBtn = styled(BaseNavItem)`
   font-size: 0.875rem;
   cursor: pointer;
   font-weight: 400;
-  margin: 0 5px 0 0;
-  padding: 4px 10px;
   line-height: 24px;
-`
-
-const NavItemBeforeLoginContainer = styled(BaseNavItem)`
-  padding: 0;
-`
-
-const NavItemBeforeLogin = styled(BaseNavItem)`
-  text-shadow: 0 0 5px #dc8100;
-  background: none;
-  border-radius: none;
-  margin: 0;
-  color: #fff;
-  font-weight: 400;
-  font-size: 1rem;
-  padding: 4px;
-  line-height: 24px;
-  box-shadow: none;
-  border: none;
+  flex-direction: row;
+  background: ${(p) => p.theme.color.red};
+  border: 1px solid #fff;
+  border-radius: 4px;
+  img {
+    margin-bottom: 0;
+    margin-right: 3px;
+  }
 `
 
 const Logo = styled.img`
-  width: 110px;
-  height: auto;
-  margin-bottom: 5px;
+  height: 100%;
+  width: auto;
+  transform: scale(1.5) translateX(-10%);
   cursor: pointer;
   @media (max-width: 768px) {
     width: 60px;
@@ -152,33 +108,6 @@ const Logo = styled.img`
 
 const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
   color: #fff;
-`
-
-const Nav = styled.div`
-  display: flex;
-  margin-left: 10px;
-  flex-wrap: wrap;
-  max-width: 610px;
-  padding-right: 100px;
-  overflow: hidden;
-  position: relative;
-  padding-right: 100px;
-  height: ${(p) => (p.isNavOpened ? '80px' : '36px')};
-  ${BaseNavItem} {
-    margin-bottom: 8px;
-  }
-  ${FontAwesomeIcon} {
-    position: absolute;
-    right: 100px;
-    width: 1rem;
-    height: 1rem;
-    cursor: pointer;
-    top: 10px;
-  }
-  ${hideScrollBarStyle}
-  @media (max-width: 768px) {
-    display: none;
-  }
 `
 
 const MobileNavItem = styled.div`
@@ -212,7 +141,7 @@ const MobileNav = styled.div`
   ${MobileNav}:last-child {
     border-bottom: none;
   }
-  ${NavItemAfterLogin} {
+  ${BaseNavItem} {
     color: ${(p) => p.theme.color.orange};
   }
   @media (max-width: 768px) {
@@ -229,9 +158,57 @@ const MobileNavButton = styled.div`
   width: 38px;
   font-size: 3rem;
   margin-right: 10px;
+  position: absolute;
+  right: 10px;
   cursor: pointer;
   @media (max-width: 768px) {
     display: inline-block;
+  }
+`
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #fff;
+  border-radius: 100px;
+  color: #fff;
+  width: calc(100% - 120px);
+  padding: 1.125rem 1.5rem;
+  margin: 20px 60px 10px;
+  height: 4.125rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
+
+const Block = styled.div`
+  display: flex;
+  &.row {
+    flex-direction: row;
+    > * {
+      flex-direction: row;
+    }
+  }
+  > * {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  > ${TopUpBtn} {
+    padding: 4px 8px;
+  }
+  .divider {
+    border-left: 1px solid #fff;
+  }
+`
+
+const Nav = styled(Block)`
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 30px;
+  @media (max-width: 768px) {
+    display: none;
   }
 `
 
@@ -268,14 +245,6 @@ const NavList = [
     src: luckyBagImg,
     checkIsLogged: false,
   },
-  { title: '每日簽到', type: 'signIn', src: signInImg, checkIsLogged: true },
-  { title: '榜單', type: 'rankList', src: rankListImg, checkIsLogged: false },
-  {
-    title: '廠商資訊',
-    type: 'manufacturer',
-    src: manufacturerImg,
-    checkIsLogged: false,
-  },
   {
     title: CATEGORY.ICHIBAN,
     type: 'ichiban',
@@ -300,6 +269,14 @@ const NavList = [
     src: digitalWorldImg,
     checkIsLogged: false,
   },
+  { title: '每日簽到', type: 'signIn', src: signInImg, checkIsLogged: true },
+  { title: '榜單', type: 'rankList', src: rankListImg, checkIsLogged: false },
+  {
+    title: '廠商資訊',
+    type: 'manufacturer',
+    src: manufacturerImg,
+    checkIsLogged: false,
+  },
 ]
 
 const getNavList = (isLogged) => {
@@ -312,29 +289,15 @@ function Header() {
   const member = useSelector(() => dataStore.member)
   const navList = getNavList(isLogged)
   const [openSider, setOpenSider] = useState(false)
-  const [isNavOpened, setIsNavOpened] = useState(false)
 
   return (
     <HeaderModule>
-      <HeaderModuleContainer>
-        <LeftContainer>
+      <Container>
+        <Block>
           <Logo src={logoImg} onClick={() => goto(paths.index)} />
-          <Nav isNavOpened={isNavOpened}>
-            {navList.map((item, index) => (
-              <NavItem
-                key={index}
-                title={item.title}
-                type={item.type}
-                src={item.src}
-              />
-            ))}
-            <FontAwesomeIcon
-              icon={isNavOpened ? faCaretUp : faCaretDown}
-              onClick={() => setIsNavOpened((v) => !v)}
-            />
-          </Nav>
-        </LeftContainer>
-        <MemberNav>
+          <span className="digital-font divider">剩蛋快樂</span>
+        </Block>
+        <Block className="row">
           {isLogged && (
             <>
               <BaseNavItem onClick={() => goto(`${paths.profile}?type=member`)}>
@@ -355,84 +318,92 @@ function Header() {
               </BaseNavItem>
             </>
           )}
-          <NavItemAfterLogin
+        </Block>
+        <Block>
+          <TopUpBtn
             onClick={() => goto(`${paths.profile}?type=topUp`)}
             bg="#d04a26"
           >
             <img src={topUpImg} />
             儲值
-          </NavItemAfterLogin>
+          </TopUpBtn>
           {isLogged ? (
             <>
-              <NavItemAfterLogin
+              <BaseNavItem
                 onClick={() => goto(`${paths.profile}?type=member`)}
                 bg="#d07a00"
               >
                 會員中心
-              </NavItemAfterLogin>
-              <NavItemAfterLogin
+              </BaseNavItem>
+              <BaseNavItem
+                className="divider"
                 bg="#231815"
                 onClick={() => dataStore.logout()}
               >
                 登出
-              </NavItemAfterLogin>
+              </BaseNavItem>
             </>
           ) : (
-            <NavItemBeforeLoginContainer>
-              <NavItemBeforeLogin onClick={() => goto(paths.login)}>
-                <img src={userImg} /> 登入
-              </NavItemBeforeLogin>
-              <NavItemBeforeLogin>/</NavItemBeforeLogin>
-              <NavItemBeforeLogin onClick={() => goto(paths.register)}>
-                註冊
-              </NavItemBeforeLogin>
-            </NavItemBeforeLoginContainer>
-          )}
-        </MemberNav>
-
-        <MobileNavButton onClick={() => setOpenSider(openSider ? false : true)}>
-          <FontAwesomeIcon icon="fa-bars" />
-        </MobileNavButton>
-
-        {openSider ? (
-          <MobileNav>
-            {isLogged ? (
-              <>
-                <MemberNav>
-                  <NavItemAfterLogin
-                    bg="#231815"
-                    onClick={() => dataStore.logout()}
-                  >
-                    登出
-                  </NavItemAfterLogin>
-                </MemberNav>
-                <MobileNavItem
-                  onClick={() => mobileGoto(`${paths.profile}?type=member`)}
-                >
-                  <img src={userImg} />
-                  會員中心
-                </MobileNavItem>
-              </>
-            ) : (
-              <>
-                <MobileNavItem onClick={() => mobileGoto(paths.login)}>
-                  <img src={userImg} />
-                  登入
-                </MobileNavItem>
-              </>
-            )}
-            {navList.map((item, index) => (
-              <MobileNavItem
-                key={index}
-                onClick={() => mobileGoto(paths[item.type])}
+            <>
+              <BaseNavItem onClick={() => goto(paths.login)}>登入</BaseNavItem>
+              <BaseNavItem
+                className="divider"
+                onClick={() => goto(paths.register)}
               >
-                <img src={item.src} />
-                {item.title}
+                註冊
+              </BaseNavItem>
+            </>
+          )}
+        </Block>
+      </Container>
+      <Nav>
+        {navList.map((item, index) => (
+          <NavItem
+            key={index}
+            title={item.title}
+            type={item.type}
+            src={item.src}
+          />
+        ))}
+      </Nav>
+      <MobileNavButton onClick={() => setOpenSider(openSider ? false : true)}>
+        <FontAwesomeIcon icon="fa-bars" />
+      </MobileNavButton>
+      {openSider ? (
+        <MobileNav>
+          {isLogged ? (
+            <>
+              <MemberNav>
+                <BaseNavItem bg="#231815" onClick={() => dataStore.logout()}>
+                  登出
+                </BaseNavItem>
+              </MemberNav>
+              <MobileNavItem
+                onClick={() => mobileGoto(`${paths.profile}?type=member`)}
+              >
+                <img src={userImg} />
+                會員中心
               </MobileNavItem>
-            ))}
-          </MobileNav>
-        ) : null}
-      </HeaderModuleContainer>
+            </>
+          ) : (
+            <>
+              <MobileNavItem onClick={() => mobileGoto(paths.login)}>
+                <img src={userImg} />
+                登入
+              </MobileNavItem>
+            </>
+          )}
+          {navList.map((item, index) => (
+            <MobileNavItem
+              key={index}
+              onClick={() => mobileGoto(paths[item.type])}
+            >
+              <img src={item.src} />
+              {item.title}
+            </MobileNavItem>
+          ))}
+        </MobileNav>
+      ) : null}
     </HeaderModule>
   )
   function mobileGoto(path) {

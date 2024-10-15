@@ -29,7 +29,6 @@ export const Header = styled.div`
   border-bottom: 1px solid ${(p) => p.theme.color.red};
   color: #160d00;
   font-size: 1.5rem;
-  font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
   padding-bottom: 8px;
   display: flex;
   justify-content: space-between;
@@ -86,7 +85,7 @@ export default function CampaignBlock({ data }) {
   }
   return (
     <>
-      <Header>
+      <Header className="digital-font">
         <div className="block">
           <img src={headerImg} />
           活動消息
