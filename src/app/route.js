@@ -1,8 +1,8 @@
 import { memo, Suspense, lazy } from 'react'
 import styled from 'styled-components'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import bgImg from '@app/static/bg.png'
-import bgMobileImg from '@app/static/bg_m.png'
+import bgTopImg from '@app/static/bg-top.svg'
+import bgBottomImg from '@app/static/bg-bottom.svg'
 import paths from '@app/utils/paths'
 import GlobalStyle from '@app/utils/style/globalStyle'
 import Spinner from '@app/shared/spinner'
@@ -34,14 +34,13 @@ const SiteContainer = styled.div`
   height: 100vh;
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translate3d(0, 0, 0);
-  /* This webkit only work in iOS devices. */
-  background-image: url(${bgImg});
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
+  background: url(${bgTopImg}) no-repeat top,
+    url(${bgBottomImg}) no-repeat bottom, #081324;
+  background-size: 100% auto;
+  background-attachment: fixed;
+
   overflow-x: hidden;
   @media (max-width: 768px) {
-    background-image: url(${bgMobileImg});
     padding-bottom: 80px;
   }
 `
