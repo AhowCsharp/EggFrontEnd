@@ -168,14 +168,17 @@ const Desc = styled.p`
 
 export const Header = styled.div`
   border-bottom: 1px solid
-    ${(p) => (p.isLotteryBlock ? p.theme.color.red : p.theme.color.gray)};
+    ${(p) => (p.red ? p.theme.color.red : p.theme.color.gray)};
   color: #160d00;
   font-size: 1.5rem;
-  padding-bottom: ${(p) => !p.isLotteryBlock && '8px'};
+  padding-bottom: 8px;
   margin: 2rem 0;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  &.lottery {
+    padding-bottom: 0;
+  }
   div.block {
     display: flex;
     align-items: center;

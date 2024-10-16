@@ -194,7 +194,7 @@ export default function LotteryBlock({
   const isPaginationMode = displayMode === DisplayMode.Pagination
   return (
     <>
-      <Header isLotteryBlock>
+      <Header className="lottery" red>
         幸運抽大獎
         <div className="block">
           {Object.values(DisplayMode).map((mode) => (

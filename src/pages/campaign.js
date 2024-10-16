@@ -8,6 +8,7 @@ import { breadCrumbs, url } from '@app/utils/paths'
 import Campaign, { DateInfo } from '@app/pages/home/campaignBlock/campaign'
 import { hideScrollBarStyle } from '@app/shared/header'
 import { useNavigate } from 'react-router-dom'
+import { Header } from '@app/pages/commodity'
 
 const Description = styled.div`
   display: flex;
@@ -24,11 +25,10 @@ const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
   height: auto;
-  width: ${(p) => (p.isHighLight ? '100%' : '250px')};
+  width: 100%;
   border-radius: 8px;
-  margin-right: ${(p) => (p.isHighLight ? '0' : '1rem')};
-  margin-top: ${(p) => (p.isHighLight ? '2.5rem' : '0')};
-  margin-bottom: ${(p) => (p.isHighLight ? '2.5rem' : '0')};
+  margin-top: 2.5rem;
+  margin: 2.5rem auto;
 `
 const Container = styled.div`
   width: 100%;
@@ -56,7 +56,17 @@ const OthersContainer = styled(MainContainer)`
   width: calc(40% - 8px);
   max-height: 700px;
   overflow-y: auto;
+  background: #f2f2f2;
+  border-radius: 1rem;
   ${hideScrollBarStyle}
+  padding: 1.5rem;
+  .header {
+    margin-top: 0;
+    color: ${(p) => p.theme.color.red};
+  }
+  img {
+    width: 160px;
+  }
 `
 
 export default function CampaignPage() {
@@ -107,13 +117,15 @@ export default function CampaignPage() {
             </div>
           </DateInfo>
           <Image src={imgUrl} isHighLight />
-
           <Description
             id="description"
             dangerouslySetInnerHTML={{ __html: newsDetails }}
           />
         </MainContainer>
         <OthersContainer>
+          <Header className="header" red>
+            推薦活動
+          </Header>
           {otherCampaigns.map((campaign) => (
             <Campaign
               data={campaign}
@@ -128,7 +140,6 @@ export default function CampaignPage() {
   function handleClick(data) {
     return () => {
       console.log('click', data)
-
       goto(url.campaign({ campaignId: data.id }))
     }
   }
