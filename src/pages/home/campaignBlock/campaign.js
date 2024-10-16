@@ -55,7 +55,7 @@ const Description = styled.div`
   }
 `
 
-const DateInfo = styled.div`
+export const DateInfo = styled.div`
   font-size: 0.75rem;
   display: flex;
   line-height: 1rem;
@@ -75,7 +75,14 @@ const BaseReadMoreBtn = styled.div`
 `
 
 export default function Commodity({ data, handleClick, isHighLight = false }) {
-  const { newsUrl: imgUrl, endDate, startDate, newsTitle, newsDetails } = data
+  const {
+    newsUrl: imgUrl,
+    endDate,
+    startDate,
+    newsTitle,
+    newsDetails,
+    releaseDate,
+  } = data
   return (
     <Container
       onClick={handleClick(data)}
@@ -91,7 +98,7 @@ export default function Commodity({ data, handleClick, isHighLight = false }) {
         />
         <ReadMoreBtn onClick={handleClick(data)} />
         <DateInfo>
-          <div>{formatDate(startDate)}</div>
+          <div>{formatDate(releaseDate)}</div>
           <div>
             活動期間：{formatDate(startDate)}~{formatDate(endDate)}
           </div>

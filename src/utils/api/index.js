@@ -182,3 +182,8 @@ export const verifySms = async (req) => {
   const res = await Request.post('/sms').body(req)
   return res
 }
+
+export const getNews = async (newsId) => {
+  const res = await Request.get('/news').params({ newsId })
+  return res
+}

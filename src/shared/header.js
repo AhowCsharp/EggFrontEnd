@@ -190,7 +190,7 @@ const Block = styled.div`
     }
   }
   > * {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;

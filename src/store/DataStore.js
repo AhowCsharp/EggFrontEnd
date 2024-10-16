@@ -87,7 +87,7 @@ export default class DataStore {
     this.isLoading = false
   }
 
-  // Ads
+  // Ads and News
   @observable.ref
   newAds = []
 
@@ -95,7 +95,10 @@ export default class DataStore {
   hotAds = []
 
   @observable.ref
-  news = [];
+  news = []
+
+  @observable.ref
+  newsById = {};
 
   @flow
   *getAds() {
@@ -108,6 +111,16 @@ export default class DataStore {
         index: i + 1,
       }))
       this.news = res.source.news
+    }
+    this.isLoading = false
+  }
+
+  @flow
+  *getNewsById(id) {
+    this.isLoading = true
+    const res = yield Api.getNews(id)
+    if (res) {
+      this.newsById = { ...this.newsById, [id]: res.source }
     }
     this.isLoading = false
   }
