@@ -11,6 +11,7 @@ import {
 import locale from '@app/utils/formLocale'
 import wait from '@app/utils/wait'
 import store from './helpers/store'
+import { CATEGORY } from '@app/utils/constants'
 
 const getToken = () => {
   const encodedKey = btoa('token')
@@ -851,12 +852,15 @@ export default class DataStore {
 
   // Filter Dialog
   @observable.ref
-  tags = [];
+  tagsByCategory = {};
 
   @flow
   *getTags(category) {
     const res = yield Api.getTagOptions(category)
     if (!res) return
-    this.tags = res.source
+    this.tagsByCategory = {
+      ...this.tagsByCategory,
+      [category]: res.source,
+    }
   }
 }

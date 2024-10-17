@@ -216,14 +216,14 @@ export default function FilterDialog({
 }) {
   const [selectedOptions, setSelectedOptions] = useState(filterOptions)
   const manufacturers = useSelector(() => dataStore.manufacturers)
-  const tags = useSelector(() => dataStore.tags)
-
+  const tagsByCategory = useSelector(() => dataStore.tagsByCategory)
+  const tags = tagsByCategory[category]
   useEffect(() => {
     if (!manufacturers) dataStore.getManufacturers()
   }, [manufacturers])
 
   useEffect(() => {
-    if (!tags.length) dataStore.getTags(category)
+    if (!tags) dataStore.getTags(category)
   }, [tags])
 
   useEffect(() => {
@@ -297,7 +297,7 @@ export default function FilterDialog({
             })}
           </Section>
           <Section type={FilterType.Tags}>
-            {tags.map((m) => {
+            {tags?.map((m) => {
               if (selectedOptions[FilterType.Tags.key]?.includes(m.id))
                 return null
               return (
