@@ -13,15 +13,17 @@ export default function BlindBox() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
+  const [filterOptions, setFilterOptions] = useState({})
 
   useEffect(() => {
     const req = {
       category: CATEGORY.BLIND_BOX,
       status,
+      ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }
     dataStore.getCommodities(req)
-  }, [status])
+  }, [status, filterOptions])
 
   if (!commodities) return <Layout />
   return (
@@ -33,6 +35,8 @@ export default function BlindBox() {
         category={CATEGORY.BLIND_BOX}
         shouldSortDialogOpen={shouldSortDialogOpen}
         setShouldSortDialogOpen={setShouldSortDialogOpen}
+        setFilterOptions={setFilterOptions}
+        filterOptions={filterOptions}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

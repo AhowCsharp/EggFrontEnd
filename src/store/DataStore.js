@@ -674,14 +674,14 @@ export default class DataStore {
     try {
       const token = getToken()
       if (token) {
-        const res = yield Api.getTopUpResult(req,token)
+        const res = yield Api.getTopUpResult(req, token)
         if (res && res.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
           yield this.loadMember()
           return
         }
         yield wait(5000)
-        const res2 = yield Api.getTopUpResult(req,token)
+        const res2 = yield Api.getTopUpResult(req, token)
         if (res2 && res2.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
           yield this.loadMember()
@@ -847,5 +847,16 @@ export default class DataStore {
       const msg = e.response?.data
       this.alertMessage = `驗證失敗，${msg}`
     }
+  }
+
+  // Filter Dialog
+  @observable.ref
+  tags = [];
+
+  @flow
+  *getTags(category) {
+    const res = yield Api.getTagOptions(category)
+    if (!res) return
+    this.tags = res.source
   }
 }

@@ -11,6 +11,7 @@ import Header from '@app/shared/categoryHeader'
 import Button, { BUTTON_TYPE } from './button'
 import Product from './product'
 import SortDialog, { SortType } from './sortDialog'
+import FilterDialog from './filterDialog'
 
 const { Group: BaseRadio } = AntdRadio
 
@@ -75,11 +76,15 @@ export default function Products({
   shouldDisplayControlBar = true,
   shouldSortDialogOpen,
   setShouldSortDialogOpen,
+  filterOptions,
+  setFilterOptions,
 }) {
   const goto = useNavigate()
   const isSoldOut = status === COMMODITY_STATUS.CLOSED
   const [sortType, setSortType] = useState(SortType.Default)
   const [sortedData, setSortedData] = useState(data)
+
+  const [shouldFilterDialogOpen, setShouldFilterDialogOpen] = useState(false)
 
   useEffect(() => {
     setSortedData(data)
@@ -140,7 +145,10 @@ export default function Products({
         )}
         {!isBase && shouldDisplayControlBar && (
           <ButtonContainer>
-            <Button type={BUTTON_TYPE.FILTER} />
+            <Button
+              type={BUTTON_TYPE.FILTER}
+              onClick={() => setShouldFilterDialogOpen(true)}
+            />
             <Button onClick={() => setShouldSortDialogOpen(true)} />
           </ButtonContainer>
         )}
@@ -166,6 +174,14 @@ export default function Products({
           onClose={() => setShouldSortDialogOpen(false)}
           onClick={setSortType}
           type={sortType}
+        />
+      )}
+      {shouldFilterDialogOpen && (
+        <FilterDialog
+          onClose={() => setShouldFilterDialogOpen(false)}
+          filterOptions={filterOptions}
+          setFilterOptions={setFilterOptions}
+          category={category}
         />
       )}
     </>

@@ -143,7 +143,7 @@ export const validateMember = async (token) => {
   return res
 }
 
-export const getTopUpResult = async (req,token) => {
+export const getTopUpResult = async (req, token) => {
   const res = await Request.get('/topupresult').params(req).bearer(token)
   return res
 }
@@ -185,5 +185,10 @@ export const verifySms = async (req) => {
 
 export const getNews = async (newsId) => {
   const res = await Request.get('/news').params({ newsId })
+  return res
+}
+
+export const getTagOptions = async (category) => {
+  const res = await Request.get('/tags').params({ category })
   return res
 }
