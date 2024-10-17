@@ -1,8 +1,11 @@
 import Request from './request'
 
-export const getCommodities = async (req) => {
-  const res = await Request.get('/commodities').params({
-    pageSize: 10,
+export const getCommodities = async (r) => {
+  const { tagIds, ...req } = r
+  const q = tagIds?.join('&tagIds=')
+  const res = await Request.get(
+    `/commodities${q ? `?tagIds=${q}` : ''}`
+  ).params({
     ...req,
   })
   return res
