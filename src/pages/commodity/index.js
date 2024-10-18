@@ -74,18 +74,6 @@ const Name = styled.div`
   margin: 10px 0;
 `
 
-const NavItem = styled.div``
-
-const SelectionNav = styled.div`
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  font-size: 0.75rem;
-  ${NavItem}+${NavItem} {
-    margin-left: 10px;
-  }
-`
-
 const Tag = styled.div`
   position: relative;
   width: 100px;
@@ -146,7 +134,7 @@ export const Block = styled.div`
 `
 
 const DrawOutBtnBlock = styled(Block)`
-  margin: 1.75rem 0;
+  margin: 10px 0;
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
@@ -195,7 +183,7 @@ const DrawOutTimesTag = styled.div`
 `
 
 const DrawOutTimesTagBlock = styled(Block)`
-  margin-top: 1.25rem;
+  margin-top: 10px;
   ${DrawOutTimesTag} + ${DrawOutTimesTag} {
     margin-left: 0.75rem;
   }
@@ -268,6 +256,8 @@ export default function Commodity() {
   const [drawOutReq, setDrawOutReq] = useState()
   const [enableDrawOut, setEnableDrawOut] = useState(false)
   const [nowDisplay, setNowDisplay] = useState()
+  const shouldDisplayDrawOutTimesTagBlock =
+    commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
 
   useEffect(() => {
     dataStore.getCommodity(commodityId)
@@ -343,32 +333,30 @@ export default function Commodity() {
           </Block>
 
           <Name>{commodity.name}</Name>
-          <SelectionNav>
-            <NavItem onClick={onSectionNavClick('prize')}>獎品一覽</NavItem>
-            <NavItem onClick={onSectionNavClick('description')}>
-              獎品說明
-            </NavItem>
-          </SelectionNav>
           <Price
             category={commodity.category}
             drawOut1Price={commodity.drawOut1Price}
             discount={commodity.discount}
           />
-          <DrawOutTimesTagBlock>
-            {commodity.drawOut5Price !== null && (
-              <DrawOutTimesTag>
-                <span className="label">五連抽</span>
-                {`每抽 ${Math.round(commodity.drawOut5Price)} 元`}
-              </DrawOutTimesTag>
-            )}
-            {commodity.drawOut10Price !== null && (
-              <DrawOutTimesTag>
-                <span className="label">十連抽</span>
+          {shouldDisplayDrawOutTimesTagBlock && (
+            <>
+              <DrawOutTimesTagBlock>
+                {commodity.drawOut5Price !== null && (
+                  <DrawOutTimesTag>
+                    <span className="label">五連抽</span>
+                    {`每抽 ${Math.round(commodity.drawOut5Price)} 元`}
+                  </DrawOutTimesTag>
+                )}
+                {commodity.drawOut10Price !== null && (
+                  <DrawOutTimesTag>
+                    <span className="label">十連抽</span>
 
-                {`每抽 ${Math.round(commodity.drawOut10Price)} 元`}
-              </DrawOutTimesTag>
-            )}
-          </DrawOutTimesTagBlock>
+                    {`每抽 ${Math.round(commodity.drawOut10Price)} 元`}
+                  </DrawOutTimesTag>
+                )}
+              </DrawOutTimesTagBlock>
+            </>
+          )}
           <DrawOutBtnBlock>
             <DrawOutBtn
               onClick={() => {

@@ -5,18 +5,17 @@ import Price from './price'
 const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
-  min-height: 100%;
-  min-width: 100%;
   transition: all 0.3s;
   vertical-align: middle;
-  width: 100px;
+  width: 100%;
+  height: auto;
 `
 
 const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   overflow: hidden;
-  width: calc((100% - 30px) / 4);
+  width: calc(25% - 11.25px);
   margin-top: 20px;
   cursor: pointer;
   &:hover ${Image} {
@@ -59,6 +58,8 @@ const ImageContainer = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
   ${SaleTag} {
     position: absolute;
     top: 0;

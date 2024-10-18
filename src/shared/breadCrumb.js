@@ -18,7 +18,7 @@ const BreadCrumbItem = styled.a`
 const Container = styled.div`
   font-size: 1rem;
   color: ${(p) => p.theme.color.gray};
-  margin: 40px 0 20px;
+  margin-bottom: 20px;
 `
 
 export default function BreadCrumb() {

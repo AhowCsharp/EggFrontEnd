@@ -54,7 +54,7 @@ const Container = styled.div`
   margin-top: -20px;
   min-height: 150px;
   .item + .item {
-    margin-left: 10px;
+    margin-left: 15px;
   }
   @media (max-width: 768px) {
     margin: 1rem 0;

@@ -5,6 +5,7 @@ import { useSelector, dataStore } from '@app/store'
 import useAuth from '@app/utils/hooks/useAuth'
 import GifPlayer from '@app/shared/gitPlayer'
 import signInAnimation from '@app/static/sign-in-animation.gif'
+import signInImg from '@app/static/sign-in-lottery.png'
 import { DrawOutBtn } from '@app/pages/commodity/index'
 
 const Container = styled.div`
@@ -33,8 +34,17 @@ const Button = styled(DrawOutBtn)`
   font-size: 0.8rem;
 `
 
+const Image = styled.div`
+  background-image: url(${signInImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 80%;
+  margin: 1rem auto;
+  height: 300px;
+`
+
 export default function SignIn() {
-  const signInOptions = useSelector(() => dataStore.signInOptions)
   const isSigned = useSelector(() => dataStore.isSigned)
   const isSigning = useSelector(() => dataStore.isSigning)
   const signInResult = useSelector(() => dataStore.signInResult)
@@ -47,6 +57,7 @@ export default function SignIn() {
   return (
     <Layout>
       <Container>
+        <Image />
         {isSigning && (
           <GifPlayer
             src={signInAnimation}

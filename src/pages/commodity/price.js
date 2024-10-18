@@ -6,6 +6,7 @@ import { Block } from './index'
 const BasePrice = styled.div`
   color: #ffc107;
   font-size: 3.75rem;
+  line-height: 3.75rem;
   font-weight: 700;
   margin-right: 10px;
   display: flex;

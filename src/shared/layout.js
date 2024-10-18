@@ -9,7 +9,7 @@ const Container = styled.div`
   width: 100%;
   border-radius: ${(p) => p.theme.borderRadius.content};
   background: ${(p) => p.theme.color.background};
-  padding: 30px 40px;
+  padding: 32px;
   position: relative;
 `
 

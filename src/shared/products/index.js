@@ -24,6 +24,7 @@ const ProductContainer = styled.div`
   flex-wrap: wrap;
   margin-top: -20px;
   min-height: 150px;
+  width: 100%;
   .item + .item {
     margin-left: 15px;
   }

@@ -9,11 +9,10 @@ import Price from './price'
 const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
-  min-height: 100%;
-  min-width: 100%;
   transition: all 0.3s;
   vertical-align: middle;
-  width: 100px;
+  width: 100%;
+  height: auto;
 `
 
 const SoldOutImg = styled.img.attrs((p) => ({
@@ -31,8 +30,9 @@ const BaseProduct = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   overflow: hidden;
-  width: calc((100% - 10px) / 4);
+  width: calc(25% - 11.25px);
   margin-top: 20px;
+  flex-grow: 0;
   cursor: pointer;
   &:hover ${Image} {
     transform: scale(1.07);
@@ -84,9 +84,12 @@ const SaleTag = styled.div`
 
 const ImageContainer = styled.div`
   height: 280px;
+  width: 100%;
   overflow: hidden;
   position: relative;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
   &::after {
     background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.65));
     bottom: 0;

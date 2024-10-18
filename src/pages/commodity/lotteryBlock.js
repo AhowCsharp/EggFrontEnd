@@ -34,6 +34,11 @@ const Block = styled.div`
   margin: 2rem 0;
 `
 
+const SelectedBlock = styled(Block)`
+  width: 100%;
+  justify-content: flex-start;
+`
+
 const DrawOutInfo = styled.div`
   span + span {
     margin-left: 2rem;
@@ -52,8 +57,8 @@ const DrawOutBtn = styled.div`
 `
 
 const DrawOutTimeBtn = styled(DrawOutBtn)`
-  background: unset;
-  color: ${(p) => p.theme.color.drawOutTimeBtn};
+  background: ${(p) => (p.isActive ? p.theme.color.drawOutTimeBtn : 'unset')};
+  color: ${(p) => (p.isActive ? '#fff' : p.theme.color.drawOutTimeBtn)};
   border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
   margin-left: 1rem;
 `
@@ -68,8 +73,12 @@ const BtnBlock = styled.div`
   justify-content: space-between;
   flex-direction: row;
   margin: 10px 0;
+  flex-wrap: wrap;
   ${Block} {
     margin: 0;
+  }
+  ${SelectedBlock} {
+    margin-top: 1.5rem;
   }
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
@@ -178,6 +187,7 @@ export default function LotteryBlock({
   const category = commodity.category
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
+  const [selectedPrizesDisplay, setSelectedPrizesDisplay] = useState([])
   const [displayMode, setDisplayMode] = useState(DisplayMode.Pagination)
   const lotteryImg = lotteryImgs[category] || lotteryImgs.default
   const drawTimeOptions = getDrawTimeOptions(
@@ -190,6 +200,10 @@ export default function LotteryBlock({
   useEffect(() => {
     if (displayMode === DisplayMode.Pagination) setPage(1)
   }, [displayMode])
+
+  useEffect(() => {
+    setSelectedPrizesDisplay(selectedPrizes.map((i) => i + 1).join('、'))
+  }, [selectedPrizes])
   const isSimple = displayMode === DisplayMode.Simple
   const isPaginationMode = displayMode === DisplayMode.Pagination
   return (
@@ -226,6 +240,7 @@ export default function LotteryBlock({
               {drawTimeOptions.map((option) => (
                 <DrawOutTimeBtn
                   key={option.value}
+                  isActive={drawOutTimes === option.value}
                   onClick={() => setDrawOutTimes(option.value)}
                 >
                   {option.label}
@@ -242,6 +257,9 @@ export default function LotteryBlock({
                 隨機選號
               </DrawOutBtn>
             </Block>
+            {!!selectedPrizes.length && (
+              <SelectedBlock>您已選擇：{selectedPrizesDisplay}</SelectedBlock>
+            )}
           </BtnBlock>
         </>
       )}

@@ -40,6 +40,11 @@ export const hideScrollBarStyle = `
 
 const HeaderModule = styled.div`
   width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: ${(p) => p.theme.zIndex.header};
+  background-color: ${(p) => p.theme.color.danmakuMask};
+  padding: 10px 0;
 `
 
 const BaseNavItem = styled.div`
@@ -52,8 +57,8 @@ const BaseNavItem = styled.div`
   cursor: pointer;
   flex-direction: column;
   img {
-    width: 25px;
-    height: 25px;
+    width: 2.5rem;
+    height: 2.5rem;
     margin-bottom: 3px;
   }
 `
@@ -174,8 +179,9 @@ const Container = styled.div`
   color: #fff;
   width: calc(100% - 120px);
   padding: 1.125rem 1.5rem;
-  margin: 20px 60px 10px;
+  margin: 0 60px 10px;
   height: 4.125rem;
+  background-color: #08090b;
   @media (max-width: 768px) {
     display: none;
   }
@@ -206,6 +212,9 @@ const Block = styled.div`
 const Nav = styled(Block)`
   width: 100%;
   justify-content: center;
+  ${BaseNavItem} {
+    padding: 0 1rem;
+  }
   @media (max-width: 768px) {
     display: none;
   }
