@@ -420,20 +420,6 @@ export default class DataStore {
   }
 
   @flow
-  *sendInvoice(req) {
-    try {
-      const token = getToken()
-      if (token) {
-        yield Api.sendInvoice(req, token)
-      }
-    } catch (e) {
-      const msg = e.response?.data
-      this.alertMessage = `寄送失敗，${msg}`
-      console.log('sendInvoice failed', e, msg)
-    }
-  }
-
-  @flow
   *getFreeshippingticketLogs(req) {
     try {
       const token = getToken()
@@ -861,6 +847,47 @@ export default class DataStore {
     this.tagsByCategory = {
       ...this.tagsByCategory,
       [category]: res.source,
+    }
+  }
+
+  // Invoice
+  @observable
+  invoiceType1 = 1
+
+  @observable
+  invoiceNumber = ''
+
+  @action
+  setInvoiceType(value) {
+    console.log('setInvoiceType:', value)
+
+    this.invoiceType1 = value
+  }
+
+  @action
+  setInvoiceNumber(value) {
+    console.log('setInvoiceNumber:', value)
+
+    this.invoiceNumber = value
+  }
+
+  @flow
+  *sendInvoice(rec_trade_id) {
+    if (!rec_trade_id) return
+    const req = {
+      RecTradeId: rec_trade_id,
+      InvoiceType: this.invoiceType1,
+      Number: this.invoiceNumber,
+    }
+    try {
+      const token = getToken()
+      if (token) {
+        yield Api.sendInvoice(req, token)
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `寄送失敗，${msg}`
+      console.log('sendInvoice failed', e, msg)
     }
   }
 }
