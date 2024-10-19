@@ -1,22 +1,22 @@
-import { useState, useEffect, useContext } from 'react';
-import { Radio, Modal, Input, Select } from 'antd';
-import styled from 'styled-components';
-import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants';
-import { dataStore, useSelector } from '@app/store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { faLine } from '@fortawesome/free-brands-svg-icons';
-import { DrawOutBtn as Button } from '@app/pages/commodity';
-import { P } from '@app/shared/infoDialog';
-import { Container, ButtonContainer } from '../tabStyle';
-import { Content } from '../index';
-import { InvoiceContext } from './InvoiceContext';
-import TapPay from './tapPay';
+import { useState, useEffect, useContext } from 'react'
+import { Radio, Modal, Input, Select } from 'antd'
+import styled from 'styled-components'
+import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants'
+import { dataStore, useSelector } from '@app/store'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faLine } from '@fortawesome/free-brands-svg-icons'
+import { DrawOutBtn as Button } from '@app/pages/commodity'
+import { P } from '@app/shared/infoDialog'
+import { Container, ButtonContainer } from '../tabStyle'
+import { Content } from '../index'
+import { InvoiceContext } from './InvoiceContext'
+import TapPay from './tapPay'
 
 const PayWayOptions = [
   { value: 'credit_card', label: '信用卡', icon: faCreditCard },
   { value: 'line_pay', label: 'LINEPAY', icon: faLine },
-];
+]
 
 // 定義發票類型和選項
 const INVOICE_TYPES = [
@@ -38,14 +38,14 @@ const INVOICE_TYPES = [
       { value: '72374225', label: '社團法人浪浪的後盾協會' },
     ],
   },
-];
+]
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
   width: 100%;
   vertical-align: middle;
-`;
+`
 
 const Title = styled.div`
   font-weight: 700;
@@ -55,13 +55,13 @@ const Title = styled.div`
     color: rgb(245, 173, 61);
     margin-right: 5px;
   }
-`;
+`
 
 const SubTitle = styled.div`
   font-weight: 600;
   margin-top: 10px;
   margin-bottom: 10px;
-`;
+`
 
 const CheckIcon = styled(FontAwesomeIcon).attrs(() => ({
   icon: faCheck,
@@ -72,7 +72,7 @@ const CheckIcon = styled(FontAwesomeIcon).attrs(() => ({
   color: #fff;
   background-color: ${(p) =>
     p.selected ? p.theme.color.topUpSelected : '#ddd'};
-`;
+`
 
 const WarningBlock = styled.div`
   font-size: 1.25rem;
@@ -87,14 +87,14 @@ const WarningBlock = styled.div`
   * + * {
     margin-top: 10px;
   }
-`;
+`
 
 const OptionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 20px 0;
-`;
+`
 
 const BaseOption = styled.div`
   ${(p) => p.selected && `border: 2px solid ${p.theme.color.topUpSelected};`}
@@ -112,13 +112,13 @@ const BaseOption = styled.div`
     width: calc((100% - 20px) / 2);
     margin: 20px 5px 0;
   }
-`;
+`
 
 const Price = styled.div`
   color: ${(p) => p.theme.color.topUpSelected};
   font-size: 1.3rem;
   font-weight: 700;
-`;
+`
 
 const StyledRadioGroup = styled(Radio.Group)`
   display: flex;
@@ -153,7 +153,7 @@ const StyledRadioGroup = styled(Radio.Group)`
     background-color: #f5f5f5;
     color: #666;
   }
-`;
+`
 
 const StyledInvoiceRadioGroup = styled(Radio.Group)`
   display: flex;
@@ -177,7 +177,7 @@ const StyledInvoiceRadioGroup = styled(Radio.Group)`
     background-color: #f98d00;
     color: #fff;
   }
-`;
+`
 
 const InvoiceSection = styled.div`
   margin-top: 20px;
@@ -185,66 +185,70 @@ const InvoiceSection = styled.div`
   border: 1px solid #eee;
   border-radius: 8px;
   background-color: #fafafa;
-`;
+`
 
 const InvoiceOptionLabel = styled.label`
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
-`;
+`
 
 const InvoiceInput = styled(Input)`
   width: 100%;
   height: 40px;
   margin-bottom: 10px;
-`;
+`
 
 const InvoiceSelect = styled(Select)`
   width: 100%;
   margin-bottom: 10px;
-`;
+`
 
 const InvoiceNote = styled.p`
   font-size: 12px;
   color: #888;
   margin-top: -10px;
   margin-bottom: 20px;
-`;
+`
 
 export default function TopUp() {
   // 狀態變量
-  const [selectedPrice, setSelectedPrice] = useState(TOP_UP_PRICE_OPTIONS[0].value);
-  const [selectedPayWay, setSelectedPayWay] = useState('credit_card');
-  const [showTapPayPage, setShowTapPayPage] = useState(false);
-  const paymentUrl = useSelector(() => dataStore.paymentUrl);
+  const [selectedPrice, setSelectedPrice] = useState(
+    TOP_UP_PRICE_OPTIONS[0].value
+  )
+  const [selectedPayWay, setSelectedPayWay] = useState('credit_card')
+  const [showTapPayPage, setShowTapPayPage] = useState(false)
+  const paymentUrl = useSelector(() => dataStore.paymentUrl)
+  const invoiceType = useSelector(() => dataStore.invoiceType1)
+  const number = useSelector(() => dataStore.invoiceNumber)
 
-  // 使用 context
-  const {
-    invoiceType,
-    setInvoiceType,
-    number,
-    setNumber,
-  } = useContext(InvoiceContext);
+  // // 使用 context
+  // const {
+  //   // invoiceType,
+  //   setInvoiceType,
+  //   number,
+  //   setInvoiceNumber,
+  // } = useContext(InvoiceContext);
 
   useEffect(() => {
     if (paymentUrl) {
-      window.open(paymentUrl, '_self');
+      window.open(paymentUrl, '_self')
     }
-  }, [paymentUrl]);
+  }, [paymentUrl])
 
   const handlePayWayChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value
     if (value === 'line_pay') {
       Modal.info({
         title: 'LINEPAY 尚未開放',
         content: '抱歉，LINEPAY 付款方式尚未開放，請選擇其他付款方式。',
         okText: '確定',
-      });
-      setSelectedPayWay('credit_card');
+      })
+      setSelectedPayWay('credit_card')
     } else {
-      setSelectedPayWay(value);
+      setSelectedPayWay(value)
     }
-  };
+  }
 
   const handleConfirm = () => {
     // 驗證發票資訊
@@ -253,23 +257,23 @@ export default function TopUp() {
         Modal.error({
           title: '請輸入載具號碼',
           content: '請輸入您的載具號碼',
-        });
-        return;
+        })
+        return
       }
     } else if (invoiceType === 3) {
       if (!number) {
         Modal.error({
           title: '請選擇捐贈機構',
           content: '請選擇要捐贈的機構',
-        });
-        return;
+        })
+        return
       }
     }
-    setShowTapPayPage(true);
-  };
+    setShowTapPayPage(true)
+  }
 
   if (showTapPayPage)
-    return <TapPay onSubmit={dataStore.topUp} selected={selectedPrice} />;
+    return <TapPay onSubmit={dataStore.topUp} selected={selectedPrice} />
 
   return (
     <Content>
@@ -280,8 +284,8 @@ export default function TopUp() {
         <StyledRadioGroup onChange={handlePayWayChange} value={selectedPayWay}>
           {PayWayOptions.map((option) => (
             <Radio.Button key={option.value} value={option.value}>
-              <FontAwesomeIcon icon={option.icon} className="icon" />
-              {' '}{option.label}
+              <FontAwesomeIcon icon={option.icon} className="icon" />{' '}
+              {option.label}
             </Radio.Button>
           ))}
         </StyledRadioGroup>
@@ -315,8 +319,8 @@ export default function TopUp() {
           <InvoiceOptionLabel>發票類型：</InvoiceOptionLabel>
           <StyledInvoiceRadioGroup
             onChange={(e) => {
-              setInvoiceType(e.target.value);
-              setNumber(''); // 重置 number
+              dataStore.setInvoiceType(e.target.value)
+              dataStore.setInvoiceNumber('') // 重置 number
             }}
             value={invoiceType}
           >
@@ -335,10 +339,11 @@ export default function TopUp() {
               </InvoiceOptionLabel>
               <InvoiceInput
                 placeholder={
-                  INVOICE_TYPES.find((type) => type.value === invoiceType).placeholder
+                  INVOICE_TYPES.find((type) => type.value === invoiceType)
+                    .placeholder
                 }
                 value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                onChange={(e) => dataStore.setInvoiceNumber(e.target.value)}
               />
               <InvoiceNote>
                 {invoiceType === 1
@@ -355,15 +360,15 @@ export default function TopUp() {
               <InvoiceSelect
                 placeholder="請選擇捐贈機構"
                 value={number}
-                onChange={(value) => setNumber(value)}
+                onChange={(value) => dataStore.setInvoiceNumber(value)}
               >
-                {INVOICE_TYPES.find((type) => type.value === 3).donateOptions.map(
-                  (option) => (
-                    <Select.Option key={option.value} value={option.value}>
-                      {option.label}
-                    </Select.Option>
-                  )
-                )}
+                {INVOICE_TYPES.find(
+                  (type) => type.value === 3
+                ).donateOptions.map((option) => (
+                  <Select.Option key={option.value} value={option.value}>
+                    {option.label}
+                  </Select.Option>
+                ))}
               </InvoiceSelect>
             </>
           )}
@@ -376,7 +381,7 @@ export default function TopUp() {
         </ButtonContainer>
       </Container>
     </Content>
-  );
+  )
 }
 
 function Option({ selected, setSelected, value, name, src }) {
@@ -389,5 +394,5 @@ function Option({ selected, setSelected, value, name, src }) {
       <Image src={src} alt={name} />
       <Price>{name}</Price>
     </BaseOption>
-  );
+  )
 }

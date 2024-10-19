@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import Layout from '@app/shared/layout'
 import useAuth from '@app/utils/hooks/useAuth'
 import paths from '@app/utils/paths'
-import { useState, useEffect,useContext } from 'react'
+import { dataStore, useSelector } from '@app/store'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PROFILE_TAB } from '@app/utils/constants'
 import profileIcon from '@app/static/profile'
@@ -113,7 +114,11 @@ const navList = [
     type: PROFILE_TAB.RECLAIM_LOG,
   },
   { title: '配送紀錄', src: profileIcon.shipLog, type: PROFILE_TAB.SHIP_LOG },
-  { title: '任務成就', src: profileIcon.shipLog, type: PROFILE_TAB.TASK_HISTORY },
+  {
+    title: '任務成就',
+    src: profileIcon.shipLog,
+    type: PROFILE_TAB.TASK_HISTORY,
+  },
   { title: '神秘寶箱', src: profileIcon.shipLog, type: PROFILE_TAB.CRATE_LOG },
   {
     title: '免運券紀錄',
@@ -132,10 +137,13 @@ export default function Profile() {
   const rec_trade_id = searchParams.get('rec_trade_id')
   const [activeType, setActiveType] = useState(type || 'member')
 
-  const {
-    invoiceType,
-    number,
-  } = useContext(InvoiceContext);
+  const invoiceType = useSelector(() => dataStore.invoiceType1)
+  const number = useSelector(() => dataStore.invoiceNumber)
+
+  // const {
+  // invoiceType,
+  //   number,
+  // } = useContext(InvoiceContext);
 
   useEffect(() => {
     setActiveType(type)
@@ -180,7 +188,7 @@ export default function Profile() {
       case PROFILE_TAB.SHIP_LOG:
         return <ShipLog />
       case PROFILE_TAB.TICKETS:
-        return <Tickets /> 
+        return <Tickets />
       case PROFILE_TAB.CRATE_LOG:
         return <CrateLog />
       case PROFILE_TAB.TOP_UP:
@@ -195,8 +203,8 @@ export default function Profile() {
             goBack={onNavClick(PROFILE_TAB.MEMBER)}
             result={result}
             rec_trade_id={rec_trade_id}
-            number = {number}
-            invoiceType= {invoiceType}
+            number={number}
+            invoiceType={invoiceType}
           />
         )
       default:

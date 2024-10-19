@@ -1,40 +1,40 @@
-import styled from 'styled-components';
-import { DrawOutBtn as Button } from '@app/pages/commodity';
-import { useEffect,useState } from 'react';
-import { dataStore, useSelector } from '@app/store/index';
-import { TOP_UP_RESULT, TOP_UP_RESULT_LOCALE } from '@app/utils/constants';
-import { Container, ButtonContainer } from './tabStyle';
-import { Content } from './index';
+import styled from 'styled-components'
+import { DrawOutBtn as Button } from '@app/pages/commodity'
+import { useEffect } from 'react'
+import { dataStore, useSelector } from '@app/store/index'
+import { TOP_UP_RESULT, TOP_UP_RESULT_LOCALE } from '@app/utils/constants'
+import { Container, ButtonContainer } from './tabStyle'
+import { Content } from './index'
 
 const Title = styled.div`
   font-weight: 700;
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
-`;
+`
 
-export default function TopUpResult({ result, goBack,rec_trade_id,number,invoiceType}) {
-  const topUpResult = useSelector(() => dataStore.topUpResult);
-  const [req, setReq] = useState({
-    rec_trade_id
-  })
+export default function TopUpResult({
+  result,
+  goBack,
+  rec_trade_id,
+  number,
+  invoiceType,
+}) {
+  const topUpResult = useSelector(() => dataStore.topUpResult)
+  // const [req, setReq] = useState({
+  //   rec_trade_id,
+  // })
   useEffect(() => {
-    if (+result !== TOP_UP_RESULT.FAILED) {
-      dataStore.getTopUpResult(req);
-      console.log('topUpResult:'+topUpResult);
-      console.log(result);
-      console.log('invoiceType'+invoiceType);
-      console.log('number'+number);
-      console.log('rec_trade_id'+rec_trade_id);
-
-      const body = {
-          RecTracdeId : rec_trade_id,
-          InvoiceType: invoiceType,
-          Number:number
-      }
-      dataStore.sendInvoice(body);
+    if (+result !== TOP_UP_RESULT.FAILED && !!rec_trade_id) {
+      dataStore.getTopUpResult({ rec_trade_id })
+      console.log('topUpResult:' + topUpResult)
+      console.log(result)
+      console.log('invoiceType' + invoiceType)
+      console.log('number' + number)
+      console.log('rec_trade_id' + rec_trade_id)
+      dataStore.sendInvoice(rec_trade_id)
     }
-  }, [result]);
+  }, [result, rec_trade_id])
 
   if (+result === TOP_UP_RESULT.FAILED)
     return (
@@ -43,7 +43,7 @@ export default function TopUpResult({ result, goBack,rec_trade_id,number,invoice
           <Title>{TOP_UP_RESULT_LOCALE[TOP_UP_RESULT.FAILED]}</Title>
         </Container>
       </Content>
-    );
+    )
 
   if (topUpResult === TOP_UP_RESULT.NONE)
     return (
@@ -52,7 +52,7 @@ export default function TopUpResult({ result, goBack,rec_trade_id,number,invoice
           <Title>交易中，請稍候...</Title>
         </Container>
       </Content>
-    );
+    )
 
   return (
     <Content>
@@ -63,12 +63,12 @@ export default function TopUpResult({ result, goBack,rec_trade_id,number,invoice
         </ButtonContainer>
       </Container>
     </Content>
-  );
+  )
 
   function getMsg() {
     return (
       TOP_UP_RESULT_LOCALE[topUpResult] ||
       TOP_UP_RESULT_LOCALE[TOP_UP_RESULT.FAILED]
-    );
+    )
   }
 }
