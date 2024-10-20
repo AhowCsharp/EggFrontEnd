@@ -280,7 +280,10 @@ export default function LotteryBlock({
               />
             )
 
-          const src = lotteryImg.done[p?.prizeLevel] && lotteryImg.done
+          const src =
+            typeof lotteryImg.done === 'string'
+              ? lotteryImg.done
+              : lotteryImg.done?.[p?.prizeLevel] || lotteryImg.done[0]
           return (
             <Lottery
               key={index}
