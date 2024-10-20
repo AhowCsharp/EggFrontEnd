@@ -171,22 +171,6 @@ const MobileNavButton = styled.div`
   }
 `
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #fff;
-  border-radius: 100px;
-  color: #fff;
-  width: calc(100% - 120px);
-  padding: 1.125rem 1.5rem;
-  margin: 0 60px 10px;
-  height: 4.125rem;
-  background-color: #08090b;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`
-
 const Block = styled.div`
   display: flex;
   &.row {
@@ -206,6 +190,31 @@ const Block = styled.div`
   }
   .divider {
     border-left: 1px solid #fff;
+  }
+`
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #fff;
+  border-radius: 100px;
+  color: #fff;
+  width: calc(100% - 120px - 3rem);
+  padding: 1.125rem 1.5rem;
+  margin: 0 60px 10px;
+  height: 4.125rem;
+  background-color: #08090b;
+  > ${Block} {
+    width: 33%;
+  }
+  > ${Block}:first-child {
+    justify-content: flex-start;
+  }
+  > ${Block}:last-child {
+    justify-content: flex-end;
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `
 
