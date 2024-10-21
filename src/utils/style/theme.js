@@ -36,6 +36,13 @@ const theme = {
     header: 6,
     danmaku: 7,
   },
+  mobile: {
+    color: {
+      font: '#fff',
+      background: '#081324',
+      desc: '#aaa',
+    },
+  },
 }
 
 export default theme

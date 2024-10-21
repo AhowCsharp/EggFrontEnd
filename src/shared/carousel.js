@@ -29,7 +29,7 @@ const Carousel = styled(BaseCarousel)`
 
   > .slick-prev:hover,
   > .slick-next:hover {
-    color: black;
+    color: #aaa;
   }
 `
 

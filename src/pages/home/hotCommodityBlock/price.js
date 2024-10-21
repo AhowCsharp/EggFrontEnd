@@ -5,7 +5,6 @@ import { CATEGORY } from '@app/utils/constants'
 const BasePrice = styled.div`
   margin-right: 8px;
   z-index: 1;
-  color: #000;
   font-size: 1.5rem;
   display: flex;
   align-items: center;

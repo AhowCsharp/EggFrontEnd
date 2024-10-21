@@ -171,6 +171,9 @@ export const Header = styled.div`
     display: flex;
     align-items: center;
   }
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const DrawOutTimesTag = styled.div`

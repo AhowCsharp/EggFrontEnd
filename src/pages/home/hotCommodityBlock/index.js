@@ -43,6 +43,9 @@ export const Header = styled.div`
   ${ArrowButton} + ${ArrowButton} {
     margin-left: 8px;
   }
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const Container = styled.div`
@@ -54,7 +57,7 @@ const Container = styled.div`
   margin-top: -20px;
   min-height: 150px;
   .item + .item {
-    margin-left: 15px;
+    margin-left: 8px;
   }
   @media (max-width: 768px) {
     margin: 1rem 0;
@@ -63,11 +66,27 @@ const Container = styled.div`
 
 export default function HotCommodityBlock({ data }) {
   const goto = useNavigate()
-  const pageSize = 4
+
+  const mobileQuery = window.matchMedia('(max-width: 768px)')
+  const [isMobile, setIsMobile] = useState(mobileQuery.matches)
+  useEffect(() => {
+    const handleChange = (event) => {
+      setIsMobile(event.matches)
+    }
+    mobileQuery.addEventListener('change', handleChange)
+    return () => {
+      mobileQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
+  const pageSize = isMobile ? 2 : 4
   const pageCount = Math.ceil(data.length / pageSize)
   const [page, setPage] = useState(1)
   const [showData, setShowData] = useState([])
 
+  useEffect(() => {
+    setPage(1)
+  }, [pageSize])
   useEffect(() => {
     setShowData(data.slice((page - 1) * pageSize, page * pageSize))
   }, [data, page])

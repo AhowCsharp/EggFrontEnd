@@ -24,6 +24,7 @@ export default createGlobalStyle`
   @media (max-width: 768px) {
     body, html {
       font-size: 14px;
+      color:${(p) => p.theme.mobile.color.font};
     }
   }
 `

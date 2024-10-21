@@ -22,7 +22,8 @@ const Container = styled.div`
     transform: scale(1.07);
   }
   @media (max-width: 768px) {
-    width: 100%;
+    border: 1px solid #fff;
+    width: calc(50% - 4px);
     margin: 0 0 10px;
   }
 `
