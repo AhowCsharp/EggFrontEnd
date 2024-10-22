@@ -173,11 +173,26 @@ const MobileNavButton = styled.div`
 
 const Block = styled.div`
   display: flex;
+  flex: 0%;
+  min-width: 224px;
+  > * {
+    padding: 0 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &.row {
+    flex: 100%;
     flex-direction: row;
+    justify-content: space-between;
+    justify-content: center;
     > * {
       flex-direction: row;
+      padding: 0 0.25rem;
     }
+  }
+  &.logo {
+    min-width: 145px;
   }
   > * {
     padding: 0 0.75rem;
@@ -204,9 +219,6 @@ const Container = styled.div`
   margin: 0 60px 10px;
   height: 4.125rem;
   background-color: #08090b;
-  > ${Block} {
-    width: 33%;
-  }
   > ${Block}:first-child {
     justify-content: flex-start;
   }
@@ -310,7 +322,7 @@ function Header() {
   return (
     <HeaderModule>
       <Container>
-        <Block>
+        <Block className="logo">
           <Logo src={logoImg} onClick={() => goto(paths.index)} />
           <span className="digital-font divider">剩蛋快樂</span>
         </Block>
