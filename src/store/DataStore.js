@@ -11,7 +11,9 @@ import {
 import locale from '@app/utils/formLocale'
 import wait from '@app/utils/wait'
 import store from './helpers/store'
-import { CATEGORY } from '@app/utils/constants'
+
+const invoiceNumberEncodedKey = btoa('invoiceNumber')
+const invoiceTypeEncodedKey = btoa('invoiceType')
 
 const getToken = () => {
   const encodedKey = btoa('token')
@@ -297,8 +299,11 @@ export default class DataStore {
   @action
   logout() {
     const encodedKey = btoa('token')
+
     localStorage.removeItem(encodedKey)
     localStorage.removeItem('referralCode')
+    localStorage.removeItem(invoiceNumberEncodedKey)
+    localStorage.removeItem(invoiceTypeEncodedKey)
     this.member = undefined
     this.isLogged = false
     this.countdownSec = {}
@@ -632,6 +637,11 @@ export default class DataStore {
   @flow
   *topUp(req) {
     const token = getToken()
+    console.log('topUp:', req, this.invoiceNumber, this.invoiceType)
+
+    localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
+    localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
+
     if (token) {
       yield TPDirect.card.getPrime(getPrimeCallback(token, req, this))
     }
@@ -852,16 +862,16 @@ export default class DataStore {
 
   // Invoice
   @observable
-  invoiceType1 = 1
+  invoiceType = localStorage.getItem(invoiceTypeEncodedKey) || 1
 
   @observable
-  invoiceNumber = ''
+  invoiceNumber = localStorage.getItem(invoiceNumberEncodedKey) || ''
 
   @action
   setInvoiceType(value) {
     console.log('setInvoiceType:', value)
 
-    this.invoiceType1 = value
+    this.invoiceType = value
   }
 
   @action
@@ -876,9 +886,10 @@ export default class DataStore {
     if (!rec_trade_id) return
     const req = {
       RecTradeId: rec_trade_id,
-      InvoiceType: this.invoiceType1,
+      InvoiceType: this.invoiceType,
       Number: this.invoiceNumber,
     }
+    console.log('sendInvoice ~ req:', req)
     try {
       const token = getToken()
       if (token) {

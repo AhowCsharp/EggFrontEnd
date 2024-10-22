@@ -10,7 +10,6 @@ import { DrawOutBtn as Button } from '@app/pages/commodity'
 import { P } from '@app/shared/infoDialog'
 import { Container, ButtonContainer } from '../tabStyle'
 import { Content } from '../index'
-import { InvoiceContext } from './InvoiceContext'
 import TapPay from './tapPay'
 
 const PayWayOptions = [
@@ -55,12 +54,6 @@ const Title = styled.div`
     color: rgb(245, 173, 61);
     margin-right: 5px;
   }
-`
-
-const SubTitle = styled.div`
-  font-weight: 600;
-  margin-top: 10px;
-  margin-bottom: 10px;
 `
 
 const CheckIcon = styled(FontAwesomeIcon).attrs(() => ({
@@ -212,23 +205,14 @@ const InvoiceNote = styled.p`
 `
 
 export default function TopUp() {
-  // 狀態變量
   const [selectedPrice, setSelectedPrice] = useState(
     TOP_UP_PRICE_OPTIONS[0].value
   )
   const [selectedPayWay, setSelectedPayWay] = useState('credit_card')
   const [showTapPayPage, setShowTapPayPage] = useState(false)
   const paymentUrl = useSelector(() => dataStore.paymentUrl)
-  const invoiceType = useSelector(() => dataStore.invoiceType1)
+  const invoiceType = useSelector(() => +dataStore.invoiceType)
   const number = useSelector(() => dataStore.invoiceNumber)
-
-  // // 使用 context
-  // const {
-  //   // invoiceType,
-  //   setInvoiceType,
-  //   number,
-  //   setInvoiceNumber,
-  // } = useContext(InvoiceContext);
 
   useEffect(() => {
     if (paymentUrl) {

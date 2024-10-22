@@ -19,7 +19,6 @@ import FreeshippingTicketLog from './freeshippingTicketLog'
 import StoredLog from './storedLog'
 import TaskLog from './taskLog'
 import CrateLog from './crateLog'
-import { InvoiceContext } from './topUp/InvoiceContext'
 
 const Nav = styled.div`
   width: 180px;
@@ -137,14 +136,6 @@ export default function Profile() {
   const rec_trade_id = searchParams.get('rec_trade_id')
   const [activeType, setActiveType] = useState(type || 'member')
 
-  const invoiceType = useSelector(() => dataStore.invoiceType1)
-  const number = useSelector(() => dataStore.invoiceNumber)
-
-  // const {
-  // invoiceType,
-  //   number,
-  // } = useContext(InvoiceContext);
-
   useEffect(() => {
     setActiveType(type)
   }, [type])
@@ -203,8 +194,6 @@ export default function Profile() {
             goBack={onNavClick(PROFILE_TAB.MEMBER)}
             result={result}
             rec_trade_id={rec_trade_id}
-            number={number}
-            invoiceType={invoiceType}
           />
         )
       default:

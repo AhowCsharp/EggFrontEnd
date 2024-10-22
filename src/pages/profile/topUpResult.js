@@ -13,17 +13,11 @@ const Title = styled.div`
   justify-content: center;
 `
 
-export default function TopUpResult({
-  result,
-  goBack,
-  rec_trade_id,
-  number,
-  invoiceType,
-}) {
+export default function TopUpResult({ result, goBack, rec_trade_id }) {
   const topUpResult = useSelector(() => dataStore.topUpResult)
-  // const [req, setReq] = useState({
-  //   rec_trade_id,
-  // })
+  const invoiceType = useSelector(() => +dataStore.invoiceType)
+  const number = useSelector(() => dataStore.invoiceNumber)
+
   useEffect(() => {
     if (+result !== TOP_UP_RESULT.FAILED && !!rec_trade_id) {
       dataStore.getTopUpResult({ rec_trade_id })
