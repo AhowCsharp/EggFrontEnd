@@ -1,16 +1,12 @@
 import { useSelector, dataStore } from '@app/store'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Table,Button,Modal, Select, InputNumber, message } from 'antd'
+import { Table, Button, Modal, Select, InputNumber, message } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
 import { Content } from './index'
-import { Container, RangePicker, Search } from './tabStyle'
-import coinImg from '@app/static/profile/coin.png'
-import ticket2000Img from '@app/static/profile/ticket-2000.png'
-import ticketPlatformImg from '@app/static/profile/ticket-platform.png'
-import coinWelfareImg from '@app/static/profile/coin-welfare.png'
-
+import { Container, RangePicker } from './tabStyle'
+import img from '@app/static/crateLog'
 const { Column } = Table
 
 const InfoContainer = styled.div`
@@ -44,21 +40,21 @@ const InfoItem = styled.div`
 `
 
 export default function CrateLog() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedLevel, setSelectedLevel] = useState(null);
-  const [crateAmount, setCrateAmount] = useState(1);
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedLevel, setSelectedLevel] = useState(null)
+  const [crateAmount, setCrateAmount] = useState(1)
   const crateLogs = useSelector(() => dataStore.crateLogs)
   const dateRange = getDefaultDateRange()
 
   const showModal = () => {
-    setIsModalVisible(true);
-  };
+    setIsModalVisible(true)
+  }
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-    setSelectedLevel(null);
-    setCrateAmount(1);
-  };
+    setIsModalVisible(false)
+    setSelectedLevel(null)
+    setCrateAmount(1)
+  }
 
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
@@ -68,23 +64,23 @@ export default function CrateLog() {
 
   const onOpenCrate = async () => {
     if (!selectedLevel) {
-      message.error('請選擇寶箱等級');
-      return;
+      message.error('請選擇寶箱等級')
+      return
     }
     if (!crateAmount || crateAmount <= 0) {
-      message.error('請輸入有效的寶箱數量');
-      return;
+      message.error('請輸入有效的寶箱數量')
+      return
     }
-  
+
     const body = {
       crate: {
         [selectedLevel]: crateAmount,
       },
-    };
-    await dataStore.openCrate(body);
-    handleCancel(); 
-    await dataStore.getCrateLogs(req); 
-  };
+    }
+    await dataStore.openCrate(body)
+    handleCancel()
+    await dataStore.getCrateLogs(req)
+  }
 
   useEffect(() => {
     dataStore.getCrateLogs(req)
@@ -100,42 +96,24 @@ export default function CrateLog() {
     Level4: '白金',
     Level5: '黃金',
     Level6: '神秘',
-
-  }
-  const crateImages = {
-    Level1: coinImg,
-    Level2: coinWelfareImg,
-    Level3: ticketPlatformImg,
-    Level4: ticket2000Img,
-    Level5: ticket2000Img, 
-    Level6: ticket2000Img, 
-  }
-
-  const keyImages = {
-    Level1: coinImg,
-    Level2: coinWelfareImg,
-    Level3: ticketPlatformImg,
-    Level4: ticket2000Img,
-    Level5: ticket2000Img, 
-    Level6: ticket2000Img, 
   }
 
   return (
     <Content>
       <Container>
         <InfoContainer>
-          {levels.map((level) => (
+          {levels.map((level, i) => (
             <InfoItem key={level}>
-              <img src={crateImages[level]} alt={levelLabels[level]} />
+              <img src={img.keys[i + 1]} alt={levelLabels[level]} />
               <span>{data.keyCount?.[level] || 0}</span>
               <span>{levelLabels[level]}</span>
             </InfoItem>
           ))}
         </InfoContainer>
         <InfoContainer>
-          {levels.map((level) => (
+          {levels.map((level, i) => (
             <InfoItem key={level}>
-              <img src={crateImages[level]} alt={levelLabels[level]} />
+              <img src={img.crates[i + 1]} alt={levelLabels[level]} />
               <span>{data.crateCount?.[level] || 0}</span>
               <span>{levelLabels[level]}</span>
             </InfoItem>
@@ -146,7 +124,7 @@ export default function CrateLog() {
             開啟寶箱
           </Button>
         </div>
-          <Modal
+        <Modal
           title="開啟寶箱"
           visible={isModalVisible}
           onOk={onOpenCrate}
