@@ -45,8 +45,6 @@ const FilterTypeByKey = Object.values(FilterType).reduce((acc, cur) => {
   return acc
 }, {})
 
-console.log('🚀 ~ FilterTypeByKey ~ FilterTypeByKey:', FilterTypeByKey)
-
 export const DefaultFilterOptions = {}
 
 const commodityCategoryOptions = {
@@ -100,6 +98,22 @@ const commodityCategoryOptions = {
   ],
 }
 
+// 定義一個函數，根據類別返回對應的顏色
+const getCategoryColor = (category) => {
+  switch (category) {
+    case FilterType.Manufacturer.key:
+      return '#FFD700' // 金色
+    case FilterType.Tags.key:
+      return '#7FFFD4' // 綠松石色
+    case FilterType.CommodityCategory.key:
+      return '#FF69B4' // 粉紅色
+    case FilterType.Selected.key:
+      return '#FFA500' // 橙色
+    default:
+      return '#D3D3D3' // 淺灰色
+  }
+}
+
 const Mask = styled.div`
   position: absolute;
   top: 0;
@@ -127,7 +141,6 @@ const Container = styled.div`
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
   overflow-x: hidden;
   overflow-y: auto;
-  display: flex;
   @media (max-width: 768px) {
     width: 90%;
     left: 5%;
@@ -179,13 +192,22 @@ const Content = styled(Block)`
   }
 `
 
+// 修改 Tag 組件，設置字體為粗體
 const Tag = styled.div`
   border-radius: 4px;
   padding: 0.5rem 1rem;
-  background: ${(p) => p.theme.color.red};
-  color: white;
+  background: ${(p) => getCategoryColor(p.category)};
+  color: black;
   cursor: pointer;
   margin: 0.5rem 0.25rem 0 0;
+  font-weight: bold; /* 字體設置為粗體 */
+`
+
+// 修改 SelectedTag 組件，不改變字體顏色，保持黑色
+const SelectedTag = styled(Tag)`
+  border: 2px solid black;
+  background: ${(p) => getCategoryColor(p.category)};
+  /* 移除 color: white，保持字體為黑色 */
 `
 
 const BaseSection = styled.div`
@@ -201,11 +223,6 @@ const BaseSection = styled.div`
       margin-left: 0.5rem;
     }
   }
-`
-
-const SelectedTag = styled(Tag)`
-  background: ${(p) => p.theme.color.orange};
-  color: black;
 `
 
 export default function FilterDialog({
@@ -239,46 +256,56 @@ export default function FilterDialog({
         </Header>
         <Content>
           <Section type={FilterType.Selected}>
-            {Object.keys(selectedOptions).map((category) => {
-              const setting = FilterTypeByKey[category]
+            {Object.keys(selectedOptions).map((categoryKey) => {
+              const setting = FilterTypeByKey[categoryKey]
               if (setting.hideInSelected) return null
               switch (setting.type) {
                 case 'string':
-                  if (!selectedOptions[category]) return null
+                  if (!selectedOptions[categoryKey]) return null
                   return (
                     <SelectedTag
+                      key={categoryKey}
+                      category={categoryKey}
                       onClick={() =>
                         setSelectedOptions({
                           ...selectedOptions,
-                          [category]: null,
+                          [categoryKey]: null,
                         })
                       }
                     >
-                      {selectedOptions[category]}
+                      {selectedOptions[categoryKey]}
                     </SelectedTag>
                   )
                 case 'array':
                   if (
-                    !selectedOptions[category] ||
-                    !selectedOptions[category].length
+                    !selectedOptions[categoryKey] ||
+                    !selectedOptions[categoryKey].length
                   )
                     return null
-                  return selectedOptions[category]?.map((option) => {
+                  return selectedOptions[categoryKey]?.map((option) => {
+                    const tagLabel =
+                      categoryKey === FilterType.Tags.key
+                        ? tags.find((t) => t.id === option)?.tagName
+                        : option
                     return (
                       <SelectedTag
+                        key={option}
+                        category={categoryKey}
                         onClick={() =>
                           setSelectedOptions({
                             ...selectedOptions,
-                            [category]: selectedOptions[category].filter(
+                            [categoryKey]: selectedOptions[categoryKey].filter(
                               (o) => o !== option
                             ),
                           })
                         }
                       >
-                        {tags.find((t) => t.id === option)?.tagName}
+                        {tagLabel}
                       </SelectedTag>
                     )
                   })
+                default:
+                  return null
               }
             })}
           </Section>
@@ -289,6 +316,7 @@ export default function FilterDialog({
               return (
                 <Tag
                   key={m.id}
+                  category={FilterType.Manufacturer.key}
                   onClick={handleClick(FilterType.Manufacturer, m, 'name')}
                 >
                   {m.name}
@@ -301,19 +329,24 @@ export default function FilterDialog({
               if (selectedOptions[FilterType.Tags.key]?.includes(m.id))
                 return null
               return (
-                <Tag key={m.id} onClick={handleClick(FilterType.Tags, m, 'id')}>
+                <Tag
+                  key={m.id}
+                  category={FilterType.Tags.key}
+                  onClick={handleClick(FilterType.Tags, m, 'id')}
+                >
                   {m.tagName}
                 </Tag>
               )
             })}
           </Section>
           <Section type={FilterType.CommodityCategory}>
-            {commodityCategoryOptions[category].map((m) => {
+            {commodityCategoryOptions[category]?.map((m) => {
               if (selectedOptions[FilterType.CommodityCategory.key] === m.label)
                 return null
               return (
                 <Tag
-                  key={m.id}
+                  key={m.value}
+                  category={FilterType.CommodityCategory.key}
                   onClick={handleClick(
                     FilterType.CommodityCategory,
                     m,
@@ -378,7 +411,7 @@ export default function FilterDialog({
         return () => {
           setSelectedOptions({
             ...selectedOptions,
-            [key]: [...selectedOptions[key], data[dataKey]],
+            [key]: data[dataKey],
           })
         }
     }
