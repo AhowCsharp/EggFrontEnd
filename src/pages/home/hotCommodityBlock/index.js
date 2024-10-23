@@ -61,25 +61,19 @@ const Container = styled.div`
   }
   @media (max-width: 768px) {
     margin: 1rem 0;
+    flex-wrap: wrap;
+    .item + .item {
+      margin-left: 0;
+    }
+    .item:nth-child(even) {
+      margin-left: 8px;
+    }
   }
 `
 
 export default function HotCommodityBlock({ data }) {
   const goto = useNavigate()
-
-  const mobileQuery = window.matchMedia('(max-width: 768px)')
-  const [isMobile, setIsMobile] = useState(mobileQuery.matches)
-  useEffect(() => {
-    const handleChange = (event) => {
-      setIsMobile(event.matches)
-    }
-    mobileQuery.addEventListener('change', handleChange)
-    return () => {
-      mobileQuery.removeEventListener('change', handleChange)
-    }
-  }, [])
-
-  const pageSize = isMobile ? 2 : 4
+  const pageSize = 4
   const pageCount = Math.ceil(data.length / pageSize)
   const [page, setPage] = useState(1)
   const [showData, setShowData] = useState([])

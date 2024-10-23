@@ -92,6 +92,13 @@ const TagContainer = styled.div`
   .tag {
     margin: 0;
   }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .tag {
+      margin-top: 8px;
+    }
+  }
 `
 
 export default function Commodity({ data, handleClick }) {

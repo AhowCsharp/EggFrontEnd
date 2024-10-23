@@ -41,6 +41,8 @@ const theme = {
       font: '#fff',
       background: '#081324',
       desc: '#aaa',
+      descBg: '#212b3a',
+      warning: 'rgba(255, 0, 0.3)',
     },
   },
 }

@@ -26,10 +26,17 @@ const ProductContainer = styled.div`
   min-height: 150px;
   width: 100%;
   .item + .item {
-    margin-left: 15px;
+    margin-left: 8px;
   }
   @media (max-width: 768px) {
     margin: 1rem 0;
+    flex-wrap: wrap;
+    .item + .item {
+      margin-left: 0;
+    }
+    .item:nth-child(even) {
+      margin-left: 8px;
+    }
   }
 `
 
@@ -56,6 +63,12 @@ const Radio = styled(BaseRadio)`
     top: unset !important;
     display: none !important;
     color: inherit !important;
+  }
+  @media (max-width: 768px) {
+    .ant-radio-button-wrapper {
+      background-color: ${(p) => p.theme.mobile.color.background};
+      color: ${(p) => p.theme.mobile.color.font};
+    }
   }
 `
 
