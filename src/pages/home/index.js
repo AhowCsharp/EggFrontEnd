@@ -18,6 +18,8 @@ import useRandomColors from '@app/utils/hooks/useRandomColors'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 
+export const DisplayPageSize = 4
+
 const ImageContainer = styled.div`
   overflow: hidden;
   position: relative;
@@ -151,7 +153,7 @@ export default function Home() {
       <Layout>
         <CampaignBlock data={news} />
         <HotCommodityBlock data={hotAds} />
-        <Header>
+        <Header className="digital-font">
           <div className="block">
             <img src={headerImg} />
             全部商品

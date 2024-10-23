@@ -1,15 +1,7 @@
 import styled from 'styled-components'
-import Campaign from './campaign'
-import headerImg from '@app/static/header.png'
-import { url } from '@app/utils/paths'
-import { useNavigate } from 'react-router-dom'
-import {
-  faChevronRight,
-  faChevronLeft,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useState } from 'react'
 import { hideScrollBarStyle } from '@app/shared/header'
+import PcContainer from './pcContainer'
+import MobileContainer from './mobileContainer'
 
 const ArrowButton = styled.div`
   width: 24px;
@@ -25,7 +17,36 @@ const ArrowButton = styled.div`
   align-items: center;
 `
 
-export const Header = styled.div`
+const InnerContainer = styled.div`
+  width: calc(50% - 8px);
+`
+
+const OthersContainer = styled(InnerContainer)`
+  max-height: 550px;
+  overflow-y: auto;
+  ${hideScrollBarStyle}
+`
+
+const Layout = styled.div`
+  display: flex;
+  padding: 10px 0;
+  margin: 1rem 0;
+  justify-content: space-between;
+  .item + .item {
+    margin-top: 1.25rem;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    ${InnerContainer} {
+      width: 100%;
+    }
+    ${OthersContainer} {
+      display: none;
+    }
+  }
+`
+
+const Header = styled.div`
   border-bottom: 1px solid ${(p) => p.theme.color.red};
   color: #160d00;
   font-size: 1.5rem;
@@ -44,94 +65,45 @@ export const Header = styled.div`
   ${ArrowButton} + ${ArrowButton} {
     margin-left: 8px;
   }
-`
-
-const Container = styled.div`
-  display: flex;
-  padding: 10px 0;
-  margin: 1rem 0;
-  justify-content: space-between;
-  .item + .item {
-    margin-top: 1.25rem;
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
   }
 `
 
-const InnerContainer = styled.div`
-  width: calc(50% - 8px);
-`
+export {
+  Layout as Container,
+  ArrowButton,
+  Header,
+  InnerContainer,
+  OthersContainer,
+}
 
-const OthersContainer = styled(InnerContainer)`
-  max-height: 550px;
-  overflow-y: auto;
-  ${hideScrollBarStyle}
+const Container = styled.div`
+  .container {
+    &.pc {
+      display: block;
+    }
+    &.mobile {
+      display: none;
+    }
+  }
+  @media (max-width: 768px) {
+    .container {
+      &.pc {
+        display: none;
+      }
+      &.mobile {
+        display: block;
+      }
+    }
+  }
 `
 
 export default function CampaignBlock({ data }) {
-  const goto = useNavigate()
-  const [nowCampaign, setNowCampaign] = useState(data[0])
-  const [nowIndex, setNowIndex] = useState(0)
-  const [otherCampaigns, setOtherCampaigns] = useState(data.slice(1))
-
-  useEffect(() => {
-    if (data[nowIndex]) {
-      setNowCampaign(data[nowIndex])
-      setOtherCampaigns(data.filter((_, index) => index !== nowIndex))
-    } else {
-      setNowIndex(0)
-    }
-  }, [nowIndex, data])
-  if (data.length === 0) {
-    return null
-  }
   return (
-    <>
-      <Header className="digital-font">
-        <div className="block">
-          <img src={headerImg} />
-          活動消息
-        </div>
-        <div className="block">
-          <ArrowButton
-            disabled={nowIndex === 0}
-            onClick={() => nowIndex !== 0 && setNowIndex(() => nowIndex - 1)}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </ArrowButton>
-          <ArrowButton
-            disabled={nowIndex === data.length - 1}
-            onClick={() =>
-              nowIndex !== data.length - 1 && setNowIndex(() => nowIndex + 1)
-            }
-          >
-            <FontAwesomeIcon icon={faChevronRight} />
-          </ArrowButton>
-        </div>
-      </Header>
-      <Container>
-        <InnerContainer>
-          {!!nowCampaign && (
-            <Campaign
-              data={nowCampaign}
-              isHighLight
-              handleClick={handleClick}
-            />
-          )}
-        </InnerContainer>
-        <OthersContainer>
-          {otherCampaigns.map((campaign) => (
-            <Campaign
-              data={campaign}
-              handleClick={handleClick}
-              key={campaign.id}
-            />
-          ))}
-        </OthersContainer>
-      </Container>
-    </>
+    <Container>
+      <PcContainer data={data} />
+      <MobileContainer data={data} />
+    </Container>
   )
-  function handleClick(data) {
-    return () => {
-      goto(url.campaign({ campaignId: data.id }))
-    }
-  }
 }
