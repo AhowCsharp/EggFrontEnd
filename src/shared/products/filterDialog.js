@@ -98,19 +98,19 @@ const commodityCategoryOptions = {
   ],
 }
 
-// 定義一個函數，根據類別返回與 #a21a2b 相同色系的顏色
+// 修改 getCategoryColor 函數，使用同色系但更容易區分的顏色
 const getCategoryColor = (category) => {
   switch (category) {
     case FilterType.Manufacturer.key:
       return '#a21a2b' // 深紅色
     case FilterType.Tags.key:
-      return '#b33951' // 比 #a21a2b 淺一些的紅色
+      return '#d9480f' // 橘紅色
     case FilterType.CommodityCategory.key:
-      return '#c75d5d' // 再淺一些的紅色
+      return '#f59f00' // 黃色
     case FilterType.Selected.key:
-      return '#a21a2b' // 與 Manufacturer 相同的深紅色
+      return '#1864ab' // 藍色
     default:
-      return '#e1a7a7' // 最淺的紅色，作為默認
+      return '#868e96' // 灰色，作為默認
   }
 }
 
@@ -186,7 +186,7 @@ const Content = styled.div`
   }
 `
 
-// 修改 Tag 組件，設置字體為粗體，顏色為與 #a21a2b 相同的色系
+// 修改 Tag 組件，設置字體為粗體，使用新的顏色
 const Tag = styled.div`
   border-radius: 4px;
   padding: 0.5rem 1rem;
