@@ -72,6 +72,9 @@ const Name = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
   margin: 10px 0;
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const Tag = styled.div`
@@ -138,12 +141,18 @@ const DrawOutBtnBlock = styled(Block)`
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const DescBlock = styled.div`
   background-color: #f2f2f2;
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
+  @media (max-width: 768px) {
+    background-color: ${(p) => p.theme.mobile.color.descBg};
+  }
 `
 
 const Desc = styled.p`
@@ -152,6 +161,9 @@ const Desc = styled.p`
   ${(p) => p.large && 'font-size: 1.25rem;'}
   ${(p) => p.bold && 'font-weight: bold;'}
   margin:10px 0 0;
+  @media (max-width: 768px) {
+    color: ${(p) => p.warning && p.theme.mobile.color.warning};
+  }
 `
 
 export const Header = styled.div`
@@ -225,6 +237,7 @@ const ShipFeeIcon = styled.div`
 `
 
 const ShipFee = styled.div`
+  background-color: #fff;
   border: 1px solid ${(p) => p.theme.color.red};
   border-radius: 4px;
   color: ${(p) => p.theme.color.red};

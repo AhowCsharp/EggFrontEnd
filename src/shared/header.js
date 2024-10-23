@@ -106,8 +106,7 @@ const Logo = styled.img`
   transform: scale(1.5) translateX(-10%);
   cursor: pointer;
   @media (max-width: 768px) {
-    width: 60px;
-    margin: 7px 0 0;
+    transform: scale(1.2) translateX(-10%) translateY(-5%);
   }
 `
 
@@ -160,11 +159,7 @@ const MobileNav = styled.div`
 
 const MobileNavButton = styled.div`
   display: none;
-  width: 38px;
-  font-size: 3rem;
-  margin-right: 10px;
-  position: absolute;
-  right: 10px;
+  font-size: 1.5rem;
   cursor: pointer;
   @media (max-width: 768px) {
     display: inline-block;
@@ -193,6 +188,7 @@ const Block = styled.div`
   }
   &.logo {
     min-width: 145px;
+    min-height: 28px;
   }
   > * {
     padding: 0 0.75rem;
@@ -205,6 +201,12 @@ const Block = styled.div`
   }
   .divider {
     border-left: 1px solid #fff;
+  }
+  @media (max-width: 768px) {
+    display: none;
+    &.logo {
+      display: flex;
+    }
   }
 `
 
@@ -226,18 +228,29 @@ const Container = styled.div`
     justify-content: flex-end;
   }
   @media (max-width: 768px) {
-    display: none;
+    /* display: none; */
+    width: calc(100% - 20px);
+    margin: 0 10px 10px;
   }
 `
 
 const Nav = styled(Block)`
   width: 100%;
   justify-content: center;
+  ${hideScrollBarStyle}
   ${BaseNavItem} {
     padding: 0 1rem;
+    word-break: keep-all;
   }
   @media (max-width: 768px) {
-    display: none;
+    display: flex;
+    width: calc(100% - 10px);
+    overflow-x: auto;
+    margin-left: 10px;
+    justify-content: flex-start;
+    ${BaseNavItem} {
+      padding: 0 0.5rem;
+    }
   }
 `
 
@@ -384,6 +397,9 @@ function Header() {
             </>
           )}
         </Block>
+        <MobileNavButton onClick={() => setOpenSider(openSider ? false : true)}>
+          <FontAwesomeIcon icon="fa-bars" />
+        </MobileNavButton>
       </Container>
       <Nav>
         {navList.map((item, index) => (
@@ -395,9 +411,7 @@ function Header() {
           />
         ))}
       </Nav>
-      <MobileNavButton onClick={() => setOpenSider(openSider ? false : true)}>
-        <FontAwesomeIcon icon="fa-bars" />
-      </MobileNavButton>
+
       {openSider ? (
         <MobileNav>
           {isLogged ? (
