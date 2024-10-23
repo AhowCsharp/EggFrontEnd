@@ -82,7 +82,7 @@ export const SHIP_STATUS = {
 }
 
 export const SHIP_STATUS_LOCALE = {
-  [SHIP_STATUS.FAILED]: '資料不正確不予寄出',
+  [SHIP_STATUS.FAILED]: '有異常',
   [SHIP_STATUS.PENDING]: '待寄出',
   [SHIP_STATUS.SUCCESS]: '已寄出',
 }

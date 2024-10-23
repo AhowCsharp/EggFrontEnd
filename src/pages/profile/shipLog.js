@@ -1,5 +1,6 @@
 import { useSelector, dataStore } from '@app/store'
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { Table } from 'antd'
 import {
   DEFAULT_PAGINATION,
@@ -12,6 +13,39 @@ import { Content } from './index'
 import { Container, RangePicker, Select } from './tabStyle'
 
 const { Column } = Table
+
+// 新增一个 HeaderSection 组件，用于包含 Info 和过滤器
+const HeaderSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+`
+
+// 修改 Info 组件，使其内容居中并美化
+const Info = styled.div`
+  text-align: center;
+  margin: 20px auto;
+  max-width: 600px;
+  font-size: 16px;
+  color: #333;
+
+  div {
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+`
+
+// 新增一个 FilterSection 组件，用于排列过滤器
+const FilterSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  > *:not(:last-child) {
+    margin-right: 10px;
+  }
+`
 
 export default function ShipLog() {
   const shipLog = useSelector(() => dataStore.shipLog)
@@ -32,25 +66,34 @@ export default function ShipLog() {
   return (
     <Content>
       <Container>
-        <RangePicker
-          showTime={{
-            format: 'HH:mm',
-          }}
-          format="YYYY-MM-DD HH:mm"
-          defaultValue={dateRange}
-          onOk={(value) =>
-            setReq({
-              ...req,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
-            })
-          }
-        />
-        <Select
-          value={req.status}
-          options={SHIP_STATUS_OPTIONS}
-          onChange={(value) => setReq({ ...req, status: value })}
-        />
+        <HeaderSection>
+          <Info>
+            <div>可以追蹤我們官方 LINE</div>
+            <div>當配送狀態有異動時，會第一時間通知您！</div>
+            <div>還有許多潮潮功能，歡迎體驗～</div>
+          </Info>
+          <FilterSection>
+            <RangePicker
+              showTime={{
+                format: 'HH:mm',
+              }}
+              format="YYYY-MM-DD HH:mm"
+              defaultValue={dateRange}
+              onOk={(value) =>
+                setReq({
+                  ...req,
+                  start: formatDate(value[0]),
+                  end: formatDate(value[1]),
+                })
+              }
+            />
+            <Select
+              value={req.status}
+              options={SHIP_STATUS_OPTIONS}
+              onChange={(value) => setReq({ ...req, status: value })}
+            />
+          </FilterSection>
+        </HeaderSection>
         <Table
           dataSource={data}
           pagination={{
@@ -69,7 +112,7 @@ export default function ShipLog() {
         >
           <Column title="訂單編號" dataIndex="orderNo" key="orderNo" />
           <Column
-            title="訂單申請日期"
+            title="配送申請日期"
             dataIndex="orderDate"
             key="orderDate"
             render={renderDate}
@@ -91,7 +134,6 @@ export default function ShipLog() {
             dataIndex="manufacturerMemo"
             key="manufacturerMemo"
           />
-
           <Column
             title="訂單狀態"
             dataIndex="status"

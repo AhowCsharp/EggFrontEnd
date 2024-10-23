@@ -1,7 +1,7 @@
 import { useSelector, dataStore } from '@app/store'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Table, Button, Modal, Select, InputNumber, message } from 'antd'
+import { Table, Modal, Select, InputNumber, message } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
 import { Content } from './index'
@@ -18,6 +18,27 @@ const InfoContainer = styled.div`
   background: #f7f7f7;
   border-radius: ${(p) => p.theme.borderRadius.memberInfo};
   margin: 0 0 20px;
+`
+
+const CrateButton = styled.div`
+  background-color: #000; /* 黑色背景 */
+  color: #fff; /* 白色文字 */
+  padding: 10px 20px; /* 内边距 */
+  border-radius: 5px; /* 圆角 */
+  text-align: center; /* 文字居中 */
+  cursor: pointer; /* 鼠标指针 */
+  font-weight: bold; /* 粗体字 */
+  display: inline-block; /* 让按钮可以设置宽高 */
+  transition: background-color 0.3s, transform 0.2s; /* 平滑过渡效果 */
+
+  &:hover {
+    background-color: #333; /* 悬停时变深 */
+  }
+
+  &:active {
+    background-color: #555; /* 点击时更深 */
+    transform: scale(0.98); /* 点击时稍微缩小 */
+  }
 `
 
 const InfoItem = styled.div`
@@ -120,9 +141,9 @@ export default function CrateLog() {
           ))}
         </InfoContainer>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <Button type="warning" onClick={showModal}>
+          <CrateButton onClick={showModal}>
             開啟寶箱
-          </Button>
+          </CrateButton>
         </div>
         <Modal
           title="開啟寶箱"

@@ -98,52 +98,49 @@ const commodityCategoryOptions = {
   ],
 }
 
-// 定義一個函數，根據類別返回對應的顏色
+// 定義一個函數，根據類別返回與 #a21a2b 相同色系的顏色
 const getCategoryColor = (category) => {
   switch (category) {
     case FilterType.Manufacturer.key:
-      return '#FFD700' // 金色
+      return '#a21a2b' // 深紅色
     case FilterType.Tags.key:
-      return '#7FFFD4' // 綠松石色
+      return '#b33951' // 比 #a21a2b 淺一些的紅色
     case FilterType.CommodityCategory.key:
-      return '#FF69B4' // 粉紅色
+      return '#c75d5d' // 再淺一些的紅色
     case FilterType.Selected.key:
-      return '#FFA500' // 橙色
+      return '#a21a2b' // 與 Manufacturer 相同的深紅色
     default:
-      return '#D3D3D3' // 淺灰色
+      return '#e1a7a7' // 最淺的紅色，作為默認
   }
 }
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   color: #000;
-  opacity: 1;
-  top: 5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 60%;
-  left: 20%;
-  max-height: 70vh;
+  max-height: 80vh;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
-  min-height: 250px;
   flex-direction: column;
-  background: ${(p) => p.theme.color.background};
+  background: #fff;
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
   overflow-x: hidden;
   overflow-y: auto;
   @media (max-width: 768px) {
     width: 90%;
-    left: 5%;
   }
 `
 
@@ -155,12 +152,9 @@ const Block = styled.div`
 
 const Header = styled(Block)`
   position: relative;
-  background-color: ${(p) => p.theme.color.red};
+  background-color: #a21a2b;
   top: 0;
-  width: 105%;
-  left: -2.5%;
   padding: 10px;
-  border: 1px solid ${(p) => p.theme.color.red};
   color: white;
   h3 {
     margin: 0;
@@ -173,13 +167,13 @@ const Footer = styled(Block)`
   left: 0;
   padding: 10px;
   justify-content: center;
-  border-top: 1px solid ${(p) => p.theme.color.dialogBorder};
-  div + div {
+  border-top: 1px solid #ccc;
+  button + button {
     margin-left: 1rem;
   }
 `
 
-const Content = styled(Block)`
+const Content = styled.div`
   padding: 20px;
   flex-direction: column;
   overflow-y: auto;
@@ -192,26 +186,24 @@ const Content = styled(Block)`
   }
 `
 
-// 修改 Tag 組件，設置字體為粗體
+// 修改 Tag 組件，設置字體為粗體，顏色為與 #a21a2b 相同的色系
 const Tag = styled.div`
   border-radius: 4px;
   padding: 0.5rem 1rem;
   background: ${(p) => getCategoryColor(p.category)};
-  color: black;
+  color: white;
   cursor: pointer;
   margin: 0.5rem 0.25rem 0 0;
-  font-weight: bold; /* 字體設置為粗體 */
+  font-weight: bold;
 `
 
-// 修改 SelectedTag 組件，不改變字體顏色，保持黑色
+// 修改 SelectedTag 組件，保持字體顏色為白色
 const SelectedTag = styled(Tag)`
-  border: 2px solid black;
-  background: ${(p) => getCategoryColor(p.category)};
-  /* 移除 color: white，保持字體為黑色 */
+  border: 2px solid #000;
 `
 
 const BaseSection = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   h3 {
     display: block;
     margin: 0.5rem 0;
@@ -360,6 +352,7 @@ export default function FilterDialog({
           </Section>
           <Section type={FilterType.Keyword}>
             <Input
+              placeholder="輸入關鍵字"
               value={selectedOptions[FilterType.Keyword.key]}
               onChange={(e) => {
                 setSelectedOptions({
