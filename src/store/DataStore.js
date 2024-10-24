@@ -678,9 +678,23 @@ export default class DataStore {
           yield this.loadMember()
           return
         }
-        yield wait(5000)
+        yield wait(1500)
         const res2 = yield Api.getTopUpResult(req, token)
         if (res2 && res2.success && res?.source?.success) {
+          this.topUpResult = TOP_UP_RESULT.SUCCESS
+          yield this.sendInvoice(req.rec_trade_id)
+          yield this.loadMember()
+        }
+        yield wait(1500)
+        const res3 = yield Api.getTopUpResult(req, token)
+        if (res3 && res3.success && res?.source?.success) {
+          this.topUpResult = TOP_UP_RESULT.SUCCESS
+          yield this.sendInvoice(req.rec_trade_id)
+          yield this.loadMember()
+        }
+        yield wait(1500)
+        const res4 = yield Api.getTopUpResult(req, token)
+        if (res4 && res4.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
           yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
