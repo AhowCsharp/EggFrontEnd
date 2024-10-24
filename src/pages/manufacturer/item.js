@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-// 動畫定義
+// 动画定义
 const neonBorder = keyframes`
     0% {
         box-shadow: 0 0 0 rgba(34,198,15, 0.4);
@@ -32,7 +32,17 @@ const neonBg = keyframes`
     }
 `
 
-// 樣式組件定義
+// 放大动画定义
+const zoomIn = keyframes`
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+`
+
+// 样式组件定义
 const Image = styled.div`
   width: 100%;
   height: 180px;
@@ -41,6 +51,13 @@ const Image = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-image: url(${(p) => p.src});
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 1;
+
+  &:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
 `
 
 const BaseProduct = styled.div`
@@ -50,18 +67,22 @@ const BaseProduct = styled.div`
   width: calc((100% - 64px) / 4);
   margin: 20px 8px 0;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 430px; /* 设置较低的固定高度 */
   @media (max-width: 768px) {
     width: 100%;
     margin: 0 0 10px;
+    height: auto; /* 在小屏幕上高度自动适应 */
   }
 `
 
 const InfoContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  min-height: 44px;
-  padding: 12px 6px;
   flex-direction: column;
+  flex: 1;
+  padding: 16px 12px; /* 增加内边距 */
+  overflow: hidden;
 `
 
 const Info = styled.div`
@@ -69,6 +90,8 @@ const Info = styled.div`
   margin-bottom: 8px;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   strong {
     margin-right: 6px;
@@ -78,10 +101,18 @@ const Info = styled.div`
   div {
     display: flex;
     flex-wrap: wrap;
+    overflow: hidden;
   }
 
   svg {
     font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   * + * {
@@ -96,9 +127,17 @@ const Link = styled.a.attrs((p) => ({ href: p.url, target: '_blank' }))`
   color: #000;
   display: flex;
   align-items: center;
+  overflow: hidden;
 
   svg {
     font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   * + * {
@@ -117,6 +156,7 @@ const Title = styled.div`
   position: relative;
   padding: 1px;
   box-shadow: 0 0 5px lime, 0 0 5px lime, 0 0 5px lime;
+  flex-shrink: 0;
 
   div {
     display: flex;
@@ -127,10 +167,12 @@ const Title = styled.div`
     padding: 6px 4px;
     border: 2px dashed rgba(34, 198, 15, 0.9);
     animation: ${neonBg} 2s infinite, ${neonBorder} 2s infinite;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `
 
-// 定義 Tag 樣式組件和預設顏色
+// 定义 Tag 样式组件和预设颜色
 const tagColors = [
   '#FF6B6B',
   '#6BCB77',
@@ -154,18 +196,18 @@ const Tag = styled.span`
   margin: 4px 4px 0 0;
 `
 
-// 定義 ThresholdTag 樣式組件
+// 定义 ThresholdTag 样式组件
 const ThresholdTag = styled.span`
   display: inline-block;
   background-color: #f0f0f0; /* 灰色背景 */
   color: #000; /* 黑色文字 */
-  padding: 2px 6px; /* 內邊距 */
-  border-radius: 4px; /* 圓角 */
-  font-size: 0.75rem; /* 字體大小 */
-  margin: 4px 4px 0 0; /* 外邊距，避免標籤之間過於擁擠 */
+  padding: 2px 6px; /* 内边距 */
+  border-radius: 4px; /* 圆角 */
+  font-size: 0.75rem; /* 字体大小 */
+  margin: 4px 4px 0 0; /* 外边距，避免标签之间过于拥挤 */
 `
 
-// Product 元件
+// Product 组件
 export default function Product({ data, handleClick }) {
   const {
     logoUrl,
@@ -178,25 +220,12 @@ export default function Product({ data, handleClick }) {
     transportTicketThreshold,
   } = data
 
-  // 將 major 字串以 '、' 分割成陣列
+  // 将 major 字符串以 '、' 分割成数组
   const majorTags = major ? major.split('、') : []
 
-  // 隨機選擇顏色
+  // 随机选择颜色
   const getRandomColor = () => {
     return tagColors[Math.floor(Math.random() * tagColors.length)]
-  }
-
-  // 複製到剪貼簿的函數（如需可擴展）
-  const copyToClipboard = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        // 可選：顯示複製成功的提示
-        console.log('Copied to clipboard:', text)
-      })
-      .catch((err) => {
-        console.error('Could not copy text: ', err)
-      })
   }
 
   return (
