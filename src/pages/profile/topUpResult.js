@@ -15,20 +15,10 @@ const Title = styled.div`
 
 export default function TopUpResult({ result, goBack, rec_trade_id }) {
   const topUpResult = useSelector(() => dataStore.topUpResult)
-  const invoiceType = useSelector(() => +dataStore.invoiceType)
-  const number = useSelector(() => dataStore.invoiceNumber)
 
   useEffect(() => {
-    if (+result !== TOP_UP_RESULT.FAILED && !!rec_trade_id) {
-      dataStore.getTopUpResult({ rec_trade_id })
-      console.log('topUpResult:' + topUpResult)
-      console.log(result)
-      console.log('invoiceType' + invoiceType)
-      console.log('number' + number)
-      console.log('rec_trade_id' + rec_trade_id)
-      dataStore.sendInvoice(rec_trade_id)
-    }
-  }, [result, rec_trade_id])
+    if (!!rec_trade_id) dataStore.getTopUpResult({ rec_trade_id })
+  }, [rec_trade_id])
 
   if (+result === TOP_UP_RESULT.FAILED)
     return (

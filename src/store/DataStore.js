@@ -674,6 +674,7 @@ export default class DataStore {
         const res = yield Api.getTopUpResult(req, token)
         if (res && res.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
+          yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
           return
         }
@@ -681,6 +682,7 @@ export default class DataStore {
         const res2 = yield Api.getTopUpResult(req, token)
         if (res2 && res2.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
+          yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
       }
