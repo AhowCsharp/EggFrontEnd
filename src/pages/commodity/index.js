@@ -168,8 +168,8 @@ const Desc = styled.p`
 
 export const Header = styled.div`
   border-bottom: 1px solid
-    ${(p) => (p.red ? p.theme.color.red : p.theme.color.gray)};
-  color: #160d00;
+    ${(p) => (p.red ? p.theme.color.red : p.theme.color.headerBottomLine)};
+  color: ${(p) => (p.red ? p.theme.color.red : '#160d00')};
   font-size: 1.5rem;
   padding-bottom: 8px;
   margin: 2rem 0;
@@ -185,6 +185,7 @@ export const Header = styled.div`
   }
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.font};
+    border-color: ${(p) => p.theme.color.headerBottomLine};
   }
 `
 

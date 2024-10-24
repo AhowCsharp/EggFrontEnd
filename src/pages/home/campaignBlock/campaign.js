@@ -4,8 +4,8 @@ import { formatDateToYmd as formatDate } from '@app/utils/date'
 const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
-  height: auto;
-  width: ${(p) => (p.isHighLight ? '100%' : '250px')};
+  height: ${(p) => (p.isHighLight ? 'auto' : '100px')}; // auto;
+  width: ${(p) => (p.isHighLight ? '100%' : 'auto')};
   border-radius: 8px;
   margin-right: ${(p) => (p.isHighLight ? '0' : '1rem')};
   @media (max-width: 768px) {
@@ -18,6 +18,7 @@ const Container = styled.div`
   overflow: hidden;
   width: 100%;
   display: flex;
+  cursor: pointer;
   flex-direction: ${(p) => (p.isHighLight ? 'column' : 'row')};
   @media (max-width: 768px) {
     width: 100%;
@@ -31,9 +32,10 @@ const InfoContainer = styled.div`
   flex-wrap: wrap;
   min-height: 44px;
   padding: 10px 0;
+  align-items: flex-start;
   flex-direction: column;
   @media (max-width: 768px) {
-    width: 55%;
+    width: auto;
   }
 `
 
@@ -101,7 +103,12 @@ const BaseReadMoreBtn = styled.div`
   }
 `
 
-export default function Commodity({ data, handleClick, isHighLight = false }) {
+export default function Campaign({
+  data,
+  handleClick,
+  isHighLight = false,
+  isSimple = false,
+}) {
   const {
     newsUrl: imgUrl,
     endDate,
@@ -118,20 +125,23 @@ export default function Commodity({ data, handleClick, isHighLight = false }) {
     >
       <Image src={imgUrl} isHighLight={isHighLight} />
       <InfoContainer>
-        <Title>
-          活動名稱活動名稱活動名稱活動名稱活動名稱活動名稱活動名稱活動名稱
-        </Title>
-        <Description
-          id="description"
-          dangerouslySetInnerHTML={{ __html: newsDetails }}
-        />
-        <ReadMoreBtn onClick={handleClick(data)} />
-        <DateInfo>
-          <div>{formatDate(releaseDate)}</div>
-          <div>
-            活動期間：{formatDate(startDate)}~{formatDate(endDate)}
-          </div>
-        </DateInfo>
+        <Title>{newsTitle}</Title>
+
+        {!isSimple && (
+          <>
+            <Description
+              id="description"
+              dangerouslySetInnerHTML={{ __html: newsDetails }}
+            />
+            <ReadMoreBtn onClick={handleClick(data)} />
+            <DateInfo>
+              <div>{formatDate(releaseDate)}</div>
+              <div>
+                活動期間：{formatDate(startDate)}~{formatDate(endDate)}
+              </div>
+            </DateInfo>
+          </>
+        )}
       </InfoContainer>
     </Container>
   )

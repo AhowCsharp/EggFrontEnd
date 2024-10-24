@@ -24,6 +24,9 @@ const InnerContainer = styled.div`
 const OthersContainer = styled(InnerContainer)`
   max-height: 550px;
   overflow-y: auto;
+  .item {
+    align-items: center;
+  }
   ${hideScrollBarStyle}
 `
 

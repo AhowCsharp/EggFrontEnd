@@ -123,8 +123,6 @@ const Info = styled.div`
 const Link = styled.a.attrs((p) => ({ href: p.url, target: '_blank' }))`
   font-size: 1rem;
   margin-bottom: 8px;
-  text-decoration: none;
-  color: #000;
   display: flex;
   align-items: center;
   overflow: hidden;

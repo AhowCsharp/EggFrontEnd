@@ -16,6 +16,7 @@ const theme = {
     discount: 'rgba(255, 0, 0)',
     drawOutTimeBtn: '#081324',
     red: '#a21a2b',
+    headerBottomLine: '#9ca1a7',
   },
   tagColor: {
     [MANUFACTURER_ID]: '#FF0062',

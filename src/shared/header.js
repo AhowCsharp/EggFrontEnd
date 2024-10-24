@@ -244,13 +244,18 @@ const Nav = styled(Block)`
   }
   @media (max-width: 768px) {
     display: flex;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    justify-content: center;
+    ${BaseNavItem} {
+      padding: 0 0.5rem;
+    }
+  }
+  @media (max-width: 576px) {
     width: calc(100% - 10px);
     overflow-x: auto;
     margin-left: 10px;
     justify-content: flex-start;
-    ${BaseNavItem} {
-      padding: 0 0.5rem;
-    }
   }
 `
 

@@ -6,6 +6,10 @@ export default createGlobalStyle`
     font-size: 16px;
     font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
   }
+  a{
+    color:#000;
+  text-decoration: none;
+  }
   * {
     box-sizing: border-box;
   }
@@ -22,8 +26,14 @@ export default createGlobalStyle`
   }
 
   @media (max-width: 768px) {
-    body, html {
+      body, html {
       font-size: 14px;
+      color:${(p) => p.theme.mobile.color.font};
+    }
+    .ant-form-item .ant-form-item-label >label {
+      color:${(p) => p.theme.mobile.color.font} !important;
+    }
+    a {
       color:${(p) => p.theme.mobile.color.font};
     }
   }
