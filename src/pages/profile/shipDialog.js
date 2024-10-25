@@ -117,7 +117,7 @@ export default function ShipDialog({
   return (
     <>
       <Mask />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>配送</h3>
         </Header>

@@ -30,6 +30,9 @@ export default createGlobalStyle`
       font-size: 14px;
       color:${(p) => p.theme.mobile.color.font};
     }
+    .dialog{
+      color: #000;
+    }
     .ant-form-item .ant-form-item-label > label {
       color:${(p) => p.theme.mobile.color.font} !important;
     }

@@ -44,18 +44,12 @@ const Toast = styled.div`
   left: 40%;
   z-index: ${(p) => p.theme.zIndex.alertDialog};
   display: flex;
-  /* min-height: 230px; */
   font-size: 1.15rem;
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
-  /* padding: 15px ; */
   display: flex;
-  /* @media (max-width: 768px) {
-    width: 90%;
-    left: 5%;
-  } */
 `
 
 const Block = styled.div`
@@ -113,7 +107,7 @@ export default function AlertDialog() {
     return (
       <>
         <Mask />
-        <Toast>
+        <Toast className="dialog">
           <Content>
             <p>{msg}</p>
           </Content>
@@ -123,7 +117,7 @@ export default function AlertDialog() {
   return (
     <>
       <Mask />
-      <Container>
+      <Container className="dialog">
         <Content>
           <p>{msg}</p>
         </Content>

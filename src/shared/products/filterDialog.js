@@ -242,7 +242,7 @@ export default function FilterDialog({
   return (
     <>
       <Mask onClick={onClose} />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>篩選</h3>
         </Header>
