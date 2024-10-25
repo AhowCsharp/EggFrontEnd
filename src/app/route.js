@@ -57,8 +57,8 @@ const Main = styled.div`
 const MobileViewController = styled.div`
   font-weight: 400;
   position: relative;
-  margin: 50px 10px 0;
-  width: calc(100% - 20px);
+  margin: 50px 60px 0;
+  width: calc(100% - 120px);
   border-radius: 30px;
 `
 

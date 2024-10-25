@@ -126,7 +126,6 @@ export default function Campaign({
       <Image src={imgUrl} isHighLight={isHighLight} />
       <InfoContainer>
         <Title>{newsTitle}</Title>
-
         {!isSimple && (
           <>
             <Description
