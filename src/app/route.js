@@ -60,6 +60,10 @@ const MobileViewController = styled.div`
   margin: 50px 60px 0;
   width: calc(100% - 120px);
   border-radius: 30px;
+  @media (max-width: 768px) {
+    margin: 50px 10px 0;
+    width: calc(100% - 20px);
+  }
 `
 
 function AppRoute() {

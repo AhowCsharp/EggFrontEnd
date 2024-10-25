@@ -46,6 +46,7 @@ const FooterContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    width: calc(100% - 20px);
     ${LogoContainer} {
       align-self: center;
     }
