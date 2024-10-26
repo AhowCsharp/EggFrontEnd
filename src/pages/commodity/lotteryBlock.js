@@ -3,7 +3,7 @@ import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-import { Header } from './index'
+import { Header, MobileDrawOutBtnBlock } from './index'
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 function getDrawTimeOptions(drawOutMultiplePriceStatus) {
@@ -301,6 +301,9 @@ export default function LotteryBlock({
         selectedPrizes={selectedPrizes}
         page={page}
         handleDrawOut={handleDrawOut}
+        setSelectedPrizes={setSelectedPrizes}
+        handleRandomSelectPrizes={handleRandomSelectPrizes}
+        drawOutTimes={drawOutTimes}
       />
     </>
   )
@@ -405,6 +408,9 @@ function Lotteries({
   selectedPrizes,
   page,
   handleDrawOut,
+  setSelectedPrizes,
+  handleRandomSelectPrizes,
+  drawOutTimes,
 }) {
   const isSimple = displayMode === DisplayMode.Simple
   const isPaginationMode = displayMode === DisplayMode.Pagination
@@ -484,6 +490,16 @@ function Lotteries({
             )
           })}
         </LotteryContainer>
+        <MobileDrawOutBtnBlock className="hide-in-pc flex">
+          {drawOutTimes > 1 && (
+            <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
+              重新選擇
+            </DrawOutBtn>
+          )}
+          <DrawOutBtn isActive onClick={handleRandomSelectPrizes}>
+            隨機選號
+          </DrawOutBtn>
+        </MobileDrawOutBtnBlock>
       </div>
     </div>
   )

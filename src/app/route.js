@@ -32,7 +32,6 @@ const SiteContainer = styled.div`
   ${(props) => (props.disableScroll ? '' : 'overflow-y: auto;')}
   height: 100vh;
   -webkit-overflow-scrolling: touch;
-  -webkit-transform: translate3d(0, 0, 0);
   background: url(${bgTopImg}) no-repeat top,
     url(${bgBottomImg}) no-repeat bottom, #081324;
   background-size: 100% auto;
@@ -45,7 +44,6 @@ const SiteContainer = styled.div`
 `
 
 const Wrapper = styled.div`
-  transition: transform 0.2s, -webkit-transform 0.2s;
   z-index: auto !important;
   position: relative;
 `

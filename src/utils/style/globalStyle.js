@@ -13,7 +13,6 @@ export default createGlobalStyle`
   * {
     box-sizing: border-box;
   }
-
   .bold {
     font-weight: bold;
   }
@@ -22,11 +21,11 @@ export default createGlobalStyle`
     justify-content: space-between;
   }
   .digital-font {
-  font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif ;
+    font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif ;
   }
-   .hide-in-pc {
-      display: none !important;
-    }
+  .hide-in-pc {
+    display: none !important;
+  }
 
   @media (max-width: 768px) {
     body, html {
@@ -47,6 +46,9 @@ export default createGlobalStyle`
     }
     .hide-in-pc {
       display: block !important;
+      &.flex {
+        display: flex !important;
+      }
     }
   }
 `

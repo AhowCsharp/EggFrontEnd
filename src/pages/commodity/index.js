@@ -153,12 +153,29 @@ export const Block = styled.div`
 `
 
 const DrawOutBtnBlock = styled(Block)`
-  margin: 10px 0;
+  margin-bottom: 10px;
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
-  @media (max-width: 768px) {
-    display: none;
+`
+
+export const MobileDrawOutBtnBlock = styled(DrawOutBtnBlock)`
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  justify-content: center;
+  height: 80px;
+  background: #fff;
+  padding: 10px 15px;
+  margin: 0;
+  z-index: ${(p) => p.theme.zIndex.dialog};
+  > div {
+    flex: 1;
+    text-align: center;
+  }
+  > div + div {
+    margin-left: 1rem;
   }
 `
 
@@ -212,7 +229,7 @@ export const Header = styled.div`
 `
 
 const DrawOutTimesTagBlock = styled(Block)`
-  margin-top: 10px;
+  margin: 10px 0;
   ${DrawOutTimesTag} + ${DrawOutTimesTag} {
     margin-left: 0.75rem;
   }
@@ -387,7 +404,7 @@ export default function Commodity() {
               </DrawOutTimesTagBlock>
             </>
           )}
-          <DrawOutBtnBlock>
+          <DrawOutBtnBlock className="hide-in-mobile">
             <DrawOutBtn
               onClick={() => {
                 if (!isLogged) return goto(paths.login)
@@ -491,6 +508,22 @@ export default function Commodity() {
           【金融事項】根據政府的金融法規，短時間內頻繁刷卡可能被視為風險行為，並可能導致暫停信用卡功能。建議您一次性購買足夠的金幣以避免此情況。
         </p>
       </Description>
+      {!enableDrawOut && (
+        <MobileDrawOutBtnBlock className="hide-in-pc flex">
+          <DrawOutBtn
+            onClick={() => {
+              if (!isLogged) return goto(paths.login)
+              setEnableDrawOut(true)
+              setShowLotteryContainer(true)
+            }}
+          >
+            開抽
+          </DrawOutBtn>
+          <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
+            檢視抽況
+          </DrawOutBtn>
+        </MobileDrawOutBtnBlock>
+      )}
     </Layout>
   )
   function onSectionNavClick(id) {
