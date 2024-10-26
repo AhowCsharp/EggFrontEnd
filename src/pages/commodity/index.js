@@ -346,16 +346,22 @@ export default function Commodity() {
       commodity.name,
     ])
 
-    if(commodity.category === '扭蛋') {
-      setProtectOneShot(120);
-      setProtectFiveShot(180);
-      setProtectTenShot(300);
-    }
-
-    if(commodity.category === '福袋') {
-      setProtectOneShot(180);
-      setProtectFiveShot(240);
-      setProtectTenShot(360);
+    switch (commodity.category) {
+      case '扭蛋':
+        setProtectOneShot(120);
+        setProtectFiveShot(180);
+        setProtectTenShot(300);
+        break;
+      case '福袋':
+        setProtectOneShot(180);
+        setProtectFiveShot(240);
+        setProtectTenShot(360);
+        break;
+      default:
+        setProtectOneShot(180);
+        setProtectFiveShot(600);
+        setProtectTenShot(780);
+        break;
     }
   }, [commodity])
 
