@@ -45,6 +45,7 @@ const theme = {
       desc: '#aaa',
       descBg: '#212b3a',
       warning: 'rgba(255, 0, 0.3)',
+      menuDivider: '#44413d',
     },
   },
 }

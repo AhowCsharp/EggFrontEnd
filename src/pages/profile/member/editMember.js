@@ -10,10 +10,7 @@ export default function EditMember({ member }) {
   const [form] = Form.useForm()
   useEffect(() => {
     if (!member || !form) return
-    console.log('member', member)
     form.setFieldsValue(member)
-    const a = form.getFieldsValue()
-    console.log('a', a)
   }, [member, form])
   return (
     <Container id="edit-member">

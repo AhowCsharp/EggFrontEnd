@@ -101,7 +101,7 @@ export default function Member() {
   return (
     <Content>
       <Container>
-        <InfoContainer>
+        <InfoContainer className="dark-font-in-mobile">
           <InfoItem>
             <img src={coinImg} alt="金幣" />
             <span>{member.moneyAmount}</span>
@@ -133,7 +133,6 @@ export default function Member() {
         </Descriptions>
         <EditMember member={member} />
         {member.lineUserId == null ? <EditPassword /> : null}
-        
       </Container>
     </Content>
   )

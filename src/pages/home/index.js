@@ -49,6 +49,7 @@ const Carousel = styled(BaseCarousel)`
   }
   .slick-dots {
     bottom: -5px;
+    z-index: ${(p) => p.theme.zIndex.dialog} !important;
     li {
       display: inline-flex;
       align-items: center;

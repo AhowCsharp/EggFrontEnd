@@ -27,6 +27,7 @@ const RankList = lazy(() => import('@app/pages/rankList'))
 const Campaign = lazy(() => import('@app/pages/campaign'))
 const Manufacturer = lazy(() => import('@app/pages/manufacturer'))
 const NotFoundPage = lazy(() => import('@app/pages/notFound'))
+import { hideScrollBarStyle } from '@app/shared/header'
 
 const SiteContainer = styled.div`
   ${(props) => (props.disableScroll ? '' : 'overflow-y: auto;')}
@@ -36,8 +37,8 @@ const SiteContainer = styled.div`
     url(${bgBottomImg}) no-repeat bottom, #081324;
   background-size: 100% auto;
   background-attachment: fixed;
-
   overflow-x: hidden;
+  ${hideScrollBarStyle}
   @media (max-width: 768px) {
     padding-bottom: 80px;
   }
@@ -59,7 +60,7 @@ const MobileViewController = styled.div`
   width: calc(100% - 120px);
   border-radius: 30px;
   @media (max-width: 768px) {
-    margin: 50px 10px 0;
+    margin: 30px 10px 0;
     width: calc(100% - 20px);
   }
 `

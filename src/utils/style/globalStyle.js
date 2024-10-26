@@ -32,10 +32,10 @@ export default createGlobalStyle`
       font-size: 14px;
       color:${(p) => p.theme.mobile.color.font};
     }
-    .dialog{
-      color: #000;
+    .dialog, .dark-font-in-mobile {
+      color: #000 !important;
     }
-    .ant-form-item .ant-form-item-label > label {
+    .ant-form-item .ant-form-item-label > label, .ant-descriptions-title, .ant-descriptions-row span {
       color:${(p) => p.theme.mobile.color.font} !important;
     }
     a {
@@ -48,6 +48,31 @@ export default createGlobalStyle`
       display: block !important;
       &.flex {
         display: flex !important;
+      }
+      
+    }
+    li {
+      background-color: ${(p) => p.theme.mobile.color.background} !important;
+      color: ${(p) => p.theme.mobile.color.font} !important;
+      &.ant-pagination-item {
+        a {
+          color: ${(p) => p.theme.mobile.color.font} !important;
+        }
+      }
+      &.ant-pagination-item-active {
+        border-color: ${(p) => p.theme.mobile.color.font} !important;
+        a {
+          color: ${(p) => p.theme.mobile.color.font} !important;
+        }
+      }
+    }
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      button {
+        color: ${(p) => p.theme.mobile.color.font} !important;
+      }
+      &.ant-pagination-disabled button {
+        color: rgba(255, 255, 255, 0.25) !important;
       }
     }
   }

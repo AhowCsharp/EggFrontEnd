@@ -177,6 +177,11 @@ export const MobileDrawOutBtnBlock = styled(DrawOutBtnBlock)`
   > div + div {
     margin-left: 1rem;
   }
+  .draw-out-btn {
+    color: ${(p) => p.theme.color.red};
+    border: 1px solid ${(p) => p.theme.color.red};
+    background: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const DescBlock = styled.div`

@@ -491,6 +491,9 @@ function Lotteries({
           })}
         </LotteryContainer>
         <MobileDrawOutBtnBlock className="hide-in-pc flex">
+          <DrawOutBtn className="draw-out-btn" onClick={handleDrawOut}>
+            立即抽獎
+          </DrawOutBtn>
           {drawOutTimes > 1 && (
             <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
               重新選擇

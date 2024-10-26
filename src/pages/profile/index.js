@@ -143,7 +143,7 @@ export default function Profile() {
   return (
     <Layout>
       <Container>
-        <Nav>
+        <Nav className="dark-font-in-mobile">
           {navList.map((n, index) => (
             <NavItem
               key={index}

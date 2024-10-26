@@ -23,7 +23,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleDollarToSlot, faBars } from '@fortawesome/free-solid-svg-icons'
 import { useSelector, dataStore } from '@app/store'
-import { CATEGORY } from '@app/utils/constants'
+import bgTopImg from '@app/static/bg-top.svg'
+import {
+  faXmark,
+  faPlus,
+  faChevronRight,
+  faMinus,
+} from '@fortawesome/free-solid-svg-icons'
+import { CATEGORY, PROFILE_TAB } from '@app/utils/constants'
 
 library.add(faCircleDollarToSlot)
 library.add(faBars)
@@ -116,37 +123,60 @@ const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
 
 const MobileNavItem = styled.div`
   align-items: center;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid ${(p) => p.theme.mobile.color.menuDivider};
   display: flex;
   flex-wrap: wrap;
-  font-size: 140%;
-  justify-content: flex-start;
-  padding: 10px 14px;
-  color: #fff;
-  font-weight: 600;
+  font-size: 1.25rem;
+  justify-content: space-between;
+  padding: 0 3rem;
+  align-items: center;
+  height: 60px;
   cursor: pointer;
-  img {
-    width: 25px;
-    height: 25px;
-    margin-right: 8px;
-  }
+  background-color: ${(p) => p.isChild && '#000'};
 `
 
 const MobileNav = styled.div`
   display: none;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  top: 50px;
-  width: 250px;
+  background: ${(p) => p.theme.mobile.color.background};
+  position: relative;
+  top: -130px;
   right: 0;
-  z-index: 1;
-  padding: 10px 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  z-index: ${(p) => p.theme.zIndex.header};
+  padding-bottom: 10px;
   ${MobileNav}:last-child {
     border-bottom: none;
   }
   ${BaseNavItem} {
     color: ${(p) => p.theme.color.orange};
+  }
+  ${Block}.bar {
+    display: flex;
+    height: 72px;
+    flex: unset;
+    padding: 1rem 1.5rem;
+    align-items: center;
+    background: url(${bgTopImg}) no-repeat center center / cover;
+    img {
+      transform: unset;
+      height: 40px;
+    }
+    .icon {
+      font-size: 1.5rem;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+    }
+    .logo {
+      justify-content: flex-start;
+    }
   }
   @media (max-width: 768px) {
     display: flex;
@@ -228,7 +258,6 @@ const Container = styled.div`
     justify-content: flex-end;
   }
   @media (max-width: 768px) {
-    /* display: none; */
     width: calc(100% - 20px);
     margin: 0 10px 10px;
   }
@@ -274,6 +303,32 @@ function NavItem({ title, type, src }) {
 }
 
 const NavList = [
+  {
+    title: '會員中心',
+    type: 'profile',
+    src: userImg,
+    checkIsLogged: true,
+    hideInPc: true,
+    children: [
+      { title: '會員管理', path: `profile?type=${PROFILE_TAB.MEMBER}` },
+      { title: '金幣儲值', path: `profile?type=${PROFILE_TAB.TOP_UP}` },
+      { title: '儲值紀錄', path: `profile?type=${PROFILE_TAB.STORED_LOG}` },
+      { title: '消費紀錄', path: `profile?type=${PROFILE_TAB.CONSUME_LOG}` },
+      {
+        title: '待處理獎品列表',
+        path: `profile?type=${PROFILE_TAB.PENDING_PRIZES}`,
+      },
+      { title: '回收紀錄', path: `profile?type=${PROFILE_TAB.RECLAIM_LOG}` },
+      { title: '配送紀錄', path: `profile?type=${PROFILE_TAB.SHIP_LOG}` },
+      { title: '任務成就', path: `profile?type=${PROFILE_TAB.TASK_HISTORY}` },
+      { title: '神秘寶箱', path: `profile?type=${PROFILE_TAB.CRATE_LOG}` },
+      {
+        title: '免運券紀錄',
+        path: `profile?type=${PROFILE_TAB.FREE_SHIPPING}`,
+      },
+      { title: '抽獎券查詢', path: `profile?type=${PROFILE_TAB.TICKETS}` },
+    ],
+  },
   {
     title: CATEGORY.GACHA,
     type: 'gacha',
@@ -335,7 +390,8 @@ function Header() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const member = useSelector(() => dataStore.member)
   const navList = getNavList(isLogged)
-  const [openSider, setOpenSider] = useState(false)
+  const [openMobileNav, setOpenMobileNav] = useState(false)
+  const [openNavChildrenSetting, setOpenNavChildrenSetting] = useState({})
 
   return (
     <HeaderModule>
@@ -402,61 +458,94 @@ function Header() {
             </>
           )}
         </Block>
-        <MobileNavButton onClick={() => setOpenSider(openSider ? false : true)}>
+        <MobileNavButton onClick={() => setOpenMobileNav(true)}>
           <FontAwesomeIcon icon="fa-bars" />
         </MobileNavButton>
       </Container>
       <Nav>
-        {navList.map((item, index) => (
-          <NavItem
-            key={index}
-            title={item.title}
-            type={item.type}
-            src={item.src}
-          />
-        ))}
+        {navList.map(
+          (item, index) =>
+            !item.hideInPc && (
+              <NavItem
+                key={index}
+                title={item.title}
+                type={item.type}
+                src={item.src}
+              />
+            )
+        )}
       </Nav>
 
-      {openSider ? (
+      {openMobileNav ? (
         <MobileNav>
-          {isLogged ? (
-            <>
-              <MemberNav>
-                <BaseNavItem bg="#231815" onClick={() => dataStore.logout()}>
-                  登出
-                </BaseNavItem>
-              </MemberNav>
-              <MobileNavItem
-                onClick={() => mobileGoto(`${paths.profile}?type=member`)}
-              >
-                <img src={userImg} />
-                會員中心
-              </MobileNavItem>
-            </>
-          ) : (
-            <>
-              <MobileNavItem onClick={() => mobileGoto(paths.login)}>
-                <img src={userImg} />
-                登入
-              </MobileNavItem>
-            </>
-          )}
-          {navList.map((item, index) => (
-            <MobileNavItem
-              key={index}
-              onClick={() => mobileGoto(paths[item.type])}
-            >
-              <img src={item.src} />
-              {item.title}
+          <Block className="bar">
+            <Block className="logo">
+              <Logo src={logoImg} onClick={() => goto(paths.index)} />
+              <span className="digital-font divider">剩蛋快樂</span>
+            </Block>
+            <div className="icon">
+              <FontAwesomeIcon
+                icon={faXmark}
+                onClick={() => setOpenMobileNav(false)}
+              />
+            </div>
+          </Block>
+          {!isLogged && (
+            <MobileNavItem onClick={() => mobileGoto(paths.login)}>
+              登入
             </MobileNavItem>
-          ))}
+          )}
+          {navList.map((item, index) => {
+            const { type, title, children } = item
+            const isParent = children?.length
+            const icon = isParent
+              ? openNavChildrenSetting[type]
+                ? faMinus
+                : faPlus
+              : faChevronRight
+            return (
+              <>
+                <MobileNavItem
+                  key={index}
+                  onClick={() => {
+                    if (isParent)
+                      setOpenNavChildrenSetting({
+                        ...openNavChildrenSetting,
+                        [type]: !openNavChildrenSetting[type],
+                      })
+                    else mobileGoto(paths[type])
+                  }}
+                >
+                  {title}
+                  <FontAwesomeIcon icon={icon} />
+                </MobileNavItem>
+                {openNavChildrenSetting[type] &&
+                  children?.map((child, childIndex) => (
+                    <MobileNavItem
+                      isChild={true}
+                      key={`${index}-${childIndex}`}
+                      onClick={() => mobileGoto(child.path)}
+                    >
+                      {child.title}
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </MobileNavItem>
+                  ))}
+              </>
+            )
+          })}
+          {isLogged && (
+            <MobileNavItem onClick={() => dataStore.logout()}>
+              登出
+            </MobileNavItem>
+          )}
         </MobileNav>
       ) : null}
     </HeaderModule>
   )
   function mobileGoto(path) {
     goto(path)
-    setOpenSider(false)
+    setOpenMobileNav(false)
+    setOpenNavChildrenSetting({})
   }
 }
 
