@@ -24,6 +24,9 @@ export default createGlobalStyle`
   .digital-font {
   font-family: 'DotGothic16', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif ;
   }
+   .hide-in-pc {
+      display: none !important;
+    }
 
   @media (max-width: 768px) {
     body, html {
@@ -38,6 +41,12 @@ export default createGlobalStyle`
     }
     a {
       color:${(p) => p.theme.mobile.color.font};
+    }
+    .hide-in-mobile {
+      display: none !important;
+    }
+    .hide-in-pc {
+      display: block !important;
     }
   }
 `

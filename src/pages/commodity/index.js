@@ -43,11 +43,27 @@ const ImgContainer = styled.div`
   }
 `
 
+const DrawOutTimesTag = styled.div`
+  border-radius: 100px;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
+  color: ${(p) => p.theme.color.drawOutTimeBtn};
+  display: flex;
+  flex-wrap: wrap;
+`
+
 const InfoContainer = styled.div`
   display: flex;
   margin-bottom: 10px;
   @media (max-width: 768px) {
     flex-direction: column;
+    ${DrawOutTimesTag} {
+      color: ${(p) => p.theme.mobile.color.font};
+      border-color: ${(p) => p.theme.mobile.color.font};
+      span {
+        border-color: ${(p) => p.theme.mobile.color.font};
+      }
+    }
   }
 `
 
@@ -186,16 +202,13 @@ export const Header = styled.div`
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.font};
     border-color: ${(p) => p.theme.color.headerBottomLine};
+    &.lottery {
+      padding-bottom: 8px;
+      .block {
+        display: none;
+      }
+    }
   }
-`
-
-const DrawOutTimesTag = styled.div`
-  border-radius: 100px;
-  padding: 0.5rem 1.25rem;
-  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
-  color: ${(p) => p.theme.color.drawOutTimeBtn};
-  display: flex;
-  flex-wrap: wrap;
 `
 
 const DrawOutTimesTagBlock = styled(Block)`

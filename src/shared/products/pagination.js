@@ -8,7 +8,11 @@ const Pagination = styled(BasePagination)`
     li {
       background-color: ${(p) => p.theme.mobile.color.background} !important;
       color: ${(p) => p.theme.mobile.color.font} !important;
-
+      &.ant-pagination-item {
+        a {
+          color: ${(p) => p.theme.mobile.color.font} !important;
+        }
+      }
       &.ant-pagination-item-active {
         border-color: ${(p) => p.theme.mobile.color.font} !important;
         a {

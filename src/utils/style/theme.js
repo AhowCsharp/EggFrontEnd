@@ -17,6 +17,7 @@ const theme = {
     drawOutTimeBtn: '#081324',
     red: '#a21a2b',
     headerBottomLine: '#9ca1a7',
+    disable: '#c4c4c4',
   },
   tagColor: {
     [MANUFACTURER_ID]: '#FF0062',
