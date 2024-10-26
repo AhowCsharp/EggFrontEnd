@@ -574,6 +574,15 @@ export default class DataStore {
     if (res) this.rankingList = res.source
   }
 
+  @observable.ref
+  taskList = undefined;
+
+  @flow
+  *getTaskList() {
+    const res = yield Api.getTaskList()
+    if (res) this.taskList = res.source
+  }
+
   // Manufacturers
   @observable.ref
   manufacturers = undefined
