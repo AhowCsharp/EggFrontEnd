@@ -5,6 +5,10 @@ import member from './member.png'
 import pendingPrizes from './pending-prizes.png'
 import tickets from './tickets.png'
 import topUp from './top-up.png'
+import crateLog from './crate-log.svg'
+import freeShipping from './free-shipping.svg'
+import storedLog from './stored-log.svg'
+import taskHistory from './task-history.svg'
 
 export default {
   consumeLog,
@@ -14,4 +18,8 @@ export default {
   pendingPrizes,
   tickets,
   topUp,
+  crateLog,
+  freeShipping,
+  storedLog,
+  taskHistory,
 }
