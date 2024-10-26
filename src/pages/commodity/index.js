@@ -308,6 +308,10 @@ export default function Commodity() {
   const [drawOutReq, setDrawOutReq] = useState()
   const [enableDrawOut, setEnableDrawOut] = useState(false)
   const [nowDisplay, setNowDisplay] = useState()
+  const [protectOneShot,setProtectOneShot] = useState(180)
+  const [protectFiveShot,setProtectFiveShot] = useState(600)
+  const [protectTenShot,setProtectTenShot] = useState(780)
+
   const shouldDisplayDrawOutTimesTagBlock =
     commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
 
@@ -341,6 +345,18 @@ export default function Commodity() {
       commodity.category,
       commodity.name,
     ])
+
+    if(commodity.category === '扭蛋') {
+      setProtectOneShot(120);
+      setProtectFiveShot(180);
+      setProtectTenShot(300);
+    }
+
+    if(commodity.category === '福袋') {
+      setProtectOneShot(180);
+      setProtectFiveShot(240);
+      setProtectTenShot(360);
+    }
   }, [commodity])
 
   if (!commodity) return <Layout />
@@ -435,13 +451,13 @@ export default function Commodity() {
             ) : null}
             <Desc bold>注意事項</Desc>
             <Desc>
-              單抽開獎保護360秒，五連抽開獎保護900秒，十連抽開獎保護1200秒。
+              單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}秒，十連抽開獎保護{protectTenShot}秒。
             </Desc>
             <Desc warning bold>
               下單前須知
             </Desc>
             <Desc warning>
-              一番賞、盲盒商品為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
+              一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
             </Desc>
           </DescBlock>
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
