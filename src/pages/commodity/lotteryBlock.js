@@ -93,6 +93,9 @@ const BtnBlock = styled.div`
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
+  .title {
+    margin-right: 1rem;
+  }
   @media (max-width: 768px) {
     background-color: ${(p) => p.theme.mobile.color.descBg};
     ${Block} {
