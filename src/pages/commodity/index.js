@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
-import { DRAW_OUT_STATUS } from '@app/utils/constants'
+import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
@@ -308,9 +308,9 @@ export default function Commodity() {
   const [drawOutReq, setDrawOutReq] = useState()
   const [enableDrawOut, setEnableDrawOut] = useState(false)
   const [nowDisplay, setNowDisplay] = useState()
-  const [protectOneShot,setProtectOneShot] = useState(180)
-  const [protectFiveShot,setProtectFiveShot] = useState(600)
-  const [protectTenShot,setProtectTenShot] = useState(780)
+  const [protectOneShot, setProtectOneShot] = useState(180)
+  const [protectFiveShot, setProtectFiveShot] = useState(600)
+  const [protectTenShot, setProtectTenShot] = useState(780)
 
   const shouldDisplayDrawOutTimesTagBlock =
     commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
@@ -348,20 +348,20 @@ export default function Commodity() {
 
     switch (commodity.category) {
       case '扭蛋':
-        setProtectOneShot(120);
-        setProtectFiveShot(180);
-        setProtectTenShot(300);
-        break;
+        setProtectOneShot(120)
+        setProtectFiveShot(180)
+        setProtectTenShot(300)
+        break
       case '福袋':
-        setProtectOneShot(180);
-        setProtectFiveShot(240);
-        setProtectTenShot(360);
-        break;
+        setProtectOneShot(180)
+        setProtectFiveShot(240)
+        setProtectTenShot(360)
+        break
       default:
-        setProtectOneShot(180);
-        setProtectFiveShot(600);
-        setProtectTenShot(780);
-        break;
+        setProtectOneShot(180)
+        setProtectFiveShot(600)
+        setProtectTenShot(780)
+        break
     }
   }, [commodity])
 
@@ -432,15 +432,18 @@ export default function Commodity() {
             </>
           )}
           <DrawOutBtnBlock className="hide-in-mobile">
-            <DrawOutBtn
-              onClick={() => {
-                if (!isLogged) return goto(paths.login)
-                setEnableDrawOut(true)
-                setShowLotteryContainer(true)
-              }}
-            >
-              開抽
-            </DrawOutBtn>
+            {commodity.status === COMMODITY_STATUS.OPENING && (
+              <DrawOutBtn
+                onClick={() => {
+                  if (!isLogged) return goto(paths.login)
+
+                  setEnableDrawOut(true)
+                  setShowLotteryContainer(true)
+                }}
+              >
+                開抽
+              </DrawOutBtn>
+            )}
             <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
               檢視抽況
             </DrawOutBtn>
@@ -457,7 +460,8 @@ export default function Commodity() {
             ) : null}
             <Desc bold>注意事項</Desc>
             <Desc>
-              單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}秒，十連抽開獎保護{protectTenShot}秒。
+              單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}
+              秒，十連抽開獎保護{protectTenShot}秒。
             </Desc>
             <Desc warning bold>
               下單前須知
@@ -519,7 +523,8 @@ export default function Commodity() {
           在商品發送之前，請確保提供的姓名和其他資訊是正確的，以確保順利的物流運送。如果由於個人填寫錯誤導致無法正常配送，買家需要自行支付再次發送的費用。{' '}
         </p>
         <p>
-          【到貨時間】我們通常會在申請出貨後的隔日開始計算，然後在 7 個工作日內（不包括例假日）處理配送物流給消費者。一些供應商可能會有彈性的發貨日期，詳細請參考商品頁面的介紹。
+          【到貨時間】我們通常會在申請出貨後的隔日開始計算，然後在 7
+          個工作日內（不包括例假日）處理配送物流給消費者。一些供應商可能會有彈性的發貨日期，詳細請參考商品頁面的介紹。
         </p>
         <p>
           【包裝狀況說明】由於商品在原廠製作、運送和通過海關檢查的過程中可能會損壞包裝或被原廠二次檢查，所以請注意。如果您對包裝狀況要求很高，建議您不要購買。
@@ -536,15 +541,17 @@ export default function Commodity() {
       </Description>
       {!enableDrawOut && (
         <MobileDrawOutBtnBlock className="hide-in-pc flex">
-          <DrawOutBtn
-            onClick={() => {
-              if (!isLogged) return goto(paths.login)
-              setEnableDrawOut(true)
-              setShowLotteryContainer(true)
-            }}
-          >
-            開抽
-          </DrawOutBtn>
+          {commodity.status === COMMODITY_STATUS.OPENING && (
+            <DrawOutBtn
+              onClick={() => {
+                if (!isLogged) return goto(paths.login)
+                setEnableDrawOut(true)
+                setShowLotteryContainer(true)
+              }}
+            >
+              開抽
+            </DrawOutBtn>
+          )}
           <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
             檢視抽況
           </DrawOutBtn>
@@ -581,9 +588,18 @@ export default function Commodity() {
   }
 
   function getTotalCost(drawOutTimes, commodity) {
-    if (drawOutTimes === 5) return drawOutTimes * commodity.drawOut5Price
-    if (drawOutTimes === 10) return drawOutTimes * commodity.drawOut10Price
-    return commodity.drawOut1Price
+    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } = commodity
+    if (!discount) {
+      if (drawOutTimes === 5) return drawOutTimes * drawOut5Price
+      if (drawOutTimes === 10) return drawOutTimes * drawOut10Price
+      return drawOut1Price
+    } else {
+      if (drawOutTimes === 5)
+        return drawOutTimes * Math.round((drawOut5Price * discount) / 100)
+      if (drawOutTimes === 10)
+        return drawOutTimes * Math.round((drawOut10Price * discount) / 100)
+      return Math.round((drawOut1Price * discount) / 100)
+    }
   }
 }
 

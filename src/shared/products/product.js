@@ -81,6 +81,7 @@ const SaleTag = styled.div`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   font-weight: 600;
+  background: #fff;
 `
 
 const ImageContainer = styled.div`

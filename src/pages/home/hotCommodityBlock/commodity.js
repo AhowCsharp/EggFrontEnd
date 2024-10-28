@@ -41,6 +41,7 @@ const SaleTag = styled.div`
   padding: 10px 12px;
   color: ${(p) => p.theme.color.red};
   border: 1px solid ${(p) => p.theme.color.red};
+  background: #fff;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   font-weight: 600;
