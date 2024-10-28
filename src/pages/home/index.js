@@ -129,6 +129,7 @@ export default function Home() {
           infinite={true}
           autoplay={true}
           speed={700}
+          autoplaySpeed={1500}
           dots={true}
           centerMode={false}
           slidesToShow={3}

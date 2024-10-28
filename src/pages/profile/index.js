@@ -36,6 +36,7 @@ const Nav = styled.div`
     padding: 0;
     border-radius: ${(p) => p.theme.borderRadius.memberInfo};
     justify-content: space-around;
+    background: ${(p) => p.theme.mobile.color.descBg};
   }
 `
 
@@ -63,6 +64,10 @@ const NavItem = styled.div`
       margin-right: 0;
       margin-bottom: 10px;
     }
+    &:hover {
+      background: ${(p) => p.theme.color.red};
+    }
+    ${(p) => p.active && `background: ${p.theme.color.red};`};
   }
 `
 
@@ -142,7 +147,7 @@ export default function Profile() {
   return (
     <Layout>
       <Container>
-        <Nav className="dark-font-in-mobile">
+        <Nav>
           {navList.map((n, index) => (
             <NavItem
               key={index}

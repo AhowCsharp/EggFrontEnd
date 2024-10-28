@@ -46,6 +46,11 @@ const theme = {
       descBg: '#212b3a',
       warning: 'rgba(255, 0, 0.3)',
       menuDivider: '#44413d',
+      listItemTitleLabel: '#bcbfc4',
+      listItemTitleBg: '#050b16',
+    },
+    borderRadius: {
+      list: '10px',
     },
   },
 }

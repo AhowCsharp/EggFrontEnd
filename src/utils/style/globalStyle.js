@@ -52,9 +52,9 @@ export default createGlobalStyle`
       
     }
     li {
-      background-color: ${(p) => p.theme.mobile.color.background} !important;
-      color: ${(p) => p.theme.mobile.color.font} !important;
       &.ant-pagination-item {
+        background-color: ${(p) => p.theme.mobile.color.background} !important;
+        color: ${(p) => p.theme.mobile.color.font} !important;
         a {
           color: ${(p) => p.theme.mobile.color.font} !important;
         }
@@ -74,6 +74,13 @@ export default createGlobalStyle`
       &.ant-pagination-disabled button {
         color: rgba(255, 255, 255, 0.25) !important;
       }
+    }
+    .ant-picker-range-separator span, .ant-picker .ant-picker-clear , .ant-picker .ant-picker-suffix {
+      color: ${(p) => p.theme.mobile.color.font} !important;
+    }
+    .ant-picker {
+      color: ${(p) => p.theme.mobile.color.font} !important;
+      background-color: ${(p) => p.theme.mobile.color.background} !important;
     }
   }
 `
