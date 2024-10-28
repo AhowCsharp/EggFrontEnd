@@ -79,7 +79,7 @@ export default function AlertDialog() {
   const msg = useSelector(() => dataStore.alertMessage)
   const isToast = useSelector(() => dataStore.isToast)
   const onClose = () => dataStore.clearAlertMessage()
-  const [seconds, setSeconds] = useState(500)
+  const [seconds, setSeconds] = useState(800)
 
   useEffect(() => {
     if (msg)
@@ -98,7 +98,7 @@ export default function AlertDialog() {
       }
     } else {
       dataStore.clearAlertMessage()
-      setSeconds(500)
+      setSeconds(800)
     }
   }, [seconds, isToast])
 

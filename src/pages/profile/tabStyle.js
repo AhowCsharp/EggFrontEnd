@@ -23,10 +23,16 @@ export const Select = styled(BaseSelect)`
 `
 
 export const Search = styled(BaseSearch)`
-  margin-bottom: 20px;
+  ${(p) => p.mb20 && `margin-bottom: 20px;`}
   ${(p) => p.mt10 && `margin-top: 10px;`}
+  input {
+    padding: 0.25rem;
+  }
   button {
     background: unset !important;
+    > div {
+      padding: 0.25rem 0.5rem;
+    }
   }
 `
 
@@ -51,10 +57,13 @@ export const MobileItem = styled.div`
   background-color: ${(p) => p.theme.mobile.color.descBg};
   justify-content: flex-end;
   line-height: 1.75rem;
-  div {
+  > div {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 1.25rem;
+  }
+  > .tag {
+    padding: 3px 10px;
   }
   .label {
     font-weight: normal;

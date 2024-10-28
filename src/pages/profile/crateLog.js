@@ -5,9 +5,16 @@ import { Table, Modal, Select, InputNumber, message, Carousel } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
 import { Content } from './index'
-import { Container, RangePicker } from './tabStyle'
+import {
+  Container,
+  RangePicker,
+  ButtonContainer,
+  MobileList,
+  MobileItem,
+} from './tabStyle'
 import img from '@app/static/crateLog'
 import coinImageSrc from '@app/static/coin-welfare.svg' // 引入金币图标
+import { Button } from './pendingPrizes'
 
 const { Column } = Table
 const { Option } = Select
@@ -20,7 +27,10 @@ const InfoContainer = styled.div`
   padding: 20px;
   background: #f7f7f7;
   border-radius: ${(p) => p.theme.borderRadius.memberInfo};
-  margin: 0 0 20px;
+  ${(p) => p.mb20 && `margin-bottom: 20px;`}
+  @media (max-width: 768px) {
+    background: ${(p) => p.theme.mobile.color.descBg};
+  }
 `
 
 const InfoItem = styled.div`
@@ -39,28 +49,6 @@ const InfoItem = styled.div`
   }
   * + * {
     margin-top: 2px;
-  }
-`
-
-// 定义 CrateButton，设置黑色背景
-const CrateButton = styled.div`
-  background-color: #000; /* 黑色背景 */
-  color: #fff; /* 白色文字 */
-  padding: 10px 20px; /* 内边距 */
-  border-radius: 5px; /* 圆角 */
-  text-align: center; /* 文字居中 */
-  cursor: pointer; /* 鼠标指针 */
-  font-weight: bold; /* 粗体字 */
-  display: inline-block; /* 让按钮可以设置宽高 */
-  transition: background-color 0.3s, transform 0.2s; /* 平滑过渡效果 */
-
-  &:hover {
-    background-color: #333; /* 悬停时变深 */
-  }
-
-  &:active {
-    background-color: #555; /* 点击时更深 */
-    transform: scale(0.98); /* 点击时稍微缩小 */
   }
 `
 
@@ -117,11 +105,10 @@ export default function CrateLog() {
     }
 
     await dataStore.openCrate(body)
-    
 
-      setGetAwards(currentCrateLogs) 
-      setIsRewardModalVisible(true) 
-    
+    setGetAwards(currentCrateLogs)
+    setIsRewardModalVisible(true)
+
     await dataStore.getCrateLogs(req)
   }
 
@@ -145,7 +132,7 @@ export default function CrateLog() {
   return (
     <Content>
       <Container>
-        <InfoContainer>
+        <InfoContainer mb20={true}>
           {levels.map((level, i) => (
             <InfoItem key={level}>
               <img src={img.keys[i + 1]} alt={levelLabels[level]} />
@@ -163,9 +150,9 @@ export default function CrateLog() {
             </InfoItem>
           ))}
         </InfoContainer>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <CrateButton onClick={showModal}>開啟寶箱</CrateButton>
-        </div>
+        <ButtonContainer>
+          <Button onClick={showModal}>開啟寶箱</Button>
+        </ButtonContainer>
         <Modal
           title="開啟寶箱"
           visible={isModalVisible}
@@ -234,8 +221,17 @@ export default function CrateLog() {
               end: formatDate(value[1]),
             })
           }}
+          mb20={true}
         />
+        {renderTable()}
+      </Container>
+    </Content>
+  )
+  function renderTable() {
+    return (
+      <>
         <Table
+          className="hide-in-mobile"
           dataSource={data.crates}
           pagination={{
             total: crateLogs?.totalCount || 0,
@@ -262,7 +258,27 @@ export default function CrateLog() {
             render={renderDate}
           />
         </Table>
-      </Container>
-    </Content>
-  )
+        <MobileList>
+          {data.crates?.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title">
+                <span className="label">寶箱等級</span> {item.crateName}
+              </div>
+              <div>
+                <span className="label">獲得獎勵</span> {item.getAmount}
+              </div>
+              <div>
+                <span className="label">獲得時間</span>{' '}
+                {renderDate(item.createDate)}
+              </div>
+              <div>
+                <span className="label">開箱時間</span>{' '}
+                {renderDate(item.usedDate)}
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
+    )
+  }
 }

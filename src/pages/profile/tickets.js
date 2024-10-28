@@ -3,11 +3,17 @@ import { dataStore, useSelector } from '@app/store/index'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { Table } from 'antd'
 import dayjs from 'dayjs'
-import { DrawOutBtn } from '@app/pages/commodity'
+import { Button } from '@app/pages/commodity'
 import useRandomColors from '@app/utils/hooks/useRandomColors'
 import Tag from '@app/shared/tag'
 import { Content } from './index'
-import { Container, Search } from './tabStyle'
+import {
+  Container,
+  Search,
+  ButtonContainer,
+  MobileItem,
+  MobileList,
+} from './tabStyle'
 
 const { Column } = Table
 
@@ -34,14 +40,33 @@ export default function Tickets() {
         <Search
           mt10
           placeholder="請輸入廠商名稱"
-          enterButton={<DrawOutBtn>送出</DrawOutBtn>}
+          enterButton={<Button>送出</Button>}
           size="small"
           onSearch={(value) => {
             setReq({ ...req, manufacturerName: value })
           }}
         />
-        <div>可使用抽獎券：{usefulTicketCount}</div>
+        <ButtonContainer left={true}>
+          可使用抽獎券：{usefulTicketCount}
+        </ButtonContainer>
+        {renderTable()}
+      </Container>
+    </Content>
+  )
+  function renderManufacturerName({ manufacturerName, id }) {
+    return (
+      <Tag
+        name={manufacturerName}
+        id={id}
+        color={manufacturerColor[manufacturerName]}
+      />
+    )
+  }
+  function renderTable() {
+    return (
+      <>
         <Table
+          className="hide-in-mobile"
           dataSource={data}
           pagination={{
             total: ticket?.totalCount || 0,
@@ -71,16 +96,28 @@ export default function Tickets() {
             render={(d) => (d ? '是' : '否')}
           />
         </Table>
-      </Container>
-    </Content>
-  )
-  function renderManufacturerName({ manufacturerName, id }) {
-    return (
-      <Tag
-        name={manufacturerName}
-        id={id}
-        color={manufacturerColor[manufacturerName]}
-      />
+        <MobileList>
+          {data?.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title">
+                <span className="label">廠商名稱</span>{' '}
+                {renderManufacturerName(item)}
+              </div>
+              <div>
+                <span className="label">取得方式</span> {item.sourceType}
+              </div>
+              <div>
+                <span className="label">取得時間</span>{' '}
+                {dayjs(item.createDate).format('YYYY/MM/DD HH:mm')}
+              </div>
+              <div>
+                <span className="label">已使用</span>{' '}
+                {item.isUsed ? '是' : '否'}
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
     )
   }
 }
