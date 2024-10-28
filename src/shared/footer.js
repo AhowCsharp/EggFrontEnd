@@ -213,7 +213,7 @@ export default function Footer() {
           <p>真的很強的LineBot服務😍沒騙你🈹</p>
         </Content>
       </LeftContainer>
-      <RightWording>© 2024 剩蛋快樂-扭蛋所 版權所有</RightWording>
+      <RightWording>© 2024 瞇那賞-玩具所 版權所有</RightWording>
       <RightContainer>
         <ContactContainer>
           <p onClick={openInfoDialog(INFO_DIALOG_TYPE.PRIVACY)}>

@@ -398,7 +398,7 @@ function Header() {
       <Container>
         <Block className="logo">
           <Logo src={logoImg} onClick={() => goto(paths.index)} />
-          <span className="digital-font divider">剩蛋快樂</span>
+          <span className="digital-font divider">瞇那賞</span>
         </Block>
         <Block className="row">
           {isLogged && (
@@ -481,7 +481,7 @@ function Header() {
           <Block className="bar">
             <Block className="logo">
               <Logo src={logoImg} onClick={() => goto(paths.index)} />
-              <span className="digital-font divider">剩蛋快樂</span>
+              <span className="digital-font divider">瞇那賞</span>
             </Block>
             <div className="icon">
               <FontAwesomeIcon

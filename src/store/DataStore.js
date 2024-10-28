@@ -233,6 +233,9 @@ export default class DataStore {
   crateLogs = undefined
 
   @observable
+  currentCrateLogs = undefined
+
+  @observable
   storedLogs = undefined
 
   @observable
@@ -387,7 +390,10 @@ export default class DataStore {
     try {
       const token = getToken()
       if (token) {
-        yield Api.openCrate(req, token)
+        const res = yield Api.openCrate(req, token)
+        const { source: data} = res
+        this.currentCrateLogs = { data}
+        if (!res) return
         this.alertMessage = '開箱成功'
       }
     } catch (e) {
