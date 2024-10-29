@@ -27,11 +27,11 @@ const LogoContainer = styled.div`
 
 const FooterContainer = styled.div`
   display: flex;
-  flex-wrap: no-wrap;
+  flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: space-between;
-  width: 90%;
-  margin: 20px auto 95px;
+  width: calc(100% - 120px);
+  margin: 20px auto 0;
   padding: 20px;
   position: relative;
   z-index: ${(p) => p.theme.zIndex.layoutImg};

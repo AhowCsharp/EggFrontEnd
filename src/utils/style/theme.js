@@ -2,6 +2,7 @@ import { MANUFACTURER_ID } from '../hardCode'
 
 const theme = {
   color: {
+    siteBg: '#081324',
     background: '#fff',
     orange: '#f4c221',
     highlight: '#d1412f',

@@ -33,15 +33,13 @@ const SiteContainer = styled.div`
   ${(props) => (props.disableScroll ? '' : 'overflow-y: auto;')}
   height: 100vh;
   -webkit-overflow-scrolling: touch;
-  background: url(${bgTopImg}) no-repeat top,
-    url(${bgBottomImg}) no-repeat bottom, #081324;
-  background-size: 100% auto;
-  background-attachment: fixed;
+  background: ${(p) => p.theme.color.siteBg};
   overflow-x: hidden;
-  ${hideScrollBarStyle}
-  @media (max-width: 768px) {
+  .content {
+    position: relative;
     padding-bottom: 80px;
   }
+  ${hideScrollBarStyle}
 `
 
 const Wrapper = styled.div`
@@ -65,6 +63,30 @@ const MobileViewController = styled.div`
   }
 `
 
+const TopBg = styled.div`
+  background-image: url(${bgTopImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+`
+
+const BottomBg = styled.div`
+  background-image: url(${bgBottomImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 400px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
 function AppRoute() {
   return (
     <>
@@ -72,44 +94,48 @@ function AppRoute() {
       <GlobalStyle />
       <BrowserRouter>
         <SiteContainer id="app-container">
-          <Header id="header" />
-          <Wrapper>
-            <Main>
-              <MobileViewController>
-                <Suspense fallback={<Spinner />}>
-                  <Routes>
-                    <Route path={paths.index} element={<Home />} />
-                    <Route path={paths.login} element={<Login />} />
-                    <Route path={paths.register} element={<Register />} />
-                    <Route path={paths.profile} element={<Profile />} />
-                    <Route path={paths.signIn} element={<SignIn />} />
-                    <Route path={paths.gacha} element={<Gacha />} />
-                    <Route path={paths.blindBox} element={<BlindBox />} />
-                    <Route path={paths.ichiban} element={<Ichiban />} />
-                    <Route path={paths.special} element={<Special />} />
-                    <Route
-                      path={paths.outsideWallWorld}
-                      element={<OutsideWallWorld />}
-                    />
-                    <Route
-                      path={paths.digitalWorld}
-                      element={<DigitalWorld />}
-                    />
-                    <Route path={paths.luckyBag} element={<LuckyBag />} />
-                    <Route path={paths.commodity} element={<Commodity />} />
-                    <Route path={paths.rankList} element={<RankList />} />
-                    <Route path={paths.campaign} element={<Campaign />} />
-                    <Route
-                      path={paths.manufacturer}
-                      element={<Manufacturer />}
-                    />
-                    <Route path={paths.others} element={<NotFoundPage />} />
-                  </Routes>
-                </Suspense>
-              </MobileViewController>
-            </Main>
-          </Wrapper>
-          <Footer />
+          <div className="content">
+            <TopBg />
+            <BottomBg />
+            <Header id="header" />
+            <Wrapper>
+              <Main>
+                <MobileViewController>
+                  <Suspense fallback={<Spinner />}>
+                    <Routes>
+                      <Route path={paths.index} element={<Home />} />
+                      <Route path={paths.login} element={<Login />} />
+                      <Route path={paths.register} element={<Register />} />
+                      <Route path={paths.profile} element={<Profile />} />
+                      <Route path={paths.signIn} element={<SignIn />} />
+                      <Route path={paths.gacha} element={<Gacha />} />
+                      <Route path={paths.blindBox} element={<BlindBox />} />
+                      <Route path={paths.ichiban} element={<Ichiban />} />
+                      <Route path={paths.special} element={<Special />} />
+                      <Route
+                        path={paths.outsideWallWorld}
+                        element={<OutsideWallWorld />}
+                      />
+                      <Route
+                        path={paths.digitalWorld}
+                        element={<DigitalWorld />}
+                      />
+                      <Route path={paths.luckyBag} element={<LuckyBag />} />
+                      <Route path={paths.commodity} element={<Commodity />} />
+                      <Route path={paths.rankList} element={<RankList />} />
+                      <Route path={paths.campaign} element={<Campaign />} />
+                      <Route
+                        path={paths.manufacturer}
+                        element={<Manufacturer />}
+                      />
+                      <Route path={paths.others} element={<NotFoundPage />} />
+                    </Routes>
+                  </Suspense>
+                </MobileViewController>
+              </Main>
+            </Wrapper>
+            <Footer />
+          </div>
         </SiteContainer>
       </BrowserRouter>
     </>
