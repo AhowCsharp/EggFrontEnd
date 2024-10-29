@@ -85,5 +85,11 @@ export default createGlobalStyle`
       color: ${(p) => p.theme.mobile.color.font} !important;
       background-color: ${(p) => p.theme.mobile.color.background} !important;
     }
+    .dark-in-mobile .ant-checkbox .ant-checkbox-inner {
+      border-color: ${(p) => p.theme.mobile.color.font} !important;
+      color: ${(p) => p.theme.mobile.color.font} !important;
+      background-color: ${(p) => p.theme.mobile.color.background} !important;
+
+    }
   }
 `

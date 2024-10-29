@@ -86,6 +86,16 @@ export const MobileItem = styled.div`
     color: ${(p) => p.theme.mobile.color.font};
     font-size: 1.15rem;
     background-color: ${(p) => p.theme.mobile.color.listItemTitleBg};
+    &.vertical {
+      flex-direction: column;
+      justify-content: center;
+      > * {
+        justify-content: center;
+      }
+      > * + * {
+        margin-top: 0.5rem;
+      }
+    }
   }
   > div {
     border-bottom: 1px solid ${(p) => p.theme.mobile.color.font};
