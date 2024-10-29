@@ -84,6 +84,7 @@ export default function freeshippingTicketLog() {
           mb20={true}
         />
         <Select
+          className="dark-in-mobile"
           value={req.status}
           options={STATUS_OPTIONS}
           onChange={(value) => setReq({ ...req, status: value })}

@@ -32,11 +32,14 @@ export default createGlobalStyle`
       font-size: 14px;
       color:${(p) => p.theme.mobile.color.font};
     }
-    .dialog, .dark-font-in-mobile {
-      color: #000 !important;
-    }
     .ant-form-item .ant-form-item-label > label, .ant-descriptions-title, .ant-descriptions-row span {
       color:${(p) => p.theme.mobile.color.font} !important;
+    }
+    .dialog, .dark-font-in-mobile {
+      color: #000 !important;
+      .ant-form-item .ant-form-item-label > label, .ant-descriptions-title, .ant-descriptions-row span {
+          color: #000 !important;
+      }
     }
     a {
       color:${(p) => p.theme.mobile.color.font};

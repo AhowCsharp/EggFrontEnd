@@ -391,8 +391,8 @@ export default class DataStore {
       const token = getToken()
       if (token) {
         const res = yield Api.openCrate(req, token)
-        const { source: data} = res
-        this.currentCrateLogs = { data}
+        const { source: data } = res
+        this.currentCrateLogs = { data }
         if (!res) return
         this.alertMessage = '開箱成功'
       }
@@ -488,6 +488,7 @@ export default class DataStore {
       if (token) {
         yield Api.ship(req, token)
         this.getPendingPrize(this.getPendingPrizeReq)
+        this.alertMessage = '配送申請成功'
       }
     } catch (e) {
       const failedColumns = Object.keys(e.response?.data?.errors || {})

@@ -20,6 +20,18 @@ export const RangePicker = styled(BaseRangePicker)`
 
 export const Select = styled(BaseSelect)`
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    &.dark-in-mobile {
+      .ant-select-selector {
+        background: ${(p) => p.theme.mobile.color.background} !important;
+        color: ${(p) => p.theme.mobile.color.font} !important;
+        border-color: ${(p) => p.theme.mobile.color.font} !important;
+      }
+      .ant-select-arrow {
+        color: ${(p) => p.theme.mobile.color.font} !important;
+      }
+    }
+  }
 `
 
 export const Search = styled(BaseSearch)`
@@ -80,5 +92,10 @@ export const MobileItem = styled.div`
   }
   > div:last-child {
     border-bottom: none;
+  }
+  ${MobileList} {
+    background-color: ${(p) => p.theme.mobile.color.background};
+    border: none;
+    border-radius: unset;
   }
 `
