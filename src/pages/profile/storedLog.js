@@ -38,8 +38,8 @@ export default function StoredLog() {
             if (start === 'Invalid Date' || end === 'Invalid Date') return
             setReq({
               ...req,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
+              start,
+              end,
             })
           }}
           mb20={true}

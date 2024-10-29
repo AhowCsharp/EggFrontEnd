@@ -215,10 +215,13 @@ export default function CrateLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
+            const start = formatDate(value[0])
+            const end = formatDate(value[1])
+            if (start === 'Invalid Date' || end === 'Invalid Date') return
             setReq({
               ...req,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
+              start,
+              end,
             })
           }}
           mb20={true}
