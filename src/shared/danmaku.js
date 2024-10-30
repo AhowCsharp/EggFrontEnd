@@ -9,7 +9,7 @@ function generateUid() {
 const Container = styled.div`
   position: absolute;
   top: 5px;
-  z-index: ${(p) => p.theme.zIndex.danmaku};
+  z-index: ${(p) => p.theme.zIndex.danmaku || 1000};
   height: 48px;
   width: 100%;
   pointer-events: none;
@@ -36,8 +36,8 @@ const Item = styled.div`
   min-width: 250px;
   height: 48px;
   padding: 4px 10px;
-  border-radius: ${(p) => p.theme.borderRadius.danmaku};
-  background-color: ${(p) => p.theme.color.danmakuMask};
+  border-radius: ${(p) => p.theme.borderRadius.danmaku || '8px'};
+  background-color: ${(p) => p.theme.color.danmakuMask || 'rgba(0, 0, 0, 0.5)'};
   line-height: 40px;
   font-size: 1.25rem;
   animation: ${slideToLeft} 7s linear;
@@ -98,25 +98,39 @@ export default function Danmaku() {
       ];
     }
 
-    // 如果需要延迟显示，可以调整这里的延迟时间
-    setTimeout(() => {
-      setMessagesQueue((prevQueue) => [...prevQueue, ...messages]);
-    }, 3000);
+    // 使用函数式更新，确保不会丢失消息
+    setMessagesQueue((prevQueue) => {
+      return [...prevQueue, ...messages];
+    });
   }
 
   useEffect(() => {
+    // 当 nowShowing 为空，且消息队列不为空时，显示下一条消息
     if (!nowShowing && messagesQueue.length > 0) {
-      const nextMessage = messagesQueue[0];
-      setNowShowing(nextMessage);
-      setMessagesQueue((prevQueue) => prevQueue.slice(1));
+      showNextMessage();
     }
   }, [messagesQueue, nowShowing]);
+
+  function showNextMessage() {
+    if (messagesQueue.length === 0) {
+      setNowShowing(null);
+      return;
+    }
+
+    const nextMessage = messagesQueue[0];
+    setNowShowing(nextMessage);
+    setMessagesQueue((prevQueue) => prevQueue.slice(1));
+  }
+
+  function onAnimationEnd() {
+    setNowShowing(null);
+  }
 
   if (!nowShowing) return null;
 
   return (
     <Container>
-      <Item onAnimationEnd={onAnimationEnd}>
+      <Item key={nowShowing.uid} onAnimationEnd={onAnimationEnd}>
         {nowShowing.eventType === 'ranking' &&
           `🚀 恭喜 ${nowShowing.customerName} 抽中 ${nowShowing.prizeLevelView} ${nowShowing.prizeName}`}
         {nowShowing.eventType === 'task' &&
@@ -124,8 +138,4 @@ export default function Danmaku() {
       </Item>
     </Container>
   );
-
-  function onAnimationEnd() {
-    setNowShowing(null);
-  }
 }
