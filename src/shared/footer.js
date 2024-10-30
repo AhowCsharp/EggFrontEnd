@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import logoImg from '@app/static/logo.png'
-import customerserviceQrcode from '@app/static/customerserviceQrcode.jpg'
+import customerserviceQrcode from '@app/static/customerserviceQrcode.jpg' //
+import friendQrcode from '@app/static/社群QrCode.jpg' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faLine,
@@ -96,14 +97,21 @@ const OfficialQrCode = styled.img.attrs({
   src: 'https://qr-official.line.me/gs/M_125dyajm_BW.png?oat_content=qr',
   alt: 'lineOA qrcode',
 })`
-  width: 80px;
+  width: 55px;
 `
 
 const CustomerserviceQrcode = styled.img.attrs({
   src: customerserviceQrcode,
-  alt: 'lineOA qrcode',
+  alt: '一番賞 qrcode',
 })`
-  width: 80px;
+  width: 55px;
+`
+
+const FriendQrcode = styled.img.attrs({
+  src: friendQrcode,
+  alt: '瞇那賞 qrcode',
+})`
+  width: 55px;
 `
 
 const ContactContainer = styled.div`
@@ -265,6 +273,10 @@ export default function Footer() {
         <QrCodeItem>
           <CustomerserviceQrcode />
           <QrCodeLabel>客服 LINE</QrCodeLabel>
+        </QrCodeItem>
+        <QrCodeItem>
+          <FriendQrcode />
+          <QrCodeLabel>社群 LINE</QrCodeLabel>
         </QrCodeItem>
       </QrCodeContainer>
     </FooterContainer>
