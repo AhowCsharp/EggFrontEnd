@@ -44,27 +44,8 @@ const Item = styled.div`
 `;
 
 export default function Danmaku() {
-  const [eventDataDict, setEventDataDict] = useState({});
-  const [newReceived, setNewReceived] = useState(null);
-  const [eventKeys, setEventKeys] = useState([]);
+  const [messagesQueue, setMessagesQueue] = useState([]);
   const [nowShowing, setNowShowing] = useState(null);
-
-  useEffect(() => {
-    if (!newReceived) return;
-    setEventDataDict((prev) => ({ ...prev, ...newReceived }));
-    setNewReceived(null);
-  }, [newReceived]);
-
-  useEffect(() => {
-    if (!eventDataDict) return;
-    setEventKeys(Object.keys(eventDataDict));
-  }, [eventDataDict]);
-
-  useEffect(() => {
-    if (!nowShowing && eventKeys.length > 0) {
-      setNowShowing(eventKeys[0]);
-    }
-  }, [eventKeys, nowShowing]);
 
   useEffect(() => {
     // 建立連線
@@ -99,44 +80,52 @@ export default function Danmaku() {
 
   function handleEventData(data, eventType) {
     console.log(`Received ${eventType}:`, data);
-    let dict;
+    let messages;
     if (Array.isArray(data)) {
-      dict = data.reduce((acc, cur) => {
-        acc[generateUid()] = { ...cur, eventType };
-        return acc;
-      }, {});
+      messages = data.map((item) => ({
+        ...item,
+        eventType,
+        uid: generateUid(),
+      }));
     } else {
       // 資料是物件
-      dict = {
-        [generateUid()]: { ...data, eventType }
-      };
+      messages = [
+        {
+          ...data,
+          eventType,
+          uid: generateUid(),
+        },
+      ];
     }
+
+    // 如果需要延迟显示，可以调整这里的延迟时间
     setTimeout(() => {
-      setNewReceived(dict);
+      setMessagesQueue((prevQueue) => [...prevQueue, ...messages]);
     }, 3000);
   }
 
-  if (!eventDataDict || !eventDataDict[nowShowing]) return null;
+  useEffect(() => {
+    if (!nowShowing && messagesQueue.length > 0) {
+      const nextMessage = messagesQueue[0];
+      setNowShowing(nextMessage);
+      setMessagesQueue((prevQueue) => prevQueue.slice(1));
+    }
+  }, [messagesQueue, nowShowing]);
 
-  const currentItem = eventDataDict[nowShowing];
+  if (!nowShowing) return null;
 
   return (
     <Container>
       <Item onAnimationEnd={onAnimationEnd}>
-        {currentItem.eventType === 'ranking' && (
-          `🚀 恭喜 ${currentItem.customerName} 抽中 ${currentItem.prizeLevelView} ${currentItem.prizeName}`
-        )}
-        {currentItem.eventType === 'task' && (
-          `🎯 恭喜 ${currentItem.customerName} 完成了 ${currentItem.taskTitle} 任務內容為 ${currentItem.award}`
-        )}
+        {nowShowing.eventType === 'ranking' &&
+          `🚀 恭喜 ${nowShowing.customerName} 抽中 ${nowShowing.prizeLevelView} ${nowShowing.prizeName}`}
+        {nowShowing.eventType === 'task' &&
+          `🎯 恭喜 ${nowShowing.customerName} 完成 ${nowShowing.taskTitle} 任務內容為 ${nowShowing.award}`}
       </Item>
     </Container>
   );
 
   function onAnimationEnd() {
-    const newEventDataDict = { ...eventDataDict };
-    delete newEventDataDict[nowShowing];
     setNowShowing(null);
-    setEventDataDict(newEventDataDict);
   }
 }
