@@ -6,11 +6,12 @@ import { useParams } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
-import { DRAW_OUT_STATUS } from '@app/utils/constants'
+import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
 import { useNavigate } from 'react-router-dom'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
+import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
@@ -43,11 +44,27 @@ const ImgContainer = styled.div`
   }
 `
 
+const DrawOutTimesTag = styled.div`
+  border-radius: 100px;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
+  color: ${(p) => p.theme.color.drawOutTimeBtn};
+  display: flex;
+  flex-wrap: wrap;
+`
+
 const InfoContainer = styled.div`
   display: flex;
   margin-bottom: 10px;
   @media (max-width: 768px) {
     flex-direction: column;
+    ${DrawOutTimesTag} {
+      color: ${(p) => p.theme.mobile.color.font};
+      border-color: ${(p) => p.theme.mobile.color.font};
+      span {
+        border-color: ${(p) => p.theme.mobile.color.font};
+      }
+    }
   }
 `
 
@@ -72,6 +89,9 @@ const Name = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
   margin: 10px 0;
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const Tag = styled.div`
@@ -134,9 +154,34 @@ export const Block = styled.div`
 `
 
 const DrawOutBtnBlock = styled(Block)`
-  margin: 10px 0;
+  margin-bottom: 10px;
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
+  }
+`
+
+export const MobileDrawOutBtnBlock = styled(DrawOutBtnBlock)`
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  justify-content: center;
+  height: 80px;
+  background: #fff;
+  padding: 10px 15px;
+  margin: 0;
+  z-index: ${(p) => p.theme.zIndex.dialog};
+  > div {
+    flex: 1;
+    text-align: center;
+  }
+  > div + div {
+    margin-left: 1rem;
+  }
+  .draw-out-btn {
+    color: ${(p) => p.theme.color.red};
+    border: 1px solid ${(p) => p.theme.color.red};
+    background: ${(p) => p.theme.mobile.color.font};
   }
 `
 
@@ -144,6 +189,9 @@ const DescBlock = styled.div`
   background-color: #f2f2f2;
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
+  @media (max-width: 768px) {
+    background-color: ${(p) => p.theme.mobile.color.descBg};
+  }
 `
 
 const Desc = styled.p`
@@ -152,12 +200,15 @@ const Desc = styled.p`
   ${(p) => p.large && 'font-size: 1.25rem;'}
   ${(p) => p.bold && 'font-weight: bold;'}
   margin:10px 0 0;
+  @media (max-width: 768px) {
+    color: ${(p) => p.warning && p.theme.mobile.color.warning};
+  }
 `
 
 export const Header = styled.div`
   border-bottom: 1px solid
-    ${(p) => (p.red ? p.theme.color.red : p.theme.color.gray)};
-  color: #160d00;
+    ${(p) => (p.red ? p.theme.color.red : p.theme.color.headerBottomLine)};
+  color: ${(p) => (p.red ? p.theme.color.red : '#160d00')};
   font-size: 1.5rem;
   padding-bottom: 8px;
   margin: 2rem 0;
@@ -171,19 +222,20 @@ export const Header = styled.div`
     display: flex;
     align-items: center;
   }
-`
-
-const DrawOutTimesTag = styled.div`
-  border-radius: 100px;
-  padding: 0.5rem 1.25rem;
-  border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
-  color: ${(p) => p.theme.color.drawOutTimeBtn};
-  display: flex;
-  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+    border-color: ${(p) => p.theme.color.headerBottomLine};
+    &.lottery {
+      padding-bottom: 8px;
+      .block {
+        display: none;
+      }
+    }
+  }
 `
 
 const DrawOutTimesTagBlock = styled(Block)`
-  margin-top: 10px;
+  margin: 10px 0;
   ${DrawOutTimesTag} + ${DrawOutTimesTag} {
     margin-left: 0.75rem;
   }
@@ -222,6 +274,7 @@ const ShipFeeIcon = styled.div`
 `
 
 const ShipFee = styled.div`
+  background-color: #fff;
   border: 1px solid ${(p) => p.theme.color.red};
   border-radius: 4px;
   color: ${(p) => p.theme.color.red};
@@ -256,6 +309,10 @@ export default function Commodity() {
   const [drawOutReq, setDrawOutReq] = useState()
   const [enableDrawOut, setEnableDrawOut] = useState(false)
   const [nowDisplay, setNowDisplay] = useState()
+  const [protectOneShot, setProtectOneShot] = useState(180)
+  const [protectFiveShot, setProtectFiveShot] = useState(600)
+  const [protectTenShot, setProtectTenShot] = useState(780)
+
   const shouldDisplayDrawOutTimesTagBlock =
     commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
 
@@ -289,6 +346,24 @@ export default function Commodity() {
       commodity.category,
       commodity.name,
     ])
+
+    switch (commodity.category) {
+      case '扭蛋':
+        setProtectOneShot(120)
+        setProtectFiveShot(180)
+        setProtectTenShot(300)
+        break
+      case '福袋':
+        setProtectOneShot(180)
+        setProtectFiveShot(240)
+        setProtectTenShot(360)
+        break
+      default:
+        setProtectOneShot(180)
+        setProtectFiveShot(600)
+        setProtectTenShot(780)
+        break
+    }
   }, [commodity])
 
   if (!commodity) return <Layout />
@@ -357,16 +432,19 @@ export default function Commodity() {
               </DrawOutTimesTagBlock>
             </>
           )}
-          <DrawOutBtnBlock>
-            <DrawOutBtn
-              onClick={() => {
-                if (!isLogged) return goto(paths.login)
-                setEnableDrawOut(true)
-                setShowLotteryContainer(true)
-              }}
-            >
-              開抽
-            </DrawOutBtn>
+          <DrawOutBtnBlock className="hide-in-mobile">
+            {commodity.status === COMMODITY_STATUS.OPENING && (
+              <DrawOutBtn
+                onClick={() => {
+                  if (!isLogged) return goto(paths.login)
+
+                  setEnableDrawOut(true)
+                  setShowLotteryContainer(true)
+                }}
+              >
+                開抽
+              </DrawOutBtn>
+            )}
             <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
               檢視抽況
             </DrawOutBtn>
@@ -383,13 +461,14 @@ export default function Commodity() {
             ) : null}
             <Desc bold>注意事項</Desc>
             <Desc>
-              單抽開獎保護360秒，五連抽開獎保護900秒，十連抽開獎保護1200秒。
+              單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}
+              秒，十連抽開獎保護{protectTenShot}秒。
             </Desc>
             <Desc warning bold>
               下單前須知
             </Desc>
             <Desc warning>
-              一番賞、盲盒商品為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
+              一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品，一但完成抽獎程序，恕無法接受「退貨及退款」！
             </Desc>
           </DescBlock>
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
@@ -445,8 +524,8 @@ export default function Commodity() {
           在商品發送之前，請確保提供的姓名和其他資訊是正確的，以確保順利的物流運送。如果由於個人填寫錯誤導致無法正常配送，買家需要自行支付再次發送的費用。{' '}
         </p>
         <p>
-          【到貨時間】我們通常會在申請出貨後的第二天開始計算，然後在 10到
-          14個工作日內（不包括例假日）送達給消費者。一些供應商可能會有彈性的發貨日期，詳細請參考商品頁面。
+          【到貨時間】我們通常會在申請出貨後的隔日開始計算，然後在 7
+          個工作日內（不包括例假日）處理配送物流給消費者。一些供應商可能會有彈性的發貨日期，詳細請參考商品頁面的介紹。
         </p>
         <p>
           【包裝狀況說明】由於商品在原廠製作、運送和通過海關檢查的過程中可能會損壞包裝或被原廠二次檢查，所以請注意。如果您對包裝狀況要求很高，建議您不要購買。
@@ -461,6 +540,25 @@ export default function Commodity() {
           【金融事項】根據政府的金融法規，短時間內頻繁刷卡可能被視為風險行為，並可能導致暫停信用卡功能。建議您一次性購買足夠的金幣以避免此情況。
         </p>
       </Description>
+      {!enableDrawOut && (
+        <MobileDrawOutBtnBlock className="hide-in-pc flex">
+          {commodity.status === COMMODITY_STATUS.OPENING && (
+            <DrawOutBtn
+              onClick={() => {
+                if (!isLogged) return goto(paths.login)
+                setEnableDrawOut(true)
+                setShowLotteryContainer(true)
+              }}
+            >
+              開抽
+            </DrawOutBtn>
+          )}
+          <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
+            檢視抽況
+          </DrawOutBtn>
+        </MobileDrawOutBtnBlock>
+      )}
+      {enableDrawOut && <ScrollToDrawButton/>}     
     </Layout>
   )
   function onSectionNavClick(id) {
@@ -492,9 +590,18 @@ export default function Commodity() {
   }
 
   function getTotalCost(drawOutTimes, commodity) {
-    if (drawOutTimes === 5) return drawOutTimes * commodity.drawOut5Price
-    if (drawOutTimes === 10) return drawOutTimes * commodity.drawOut10Price
-    return commodity.drawOut1Price
+    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } = commodity
+    if (!discount) {
+      if (drawOutTimes === 5) return drawOutTimes * drawOut5Price
+      if (drawOutTimes === 10) return drawOutTimes * drawOut10Price
+      return drawOut1Price
+    } else {
+      if (drawOutTimes === 5)
+        return drawOutTimes * Math.round((drawOut5Price * discount) / 100)
+      if (drawOutTimes === 10)
+        return drawOutTimes * Math.round((drawOut10Price * discount) / 100)
+      return Math.round((drawOut1Price * discount) / 100)
+    }
   }
 }
 

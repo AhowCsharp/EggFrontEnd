@@ -2,6 +2,7 @@ import { MANUFACTURER_ID } from '../hardCode'
 
 const theme = {
   color: {
+    siteBg: '#081324',
     background: '#fff',
     orange: '#f4c221',
     highlight: '#d1412f',
@@ -16,6 +17,8 @@ const theme = {
     discount: 'rgba(255, 0, 0)',
     drawOutTimeBtn: '#081324',
     red: '#a21a2b',
+    headerBottomLine: '#9ca1a7',
+    disable: '#c4c4c4',
   },
   tagColor: {
     [MANUFACTURER_ID]: '#FF0062',
@@ -35,6 +38,21 @@ const theme = {
     alertMask: 4,
     header: 6,
     danmaku: 7,
+  },
+  mobile: {
+    color: {
+      font: '#fff',
+      background: '#081324',
+      desc: '#aaa',
+      descBg: '#212b3a',
+      warning: 'rgba(255, 0, 0.3)',
+      menuDivider: '#44413d',
+      listItemTitleLabel: '#bcbfc4',
+      listItemTitleBg: '#050b16',
+    },
+    borderRadius: {
+      list: '10px',
+    },
   },
 }
 

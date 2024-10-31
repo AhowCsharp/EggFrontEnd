@@ -16,13 +16,22 @@ const Container = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  ${(p) =>
+    p.isSmall &&
+    `padding: 3px 6px;
+    font-size: 0.75rem;`}
 `
 
-export default function Tag({ name, id }) {
+export default function Tag({ name, id, isSmall = false }) {
   const manufacturerColors = useSelector(() => dataStore.manufacturerColors)
 
   return (
-    <Container color={manufacturerColors?.[id]} id={id} className="tag">
+    <Container
+      color={manufacturerColors?.[id]}
+      id={id}
+      className="tag"
+      isSmall={isSmall}
+    >
       {name}
     </Container>
   )

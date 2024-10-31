@@ -106,7 +106,7 @@ export default function SortDialog({ onClose, onClick, type }) {
   return (
     <>
       <Mask onClick={onClose} />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>排序</h3>
         </Header>

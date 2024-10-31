@@ -9,6 +9,7 @@ const Pagination = styled(BasePagination)`
 export default function Page({ onChange, totalCount, alignCenter = false }) {
   return (
     <Pagination
+      className="pagination"
       defaultCurrent={DEFAULT_COMMODITIES_PAGINATION.pageNumber}
       total={totalCount}
       defaultPageSize={DEFAULT_COMMODITIES_PAGINATION.pageSize}

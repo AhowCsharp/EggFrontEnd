@@ -3,9 +3,15 @@ import { useEffect, useState } from 'react'
 import { Table } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
-import { DrawOutBtn } from '@app/pages/commodity'
+import { Button } from '@app/pages/commodity'
 import { Content } from './index'
-import { Container, RangePicker, Search } from './tabStyle'
+import {
+  Container,
+  RangePicker,
+  Search,
+  MobileItem,
+  MobileList,
+} from './tabStyle'
 
 const { Column } = Table
 
@@ -34,22 +40,35 @@ export default function ReclaimLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
+            const start = formatDate(value[0])
+            const end = formatDate(value[1])
+            if (start === 'Invalid Date' || end === 'Invalid Date') return
             setReq({
               ...req,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
+              start,
+              end,
             })
           }}
+          mb20={true}
         />
         <Search
           placeholder="請輸入獎品名稱"
-          enterButton={<DrawOutBtn>送出</DrawOutBtn>}
+          enterButton={<Button>送出</Button>}
           size="small"
           onSearch={(value) => {
             setReq({ ...req, prizeName: value })
           }}
+          mb20={true}
         />
+        {renderTable()}
+      </Container>
+    </Content>
+  )
+  function renderTable() {
+    return (
+      <>
         <Table
+          className="hide-in-mobile"
           dataSource={data}
           pagination={{
             total: reclaimLog?.totalCount || 0,
@@ -69,7 +88,23 @@ export default function ReclaimLog() {
             render={renderDate}
           />
         </Table>
-      </Container>
-    </Content>
-  )
+        <MobileList>
+          {data?.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title">
+                <span className="label">獎品</span> {item.prizeName}
+              </div>
+              <div>
+                <span className="label">價格</span> {item.money}
+              </div>
+              <div>
+                <span className="label">回收時間</span>
+                {renderDate(item.reclaimDate)}
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
+    )
+  }
 }

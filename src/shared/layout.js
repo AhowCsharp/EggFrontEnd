@@ -11,6 +11,10 @@ const Container = styled.div`
   background: ${(p) => p.theme.color.background};
   padding: 32px;
   position: relative;
+  @media (max-width: 768px) {
+    padding: 32px 0;
+    background: ${(p) => p.theme.mobile.color.background};
+  }
 `
 
 export default function Layout({ children }) {

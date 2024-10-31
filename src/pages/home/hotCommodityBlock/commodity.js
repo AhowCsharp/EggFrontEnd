@@ -22,7 +22,8 @@ const Container = styled.div`
     transform: scale(1.07);
   }
   @media (max-width: 768px) {
-    width: 100%;
+    border: 1px solid #fff;
+    width: calc(50% - 4px);
     margin: 0 0 10px;
   }
 `
@@ -40,6 +41,7 @@ const SaleTag = styled.div`
   padding: 10px 12px;
   color: ${(p) => p.theme.color.red};
   border: 1px solid ${(p) => p.theme.color.red};
+  background: #fff;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   font-weight: 600;
@@ -90,6 +92,13 @@ const TagContainer = styled.div`
   margin-top: 10px;
   .tag {
     margin: 0;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .tag {
+      margin-top: 8px;
+    }
   }
 `
 

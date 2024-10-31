@@ -41,7 +41,8 @@ const BaseProduct = styled.div`
     margin-left: 10px;
   }
   @media (max-width: 768px) {
-    width: 100%;
+    border: 1px solid #fff;
+    width: calc(50% - 4px);
     margin: 0 0 10px;
   }
 `
@@ -80,6 +81,7 @@ const SaleTag = styled.div`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   font-weight: 600;
+  background: #fff;
 `
 
 const ImageContainer = styled.div`

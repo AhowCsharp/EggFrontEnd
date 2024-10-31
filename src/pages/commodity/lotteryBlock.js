@@ -3,7 +3,10 @@ import lotteryImgs from '@app/static/lottery'
 import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
-import { Header } from './index'
+import { Header, MobileDrawOutBtnBlock } from './index'
+import { getPrizeViewLevel } from '@app/utils/getPrizeViewLevel';
+
+
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 function getDrawTimeOptions(drawOutMultiplePriceStatus) {
@@ -46,6 +49,12 @@ const DrawOutInfo = styled.div`
   span.value {
     color: ${(p) => p.theme.color.red};
   }
+  @media (max-width: 768px) {
+    span.value {
+      color: ${(p) => p.theme.mobile.color.font};
+      font-weight: bold;
+    }
+  }
 `
 
 const DrawOutBtn = styled.div`
@@ -60,7 +69,11 @@ const DrawOutTimeBtn = styled(DrawOutBtn)`
   background: ${(p) => (p.isActive ? p.theme.color.drawOutTimeBtn : 'unset')};
   color: ${(p) => (p.isActive ? '#fff' : p.theme.color.drawOutTimeBtn)};
   border: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
-  margin-left: 1rem;
+  @media (max-width: 768px) {
+    background: ${(p) => (p.isActive ? p.theme.mobile.color.font : 'unset')};
+    color: ${(p) => (p.isActive ? '#000' : p.theme.mobile.color.font)};
+    border-color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const BtnBlock = styled.div`
@@ -83,6 +96,30 @@ const BtnBlock = styled.div`
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
+  .title {
+    margin-right: 1rem;
+  }
+  @media (max-width: 768px) {
+    background-color: ${(p) => p.theme.mobile.color.descBg};
+    ${Block} {
+      flex-wrap: wrap;
+      span {
+        width: 100%;
+      }
+      width: 100%;
+      margin: 0;
+    }
+    ${DrawOutTimeBtn} {
+      flex: 1;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .title {
+      color: ${(p) => p.theme.mobile.color.font};
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+  }
 `
 
 const LotteryContainer = styled.div`
@@ -92,7 +129,7 @@ const LotteryContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   @media (max-width: 768px) {
-    margin: 0 20px;
+    padding: 0 10px;
   }
 `
 
@@ -121,7 +158,7 @@ const BaseLottery = styled.div`
   display: flex;
   padding: 5px;
   margin: 10px 17px;
-  background-color: ${(p) => (p.isSelected ? '#f4c221' : '#fff')};
+  background-color: ${(p) => (p.isSelected ? '#f4c221' : 'unset')};
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
   position: relative;
   text-align: center;
@@ -136,9 +173,7 @@ const BaseLottery = styled.div`
       opacity: 0;
     }
   }
-
   ${(p) => !p.isDone && hoverStyle}
-
   @media (max-width: 768px) {
     margin: 10px 8px;
     width: calc(33% - 16px);
@@ -165,8 +200,8 @@ const SimpleLottery = styled.div`
   margin: 10px 4px;
   cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
   background-color: ${(p) => {
-    if (p.isDone) return p.theme.color.gray
-    return p.isSelected ? p.theme.color.orange : '#000'
+    if (p.isDone) return p.theme.color.disable
+    return p.isSelected ? p.theme.color.red : p.theme.mobile.color.descBg
   }};
   padding: 8px;
   text-align: center;
@@ -204,8 +239,6 @@ export default function LotteryBlock({
   useEffect(() => {
     setSelectedPrizesDisplay(selectedPrizes.map((i) => i + 1).join('、'))
   }, [selectedPrizes])
-  const isSimple = displayMode === DisplayMode.Simple
-  const isPaginationMode = displayMode === DisplayMode.Pagination
   return (
     <>
       <Header className="lottery" red>
@@ -236,7 +269,7 @@ export default function LotteryBlock({
         <>
           <BtnBlock>
             <Block>
-              <span className="bold">選擇玩法</span>
+              <span className="title bold">選擇玩法</span>
               {drawTimeOptions.map((option) => (
                 <DrawOutTimeBtn
                   key={option.value}
@@ -247,7 +280,7 @@ export default function LotteryBlock({
                 </DrawOutTimeBtn>
               ))}
             </Block>
-            <Block>
+            <Block className="hide-in-mobile">
               {drawOutTimes > 1 && (
                 <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
                   重新選擇
@@ -263,46 +296,21 @@ export default function LotteryBlock({
           </BtnBlock>
         </>
       )}
-      <LotteryContainer id="lottery" isSimple={isSimple}>
-        {(isPaginationMode ? data : prizes).map((p, i) => {
-          const index = isPaginationMode ? (page - 1) * PageSize + i : i
-          if (!p)
-            return (
-              <Lottery
-                key={index}
-                index={index}
-                src={lotteryImg.img}
-                hover={lotteryImg.hover}
-                enableDrawOut={enableDrawOut}
-                onClick={handleSelectPrize}
-                isSelected={selectedPrizes.includes(index)}
-                isSimple={isSimple}
-              />
-            )
-
-          const src =
-            typeof lotteryImg.done === 'string'
-              ? lotteryImg.done
-              : lotteryImg.done?.[p?.prizeLevel] || lotteryImg.done[0]
-          return (
-            <Lottery
-              key={index}
-              index={index}
-              src={src}
-              isDone={true}
-              isSimple={isSimple}
-            />
-          )
-        })}
-      </LotteryContainer>
-      {displayMode === DisplayMode.Pagination && (
-        <Pagination onChange={setPage} totalCount={prizes.length} alignCenter />
-      )}
-      {enableDrawOut && (
-        <Block>
-          <DrawOutBtn onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
-        </Block>
-      )}
+      <Lotteries
+        data={data}
+        prizes={prizes}
+        displayMode={displayMode}
+        setPage={setPage}
+        handleSelectPrize={handleSelectPrize}
+        lotteryImg={lotteryImg}
+        enableDrawOut={enableDrawOut}
+        selectedPrizes={selectedPrizes}
+        page={page}
+        handleDrawOut={handleDrawOut}
+        setSelectedPrizes={setSelectedPrizes}
+        handleRandomSelectPrizes={handleRandomSelectPrizes}
+        drawOutTimes={drawOutTimes}
+      />
     </>
   )
 
@@ -354,6 +362,7 @@ function Lottery({
   isDone = false,
   hover,
   isSimple,
+  drawOutResult,
 }) {
   const gifRef = useRef(null)
   if (isSimple) {
@@ -364,7 +373,7 @@ function Lottery({
         isSelected={isSelected}
         isDone={isDone}
       >
-        {index + 1}
+        {isDone ? getPrizeViewLevel(drawOutResult?.prizeLevel) : index + 1}
       </SimpleLottery>
     )
   }
@@ -393,4 +402,119 @@ function Lottery({
     if (!enableDrawOut) return
     onClick?.(index)
   }
+}
+
+function Lotteries({
+  displayMode,
+  data,
+  prizes,
+  handleSelectPrize,
+  setPage,
+  lotteryImg,
+  enableDrawOut,
+  selectedPrizes,
+  page,
+  handleDrawOut,
+  setSelectedPrizes,
+  handleRandomSelectPrizes,
+  drawOutTimes,
+}) {
+  const isSimple = displayMode === DisplayMode.Simple
+  const isPaginationMode = displayMode === DisplayMode.Pagination
+
+  return (
+    <div id="lottery">
+      <div className="hide-in-mobile">
+        <LotteryContainer>
+          {(isPaginationMode ? data : prizes).map((p, i) => {
+            const index = isPaginationMode ? (page - 1) * PageSize + i : i
+            if (!p)
+              return (
+                <Lottery
+                  key={index}
+                  index={index}
+                  src={lotteryImg.img}
+                  hover={lotteryImg.hover}
+                  enableDrawOut={enableDrawOut}
+                  onClick={handleSelectPrize}
+                  isSelected={selectedPrizes.includes(index)}
+                  isSimple={isSimple}
+                  drawOutResult={p}
+                />
+              )
+
+            const src =
+              typeof lotteryImg.done === 'string'
+                ? lotteryImg.done
+                : lotteryImg.done?.[p?.prizeLevel] || lotteryImg.done[0]
+            return (
+              <Lottery
+                key={index}
+                index={index}
+                src={src}
+                isDone={true}
+                isSimple={isSimple}
+                drawOutResult={p}
+              />
+            )
+          })}
+        </LotteryContainer>
+        {displayMode === DisplayMode.Pagination && (
+          <Pagination
+            onChange={setPage}
+            totalCount={prizes.length}
+            alignCenter
+          />
+        )}
+        {enableDrawOut && (
+          <Block>
+            <DrawOutBtn id="draw-out-button ahow" onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+          </Block>
+        )}
+      </div>
+      <div className="hide-in-pc">
+        <LotteryContainer>
+          {prizes.map((p, i) => {
+            const index = i
+            if (!p)
+              return (
+                <Lottery
+                  key={index}
+                  index={index}
+                  src={lotteryImg.img}
+                  hover={lotteryImg.hover}
+                  enableDrawOut={enableDrawOut}
+                  onClick={handleSelectPrize}
+                  isSelected={selectedPrizes.includes(index)}
+                  isSimple={true}
+                  drawOutResult={p}
+                />
+              )
+            return (
+              <Lottery
+                key={index}
+                index={index}
+                isDone={true}
+                isSimple={true}
+                drawOutResult={p}
+              />
+            )
+          })}
+        </LotteryContainer>
+        <MobileDrawOutBtnBlock className="hide-in-pc flex">
+          <DrawOutBtn className="draw-out-btn" onClick={handleDrawOut}>
+            立即抽獎
+          </DrawOutBtn>
+          {drawOutTimes > 1 && (
+            <DrawOutBtn isActive onClick={() => setSelectedPrizes([])}>
+              重新選擇
+            </DrawOutBtn>
+          )}
+          <DrawOutBtn isActive onClick={handleRandomSelectPrizes}>
+            隨機選號
+          </DrawOutBtn>
+        </MobileDrawOutBtnBlock>
+      </div>
+    </div>
+  )
 }

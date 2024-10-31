@@ -102,7 +102,7 @@ export default function ConfirmDialog({
     return (
       <>
         <Mask />
-        <Container>
+        <Container className="dialog">
           <Header>
             <h3>抽獎確認</h3>
           </Header>

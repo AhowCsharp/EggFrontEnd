@@ -9,8 +9,16 @@ import {
   SHIP_STATUS,
 } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Content } from './index'
-import { Container, RangePicker, Select } from './tabStyle'
+import {
+  Container,
+  RangePicker,
+  Select,
+  MobileItem,
+  MobileList,
+} from './tabStyle'
 
 const { Column } = Table
 
@@ -19,7 +27,6 @@ const HeaderSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
 `
 
 // 修改 Info 组件，使其内容居中并美化
@@ -34,23 +41,26 @@ const Info = styled.div`
     line-height: 1.5;
     margin-bottom: 5px;
   }
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
-// 新增一个 FilterSection 组件，用于排列过滤器
-const FilterSection = styled.div`
+const CollapseIcon = styled.div`
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  border: 1px solid ${(p) => p.theme.mobile.color.font};
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 10px;
-
-  > *:not(:last-child) {
-    margin-right: 10px;
-  }
 `
 
 export default function ShipLog() {
   const shipLog = useSelector(() => dataStore.shipLog)
   const dateRange = getDefaultDateRange()
-
+  const [collapseByIndex, setCollapseByIndex] = useState({})
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
     start: formatDate(dateRange[0]),
@@ -66,35 +76,51 @@ export default function ShipLog() {
   return (
     <Content>
       <Container>
-        <HeaderSection>
-          <Info>
-            <div>可以追蹤我們官方 LINE</div>
-            <div>當配送狀態有異動時，會第一時間通知您！</div>
-            <div>還有許多潮潮功能，歡迎體驗～</div>
-          </Info>
-          <FilterSection>
-            <RangePicker
-              showTime={{
-                format: 'HH:mm',
-              }}
-              format="YYYY-MM-DD HH:mm"
-              defaultValue={dateRange}
-              onOk={(value) =>
-                setReq({
-                  ...req,
-                  start: formatDate(value[0]),
-                  end: formatDate(value[1]),
-                })
-              }
-            />
-            <Select
-              value={req.status}
-              options={SHIP_STATUS_OPTIONS}
-              onChange={(value) => setReq({ ...req, status: value })}
-            />
-          </FilterSection>
-        </HeaderSection>
+        <Info>
+          <div>可以追蹤我們官方 LINE</div>
+          <div>當配送狀態有異動時，會第一時間通知您！</div>
+          <div>還有許多潮潮功能，歡迎體驗～</div>
+        </Info>
+        <RangePicker
+          showTime={{
+            format: 'HH:mm',
+          }}
+          format="YYYY-MM-DD HH:mm"
+          defaultValue={dateRange}
+          onOk={(value) => {
+            const start = formatDate(value[0])
+            const end = formatDate(value[1])
+            if (start === 'Invalid Date' || end === 'Invalid Date') return
+            setReq({
+              ...req,
+              start,
+              end,
+            })
+          }}
+          mb20={true}
+        />
+        <Select
+          className="dark-in-mobile"
+          value={req.status}
+          options={SHIP_STATUS_OPTIONS}
+          onChange={(value) => setReq({ ...req, status: value })}
+        />
+        {renderTable()}
+      </Container>
+    </Content>
+  )
+  function onCollapse(index) {
+    return () =>
+      setCollapseByIndex({
+        ...collapseByIndex,
+        [index]: !collapseByIndex[index],
+      })
+  }
+  function renderTable() {
+    return (
+      <>
         <Table
+          className="hide-in-mobile"
           dataSource={data}
           pagination={{
             total: shipLog?.totalCount || 0,
@@ -141,9 +167,63 @@ export default function ShipLog() {
             render={(d) => SHIP_STATUS_LOCALE[d]}
           />
         </Table>
-      </Container>
-    </Content>
-  )
+        <MobileList>
+          {data.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title">
+                <span className="label">訂單編號</span> {item.orderNo}
+              </div>
+              <div>
+                <span className="label">配送申請日期</span>
+                {renderDate(item.orderDate)}
+              </div>
+              <div>
+                <span className="label">運費</span> {item.orderShipFee}
+              </div>
+              <div>
+                <span className="label">物流編號</span> {item.logistiscsNO}
+              </div>
+              <div>
+                <span className="label">配送日期</span>
+                {renderDate(item.shipDate)}
+              </div>
+              <div>
+                <span className="label">廠商備註</span> {item.manufacturerMemo}
+              </div>
+              <div>
+                <span className="label">訂單狀態</span>
+                {SHIP_STATUS_LOCALE[item.status]}
+              </div>
+              {!!collapseByIndex[index] && (
+                <MobileList>
+                  {item.shippingDetails.map((detail, i) => (
+                    <MobileItem key={i}>
+                      <div className="title">
+                        <span className="label">獎品</span>
+                        {detail.prizeName}
+                      </div>
+                      <div>
+                        <span className="label">數量</span>
+                        {detail.amount}
+                      </div>
+                    </MobileItem>
+                  ))}
+                </MobileList>
+              )}
+              <div>
+                <div></div>
+                <CollapseIcon onClick={onCollapse(index)}>
+                  <FontAwesomeIcon
+                    icon={collapseByIndex[index] ? faMinus : faPlus}
+                  />
+                </CollapseIcon>
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
+    )
+  }
 }
 
 function DetailTable({ detail }) {

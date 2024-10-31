@@ -21,7 +21,7 @@ export default function Carousel({ data, setIsAnimationFinished }) {
   return (
     <CarouselContainer
       autoplay={true}
-      autoplaySpeed={1800}
+      autoplaySpeed={1000}
       speed={700}
       dots={false}
       infinite={false}

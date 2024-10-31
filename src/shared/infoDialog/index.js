@@ -137,7 +137,7 @@ export default function InfoDialog() {
   return (
     <>
       <Mask />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>{type}</h3>
         </Header>

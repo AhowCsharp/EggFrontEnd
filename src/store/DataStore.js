@@ -233,6 +233,9 @@ export default class DataStore {
   crateLogs = undefined
 
   @observable
+  currentCrateLogs = undefined
+
+  @observable
   storedLogs = undefined
 
   @observable
@@ -485,6 +488,7 @@ export default class DataStore {
       if (token) {
         yield Api.ship(req, token)
         this.getPendingPrize(this.getPendingPrizeReq)
+        this.alertMessage = '配送申請成功'
       }
     } catch (e) {
       const failedColumns = Object.keys(e.response?.data?.errors || {})
@@ -575,6 +579,15 @@ export default class DataStore {
   *getRankingList() {
     const res = yield Api.getRankingList()
     if (res) this.rankingList = res.source
+  }
+
+  @observable.ref
+  taskList = undefined;
+
+  @flow
+  *getTaskList() {
+    const res = yield Api.getTaskList()
+    if (res) this.taskList = res.source
   }
 
   // Manufacturers

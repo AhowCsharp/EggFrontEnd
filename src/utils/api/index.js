@@ -126,6 +126,11 @@ export const getRankingList = async () => {
   return res
 }
 
+export const getTaskList = async () => {
+  const res = await Request.get('/task')
+  return res
+}
+
 export const getManufacturers = async () => {
   const res = await Request.get('/manufacturers')
   return res

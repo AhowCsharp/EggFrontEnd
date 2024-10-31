@@ -64,7 +64,7 @@ export default function CountdownDialog({ countdownSec, onClose, cb }) {
   return (
     <>
       <Mask />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>賞品鎖定中，解鎖倒數</h3>
         </Header>

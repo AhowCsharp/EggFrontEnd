@@ -14,7 +14,6 @@ const Description = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 0.75rem;
   color: ${(p) => p.theme.color.desc};
   line-height: 1.25rem;
   p {
@@ -27,13 +26,7 @@ const Image = styled.img.attrs((p) => ({
   height: auto;
   width: 100%;
   border-radius: 8px;
-  margin-top: 2.5rem;
   margin: 2.5rem auto;
-`
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 `
 
 const Title = styled.div`
@@ -41,7 +34,6 @@ const Title = styled.div`
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
-  word-break: keep-all;
   -webkit-line-clamp: 2;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -62,10 +54,36 @@ const OthersContainer = styled(MainContainer)`
   padding: 1.5rem;
   .header {
     margin-top: 0;
-    color: ${(p) => p.theme.color.red};
   }
   img {
     width: 160px;
+    height: auto;
+  }
+`
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    ${MainContainer}, ${OthersContainer} {
+      width: 100%;
+    }
+    ${OthersContainer} {
+      margin-top: 1.5rem;
+      background-color: ${(p) => p.theme.mobile.color.descBg};
+      img {
+        width: auto;
+        height: 100px;
+      }
+    }
+    ${Description} {
+      color: ${(p) => p.theme.mobile.color.font};
+    }
+    ${Image} {
+      margin: 1.5rem auto;
+    }
   }
 `
 
@@ -130,6 +148,7 @@ export default function CampaignPage() {
             <Campaign
               data={campaign}
               handleClick={handleClick}
+              isSimple={true}
               key={campaign.id}
             />
           ))}

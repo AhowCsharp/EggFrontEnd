@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
-import * as signalR from '@microsoft/signalr'
-import styled, { keyframes } from 'styled-components'
+import { useEffect, useState } from 'react';
+import * as signalR from '@microsoft/signalr';
+import styled, { keyframes } from 'styled-components';
 
 function generateUid() {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2)
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
 const Container = styled.div`
   position: absolute;
   top: 5px;
-  z-index: ${(p) => p.theme.zIndex.danmaku};
+  z-index: ${(p) => p.theme.zIndex.danmaku || 1000};
   height: 48px;
   width: 100%;
   pointer-events: none;
   overflow: hidden;
-`
+`;
 
 const slideToLeft = keyframes`
   from {
@@ -25,7 +25,7 @@ const slideToLeft = keyframes`
     left: -800px;
     visibility: hidden;
   }
-`
+`;
 
 const Item = styled.div`
   color: #fff;
@@ -36,76 +36,106 @@ const Item = styled.div`
   min-width: 250px;
   height: 48px;
   padding: 4px 10px;
-  border-radius: ${(p) => p.theme.borderRadius.danmaku};
-  background-color: ${(p) => p.theme.color.danmakuMask};
+  border-radius: ${(p) => p.theme.borderRadius.danmaku || '8px'};
+  background-color: ${(p) => p.theme.color.danmakuMask || 'rgba(0, 0, 0, 0.5)'};
   line-height: 40px;
   font-size: 1.25rem;
   animation: ${slideToLeft} 7s linear;
-`
+`;
 
 export default function Danmaku() {
-  const [rankingDict, setRankingDict] = useState({})
-  const [newReceived, setNewReceived] = useState()
-  const [rankingKeys, setRankingKeys] = useState([])
-  const [nowShowing, setNowShowing] = useState()
-  useEffect(() => {
-    if (!newReceived) return
-    setRankingDict({ ...rankingDict, ...newReceived })
-    setNewReceived(null)
-  }, [newReceived])
-  useEffect(() => {
-    if (!rankingDict) return
-    setRankingKeys(Object.keys(rankingDict))
-  }, [rankingDict])
+  const [messagesQueue, setMessagesQueue] = useState([]);
+  const [nowShowing, setNowShowing] = useState(null);
 
   useEffect(() => {
-    if (!nowShowing) setNowShowing(rankingKeys[0])
-  }, [rankingKeys])
-
-  useEffect(() => {
-    // Create Connection
+    // 建立連線
     const connection = new signalR.HubConnectionBuilder()
       .withUrl('https://api.lucky-egg.club/rankingHub', {
         withCredentials: true,
       })
       .withAutomaticReconnect()
-      .build()
+      .build();
 
     connection.on('ReceiveRankingList', (data) => {
-      console.log('Received:', data)
-      const dict = data.reduce((acc, cur) => {
-        acc[generateUid()] = cur
-        return acc
-      }, {})
-      setTimeout(() => {
-        setNewReceived(dict)
-      }, 3000)
-    })
+      handleEventData(data, 'ranking');
+    });
+
+    // 新增的事件處理器
+    connection.on('ReceiveTask', (data) => {
+      handleEventData(data, 'task');
+    });
+
     connection
       .start()
       .then(() => console.log('SignalR Connected'))
-      .catch((err) => console.error('SignalR Connection Error:', err))
+      .catch((err) => console.error('SignalR Connection Error:', err));
 
     return () => {
       connection
         .stop()
         .then(() => console.log('SignalR Disconnected'))
-        .catch((err) => console.error('SignalR Disconnection Error:', err))
-    }
-  }, [])
+        .catch((err) => console.error('SignalR Disconnection Error:', err));
+    };
+  }, []);
 
-  if (!rankingDict || !rankingDict[nowShowing]) return null
+  function handleEventData(data, eventType) {
+    console.log(`Received ${eventType}:`, data);
+    let messages;
+    if (Array.isArray(data)) {
+      messages = data.map((item) => ({
+        ...item,
+        eventType,
+        uid: generateUid(),
+      }));
+    } else {
+      // 資料是物件
+      messages = [
+        {
+          ...data,
+          eventType,
+          uid: generateUid(),
+        },
+      ];
+    }
+
+    // 使用函数式更新，确保不会丢失消息
+    setMessagesQueue((prevQueue) => {
+      return [...prevQueue, ...messages];
+    });
+  }
+
+  useEffect(() => {
+    // 当 nowShowing 为空，且消息队列不为空时，显示下一条消息
+    if (!nowShowing && messagesQueue.length > 0) {
+      showNextMessage();
+    }
+  }, [messagesQueue, nowShowing]);
+
+  function showNextMessage() {
+    if (messagesQueue.length === 0) {
+      setNowShowing(null);
+      return;
+    }
+
+    const nextMessage = messagesQueue[0];
+    setNowShowing(nextMessage);
+    setMessagesQueue((prevQueue) => prevQueue.slice(1));
+  }
+
+  function onAnimationEnd() {
+    setNowShowing(null);
+  }
+
+  if (!nowShowing) return null;
+
   return (
     <Container>
-      <Item onAnimationEnd={onAnimationEnd}>
-        {`🚀 恭喜 ${rankingDict[nowShowing].customerName} 抽中 ${rankingDict[nowShowing].prizeLevelView} ${rankingDict[nowShowing].prizeName}`}
+      <Item key={nowShowing.uid} onAnimationEnd={onAnimationEnd}>
+        {nowShowing.eventType === 'ranking' &&
+          `🚀 恭喜 ${nowShowing.customerName} 抽中 ${nowShowing.prizeLevelView} ${nowShowing.prizeName}`}
+        {nowShowing.eventType === 'task' &&
+          `🎯 恭喜 ${nowShowing.customerName} 完成 ${nowShowing.taskTitle} 任務內容為 ${nowShowing.award}`}
       </Item>
     </Container>
-  )
-  function onAnimationEnd() {
-    const newRankingDict = { ...rankingDict }
-    delete newRankingDict[nowShowing]
-    setNowShowing(null)
-    setRankingDict(newRankingDict)
-  }
+  );
 }

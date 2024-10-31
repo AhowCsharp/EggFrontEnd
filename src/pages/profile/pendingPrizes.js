@@ -1,12 +1,19 @@
 import { useSelector, dataStore } from '@app/store'
 import { useEffect, useState } from 'react'
-import { Table, InputNumber } from 'antd'
+import { Table, InputNumber, Checkbox } from 'antd'
 import styled from 'styled-components'
-import { DrawOutBtn } from '@app/pages/commodity'
+import { Button as BaseButton } from '@app/pages/commodity'
 import { getDefaultDateRange, formatDate } from '@app/utils/date'
 import useRandomColors from '@app/utils/hooks/useRandomColors'
+import Tag from '@app/shared/tag'
 import { Content } from './index'
-import { Container, RangePicker, ButtonContainer } from './tabStyle'
+import {
+  Container,
+  RangePicker,
+  ButtonContainer,
+  MobileItem,
+  MobileList,
+} from './tabStyle'
 import ShipDialog from './shipDialog'
 
 const { Column } = Table
@@ -14,11 +21,17 @@ const { Column } = Table
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 `
 
 const Img = styled.img.attrs((p) => ({ src: p.src }))`
   height: 80px;
   width: auto;
+  @media (max-width: 768px) {
+    width: 50%;
+    max-width: 300px;
+    height: auto;
+  }
 `
 
 const disableStyle = `
@@ -26,18 +39,20 @@ const disableStyle = `
   opacity: 0.5;
 `
 
-const Button = styled(DrawOutBtn)`
+export const Button = styled(BaseButton)`
   font-size: 0.8rem;
+  text-align: center;
   ${(p) => p.disable && disableStyle}
-`
-
-const Manufacturer = styled.div`
-  color: ${(p) => p.color};
+  @media (max-width: 768px) {
+    flex: 1;
+  }
 `
 
 const ActionContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  width: 100%;
   .ant-input-number {
     width: 60px;
     margin-right: 5px;
@@ -45,6 +60,9 @@ const ActionContainer = styled.div`
   .ant-input-number-input-wrap,
   .ant-input-number-input {
     height: 100% !important;
+  }
+  ${Button} {
+    padding: 0.5rem;
   }
   ${Button} + ${Button} {
     margin-left: 5px;
@@ -127,7 +145,9 @@ export default function PendingPrizes() {
           <div>
             A賞運費價格150，B賞運費價格120，此筆訂單運費則挑150最高價格最為此單運費。
           </div>
-          <Warning>不同廠商的賞品不得合併出貨，若未處理獎品超過30天，則廠商會自動回收該獎品!!</Warning>
+          <Warning>
+            不同廠商的賞品不得合併出貨，若未處理獎品超過30天，則廠商會自動回收該獎品!!
+          </Warning>
         </Info>
         <RangePicker
           showTime={{
@@ -136,58 +156,34 @@ export default function PendingPrizes() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
+            const start = formatDate(value[0])
+            const end = formatDate(value[1])
+            if (start === 'Invalid Date' || end === 'Invalid Date') return
             setListReq({
               ...listReq,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
+              start,
+              end,
             })
           }}
         />
-        <ButtonContainer left>
+        <ButtonContainer>
           <Button disable={!selectedRowKeys.length} onClick={onShip}>
             配送
           </Button>
         </ButtonContainer>
-        <Table
-          rowSelection={!isReclaiming && rowSelection}
-          rowKey="prizeId"
-          dataSource={data}
-          pagination={false}
-        >
-          <Column
-            dataIndex="prizeImgUrl"
-            key="prizeImgUrl"
-            render={renderImg}
-          />
-
-          <Column title="獎品" dataIndex="prizeName" key="prizeName" />
-          <Column
-            title="廠商"
-            dataIndex="manufacturerName"
-            key="manufacturerName"
-            render={renderManufacturer}
-          />
-          <Column
-            title="總花費"
-            dataIndex="totalCostMoney"
-            key="totalCostMoney"
-          />
-          <Column title="運費價格" dataIndex="shippingFee" key="shippingFee" />
-          <Column
-            title="回收價格"
-            dataIndex="reclaimPrize"
-            key="reclaimPrize"
-          />
-          <Column title="數量" dataIndex="totalAmount" key="totalAmount" />
-          <Column title="商品尺寸" key="size" dataIndex="size" />
-          <Column title="狀態" dataIndex="status" key="status" />
-          <Column title="" key="action" render={renderAction} width={220} />
-        </Table>
+        {renderTable()}
       </Container>
     </Content>
   )
-  function renderManufacturer(name) {
-    return <Manufacturer color={manufacturerColor[name]}>{name}</Manufacturer>
+  function renderManufacturer({ manufacturerName, id }) {
+    return (
+      <Tag
+        name={manufacturerName}
+        id={id}
+        color={manufacturerColor[manufacturerName]}
+        isSmall={true}
+      />
+    )
   }
   function renderImg(src) {
     return (
@@ -260,5 +256,101 @@ export default function PendingPrizes() {
       return acc
     }, {})
     setShipInfo(infos)
+  }
+  function renderTable() {
+    return (
+      <>
+        <Table
+          className="hide-in-mobile"
+          rowSelection={!isReclaiming && rowSelection}
+          rowKey="prizeId"
+          dataSource={data}
+          pagination={false}
+        >
+          <Column
+            dataIndex="prizeImgUrl"
+            key="prizeImgUrl"
+            render={renderImg}
+          />
+
+          <Column
+            title="獎品"
+            dataIndex="prizeName"
+            key="prizeName"
+            width={100}
+          />
+          <Column
+            title="廠商"
+            key="manufacturerName"
+            render={renderManufacturer}
+          />
+          <Column
+            title="總花費"
+            dataIndex="totalCostMoney"
+            key="totalCostMoney"
+          />
+          <Column title="運費價格" dataIndex="shippingFee" key="shippingFee" />
+          <Column
+            title="回收價格"
+            dataIndex="reclaimPrize"
+            key="reclaimPrize"
+          />
+          <Column title="數量" dataIndex="totalAmount" key="totalAmount" />
+          <Column title="商品尺寸" key="size" dataIndex="size" />
+          <Column title="狀態" dataIndex="status" key="status" />
+          <Column title="" key="action" render={renderAction} width={220} />
+        </Table>
+        <MobileList>
+          {data.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title vertical">
+                {renderImg(item.prizeImgUrl)}
+                <Checkbox
+                  className="dark-in-mobile"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedRowKeys([...selectedRowKeys, item.prizeId])
+                    } else {
+                      setSelectedRowKeys(
+                        selectedRowKeys.filter((key) => key !== item.prizeId)
+                      )
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <span className="label">獎品</span> {item.prizeName}
+              </div>
+              <div>
+                <span className="label">廠商</span>
+                {renderManufacturer(item)}
+              </div>
+              <div>
+                <span className="label">總花費</span> {item.totalCostMoney}
+              </div>
+              <div>
+                <span className="label">運費價格</span> {item.shippingFee}
+              </div>
+              <div>
+                <span className="label">回收價格</span> {item.reclaimPrize}
+              </div>
+              <div>
+                <span className="label">數量</span> {item.totalAmount}
+              </div>
+              <div>
+                <span className="label">商品尺寸</span> {item.size}
+              </div>
+              <div>
+                <span className="label">狀態</span> {item.status}
+              </div>
+              <div>
+                <div></div>
+                {renderAction(item)}
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
+    )
   }
 }

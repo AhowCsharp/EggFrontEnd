@@ -3,12 +3,19 @@ import { useEffect, useState } from 'react'
 import { Table } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
-import { DrawOutBtn } from '@app/pages/commodity'
+import { Button } from '@app/pages/commodity'
 import useRandomColors from '@app/utils/hooks/useRandomColors'
 import Tag from '@app/shared/tag'
 import CopyToClipboard from '@app/shared/copyToClipboard'
 import { Content } from './index'
-import { Container, RangePicker, Search, Select } from './tabStyle'
+import {
+  Container,
+  RangePicker,
+  Search,
+  Select,
+  MobileItem,
+  MobileList,
+} from './tabStyle'
 
 const { Column } = Table
 
@@ -56,27 +63,50 @@ export default function freeshippingTicketLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
+            const start = formatDate(value[0])
+            const end = formatDate(value[1])
+            if (start === 'Invalid Date' || end === 'Invalid Date') return
             setReq({
               ...req,
-              start: formatDate(value[0]),
-              end: formatDate(value[1]),
+              start,
+              end,
             })
           }}
+          mb20={true}
         />
         <Search
           placeholder="請輸入廠商完整名稱"
-          enterButton={<DrawOutBtn>送出</DrawOutBtn>}
+          enterButton={<Button>送出</Button>}
           size="small"
           onSearch={(value) => {
             setReq({ ...req, manufacturerName: value })
           }}
+          mb20={true}
         />
         <Select
+          className="dark-in-mobile"
           value={req.status}
           options={STATUS_OPTIONS}
           onChange={(value) => setReq({ ...req, status: value })}
         />
+        {renderTable()}
+      </Container>
+    </Content>
+  )
+  function renderManufacturerName({ manufacturerName, id }) {
+    return (
+      <Tag
+        name={manufacturerName}
+        id={id}
+        color={manufacturerColor[manufacturerName]}
+      />
+    )
+  }
+  function renderTable() {
+    return (
+      <>
         <Table
+          className="hide-in-mobile"
           dataSource={data}
           pagination={{
             total: freeshippingTicketLogs?.totalCount || 0,
@@ -118,16 +148,38 @@ export default function freeshippingTicketLog() {
             render={renderDate}
           />
         </Table>
-      </Container>
-    </Content>
-  )
-  function renderManufacturerName({ manufacturerName, id }) {
-    return (
-      <Tag
-        name={manufacturerName}
-        id={id}
-        color={manufacturerColor[manufacturerName]}
-      />
+        <MobileList>
+          {data.map((item, index) => (
+            <MobileItem key={index}>
+              <div className="title">
+                <span className="label">廠商名稱</span>
+                <div>{renderManufacturerName(item)}</div>
+              </div>
+              <div>
+                <span className="label">消費門檻</span> {item.threshold}
+              </div>
+              <div>
+                <span className="label">免運序號</span>{' '}
+                <CopyToClipboard>{item.freeShippingNo}</CopyToClipboard>
+              </div>
+              <div>
+                <span className="label">訂單編號</span> {item.orderId}
+              </div>
+              <div>
+                <span className="label">免運金額</span> {item.shippingCost}
+              </div>
+              <div>
+                <span className="label">取得時間</span>{' '}
+                {renderDate(item.createDate)}
+              </div>
+              <div>
+                <span className="label">使用時間</span>{' '}
+                {renderDate(item.usedDate)}
+              </div>
+            </MobileItem>
+          ))}
+        </MobileList>
+      </>
     )
   }
 }

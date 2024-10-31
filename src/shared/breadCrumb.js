@@ -19,6 +19,9 @@ const Container = styled.div`
   font-size: 1rem;
   color: ${(p) => p.theme.color.gray};
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 export default function BreadCrumb() {

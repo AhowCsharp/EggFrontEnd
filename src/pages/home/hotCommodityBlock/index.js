@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
+import { DisplayPageSize } from '../index'
 
 const ArrowButton = styled.div`
   width: 24px;
@@ -43,6 +44,9 @@ export const Header = styled.div`
   ${ArrowButton} + ${ArrowButton} {
     margin-left: 8px;
   }
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.font};
+  }
 `
 
 const Container = styled.div`
@@ -54,16 +58,23 @@ const Container = styled.div`
   margin-top: -20px;
   min-height: 150px;
   .item + .item {
-    margin-left: 15px;
+    margin-left: 8px;
   }
   @media (max-width: 768px) {
     margin: 1rem 0;
+    flex-wrap: wrap;
+    .item + .item {
+      margin-left: 0;
+    }
+    .item:nth-child(even) {
+      margin-left: 8px;
+    }
   }
 `
 
 export default function HotCommodityBlock({ data }) {
   const goto = useNavigate()
-  const pageSize = 4
+  const pageSize = DisplayPageSize
   const pageCount = Math.ceil(data.length / pageSize)
   const [page, setPage] = useState(1)
   const [showData, setShowData] = useState([])

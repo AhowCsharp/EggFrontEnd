@@ -2,8 +2,7 @@ import styled from 'styled-components'
 import Layout from '@app/shared/layout'
 import useAuth from '@app/utils/hooks/useAuth'
 import paths from '@app/utils/paths'
-import { dataStore, useSelector } from '@app/store'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { PROFILE_TAB } from '@app/utils/constants'
 import profileIcon from '@app/static/profile'
@@ -37,6 +36,7 @@ const Nav = styled.div`
     padding: 0;
     border-radius: ${(p) => p.theme.borderRadius.memberInfo};
     justify-content: space-around;
+    background: ${(p) => p.theme.mobile.color.descBg};
   }
 `
 
@@ -64,6 +64,10 @@ const NavItem = styled.div`
       margin-right: 0;
       margin-bottom: 10px;
     }
+    &:hover {
+      background: ${(p) => p.theme.color.red};
+    }
+    ${(p) => p.active && `background: ${p.theme.color.red};`};
   }
 `
 
@@ -94,7 +98,7 @@ const navList = [
   { title: '金幣儲值', src: profileIcon.topUp, type: PROFILE_TAB.TOP_UP },
   {
     title: '儲值紀錄',
-    src: profileIcon.consumeLog,
+    src: profileIcon.storedLog,
     type: PROFILE_TAB.STORED_LOG,
   },
   {
@@ -115,13 +119,13 @@ const navList = [
   { title: '配送紀錄', src: profileIcon.shipLog, type: PROFILE_TAB.SHIP_LOG },
   {
     title: '任務成就',
-    src: profileIcon.shipLog,
+    src: profileIcon.taskHistory,
     type: PROFILE_TAB.TASK_HISTORY,
   },
-  { title: '神秘寶箱', src: profileIcon.shipLog, type: PROFILE_TAB.CRATE_LOG },
+  { title: '神秘寶箱', src: profileIcon.crateLog, type: PROFILE_TAB.CRATE_LOG },
   {
     title: '免運券紀錄',
-    src: profileIcon.reclaimLog,
+    src: profileIcon.freeShipping,
     type: PROFILE_TAB.FREE_SHIPPING,
   },
   { title: '抽獎券查詢', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },

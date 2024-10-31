@@ -18,6 +18,8 @@ import useRandomColors from '@app/utils/hooks/useRandomColors'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 
+export const DisplayPageSize = 4
+
 const ImageContainer = styled.div`
   overflow: hidden;
   position: relative;
@@ -47,6 +49,7 @@ const Carousel = styled(BaseCarousel)`
   }
   .slick-dots {
     bottom: -5px;
+    z-index: ${(p) => p.theme.zIndex.dialog} !important;
     li {
       display: inline-flex;
       align-items: center;
@@ -65,9 +68,13 @@ const Carousel = styled(BaseCarousel)`
   @media (max-width: 768px) {
     .slick-slide.slick-current + .slick-slide,
     .slick-slide {
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
+    .slick-slide.slick-current {
       opacity: 1;
-      transform: scale(1);
-      margin-top: 0;
+      transform: scale(1.1);
+      margin-top: 5px;
     }
   }
 `
@@ -122,13 +129,16 @@ export default function Home() {
           infinite={true}
           autoplay={true}
           speed={700}
+          autoplaySpeed={1500}
           dots={true}
+          centerMode={false}
           slidesToShow={3}
           responsive={[
             {
               breakpoint: 768,
               settings: {
                 slidesToShow: 1,
+                centerMode: true,
               },
             },
           ]}
@@ -145,7 +155,7 @@ export default function Home() {
       <Layout>
         <CampaignBlock data={news} />
         <HotCommodityBlock data={hotAds} />
-        <Header>
+        <Header className="digital-font">
           <div className="block">
             <img src={headerImg} />
             全部商品

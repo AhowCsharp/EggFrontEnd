@@ -4,20 +4,26 @@ import { formatDateToYmd as formatDate } from '@app/utils/date'
 const Image = styled.img.attrs((p) => ({
   src: p.src,
 }))`
-  height: auto;
-  width: ${(p) => (p.isHighLight ? '100%' : '250px')};
+  height: ${(p) => (p.isHighLight ? 'auto' : '100px')}; // auto;
+  width: ${(p) => (p.isHighLight ? '100%' : 'auto')};
   border-radius: 8px;
   margin-right: ${(p) => (p.isHighLight ? '0' : '1rem')};
+  @media (max-width: 768px) {
+    width: calc(45% - 12px);
+    margin-right: 12px;
+  }
 `
 
 const Container = styled.div`
   overflow: hidden;
   width: 100%;
   display: flex;
+  cursor: pointer;
   flex-direction: ${(p) => (p.isHighLight ? 'column' : 'row')};
   @media (max-width: 768px) {
     width: 100%;
     margin: 0 0 10px;
+    flex-direction: row;
   }
 `
 
@@ -26,7 +32,11 @@ const InfoContainer = styled.div`
   flex-wrap: wrap;
   min-height: 44px;
   padding: 10px 0;
+  align-items: flex-start;
   flex-direction: column;
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `
 
 const Title = styled.div`
@@ -36,6 +46,15 @@ const Title = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: keep-all;
+  width: 100%;
+  @media (max-width: 768px) {
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    max-height: 80px;
+    word-break: normal;
+    height: auto;
+  }
 `
 
 const Description = styled.div`
@@ -53,6 +72,9 @@ const Description = styled.div`
   p {
     margin: 0;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 export const DateInfo = styled.div`
@@ -65,6 +87,10 @@ export const DateInfo = styled.div`
   div:first-child {
     margin-right: 0.75rem;
   }
+  @media (max-width: 768px) {
+    color: ${(p) => p.theme.mobile.color.desc};
+    line-height: 1.2rem;
+  }
 `
 
 const BaseReadMoreBtn = styled.div`
@@ -72,9 +98,17 @@ const BaseReadMoreBtn = styled.div`
   color: ${(p) => p.theme.color.red};
   cursor: pointer;
   line-height: 1.25rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
-export default function Commodity({ data, handleClick, isHighLight = false }) {
+export default function Campaign({
+  data,
+  handleClick,
+  isHighLight = false,
+  isSimple = false,
+}) {
   const {
     newsUrl: imgUrl,
     endDate,
@@ -92,17 +126,21 @@ export default function Commodity({ data, handleClick, isHighLight = false }) {
       <Image src={imgUrl} isHighLight={isHighLight} />
       <InfoContainer>
         <Title>{newsTitle}</Title>
-        <Description
-          id="description"
-          dangerouslySetInnerHTML={{ __html: newsDetails }}
-        />
-        <ReadMoreBtn onClick={handleClick(data)} />
-        <DateInfo>
-          <div>{formatDate(releaseDate)}</div>
-          <div>
-            活動期間：{formatDate(startDate)}~{formatDate(endDate)}
-          </div>
-        </DateInfo>
+        {!isSimple && (
+          <>
+            <Description
+              id="description"
+              dangerouslySetInnerHTML={{ __html: newsDetails }}
+            />
+            <ReadMoreBtn onClick={handleClick(data)} />
+            <DateInfo>
+              <div>{formatDate(releaseDate)}</div>
+              <div>
+                活動期間：{formatDate(startDate)}~{formatDate(endDate)}
+              </div>
+            </DateInfo>
+          </>
+        )}
       </InfoContainer>
     </Container>
   )
