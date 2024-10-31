@@ -73,7 +73,7 @@ const BaseProduct = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  height: 430px; /* 设置较低的固定高度 */
+  height: 440px; /* 设置较低的固定高度 */
   @media (max-width: 768px) {
     width: 100%;
     margin: 0 0 20px;
@@ -123,6 +123,27 @@ const Info = styled.div`
 
   * + * {
     margin-left: 6px;
+  }
+`
+
+// 新增 MajorInfo 组件，用于处理「領域展開」部分
+const MajorInfo = styled.div`
+  font-size: 1rem;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+
+  strong {
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px; /* consistent spacing */
   }
 `
 
@@ -190,6 +211,7 @@ const tagColors = [
   '#FFCC80',
 ]
 
+// 定义 Tag 样式组件
 const Tag = styled.span`
   display: inline-block;
   background-color: ${(props) => props.bgColor};
@@ -227,9 +249,9 @@ export default function Product({ data, handleClick }) {
   // 将 major 字符串以 '、' 分割成数组
   const majorTags = major ? major.split('、') : []
 
-  // 随机选择颜色
-  const getRandomColor = () => {
-    return tagColors[Math.floor(Math.random() * tagColors.length)]
+  // 分配颜色基于索引，避免重复
+  const getColorByIndex = (index) => {
+    return tagColors[index % tagColors.length]
   }
 
   return (
@@ -268,16 +290,16 @@ export default function Product({ data, handleClick }) {
           </Info>
         )}
         {majorTags.length > 0 && (
-          <Info>
+          <MajorInfo>
             <strong>領域展開：</strong>
             <div>
               {majorTags.map((tag, index) => (
-                <Tag key={index} bgColor={getRandomColor()}>
+                <Tag key={index} bgColor={getColorByIndex(index)}>
                   {tag}
                 </Tag>
               ))}
             </div>
-          </Info>
+          </MajorInfo>
         )}
       </InfoContainer>
     </BaseProduct>
