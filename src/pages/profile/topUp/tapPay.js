@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Container, ButtonContainer } from '../tabStyle'
 import { Content } from '../index'
 
-const isDev = true // process.env.NODE_ENV !== 'production'
+const isDev = process.env.NODE_ENV !== 'production'
 const APP_ID = 154437
 const APP_KEY =
   'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
