@@ -4,6 +4,9 @@ import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
 import { Header, MobileDrawOutBtnBlock } from './index'
+import { getPrizeViewLevel } from '@app/utils/getPrizeViewLevel';
+
+
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
 function getDrawTimeOptions(drawOutMultiplePriceStatus) {
@@ -359,6 +362,7 @@ function Lottery({
   isDone = false,
   hover,
   isSimple,
+  drawOutResult,
 }) {
   const gifRef = useRef(null)
   if (isSimple) {
@@ -369,7 +373,7 @@ function Lottery({
         isSelected={isSelected}
         isDone={isDone}
       >
-        {index + 1}
+        {isDone ? getPrizeViewLevel(drawOutResult?.prizeLevel) : index + 1}
       </SimpleLottery>
     )
   }
@@ -435,6 +439,7 @@ function Lotteries({
                   onClick={handleSelectPrize}
                   isSelected={selectedPrizes.includes(index)}
                   isSimple={isSimple}
+                  drawOutResult={p}
                 />
               )
 
@@ -449,6 +454,7 @@ function Lotteries({
                 src={src}
                 isDone={true}
                 isSimple={isSimple}
+                drawOutResult={p}
               />
             )
           })}
@@ -462,7 +468,7 @@ function Lotteries({
         )}
         {enableDrawOut && (
           <Block>
-            <DrawOutBtn onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+            <DrawOutBtn id="draw-out-button ahow" onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
           </Block>
         )}
       </div>
@@ -481,6 +487,7 @@ function Lotteries({
                   onClick={handleSelectPrize}
                   isSelected={selectedPrizes.includes(index)}
                   isSimple={true}
+                  drawOutResult={p}
                 />
               )
             return (
@@ -489,6 +496,7 @@ function Lotteries({
                 index={index}
                 isDone={true}
                 isSimple={true}
+                drawOutResult={p}
               />
             )
           })}

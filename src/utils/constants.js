@@ -58,6 +58,37 @@ export const DEFAULT_COMMODITIES_PAGINATION = {
   pageNumber: 1,
 }
 
+export const PRIZE_DICTIONARY = {
+  0: "SP賞",
+  27: "最後賞",
+  1: "A賞",
+  2: "B賞",
+  3: "C賞",
+  4: "D賞",
+  5: "E賞",
+  6: "F賞",
+  7: "G賞",
+  8: "H賞",
+  9: "I賞",
+  10: "J賞",
+  11: "K賞",
+  12: "L賞",
+  13: "M賞",
+  14: "N賞",
+  15: "O賞",
+  16: "P賞",
+  17: "Q賞",
+  18: "R賞",
+  19: "S賞",
+  20: "T賞",
+  21: "U賞",
+  22: "V賞",
+  23: "W賞",
+  24: "X賞",
+  25: "Y賞",
+  26: "Z賞",
+};
+
 export const INCLUDE_MEMBER_COLUMNS = ['account']
 
 export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [

@@ -58,6 +58,10 @@ const Image = styled.div`
     transform: scale(1.2);
     opacity: 0.8;
   }
+  @media (max-width: 768px) {
+    border-bottom: 1px solid white; /* 添加白色底线 */
+    background-color: #212B3A; /* 设置背景色为 #212B3A */
+  }
 `
 
 const BaseProduct = styled.div`
@@ -72,8 +76,10 @@ const BaseProduct = styled.div`
   height: 430px; /* 设置较低的固定高度 */
   @media (max-width: 768px) {
     width: 100%;
-    margin: 0 0 10px;
+    margin: 0 0 20px;
     height: auto; /* 在小屏幕上高度自动适应 */
+    border-radius: 10px; /* 添加圆角 */
+    border: 1px solid white; /* 设置白色边框 */
   }
 `
 

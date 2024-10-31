@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
+import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
@@ -557,6 +558,7 @@ export default function Commodity() {
           </DrawOutBtn>
         </MobileDrawOutBtnBlock>
       )}
+      {enableDrawOut && <ScrollToDrawButton/>}     
     </Layout>
   )
   function onSectionNavClick(id) {
