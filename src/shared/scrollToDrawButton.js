@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 // 請將下面的路徑替換為您的ICON圖片的實際路徑
-import drawoutIcon from '@app/static/drawoutBTN.png'; 
+import drawoutIcon from '@app/static/drawoutBTN.gif'; 
 
 const ScrollButton = styled.div`
   position: fixed;
-  bottom: 20px;
+  bottom: 100px;
   right: 20px;
   background: url(${drawoutIcon}) no-repeat center center;
   background-size: contain;
