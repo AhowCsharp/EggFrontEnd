@@ -58,9 +58,10 @@ export const DEFAULT_COMMODITIES_PAGINATION = {
   pageNumber: 1,
 }
 
-export const INCLUDE_MEMBER_COLUMNS = ['account']
+export const INCLUDE_MEMBER_COLUMNS = []
 
 export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
+  'account',
   'referralCode',
   'referralCodeUrl'
 ]

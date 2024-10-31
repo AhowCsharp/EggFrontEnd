@@ -176,6 +176,11 @@ export const getProfileByLine = async (req) => {
   return res
 }
 
+export const uploadHeadShot = async (req, token) => {
+  const res = await Request.post('/profile').bearer(token).body(req)
+  return res
+}
+
 export const sendSms = async (req) => {
   const res = await Request.get('/sms').params(req)
   return res

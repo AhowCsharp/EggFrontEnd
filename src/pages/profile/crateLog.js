@@ -7,6 +7,7 @@ import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
 import { Content } from './index'
 import { Container, RangePicker } from './tabStyle'
 import img from '@app/static/crateLog'
+import { Button } from '../commodity/index'
 const { Column } = Table
 
 const InfoContainer = styled.div`
@@ -61,11 +62,19 @@ const InfoItem = styled.div`
 `
 
 export default function CrateLog() {
+
+  const openCrateSuccess = useSelector(() => dataStore.openCrateSuccess)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isOpenCrateModalVisible, setIsOpenCrateModalVisible] = useState(false)
   const [selectedLevel, setSelectedLevel] = useState(null)
   const [crateAmount, setCrateAmount] = useState(1)
+  const [openSuccessMessage, setOpenSuccessMessage] = useState(null)
   const crateLogs = useSelector(() => dataStore.crateLogs)
   const dateRange = getDefaultDateRange()
+
+  const closeOpenCrateModal = () => {
+    setIsOpenCrateModalVisible(false)
+  }
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -99,7 +108,7 @@ export default function CrateLog() {
       },
     }
     await dataStore.openCrate(body)
-    handleCancel()
+    setIsModalVisible(false)
     await dataStore.getCrateLogs(req)
   }
 
@@ -108,6 +117,15 @@ export default function CrateLog() {
   }, [req])
 
   const data = crateLogs?.data || {}
+
+
+  useEffect(() => {
+    if (openCrateSuccess && Object.keys(data).length !== 0) {
+      setIsOpenCrateModalVisible(true)
+      const message = `恭喜！您已成功開啟「白銀寶箱*1」，獲得 24 個獎勵！記得常來開箱，累積更多獎勵！`
+      setOpenSuccessMessage(message)
+    }
+  }, [openCrateSuccess])
 
   const levels = ['Level1', 'Level2', 'Level3', 'Level4', 'Level5', 'Level6']
   const levelLabels = {
@@ -145,6 +163,31 @@ export default function CrateLog() {
             開啟寶箱
           </CrateButton>
         </div>
+        <Modal
+          title="開啟寶箱結果"
+          visible={isOpenCrateModalVisible}
+          onOk={closeOpenCrateModal}
+          onCancel={closeOpenCrateModal}
+          okText="關閉"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '120px', textAlign: 'center' }}>
+                <Button
+                  width="120px"
+                  textAlign="center"
+                  type="primary"
+                  onClick={closeOpenCrateModal}
+              >
+                關閉
+              </Button>
+              </div>
+            </div>
+          }
+        >
+          <div style={{ marginBottom: '16px' }}>
+            
+          </div>
+        </Modal>
         <Modal
           title="開啟寶箱"
           visible={isModalVisible}
