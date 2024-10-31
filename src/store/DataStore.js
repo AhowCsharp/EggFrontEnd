@@ -391,10 +391,10 @@ export default class DataStore {
       const token = getToken()
       if (token) {
         const res = yield Api.openCrate(req, token)
-        const { source: data } = res
-        this.currentCrateLogs = { data }
-        if (!res) return
         this.alertMessage = '開箱成功'
+        if (!res) return
+        const { source: data } = res
+        this.openCrateSuccess = true
       }
     } catch (e) {
       const msg = e.response?.data
@@ -835,6 +835,28 @@ export default class DataStore {
       console.log('register by line failed', e)
       const msg = e.response?.data
       this.alertMessage = `註冊失敗，${msg}`
+    }
+  }
+
+  @flow
+  *uploadHeadShot(file) {
+    try {
+      const token = getToken()
+      if (token) {
+        const formData = new FormData()
+        formData.append('image', file) // Append the image file to the form data
+
+        const res = yield Api.uploadHeadShot(formData, token) // Call the API with form data
+        if (res && res.success) {
+          this.alertMessage = '圖片上傳成功'
+        } else {
+          this.alertMessage = '圖片上傳失敗'
+        }
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `圖片上傳失敗，${msg}`
+      console.log('upload image failed', e, msg)
     }
   }
 

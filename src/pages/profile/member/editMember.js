@@ -33,17 +33,19 @@ export default function EditMember({ member }) {
         </Row>
         <Row>
           <Form.Item
-            label="E-mail"
-            name="email"
+            label="生日"
+            name="birthday"
             rules={[
-              { required: true, message: '不可為空' },
-              { type: 'email', message: '格式錯誤' },
+              { required: false, message: '請輸入正確的生日' },
+              {
+                type: 'string',
+                len: 10,
+                message: '請輸入正確的生日',
+              },
             ]}
           >
             <Input />
           </Form.Item>
-        </Row>
-        <Row>
           <Form.Item
             label="手機"
             name="phoneNum"
@@ -59,6 +61,19 @@ export default function EditMember({ member }) {
             <Input />
           </Form.Item>
         </Row>
+        <Row>
+          <Form.Item
+            label="E-mail"
+            name="email"
+            rules={[
+              { required: true, message: '不可為空' },
+              { type: 'email', message: '格式錯誤' },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Row>
+        
         <Row>
           <Form.Item
             label="郵遞區號"
@@ -86,6 +101,14 @@ export default function EditMember({ member }) {
           label="詳細地址"
           name="address"
           rules={[{ required: true, message: '不可為空' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="狀態訊息"
+          name="statusMessage"
+          rules={[{ required: false, message: '' }]}
         >
           <Input />
         </Form.Item>

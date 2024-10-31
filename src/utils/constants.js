@@ -92,6 +92,7 @@ export const PRIZE_DICTIONARY = {
 export const INCLUDE_MEMBER_COLUMNS = ['account']
 
 export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
+  'account',
   'referralCode',
   'referralCodeUrl'
 ]

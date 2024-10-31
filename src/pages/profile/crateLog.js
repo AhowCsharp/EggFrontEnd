@@ -13,9 +13,7 @@ import {
   MobileItem,
 } from './tabStyle'
 import img from '@app/static/crateLog'
-import coinImageSrc from '@app/static/coin-welfare.svg' // 引入金币图标
-import { Button } from './pendingPrizes'
-
+import { Button } from '../commodity/index'
 const { Column } = Table
 const { Option } = Select
 
@@ -53,14 +51,20 @@ const InfoItem = styled.div`
 `
 
 export default function CrateLog() {
+
+  const openCrateSuccess = useSelector(() => dataStore.openCrateSuccess)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isOpenCrateModalVisible, setIsOpenCrateModalVisible] = useState(false)
   const [selectedLevel, setSelectedLevel] = useState(null)
   const [crateAmount, setCrateAmount] = useState(1)
-  const [getAwards, setGetAwards] = useState([])
-  const [isRewardModalVisible, setIsRewardModalVisible] = useState(false) // 控制奖励弹窗显示
+  const [openSuccessMessage, setOpenSuccessMessage] = useState(null)
   const crateLogs = useSelector(() => dataStore.crateLogs)
   const currentCrateLogs = useSelector(() => dataStore.currentCrateLogs)
   const dateRange = getDefaultDateRange()
+
+  const closeOpenCrateModal = () => {
+    setIsOpenCrateModalVisible(false)
+  }
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -105,10 +109,7 @@ export default function CrateLog() {
     }
 
     await dataStore.openCrate(body)
-
-    setGetAwards(currentCrateLogs)
-    setIsRewardModalVisible(true)
-
+    setIsModalVisible(false)
     await dataStore.getCrateLogs(req)
   }
 
@@ -118,6 +119,15 @@ export default function CrateLog() {
 
   const data = crateLogs?.data || {}
   const awards = currentCrateLogs?.data || {}
+
+
+  useEffect(() => {
+    if (openCrateSuccess && Object.keys(data).length !== 0) {
+      setIsOpenCrateModalVisible(true)
+      const message = `恭喜！您已成功開啟「白銀寶箱*1」，獲得 24 個獎勵！記得常來開箱，累積更多獎勵！`
+      setOpenSuccessMessage(message)
+    }
+  }, [openCrateSuccess])
 
   const levels = ['Level1', 'Level2', 'Level3', 'Level4', 'Level5', 'Level6']
   const levelLabels = {
@@ -150,6 +160,31 @@ export default function CrateLog() {
             </InfoItem>
           ))}
         </InfoContainer>
+        <Modal
+          title="開啟寶箱結果"
+          visible={isOpenCrateModalVisible}
+          onOk={closeOpenCrateModal}
+          onCancel={closeOpenCrateModal}
+          okText="關閉"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '120px', textAlign: 'center' }}>
+                <Button
+                  width="120px"
+                  textAlign="center"
+                  type="primary"
+                  onClick={closeOpenCrateModal}
+              >
+                關閉
+              </Button>
+              </div>
+            </div>
+          }
+        >
+          <div style={{ marginBottom: '16px' }}>
+            
+          </div>
+        </Modal>
         <ButtonContainer>
           <Button onClick={showModal}>開啟寶箱</Button>
         </ButtonContainer>

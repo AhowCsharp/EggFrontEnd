@@ -5,7 +5,13 @@ import { dataStore } from '@app/store'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import copyImg from '@app/static/fi-br-copy-alt.png'
+
 const Container = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 22px;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
@@ -26,7 +32,7 @@ export default function CopyToClipboard({
   return (
     <Container ref={ref} className={className} onClick={handleClick}>
       {children}
-      <FontAwesomeIcon icon={faCopy} />
+      <img src={copyImg} alt="copyImg" style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
     </Container>
   )
 
