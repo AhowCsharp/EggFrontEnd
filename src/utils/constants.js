@@ -49,12 +49,12 @@ export const COMMODITY_STATUS_OPTIONS = [
 ]
 
 export const DEFAULT_PAGINATION = {
-  pageSize: 10,
+  pageSize: 20,
   pageNumber: 1,
 }
 
 export const DEFAULT_COMMODITIES_PAGINATION = {
-  pageSize: 20,
+  pageSize: 50,
   pageNumber: 1,
 }
 

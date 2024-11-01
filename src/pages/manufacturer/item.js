@@ -73,7 +73,7 @@ const BaseProduct = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  height: 440px; /* 设置较低的固定高度 */
+  height: 460px; /* 设置较低的固定高度 */
   @media (max-width: 768px) {
     width: 100%;
     margin: 0 0 20px;
