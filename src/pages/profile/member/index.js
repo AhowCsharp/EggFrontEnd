@@ -93,6 +93,10 @@ const InfoContainer = styled.div`
   background: #f7f7f7;
   border-radius: ${(p) => p.theme.borderRadius.memberInfo};
   margin: 0 0 20px;
+
+  @media (max-width: 768px) {
+    background: #212b3a;
+  }
 `;
 
 const InfoItem = styled.div`
@@ -114,6 +118,65 @@ const InfoItem = styled.div`
   }
 `;
 
+const Title = styled.div`
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+
+  @media (max-width: 768px) {
+    color: #ffffff;
+  }
+`;
+
+const ValueText = styled.div`
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    color: #ffffff;
+  }
+`;
+
+const SubValueText = styled.div`
+  display: flex;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #999999;
+
+  @media (max-width: 768px) {
+    color: #cccccc;
+  }
+`;
+
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 6px;
+  margin-top: 48px;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    margin-top: 0;
+  }
+`;
+
+const ProfileImageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  @media (max-width: 768px) {
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+`;
+
 const InfoComponent = ({
   img,
   title,
@@ -124,8 +187,8 @@ const InfoComponent = ({
   showLevel,
   member,
 }) => {
-  // const rankingChanges = member.rankingChanges;
-  const rankingChanges = 2;
+  const rankingChanges = member.rankingChanges;
+
   return (
     <div
       style={{
@@ -145,11 +208,7 @@ const InfoComponent = ({
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div
-            style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '700' }}
-          >
-            {title}
-          </div>
+          <Title>{title}</Title>
           {showLevel && (
             <div style={{ display: 'flex', marginLeft: '38px' }}>
               <div style={{ display: 'flex', lineHeight: '20px' }}>
@@ -212,34 +271,14 @@ const InfoComponent = ({
             marginBottom: '8px',
           }}
         ></div>
-        <div
-          style={{ fontSize: '16px', lineHeight: '22px', fontWeight: '500' }}
-        >
+        <ValueText>
           {value_title} {value}
-        </div>
+        </ValueText>
         {subValue_title && (
-          <div style={{ display: 'flex', marginTop: '4px' }}>
-            <div
-              style={{
-                fontSize: '14px',
-                lineHeight: '20px',
-                fontWeight: '400',
-                color: '#999999',
-              }}
-            >
-              {subValue_title}&nbsp;
-            </div>
-            <div
-              style={{
-                fontSize: '14px',
-                lineHeight: '20px',
-                fontWeight: '600',
-                color: '#999999',
-              }}
-            >
-              {subValue}
-            </div>
-          </div>
+          <SubValueText>
+            <div>{subValue_title}&nbsp;</div>
+            <div style={{ fontWeight: '600' }}>{subValue}</div>
+          </SubValueText>
         )}
       </div>
     </div>
@@ -256,6 +295,7 @@ const membershipLevel = {
   7: '鑽石',
   8: '傳說',
 };
+
 const handleWalletInfo = (member) => {
   return [
     {
@@ -280,12 +320,16 @@ const handleWalletInfo = (member) => {
       title: '平台抽獎券',
       value_title: '可用數量',
       value: member.ticketEverydayAmount,
+      subValue_title: '\u00A0', // 使用空格作為佔位符
+      subValue: '\u00A0',
     },
     {
       img: ticket2000Img,
       title: '廠商抽獎券',
       value_title: '可用數量',
       value: member.ticketAmount,
+      subValue_title: '\u00A0', // 使用空格作為佔位符
+      subValue: '\u00A0',
     },
   ];
 };
@@ -296,7 +340,6 @@ export default function Member() {
   const [walletInfo, setWalletInfo] = useState(null);
   const headShotFile = useRef(null);
   const [uploadHeadShotSuccess, setUploadHeadShotSuccess] = useState(false);
-  console.log('🚀 ~ Member ~ memberDisplayInfos:', memberDisplayInfos);
 
   useEffect(() => {
     if (member) {
@@ -304,7 +347,6 @@ export default function Member() {
       setMemberDisplayInfos(memberDisplayInfos);
       const walletInfo = handleWalletInfo(member);
       setWalletInfo(walletInfo);
-      return;
     }
   }, [member, uploadHeadShotSuccess]);
 
@@ -337,12 +379,12 @@ export default function Member() {
             }}
           >
             {walletInfo?.map((item) => (
-              <InfoComponent {...item} member={member} />
+              <InfoComponent key={item.title} {...item} member={member} />
             ))}
           </div>
         </InfoContainer>
         <div style={{ position: 'relative' }}>
-          <div style={{ position: 'absolute', top: 0, right: 0 }}>
+          <ProfileImageContainer>
             {member.lineUserId === null && member.headShotUrl === null ? (
               <div
                 style={{ cursor: 'pointer' }}
@@ -356,34 +398,18 @@ export default function Member() {
                   style={{ display: 'none' }}
                   onChange={handleUploadHeadShot}
                 />
-                <img
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    borderRadius: '6px',
-                    marginTop: '48px',
-                  }}
+                <ProfileImage
                   src={defaultHeadShotUrl}
                   alt='defaultHeadShotUrl'
                 />
               </div>
             ) : (
-              <img
-                style={{
-                  width: '200px',
-                  height: '200px',
-                  borderRadius: '6px',
-                  marginTop: '48px',
-                }}
-                src={member.headShotUrl}
-                alt='headShotUrl'
-              />
+              <ProfileImage src={member.headShotUrl} alt='headShotUrl' />
             )}
-          </div>
+          </ProfileImageContainer>
           <Descriptions
             title='修改會員資料'
             layout='vertical'
-            // items={memberDisplayInfos}
             column={1}
           >
             {memberDisplayInfos?.map((item) => item)}

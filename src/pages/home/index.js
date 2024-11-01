@@ -111,7 +111,6 @@ export default function Home() {
 
   useEffect(() => {
     const req = {
-      category: CATEGORY.GACHA,
       status: COMMODITY_STATUS.OPENING,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }

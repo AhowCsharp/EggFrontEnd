@@ -89,6 +89,7 @@ export default function Tickets() {
             dataIndex="createDate"
             render={(d) => dayjs(d).format('YYYY/MM/DD HH:mm')}
           />
+          <Column title="消費門檻" dataIndex="threshold" key="threshold" />
           <Column
             title="已使用"
             dataIndex="isUsed"
