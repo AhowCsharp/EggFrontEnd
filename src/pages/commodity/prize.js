@@ -79,7 +79,7 @@ export default function Prize({ data, onClick, isCommodity }) {
       <h4>{name}</h4>
       {!isCommodity && (
         <>
-          <span>兌換金幣{data.reclaimPrice}</span>
+          <span>兌換金幣 : {data.reclaimPrice}</span>
           <PrizeLevelAndAmount {...data} />
         </>
       )}
