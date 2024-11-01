@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { PRIZE_LEVEL } from '@app/utils/constants'
 
+// 保持原有的样式
 const Container = styled.div`
   display: flex;
   height: 100%;
@@ -9,6 +10,7 @@ const Container = styled.div`
   width: 190px;
   justify-content: space-between;
   cursor: pointer;
+  
   img {
     width: 150px;
     height: 150px;
@@ -16,6 +18,7 @@ const Container = styled.div`
       transform: scale(1.03);
     }
   }
+  
   h4 {
     margin: 8px 0;
     max-height: 37px;
@@ -42,11 +45,37 @@ const Label = styled.div`
   margin-top: 8px;
 `
 
+// 新增的样式组件
+const ImageWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`
+
+const FireEmoji = styled.span`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 30px;
+  line-height: 1;
+
+  /* 响应式调整字体大小 */
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+`
+
+// 主组件 Prize
 export default function Prize({ data, onClick, isCommodity }) {
   const name = data?.prizeName || data?.name
+  const isOverAfterSoldOut = data?.isOverAfterSoldOut == true 
   return (
     <Container onClick={onClick}>
-      <img src={data?.imgUrl} alt={name} />
+      <ImageWrapper>
+        <img src={data?.imgUrl} alt={name} />
+        {isOverAfterSoldOut && (
+          <FireEmoji>🔥</FireEmoji>
+        )}
+      </ImageWrapper>
       <h4>{name}</h4>
       {!isCommodity && (
         <>
