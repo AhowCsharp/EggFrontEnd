@@ -1,23 +1,23 @@
-import styled from 'styled-components';
-import { Descriptions } from 'antd';
-import { useSelector, dataStore } from '@app/store';
-import { useEffect, useRef, useState } from 'react';
-import CopyToClipboard from '@app/shared/copyToClipboard';
+import styled from "styled-components";
+import { Descriptions, Spin } from "antd";
+import { useSelector, dataStore } from "@app/store";
+import { useEffect, useRef, useState } from "react";
+import CopyToClipboard from "@app/shared/copyToClipboard";
 import {
   INCLUDE_MEMBER_COLUMNS,
   INCLUDE_MEMBER_COLUMNS_ENABLE_COPY,
-} from '@app/utils/constants';
-import coinImg from '@app/static/profile/coin.png';
-import ticket2000Img from '@app/static/profile/ticket-2000.png';
-import ticketPlatformImg from '@app/static/profile/ticket-platform.png';
-import coinWelfareImg from '@app/static/profile/coin-welfare.png';
-import { Content } from '../index';
-import EditPassword from './editPassword';
-import EditMember from './editMember';
-import checkBrokenImg from '@app/static/check-broken.jpg';
-import upImg from '@app/static/arrow-up.png';
-import downImg from '@app/static/arrow-down.png';
-import defaultHeadShotUrl from '@app/static/imgUpload.png';
+} from "@app/utils/constants";
+import coinImg from "@app/static/profile/coin.png";
+import ticket2000Img from "@app/static/profile/ticket-2000.png";
+import ticketPlatformImg from "@app/static/profile/ticket-platform.png";
+import coinWelfareImg from "@app/static/profile/coin-welfare.png";
+import { Content } from "../index";
+import EditPassword from "./editPassword";
+import EditMember from "./editMember";
+import checkBrokenImg from "@app/static/check-broken.jpg";
+import upImg from "@app/static/arrow-up.png";
+import downImg from "@app/static/arrow-down.png";
+import defaultHeadShotUrl from "@app/static/imgUpload.png";
 
 const BindSuccessText = styled.span`
   font-size: 16px;
@@ -26,17 +26,17 @@ const BindSuccessText = styled.span`
 `;
 
 const labelDisplay = {
-  account: '帳號',
-  name: '收貨姓名',
-  nickName: '暱稱',
-  phoneNum: '手機',
-  email: 'E-mail',
-  city: '居住城市',
-  districtNo: '郵遞區號',
-  districtName: '居住地區',
-  address: '詳細地址',
-  referralCode: '推薦碼',
-  referralCodeUrl: '推薦連結',
+  account: "帳號",
+  name: "收貨姓名",
+  nickName: "暱稱",
+  phoneNum: "手機",
+  email: "E-mail",
+  city: "居住城市",
+  districtNo: "郵遞區號",
+  districtName: "居住地區",
+  address: "詳細地址",
+  referralCode: "推薦碼",
+  referralCodeUrl: "推薦連結",
 };
 
 function handleMemberInfo(member) {
@@ -53,22 +53,22 @@ function handleMemberInfo(member) {
           <Descriptions.Item
             key={key}
             label={labelDisplay[key]}
-            style={{ display: 'flex', alignItems: 'center' }}
+            style={{ display: "flex", alignItems: "center" }}
           >
             <CopyToClipboard>{member[key]}</CopyToClipboard>
-            {key === 'account' && member.lineUserId !== null && (
+            {key === "account" && member.lineUserId !== null && (
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginTop: 'auto',
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "auto",
                 }}
               >
-                <div style={{ marginRight: '10px' }}></div>
+                <div style={{ marginRight: "10px" }}></div>
                 <img
-                  style={{ width: '24px', height: '24px', marginRight: '6px' }}
+                  style={{ width: "24px", height: "24px", marginRight: "6px" }}
                   src={checkBrokenImg}
-                  alt='checkBrokenImg'
+                  alt="checkBrokenImg"
                 />
                 <BindSuccessText>已綁定LINE</BindSuccessText>
               </div>
@@ -192,65 +192,65 @@ const InfoComponent = ({
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%',
-        marginRight: '35px',
+        display: "flex",
+        alignItems: "center",
+        height: "100%",
+        marginRight: "35px",
       }}
     >
-      <img src={img} alt={title} style={{ width: '80px', height: '80px' }} />
+      <img src={img} alt={title} style={{ width: "80px", height: "80px" }} />
       <div
         style={{
-          justifyContent: 'center',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
+          justifyContent: "center",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Title>{title}</Title>
           {showLevel && (
-            <div style={{ display: 'flex', marginLeft: '38px' }}>
-              <div style={{ display: 'flex', lineHeight: '20px' }}>
-                <div style={{ fontWeight: '400', fontSize: '14px' }}>
+            <div style={{ display: "flex", marginLeft: "38px" }}>
+              <div style={{ display: "flex", lineHeight: "20px" }}>
+                <div style={{ fontWeight: "400", fontSize: "14px" }}>
                   生涯排名&nbsp;
                 </div>
-                <div style={{ fontWeight: '600', fontSize: '18px' }}>
+                <div style={{ fontWeight: "600", fontSize: "18px" }}>
                   {member.todayRank}
                 </div>
                 {rankingChanges !== 0 && (
                   <div
                     style={{
-                      marginLeft: '8px',
-                      fontWeight: '400',
-                      fontSize: '14px',
+                      marginLeft: "8px",
+                      fontWeight: "400",
+                      fontSize: "14px",
                       border:
                         rankingChanges > 0
-                          ? '1px solid #58B83F'
-                          : '1px solid #A21A2B',
-                      borderRadius: '11px',
-                      padding: '4px 8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      height: '22px',
+                          ? "1px solid #58B83F"
+                          : "1px solid #A21A2B",
+                      borderRadius: "11px",
+                      padding: "4px 8px",
+                      display: "flex",
+                      alignItems: "center",
+                      height: "22px",
                     }}
                   >
                     {rankingChanges > 0 ? (
                       <img
                         src={upImg}
-                        alt='upImg'
-                        style={{ width: '18px', marginRight: '4px' }}
+                        alt="upImg"
+                        style={{ width: "18px", marginRight: "4px" }}
                       />
                     ) : (
                       <img
                         src={downImg}
-                        alt='downImg'
-                        style={{ width: '18px', marginRight: '4px' }}
+                        alt="downImg"
+                        style={{ width: "18px", marginRight: "4px" }}
                       />
                     )}
                     <div
                       style={{
-                        color: rankingChanges > 0 ? '#58B83F' : '#A21A2B',
+                        color: rankingChanges > 0 ? "#58B83F" : "#A21A2B",
                       }}
                     >
                       {rankingChanges}
@@ -263,12 +263,12 @@ const InfoComponent = ({
         </div>
         <div
           style={{
-            height: '2px',
-            backgroundColor: '#E6E6E6',
-            width: '100%',
-            minWidth: showLevel ? '200px' : '110px',
-            marginTop: '8px',
-            marginBottom: '8px',
+            height: "2px",
+            backgroundColor: "#E6E6E6",
+            width: "100%",
+            minWidth: showLevel ? "200px" : "110px",
+            marginTop: "8px",
+            marginBottom: "8px",
           }}
         ></div>
         <ValueText>
@@ -277,7 +277,7 @@ const InfoComponent = ({
         {subValue_title && (
           <SubValueText>
             <div>{subValue_title}&nbsp;</div>
-            <div style={{ fontWeight: '600' }}>{subValue}</div>
+            <div style={{ fontWeight: "600" }}>{subValue}</div>
           </SubValueText>
         )}
       </div>
@@ -286,14 +286,13 @@ const InfoComponent = ({
 };
 
 const membershipLevel = {
-  1: '會員',
-  2: '黑鐵',
-  3: '青銅',
-  4: '白銀',
-  5: '黃金',
-  6: '白金',
-  7: '鑽石',
-  8: '傳說',
+  1: "黑鐵",
+  2: "青銅",
+  3: "白銀",
+  4: "黃金",
+  5: "白金",
+  6: "鑽石",
+  7: "傳說",
 };
 
 const handleWalletInfo = (member) => {
@@ -302,34 +301,34 @@ const handleWalletInfo = (member) => {
       showLevel: true,
       img: coinImg,
       title: membershipLevel[member.membershipLevel],
-      value_title: '可用金幣',
+      value_title: "可用金幣",
       value: member.moneyAmount,
-      subValue_title: '生涯總儲值',
+      subValue_title: "生涯總儲值",
       subValue: member.totalStoredMoney,
     },
     {
       img: coinWelfareImg,
-      title: '御守',
-      value_title: '可用數量',
+      title: "御守",
+      value_title: "可用數量",
       value: member.welfareAmount,
-      subValue_title: '總回饋數量',
+      subValue_title: "總回饋數量",
       subValue: member.totalFeedback,
     },
     {
       img: ticketPlatformImg,
-      title: '平台抽獎券',
-      value_title: '可用數量',
+      title: "平台抽獎券",
+      value_title: "可用數量",
       value: member.ticketEverydayAmount,
-      subValue_title: '\u00A0', // 使用空格作為佔位符
-      subValue: '\u00A0',
+      subValue_title: "\u00A0", // 使用空格作為佔位符
+      subValue: "\u00A0",
     },
     {
       img: ticket2000Img,
-      title: '廠商抽獎券',
-      value_title: '可用數量',
+      title: "廠商抽獎券",
+      value_title: "可用數量",
       value: member.ticketAmount,
-      subValue_title: '\u00A0', // 使用空格作為佔位符
-      subValue: '\u00A0',
+      subValue_title: "\u00A0", // 使用空格作為佔位符
+      subValue: "\u00A0",
     },
   ];
 };
@@ -340,6 +339,8 @@ export default function Member() {
   const [walletInfo, setWalletInfo] = useState(null);
   const headShotFile = useRef(null);
   const [uploadHeadShotSuccess, setUploadHeadShotSuccess] = useState(false);
+  const [isUploadingHeadShot, setIsUploadingHeadShot] = useState(false);
+  const [previewSrc, setPreviewSrc] = useState(null);
 
   useEffect(() => {
     if (member) {
@@ -350,18 +351,29 @@ export default function Member() {
     }
   }, [member, uploadHeadShotSuccess]);
 
-  useEffect(() => {
-    if (uploadHeadShotSuccess) {
-      setUploadHeadShotSuccess(false);
-      headShotFile.current.value = null;
-    }
-  }, [uploadHeadShotSuccess]);
+  // useEffect(() => {
+  //   if (uploadHeadShotSuccess) {
+  //     setUploadHeadShotSuccess(false);
+  //     headShotFile.current.value = null;
+  //     setIsUploadingHeadShot(false);
+  //   }
+  // }, [uploadHeadShotSuccess]);
 
-  const handleUploadHeadShot = () => {
-    const file = headShotFile.current.files[0];
-    dataStore.uploadHeadShot(file);
-    headShotFile.current.value = null;
+  const handleUploadHeadShot = async () => {
+    // setIsUploadingHeadShot(true);
+
+    console.log('headShotFile.current.files[0]', headShotFile.current.files[0]);
+
     setUploadHeadShotSuccess(true);
+    
+    const file = headShotFile.current.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewSrc(reader.result);
+      };
+      reader.readAsDataURL(file);
+    // dataStore.uploadHeadShot(file, member.statusMessage);
+    // headShotFile.current.value = null;
   };
 
   if (!member) return null;
@@ -372,10 +384,10 @@ export default function Member() {
         <InfoContainer>
           <div
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              rowGap: '16px',
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              rowGap: "16px",
             }}
           >
             {walletInfo?.map((item) => (
@@ -383,39 +395,47 @@ export default function Member() {
             ))}
           </div>
         </InfoContainer>
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: "relative" }}>
           <ProfileImageContainer>
-            {member.lineUserId === null && member.headShotUrl === null ? (
+            {member.lineUserId === null ? (
               <div
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   headShotFile.current.click();
                 }}
               >
                 <input
-                  type='file'
+                  type="file"
+                  accept="image/*"
                   ref={headShotFile}
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   onChange={handleUploadHeadShot}
                 />
-                <ProfileImage
-                  src={defaultHeadShotUrl}
-                  alt='defaultHeadShotUrl'
-                />
+                {isUploadingHeadShot ? (
+                  // 使用 style 來實作轉圈 spinner
+                  <div style={{ width: "50px", height: "50px" }}>
+                    <Spin />
+                  </div>
+                ) : (
+                  <ProfileImage
+                    src={
+                      uploadHeadShotSuccess
+                        ? previewSrc
+                        : member.headShotUrl || defaultHeadShotUrl
+                    }
+                    alt="defaultHeadShotUrl"
+                  />
+                )}
               </div>
             ) : (
-              <ProfileImage src={member.headShotUrl} alt='headShotUrl' />
+              <ProfileImage src={member.headShotUrl} alt="headShotUrl" />
             )}
           </ProfileImageContainer>
-          <Descriptions
-            title='修改會員資料'
-            layout='vertical'
-            column={1}
-          >
+          <Descriptions title="修改會員資料" layout="vertical" column={1}>
             {memberDisplayInfos?.map((item) => item)}
           </Descriptions>
         </div>
-        <EditMember member={member} />
+        <EditMember member={member} headShotFile={headShotFile} />
         {member.lineUserId == null ? <EditPassword /> : null}
       </Container>
     </Content>

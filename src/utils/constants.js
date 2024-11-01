@@ -89,7 +89,7 @@ export const PRIZE_DICTIONARY = {
   26: "Z賞",
 };
 
-export const INCLUDE_MEMBER_COLUMNS = ['account']
+export const INCLUDE_MEMBER_COLUMNS = ['']
 
 export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
   'account',

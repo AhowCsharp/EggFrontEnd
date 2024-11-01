@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { ButtonContainer } from '../tabStyle'
 import { Container } from './editPassword'
 
-export default function EditMember({ member }) {
+export default function EditMember({ member, headShotFile }) {
   const [form] = Form.useForm()
   useEffect(() => {
     if (!member || !form) return
@@ -118,7 +118,11 @@ export default function EditMember({ member }) {
       </ButtonContainer>
     </Container>
   )
+
   async function onEditMemberSubmit(e) {
+    const file = headShotFile.current.files[0];
+    const formData = form.getFieldsValue()
+    dataStore.uploadHeadShot(file, formData.statusMessage);
     e.preventDefault()
     await form.validateFields().then(
       () => {

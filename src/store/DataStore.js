@@ -394,7 +394,7 @@ export default class DataStore {
         this.alertMessage = '開箱成功'
         if (!res) return
         const { source: data } = res
-        this.openCrateSuccess = true
+        this.currentCrateLogs = data
       }
     } catch (e) {
       const msg = e.response?.data
@@ -839,18 +839,20 @@ export default class DataStore {
   }
 
   @flow
-  *uploadHeadShot(file) {
+  *uploadHeadShot(file, statusMessage) {
     try {
       const token = getToken()
       if (token) {
         const formData = new FormData()
-        formData.append('image', file) // Append the image file to the form data
+        formData.append('HeadShotFile', file) // Append the image file to the form data
+        formData.append('StatusMessage', statusMessage)
 
         const res = yield Api.uploadHeadShot(formData, token) // Call the API with form data
         if (res && res.success) {
-          this.alertMessage = '圖片上傳成功'
+          // this.alertMessage = '圖片上傳成功'
+          yield this.loadMember()
         } else {
-          this.alertMessage = '圖片上傳失敗'
+          // this.alertMessage = '圖片上傳失敗'
         }
       }
     } catch (e) {
