@@ -291,7 +291,7 @@ export default function PendingPrizes() {
           />
           <Column title="運費價格" dataIndex="shippingFee" key="shippingFee" />
           <Column
-            title="回收價格"
+            title="兌換代幣"
             dataIndex="reclaimPrize"
             key="reclaimPrize"
           />
@@ -332,7 +332,7 @@ export default function PendingPrizes() {
                 <span className="label">運費價格</span> {item.shippingFee}
               </div>
               <div>
-                <span className="label">回收價格</span> {item.reclaimPrize}
+                <span className="label">兌換代幣</span> {item.reclaimPrize}
               </div>
               <div>
                 <span className="label">數量</span> {item.totalAmount}
