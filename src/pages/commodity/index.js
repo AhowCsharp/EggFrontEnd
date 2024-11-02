@@ -564,7 +564,7 @@ export default function Commodity() {
           </DrawOutBtn>
         </MobileDrawOutBtnBlock>
       )}
-      {enableDrawOut && <ScrollToDrawButton/>}     
+      {enableDrawOut && <ScrollToDrawButton selectedPrizes={selectedPrizes}/>}     
     </Layout>
   )
   function onSectionNavClick(id) {

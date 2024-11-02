@@ -32,17 +32,17 @@ const Icon = styled.div`
 `;
 
 const ButtonText = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: #333;
   text-align: center;
   font-weight: bold;
 `;
 
-export default function ScrollToDrawButton() {
+export default function ScrollToDrawButton({selectedPrizes}) {
 
   const handleClick = () => {
     const drawButton = document.getElementById('draw-out-button ahow');
-    console.log(drawButton);   
+    console.log(selectedPrizes);   
     if (drawButton) {
       drawButton.scrollIntoView({ behavior: 'smooth', block: 'center' });  
     } else {
@@ -54,6 +54,7 @@ export default function ScrollToDrawButton() {
     <ScrollButton onClick={handleClick}>
       <Icon />
       <ButtonText>移至抽獎</ButtonText>
+      {/* <ButtonText>已選{selectedPrizes}</ButtonText> */}
     </ScrollButton>
   );
 }
