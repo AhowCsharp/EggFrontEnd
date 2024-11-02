@@ -32,14 +32,9 @@ import { hideScrollBarStyle } from '@app/shared/header'
 const SiteContainer = styled.div`
   ${(props) => (props.disableScroll ? '' : 'overflow-y: auto;')}
   overflow: hidden;
-  height: 100%;
-  width: 100vw;
   -webkit-overflow-scrolling: touch;
   background: ${(p) => p.theme.color.siteBg};
   .content {
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100vw;
     position: relative;
     padding-bottom: 80px;
   }
@@ -100,11 +95,11 @@ function AppRoute() {
       <Danmaku />
       <GlobalStyle />
       <BrowserRouter>
-        <Header id="header" />
         <SiteContainer id="app-container">
           <div className="content">
             <TopBg />
             <BottomBg />
+            <Header id="header" />
             <Wrapper>
               <Main>
                 <MobileViewController>
