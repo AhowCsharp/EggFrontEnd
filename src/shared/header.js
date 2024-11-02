@@ -54,7 +54,7 @@ const HeaderModule = styled.div`
   background-color: ${(p) => p.theme.color.danmakuMask};
   padding: 10px 0;
   @media (max-width: 768px) {
-    padding-top: env(safe-area-inset-top);
+    padding-top: calc(env(safe-area-inset-top) + 10px);
   }
 `
 
