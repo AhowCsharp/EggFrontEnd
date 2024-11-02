@@ -100,11 +100,11 @@ function AppRoute() {
       <Danmaku />
       <GlobalStyle />
       <BrowserRouter>
+        <Header id="header" />
         <SiteContainer id="app-container">
           <div className="content">
             <TopBg />
             <BottomBg />
-            <Header id="header" />
             <Wrapper>
               <Main>
                 <MobileViewController>
