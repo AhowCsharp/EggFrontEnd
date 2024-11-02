@@ -50,6 +50,21 @@ const InfoItem = styled.div`
   }
 `;
 
+const CrateModal = styled(Modal)`
+  .ant-modal-content {
+    border-radius: 20px;
+  }
+  .ant-modal-title {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .ant-modal-close {
+    display: none;
+  }
+`;
+
 export default function CrateLog() {
   const currentCrateLogs = useSelector(() => dataStore.currentCrateLogs);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -119,19 +134,16 @@ export default function CrateLog() {
   const data = crateLogs?.data || {};
   const awards = currentCrateLogs|| [];
 
-  // console.log("currentCrateLogs", currentCrateLogs);
-
-  // console.log("awards", awards);
-
   const moreAwards = ({ awards }) => {
     return (
-      <div style={{ paddingY: "20px", paddingX: "24px" }}>
-        <div style={{ fontSize: '20px', fontWeight: '700', color: '#333333', marginBottom: '24px', textAlign: 'center'}}>開箱獎勵明細</div>
-        {awards.map((award, index) => (
-          <div key={index} style={{ backgroundColor: '#F2F2F2', paddingY: '20px', paddingX: '24px'}}>
-            <div>開啟{award.crateName}寶箱，獲得 {award.getAmount} 獎勵</div>
-          </div>
-        ))}
+      <div >
+        <div style={{ backgroundColor: '#F2F2F2', padding:'20px', paddingLeft:'24px', borderRadius: '10px', marginTop: '24px'}}>
+        <div style={{ fontSize: '20px', fontWeight: '700', color: '#333333', marginBottom: '16px'}}>開箱獎勵明細</div>
+          {awards.map((award, index) => (
+              <div key={index} >・開啟{award.crateName}寶箱，獲得 {award.getAmount} 獎勵</div>
+          ))}
+          <div style={{ fontSize: '16px', color: '#000000', marginTop: '16px'}}>總計獲得：{awards.reduce((acc, curr) => acc + curr.getAmount, 0)} 獎勵</div>
+        </div>
       </div>
     );
   };
@@ -140,7 +152,10 @@ export default function CrateLog() {
     if (awards.length !== 0) {
       setIsOpenCrateModalVisible(true);
       const rewardNums = awards.reduce((acc, curr) => acc + curr.getAmount, 0);
-      const message = `恭喜！您已成功開啟「${awards[0].crateName}寶箱*${awards.length}」，獲得 ${rewardNums} 個獎勵！記得常來開箱，累積更多獎勵！`;
+      const message =
+      <div style={{textAlign: 'center'}}>
+        恭喜！<br/>您已成功開啟「{data.crates[0].crateName}寶箱*{data.crates.length}」，獲得 <span style={{fontSize: '20px', lineHeight: '28px'}}>{rewardNums}</span> 個獎勵！<br/>記得常來開箱，累積更多獎勵！
+      </div>
       setOpenSuccessMessage(message);
 
       if (awards.length > 1) {
@@ -180,7 +195,8 @@ export default function CrateLog() {
             </InfoItem>
           ))}
         </InfoContainer>
-        <Modal
+        <CrateModal
+          bodyStyle={{borderRadius: '20px'}}
           style={{ borderRadius: '20px' }}
           title="開啟寶箱結果"
           visible={isOpenCrateModalVisible}
@@ -206,7 +222,7 @@ export default function CrateLog() {
             {openSuccessMessage}
             {openSuccessMessage2}
           </div>
-        </Modal>
+        </CrateModal>
         <ButtonContainer>
           <Button onClick={showModal}>開啟寶箱</Button>
         </ButtonContainer>

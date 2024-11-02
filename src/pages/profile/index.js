@@ -29,6 +29,7 @@ const Nav = styled.div`
   flex-direction: column;
   overflow-x: scroll;
   @media (max-width: 768px) {
+    display: none;
     flex-direction: row;
     width: 100%;
     margin-right: 0;

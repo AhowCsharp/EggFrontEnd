@@ -391,7 +391,7 @@ export default class DataStore {
       const token = getToken()
       if (token) {
         const res = yield Api.openCrate(req, token)
-        this.alertMessage = '開箱成功'
+        // this.alertMessage = '開箱成功'
         if (!res) return
         const { source: data } = res
         this.currentCrateLogs = data
@@ -849,11 +849,12 @@ export default class DataStore {
 
         const res = yield Api.uploadHeadShot(formData, token) // Call the API with form data
         if (res && res.success) {
-          // this.alertMessage = '圖片上傳成功'
-          yield this.loadMember()
+          this.alertMessage = '更新成功'
         } else {
-          // this.alertMessage = '圖片上傳失敗'
+          this.alertMessage = '更新失敗'
         }
+
+        yield this.loadMember()
       }
     } catch (e) {
       const msg = e.response?.data

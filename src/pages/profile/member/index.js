@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Descriptions, Spin } from "antd";
+import { Descriptions, Spin, Input } from "antd";
 import { useSelector, dataStore } from "@app/store";
 import { useEffect, useRef, useState } from "react";
 import CopyToClipboard from "@app/shared/copyToClipboard";
@@ -14,10 +14,11 @@ import coinWelfareImg from "@app/static/profile/coin-welfare.png";
 import { Content } from "../index";
 import EditPassword from "./editPassword";
 import EditMember from "./editMember";
-import checkBrokenImg from "@app/static/check-broken.jpg";
+import checkBrokenImg from "@app/static/check-broken.png";
 import upImg from "@app/static/arrow-up.png";
 import downImg from "@app/static/arrow-down.png";
 import defaultHeadShotUrl from "@app/static/imgUpload.png";
+import { Button } from "../../commodity/index";
 
 const BindSuccessText = styled.span`
   font-size: 16px;
@@ -155,20 +156,9 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 6px;
-  margin-top: 48px;
-
-  @media (max-width: 768px) {
-    width: 100px;
-    height: 100px;
-    margin-top: 0;
-  }
 `;
 
 const ProfileImageContainer = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-
   @media (max-width: 768px) {
     position: static;
     display: flex;
@@ -285,6 +275,142 @@ const InfoComponent = ({
   );
 };
 
+const HeadShotAndStatusMessegeComponent = ({ member }) => {
+  const headShotFile = useRef(null);
+  const [uploadHeadShotSuccess, setUploadHeadShotSuccess] = useState(false);
+  const [isUploadingHeadShot, setIsUploadingHeadShot] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(member.statusMessage);
+  const [previewSrc, setPreviewSrc] = useState(null);
+
+  const handleUploadHeadShot = async () => {
+    // setIsUploadingHeadShot(true);
+
+    console.log("headShotFile.current.files[0]", headShotFile.current.files[0]);
+
+    setUploadHeadShotSuccess(true);
+
+    const file = headShotFile.current.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewSrc(reader.result);
+    };
+    reader.readAsDataURL(file);
+    // dataStore.uploadHeadShot(file, member.statusMessage);
+    // headShotFile.current.value = null;
+  };
+
+  const handleSave = () => {
+    if (member.lineUserId === null) {
+      const file = headShotFile.current.files[0];
+      dataStore.uploadHeadShot(file, statusMessage);
+    }
+  };
+
+  return (
+    <div>
+      {member.lineUserId === null ? (
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            headShotFile.current.click();
+          }}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            ref={headShotFile}
+            style={{ display: "none" }}
+            onChange={handleUploadHeadShot}
+          />
+          {isUploadingHeadShot ? (
+            // 使用 style 來實作轉圈 spinner
+            <div style={{ width: "50px", height: "50px" }}>
+              <Spin />
+            </div>
+          ) : (
+            <div style={{ position: "relative", width: "200px", height: "200px" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "0",
+                  textAlign: "center",
+                  width: "200px",
+                  backgroundColor: "#ffffff",
+                  opacity: "0.5",
+                  padding: "10px 0",
+                  color: "#000000",
+                }}
+              >
+                編輯大頭貼
+              </div>
+              <ProfileImage
+                src={
+                  uploadHeadShotSuccess
+                    ? previewSrc
+                    : member.headShotUrl || defaultHeadShotUrl
+                }
+                alt="defaultHeadShotUrl"
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <ProfileImage src={member.headShotUrl} alt="headShotUrl" />
+      )}
+
+      {member.lineUserId === null && (
+        <div
+          style={{
+            marginTop: "12px",
+            marginBottom: "10px",
+            fontSize: "16px",
+            lineHeight: "22px",
+          }}
+        >
+          狀態訊息
+        </div>
+      )}
+      <div
+        style={{
+          marginTop: "16px",
+          display: "flex",
+          marginBottom: "12px",
+        }}
+      >
+        {member.lineUserId === null ? (
+          <Input
+            placeholder="尚未填寫"
+            // disabled={member.lineUserId === null}
+            value={statusMessage}
+            onChange={(e) => setStatusMessage(e.target.value)}
+          />
+        ) : (
+          <div>{member.statusMessage}</div>
+        )}
+        {member.lineUserId === null && (
+          <Button
+            style={{ width: "150px", marginLeft: "12px", textAlign: "center" }}
+            type="primary"
+          >
+            <div
+              style={{
+                margin: "auto",
+                fontSize: "16px",
+                lineHeight: "22px",
+                fontWeight: "500",
+                cursor: "pointer",
+              }}
+              onClick={handleSave}
+            >
+              儲存狀態
+            </div>
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const membershipLevel = {
   1: "黑鐵",
   2: "青銅",
@@ -337,10 +463,6 @@ export default function Member() {
   const member = useSelector(() => dataStore.member);
   const [memberDisplayInfos, setMemberDisplayInfos] = useState(null);
   const [walletInfo, setWalletInfo] = useState(null);
-  const headShotFile = useRef(null);
-  const [uploadHeadShotSuccess, setUploadHeadShotSuccess] = useState(false);
-  const [isUploadingHeadShot, setIsUploadingHeadShot] = useState(false);
-  const [previewSrc, setPreviewSrc] = useState(null);
 
   useEffect(() => {
     if (member) {
@@ -349,32 +471,7 @@ export default function Member() {
       const walletInfo = handleWalletInfo(member);
       setWalletInfo(walletInfo);
     }
-  }, [member, uploadHeadShotSuccess]);
-
-  // useEffect(() => {
-  //   if (uploadHeadShotSuccess) {
-  //     setUploadHeadShotSuccess(false);
-  //     headShotFile.current.value = null;
-  //     setIsUploadingHeadShot(false);
-  //   }
-  // }, [uploadHeadShotSuccess]);
-
-  const handleUploadHeadShot = async () => {
-    // setIsUploadingHeadShot(true);
-
-    console.log('headShotFile.current.files[0]', headShotFile.current.files[0]);
-
-    setUploadHeadShotSuccess(true);
-    
-    const file = headShotFile.current.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewSrc(reader.result);
-      };
-      reader.readAsDataURL(file);
-    // dataStore.uploadHeadShot(file, member.statusMessage);
-    // headShotFile.current.value = null;
-  };
+  }, [member]);
 
   if (!member) return null;
 
@@ -396,46 +493,29 @@ export default function Member() {
           </div>
         </InfoContainer>
         <div style={{ position: "relative" }}>
-          <ProfileImageContainer>
-            {member.lineUserId === null ? (
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  headShotFile.current.click();
-                }}
-              >
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={headShotFile}
-                  style={{ display: "none" }}
-                  onChange={handleUploadHeadShot}
-                />
-                {isUploadingHeadShot ? (
-                  // 使用 style 來實作轉圈 spinner
-                  <div style={{ width: "50px", height: "50px" }}>
-                    <Spin />
-                  </div>
-                ) : (
-                  <ProfileImage
-                    src={
-                      uploadHeadShotSuccess
-                        ? previewSrc
-                        : member.headShotUrl || defaultHeadShotUrl
-                    }
-                    alt="defaultHeadShotUrl"
-                  />
-                )}
-              </div>
-            ) : (
-              <ProfileImage src={member.headShotUrl} alt="headShotUrl" />
-            )}
-          </ProfileImageContainer>
-          <Descriptions title="修改會員資料" layout="vertical" column={1}>
-            {memberDisplayInfos?.map((item) => item)}
-          </Descriptions>
+          <div
+            style={{
+              fontSize: "20px",
+              lineHeight: "28px",
+              fontWeight: "700",
+              marginBottom: "20px",
+            }}
+          >
+            修改會員資料
+          </div>
+          <HeadShotAndStatusMessegeComponent member={member} />
+          <div style={{ marginLeft: "-8px" }}>
+            <Descriptions
+              style={{ paddingLeft: "0px" }}
+              title=""
+              layout="vertical"
+              column={1}
+            >
+              {memberDisplayInfos?.map((item) => item)}
+            </Descriptions>
+          </div>
         </div>
-        <EditMember member={member} headShotFile={headShotFile} />
+        <EditMember member={member} />
         {member.lineUserId == null ? <EditPassword /> : null}
       </Container>
     </Content>
