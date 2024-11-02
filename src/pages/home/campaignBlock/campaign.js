@@ -63,7 +63,7 @@ const Description = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   margin-top: 0.75rem;
@@ -90,16 +90,6 @@ export const DateInfo = styled.div`
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.desc};
     line-height: 1.2rem;
-  }
-`
-
-const BaseReadMoreBtn = styled.div`
-  font-size: 0.875rem;
-  color: ${(p) => p.theme.color.red};
-  cursor: pointer;
-  line-height: 1.25rem;
-  @media (max-width: 768px) {
-    display: none;
   }
 `
 
@@ -132,7 +122,6 @@ export default function Campaign({
               id="description"
               dangerouslySetInnerHTML={{ __html: newsDetails }}
             />
-            <ReadMoreBtn onClick={handleClick(data)} />
             <DateInfo>
               <div>{formatDate(releaseDate)}</div>
               <div>
@@ -144,8 +133,4 @@ export default function Campaign({
       </InfoContainer>
     </Container>
   )
-}
-
-function ReadMoreBtn({ onClick }) {
-  return <BaseReadMoreBtn onClick={onClick}>Read More</BaseReadMoreBtn>
 }

@@ -31,10 +31,9 @@ import { hideScrollBarStyle } from '@app/shared/header'
 
 const SiteContainer = styled.div`
   ${(props) => (props.disableScroll ? '' : 'overflow-y: auto;')}
-  height: 100vh;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
   background: ${(p) => p.theme.color.siteBg};
-  overflow-x: hidden;
   .content {
     position: relative;
     padding-bottom: 80px;
@@ -80,11 +79,14 @@ const BottomBg = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;
-  height: 400px;
+  height: 350px;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  @media (max-width: 768px) {
+    bottom: env(safe-area-inset-bottom);
+  }
 `
 
 function AppRoute() {

@@ -52,6 +52,9 @@ const HeaderModule = styled.div`
   z-index: ${(p) => p.theme.zIndex.header};
   background-color: ${(p) => p.theme.color.danmakuMask};
   padding: 10px 0;
+  @media (max-width: 768px) {
+    padding-top: env(safe-area-inset-top);
+  }
 `
 
 const BaseNavItem = styled.div`
