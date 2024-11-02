@@ -1,26 +1,11 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
-  :root {
-    --safePaddingLeft: calc(env(safe-area-inset-left));
-    --safePaddingRight: calc(env(safe-area-inset-right));
-    --safePaddingTop: calc(env(safe-area-inset-top));
-    --safePaddingBottom: calc(env(safe-area-inset-bottom));
-  }
-  #root {
-    position: relative;
-    width: 100vw;
-    height: var(--100vh);
-    overflow: hidden;
-    margin-top: var(--safePaddingTop);
-    margin-bottom: var(--safePaddingBottom);
-    padding-left: var(--safePaddingLeft);
-    padding-right: var(--safePaddingRight);
-    transform: translateZ(0);
-  }
+ 
   body, html {
     font-size: 16px;
     font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
+    background: ${(p) => p.theme.color.siteBg};
   }
   * {
     box-sizing: border-box;
@@ -30,7 +15,7 @@ export default createGlobalStyle`
   }
   a {
     color:#000;
-  text-decoration: none;
+    text-decoration: none;
   }
   .bold {
     font-weight: bold;
