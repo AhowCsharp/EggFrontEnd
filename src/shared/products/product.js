@@ -182,7 +182,7 @@ const PrizeTag = styled.div`
   span:first-child {
     flex-direction: column;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     max-width: 2rem;
     font-size: 0.75rem;
     position: absolute;

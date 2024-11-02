@@ -1,17 +1,36 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
-  body, html {
+  :root {
+    --safePaddingLeft: calc(env(safe-area-inset-left));
+    --safePaddingRight: calc(env(safe-area-inset-right));
+    --safePaddingTop: calc(env(safe-area-inset-top));
+    --safePaddingBottom: calc(env(safe-area-inset-bottom));
+  }
+  #root {
+    position: relative;
+    width: 100vw;
+    height: var(--100vh);
     overflow: hidden;
+    margin-top: var(--safePaddingTop);
+    margin-bottom: var(--safePaddingBottom);
+    padding-left: var(--safePaddingLeft);
+    padding-right: var(--safePaddingRight);
+    transform: translateZ(0);
+  }
+  body, html {
     font-size: 16px;
     font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    &::-webkit-scrollbar { width: 0; height: 0; }
   }
   a {
     color:#000;
   text-decoration: none;
-  }
-  * {
-    box-sizing: border-box;
   }
   .bold {
     font-weight: bold;
