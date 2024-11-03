@@ -36,7 +36,7 @@ const SiteContainer = styled.div`
   width: 100vw;
   -webkit-overflow-scrolling: touch;
   background: ${(p) => p.theme.color.siteBg};
-  .content {
+  > .content {
     overflow-y: auto;
     overflow-x: hidden;
     width: 100vw;
@@ -46,7 +46,7 @@ const SiteContainer = styled.div`
   }
   ${hideScrollBarStyle}
   @media (max-width: 768px) {
-    .content {
+    > .content {
       padding-top: 145px;
     }
   }

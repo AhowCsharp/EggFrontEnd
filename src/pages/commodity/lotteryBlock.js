@@ -314,9 +314,11 @@ export default function LotteryBlock({
   )
 
   function handleRandomSelectPrizes() {
-    const nowPagePrizes = data
-      .map((p, index) => !p && (page - 1) * PageSize + index)
-      .filter((p) => p)
+    const nowPagePrizes = isPaginationMode
+      ? data
+          .map((p, index) => !p && (page - 1) * PageSize + index)
+          .filter((p) => p)
+      : []
     const randomPrizes = []
     while (randomPrizes.length < drawOutTimes) {
       if (nowPagePrizes.length) {
@@ -467,7 +469,9 @@ function Lotteries({
         )}
         {enableDrawOut && (
           <Block>
-            <DrawOutBtn id="draw-out-button-ahow" onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+            <DrawOutBtn id="draw-out-button-ahow" onClick={handleDrawOut}>
+              立即抽獎
+            </DrawOutBtn>
           </Block>
         )}
       </div>
