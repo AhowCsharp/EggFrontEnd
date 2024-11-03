@@ -127,7 +127,7 @@ const Mask = styled.div`
 const Container = styled.div`
   position: fixed;
   color: #000;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 60%;
@@ -162,7 +162,7 @@ const Header = styled(Block)`
 `
 
 const Footer = styled(Block)`
-  display: flex; 
+  display: flex;
   position: relative;
   bottom: 0;
   left: 0;
@@ -170,7 +170,7 @@ const Footer = styled(Block)`
   justify-content: center;
   gap: 1rem;
   border-top: 1px solid #ccc;
-`;
+`
 
 const Content = styled.div`
   padding: 20px;

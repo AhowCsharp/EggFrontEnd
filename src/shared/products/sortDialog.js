@@ -35,10 +35,10 @@ const Mask = styled.div`
 `
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   color: #000;
   opacity: 1;
-  top: 15%;
+  top: 25%;
   width: 60%;
   left: 20%;
   max-height: 85vh;
