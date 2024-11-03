@@ -40,13 +40,29 @@ const Block = styled.div`
   width: 100%;
 `
 
-const Header = styled(Block)`
-  position: relative;
-  top: 0;
-  h3 {
-    margin: 0;
-  }
-`
+// 定義 Header 的樣式
+const Header = styled.div`
+  display: flex;
+  flex-direction: column; /* 讓內容垂直排列 */
+  align-items: center; /* 置中對齊 */
+  padding: 1rem;
+  text-align: center; /* 文字置中 */
+`;
+
+const Title = styled.h3`
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0.5rem 0;
+`;
+
+// 定義副標題的樣式
+const Subtitle = styled.span`
+  font-size: 1rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Footer = styled(Block)`
   position: absolute;
@@ -59,14 +75,19 @@ const Content = styled(Block)`
   padding: 20px 0;
 `
 
-export default function CountdownDialog({ countdownSec, onClose, cb }) {
+export default function CountdownDialog({ countdownSec, onClose, cb,protectPlayer }) {
   if (!countdownSec) return null
   return (
     <>
       <Mask />
       <Container className="dialog">
         <Header>
-          <h3>賞品鎖定中，解鎖倒數</h3>
+          <Title>
+            賞品鎖定中，解鎖倒數 ⏳
+          </Title>
+          <Subtitle>
+            👤 保護中玩家: {protectPlayer}
+          </Subtitle>
         </Header>
         <Content>
           <CountdownTimer

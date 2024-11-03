@@ -307,6 +307,7 @@ export default function Commodity() {
   const commodityId = +params.commodityId
   const commodity = useSelector(() => dataStore.commodity)
   const drawOutStatus = useSelector(() => dataStore.drawOutStatus)
+  const protectPlayer = useSelector(() => dataStore.protectPlayer)
   const isDrawOuting = useSelector(() => dataStore.isDrawOuting)
   const drawOutResult = useSelector(() => dataStore.drawOutResult)
   const countdownSecDict = useSelector(() => dataStore.countdownSec)
@@ -394,6 +395,7 @@ export default function Commodity() {
         drawOutStatus === DRAW_OUT_STATUS.PROTECTING && (
           <CountdownDialog
             countdownSec={countdownSec}
+            protectPlayer={protectPlayer}
             cb={() => dataStore.setCountdownSec(commodityId)}
             onClose={() => setShouldCountDownDialogOpen(false)}
           />
@@ -463,15 +465,6 @@ export default function Commodity() {
             </DrawOutBtn>
           </DrawOutBtnBlock>
           <DescBlock>
-            {/* {!!countdownSec ? (
-              <Desc warning>
-                賞品鎖定中，解鎖倒數
-                <CountdownTimer
-                  initialSeconds={countdownSec}
-                  cb={() => dataStore.setCountdownSec(commodityId)}
-                />
-              </Desc>
-            ) : null} */}
             { commodity.protectTime && commodity.protectTime > 0 && (
                 <Desc warning>
                 保護玩家: {commodity.protectPlayer}⏰ 賞品鎖定中，解鎖倒數🛸               

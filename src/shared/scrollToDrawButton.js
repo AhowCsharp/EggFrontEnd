@@ -70,7 +70,7 @@ export default function ScrollToDrawButton({ selectedPrizes }) {
       {selectedPrizes.length === 0 ? (
         <ButtonTextRed>尚未選擇</ButtonTextRed>
       ) : (
-        <ButtonText>籤號: {selectedPrizes.join('、')}</ButtonText>
+        <ButtonText>籤號: {selectedPrizes.map((index) => index + 1).join('、')}</ButtonText>
       )}
     </ScrollButton>
   );

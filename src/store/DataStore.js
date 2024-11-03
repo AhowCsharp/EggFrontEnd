@@ -138,6 +138,9 @@ export default class DataStore {
   @observable
   commodity = undefined
 
+  @observable
+  protectPlayer = undefined
+
   @observable.ref
   countdownSec = {}
 
@@ -180,6 +183,7 @@ export default class DataStore {
       if (e.response?.data?.source) {
         this.drawOutStatus = DRAW_OUT_STATUS.PROTECTING
         const timer = handleTimer(e.response.data.source.timer)
+        this.protectPlayer = e.response.data.source.protectPlayer
         this.setCountdownSec(req.commodityId, timer)
         return
       }
