@@ -106,9 +106,9 @@ export default function Products({
   }, [data])
 
   useEffect(() => {
-    if (shouldSortDialogOpen)
+    if (shouldSortDialogOpen || shouldFilterDialogOpen)
       document.getElementById('layout').scrollIntoView({ behavior: 'smooth' })
-  }, [shouldSortDialogOpen])
+  }, [shouldSortDialogOpen, shouldFilterDialogOpen])
 
   useEffect(() => {
     if (isBase || !sortType || !data || !data.length) return

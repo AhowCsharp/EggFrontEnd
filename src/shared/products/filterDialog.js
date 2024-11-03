@@ -120,7 +120,7 @@ const Mask = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(p) => p.theme.color.mask};
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
@@ -128,8 +128,7 @@ const Container = styled.div`
   position: fixed;
   color: #000;
   top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 20%;
   width: 60%;
   max-height: 80vh;
   z-index: ${(p) => p.theme.zIndex.dialog};
