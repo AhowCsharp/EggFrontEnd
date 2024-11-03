@@ -140,6 +140,7 @@ const DrawOutBtn = styled.div`
     padding: 0.5rem;
     flex: 1;
     margin-left: 0;
+    margin-right: 5px;
   }
 `
 
@@ -576,9 +577,12 @@ export default function Commodity() {
                 )}
               </SelectedNumbers>
               <ButtonsContainer>
-                <DrawOutBtn onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+                <DrawOutBtn onClick={handleDrawOut}>抽獎</DrawOutBtn>
                 <DrawOutBtn isWhite onClick={handleRandomSelect}>
-                  隨機選號
+                  隨機
+                </DrawOutBtn>
+                <DrawOutBtn isWhite onClick={handleReselect}>
+                  重選
                 </DrawOutBtn>
               </ButtonsContainer>
             </>
@@ -628,14 +632,29 @@ export default function Commodity() {
   }
 
   function handleRandomSelect() {
-    // 隨機選號的邏輯，這裡假設從 availablePrizes 中隨機選取
+    // 根据 drawOutTimes 随机选择对应数量的号码
     const availablePrizes = commodity.prizes.filter(
       (p) => !selectedPrizes.includes(p.id)
     )
-    if (availablePrizes.length > 0) {
-      const randomIndex = Math.floor(Math.random() * availablePrizes.length)
-      setSelectedPrizes([availablePrizes[randomIndex].id])
+    if (availablePrizes.length >= drawOutTimes) {
+      const randomIndexes = []
+      while (randomIndexes.length < drawOutTimes) {
+        const randomIndex = Math.floor(Math.random() * availablePrizes.length)
+        const prizeId = availablePrizes[randomIndex].id
+        if (!randomIndexes.includes(prizeId)) {
+          randomIndexes.push(prizeId)
+        }
+      }
+      setSelectedPrizes(randomIndexes)
+    } else {
+      // 如果剩余的奖品不足，则全选
+      setSelectedPrizes(availablePrizes.map((p) => p.id))
     }
+  }
+
+  function handleReselect() {
+    // 清空已选择的号码
+    setSelectedPrizes([])
   }
 
   function onResultDialogClose() {
