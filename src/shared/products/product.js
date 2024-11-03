@@ -262,7 +262,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         <PrizeTagContainer>
           {prizesOfCommodity.map((p) => {
             const prizeInfo = PRIZE_LEVEL[p.prizeLevel]
-            const name = !isUsePrizeName ? p.prizeName : prizeInfo.name
+            const name = isUsePrizeName ? p.prizeName : prizeInfo.name
 
             return (
               <PrizeTag key={p.id} length={name.length}>
