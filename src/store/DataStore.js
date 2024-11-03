@@ -653,8 +653,6 @@ export default class DataStore {
   @flow
   *topUp(req) {
     const token = getToken()
-    console.log('topUp:', req, this.invoiceNumber, this.invoiceType)
-
     localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
     localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
 
@@ -680,6 +678,40 @@ export default class DataStore {
         }
       }
     }
+  }
+
+  @flow
+  *atmTopUp(req) {
+    const token = getToken()
+    localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
+    localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
+  
+    // if (token) {
+    //   yield TPDirect.virtualAccount.getPrime(getPrimeCallback(token, req, this))
+    // }
+  
+    // function getPrimeCallback(token, req, thx) {
+    //   return async (result) => {
+    //     try {
+    //       if (result.status !== 0) {
+    //         throw new Error('get prime error ' + result.msg)
+    //       }
+    //       // 虛擬帳號支付時，prime 位於 result.prime
+    //       const prime = result.prime
+    //       // 虛擬帳號支付可能會返回 payment_url
+    //       const paymentUrl = result.payment_url
+  
+    //       req = { ...req, prime }
+    //       const res = await Api.atmTopUp(req, token)
+    //       if (!res || !res?.source?.paymentUrl) throw res
+    //       thx.paymentUrl = res.source.paymentUrl || paymentUrl
+    //     } catch (e) {
+    //       const msg = e.response?.data || e?.source?.message
+    //       thx.alertMessage = `儲值失敗${!!msg ? '，' + msg : ''}`
+    //       console.log('atmTopUp failed', e, msg)
+    //     }
+    //   }
+    // }
   }
 
   @flow

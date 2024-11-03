@@ -4,16 +4,18 @@ import styled from 'styled-components'
 import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants'
 import { dataStore, useSelector } from '@app/store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCreditCard,faLandmark  } from '@fortawesome/free-solid-svg-icons'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
 import { DrawOutBtn as Button } from '@app/pages/commodity'
 import { P } from '@app/shared/infoDialog'
 import { Container, ButtonContainer } from '../tabStyle'
 import { Content } from '../index'
 import TapPay from './tapPay'
+import AtmTapPay from './atmTapPay'
 
 const PayWayOptions = [
   { value: 'credit_card', label: '信用卡', icon: faCreditCard },
+  { value: 'atm', label: 'ATM轉帳', icon: faLandmark },
   { value: 'line_pay', label: 'LINEPAY', icon: faLine },
 ]
 
@@ -216,6 +218,7 @@ export default function TopUp() {
   )
   const [selectedPayWay, setSelectedPayWay] = useState('credit_card')
   const [showTapPayPage, setShowTapPayPage] = useState(false)
+  const [showATMTapPayPage, setShowATMTapPayPage] = useState(false)
   const paymentUrl = useSelector(() => dataStore.paymentUrl)
   const invoiceType = useSelector(() => +dataStore.invoiceType)
   const number = useSelector(() => dataStore.invoiceNumber)
@@ -259,12 +262,30 @@ export default function TopUp() {
         return
       }
     }
-    setShowTapPayPage(true)
+    if(selectedPayWay === 'credit_card') {
+      setShowTapPayPage(true)
+      setShowATMTapPayPage(false)
+    } else if(selectedPayWay === 'atm') {
+      setShowATMTapPayPage(true)
+      setShowTapPayPage(false)
+    } 
   }
 
   if (showTapPayPage)
-    return <TapPay onSubmit={dataStore.topUp} selected={selectedPrice} />
-
+    return <TapPay onSubmit={dataStore.topUp} selected={selectedPrice} cancel={setShowTapPayPage}/>
+  if (showATMTapPayPage) {
+    if(selectedPrice > 49999) {
+      Modal.error({
+        title: 'ATM轉帳限制',
+        content: 'ATM 轉帳單筆限制金額為 50,000 元，請選擇其他付款方式。',
+      })
+      setShowATMTapPayPage(false)
+      return
+    }else {
+      return <AtmTapPay cancel={setShowATMTapPayPage} onSubmit={dataStore.atmTopUp} selected={selectedPrice} number={number} invoiceType={invoiceType}/>
+    }
+  }
+    
   return (
     <Content>
       <Container>

@@ -146,6 +146,11 @@ export const topUp = async (req, token) => {
   return res
 }
 
+export const atmTopUp = async (req, token) => {
+  const res = await Request.post('/atmpaybyprime').bearer(token).body(req)
+  return res
+}
+
 export const validateMember = async (token) => {
   const res = await Request.post('/validate').bearer(token)
   return res

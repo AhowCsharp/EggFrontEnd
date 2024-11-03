@@ -1,13 +1,22 @@
 import { DrawOutBtn as Button } from '@app/pages/commodity'
 import styled from 'styled-components'
 import { useEffect } from 'react'
-import { Container, ButtonContainer } from '../tabStyle'
+import { Container } from '../tabStyle'
 import { Content } from '../index'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const APP_ID = 154437
 const APP_KEY =
   'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  div + div {
+    margin-left: 8px;
+  }
+`
 
 const TapPayContainer = styled.div`
   padding: 10px;
@@ -57,7 +66,7 @@ const config = {
   },
 }
 
-export default function TapPay({ onSubmit, selected }) {
+export default function TapPay({ onSubmit, selected,cancel }) {
   const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
@@ -74,6 +83,7 @@ export default function TapPay({ onSubmit, selected }) {
           <div id="card-ccv"></div>
         </TapPayContainer>
         <ButtonContainer>
+          <Button onClick={()=>cancel(false)}>取消</Button>
           <Button onClick={onTopUp}>儲值</Button>
         </ButtonContainer>
       </Container>
