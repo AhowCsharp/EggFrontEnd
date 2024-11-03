@@ -42,8 +42,14 @@ const SiteContainer = styled.div`
     width: 100vw;
     position: relative;
     padding-bottom: 80px;
+    padding-top: 160px;
   }
   ${hideScrollBarStyle}
+  @media (max-width: 768px) {
+    .content {
+      padding-top: 145px;
+    }
+  }
 `
 
 const Wrapper = styled.div`
