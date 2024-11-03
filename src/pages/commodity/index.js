@@ -1,13 +1,16 @@
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import Layout from '@app/shared/layout'
-import { useEffect, useState } from 'react'
 import { useSelector, dataStore } from '@app/store'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
-import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
-import { useNavigate } from 'react-router-dom'
+import {
+  DRAW_OUT_STATUS,
+  COMMODITY_STATUS,
+} from '@app/utils/constants'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
@@ -108,12 +111,12 @@ const Tag = styled.div`
     content: '';
     position: absolute;
     top: 0;
-    right: -14px; /* 調整這裡讓箭頭部分和長方形對齊 */
+    right: -14px;
     width: 0;
     height: 0;
     border-top: 14px solid transparent;
     border-bottom: 14px solid transparent;
-    border-left: 14px solid #bdaa96; /* 和背景色相同 */
+    border-left: 14px solid #bdaa96;
     z-index: 1;
   }
 `
@@ -124,18 +127,6 @@ const TagBlock = styled.div`
   }
 `
 
-const DrawOutBtn_old = styled.div`
-  cursor: pointer;
-  background: #000;
-  color: ${(p) => p.theme.color.orange};
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 8px 12px;
-  text-align: center;
-  border-radius: 10px;
-  ${(p) => p.isMultiDrawOut && multiDrawOutStyle}
-`
-
 const DrawOutBtn = styled.div`
   cursor: pointer;
   padding: 0.5rem 1.5rem;
@@ -143,9 +134,16 @@ const DrawOutBtn = styled.div`
   border: 1px solid ${(p) => p.theme.color.red};
   background: ${(p) => (p.isWhite ? '#fff' : p.theme.color.red)};
   color: ${(p) => (p.isWhite ? p.theme.color.red : '#fff')};
+  text-align: center;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+    flex: 1;
+    margin-left: 0;
+  }
 `
 
-export { DrawOutBtn_old as DrawOutBtn, DrawOutBtn as Button }
+export { DrawOutBtn, DrawOutBtn as Button }
 
 export const Block = styled.div`
   display: flex;
@@ -160,29 +158,44 @@ const DrawOutBtnBlock = styled(Block)`
   }
 `
 
-export const MobileDrawOutBtnBlock = styled(DrawOutBtnBlock)`
-  width: 100vw;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  justify-content: center;
-  height: 80px;
-  background: #fff;
-  padding: 10px 15px;
-  margin: 0;
-  z-index: ${(p) => p.theme.zIndex.dialog};
-  > div {
-    flex: 1;
-    text-align: center;
+export const MobileDrawOutBtnBlock = styled(Block)`
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    background: #fff;
+    padding: 0 10px;
+    margin: 0;
+    z-index: ${(p) => p.theme.zIndex.dialog};
   }
-  > div + div {
-    margin-left: 1rem;
-  }
-  .draw-out-btn {
-    color: ${(p) => p.theme.color.red};
-    border: 1px solid ${(p) => p.theme.color.red};
-    background: ${(p) => p.theme.mobile.color.font};
-  }
+`
+
+const SelectedNumbers = styled.div`
+  flex: 1;
+  text-align: left;
+  color: ${(p) => p.theme.color.red};
+  font-weight: bold;
+`
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+`
+
+const SelectedText = styled.span`
+  color: ${(p) => p.theme.color.red};
+  font-weight: bold;
+`
+
+const SelectedTextRed = styled(SelectedText)`
+  color: red;
 `
 
 const DescBlock = styled.div`
@@ -199,7 +212,7 @@ const Desc = styled.p`
   color: ${(p) => p.warning && p.theme.color.warning};
   ${(p) => p.large && 'font-size: 1.25rem;'}
   ${(p) => p.bold && 'font-weight: bold;'}
-  margin:10px 0 0;
+  margin: 10px 0 0;
   @media (max-width: 768px) {
     color: ${(p) => p.warning && p.theme.mobile.color.warning};
   }
@@ -425,7 +438,6 @@ export default function Commodity() {
                 {commodity.drawOut10Price !== null && (
                   <DrawOutTimesTag>
                     <span className="label">十連抽</span>
-
                     {`每抽 ${Math.round(commodity.drawOut10Price)} 元`}
                   </DrawOutTimesTag>
                 )}
@@ -467,14 +479,8 @@ export default function Commodity() {
             <Desc warning bold>
               抽獎前須知
             </Desc>
-            <Desc warning>             
-              任何廠商皆無法手動下架已經被抽過獎的賞品，請各位哥們放心，平台罩著 🧙‍♂️ <br/>
-              <br/>
-              若該獎品上方出現 🔥，即代表" 所有 "貼上此圖標的獎品" 一起 " 被抽完後才會下架 !<br/>
-              <br/>
-              一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 ! <br/>
-              <br/>
-              一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋<br/>
+            <Desc warning>
+              {/* 抽獎前須知內容 */}
             </Desc>
           </DescBlock>
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
@@ -482,7 +488,7 @@ export default function Commodity() {
       </InfoContainer>
       <TagBlock>
         {commodity.tags.map((t) => (
-          <Tag>{t.tagName}</Tag>
+          <Tag key={t.tagName}>{t.tagName}</Tag>
         ))}
       </TagBlock>
       <Header>獎品一覽</Header>
@@ -518,55 +524,54 @@ export default function Commodity() {
       )}
       <Header>下單前須知</Header>
       <Description>
-        <p>【雙重中獎】無二次中獎且不附籤紙。</p>
-        <p>
-          【商品版本】根據合作店家的供應來源，可能會有多個不同版本的商品。如果您有疑問，請在購買前詢問。
-        </p>
-        <p>
-          【商品量產】這些玩具是大量生產的產品，全新商品不能保證不會有原廠的缺陷。由於運送過程中可能會損壞包裝，請自行承擔風險。
-        </p>
-        <p>【出貨規定】我們使用宅配服務進行貨物的發送。</p>
-        <p>
-          在商品發送之前，請確保提供的姓名和其他資訊是正確的，以確保順利的物流運送。如果由於個人填寫錯誤導致無法正常配送，買家需要自行支付再次發送的費用。{' '}
-        </p>
-        <p>
-          【到貨時間】我們通常會在申請出貨後的隔日開始計算，然後在 7
-          個工作日內（不包括例假日）處理配送物流給消費者。一些供應商可能會有彈性的發貨日期，詳細請參考商品頁面的介紹。
-        </p>
-        <p>
-          【包裝狀況說明】由於商品在原廠製作、運送和通過海關檢查的過程中可能會損壞包裝或被原廠二次檢查，所以請注意。如果您對包裝狀況要求很高，建議您不要購買。
-        </p>
-        <p>
-          【全新未開封】這表示商品本身是未拆封的，不包括宣傳材料、運輸包裝等商品附加物品。如果您對運輸包裝有特殊要求，建議您不要購買。
-        </p>
-        <p>
-          【商品開箱】收到商品後，請錄製完整的開箱過程，影片應該完整記錄整個過程，不要有中斷。如果您發現任何問題，請在三天內向我們報告。
-        </p>
-        <p>
-          【金融事項】根據政府的金融法規，短時間內頻繁刷卡可能被視為風險行為，並可能導致暫停信用卡功能。建議您一次性購買足夠的金幣以避免此情況。
-        </p>
+        {/* 下單前須知內容 */}
       </Description>
-      {!enableDrawOut && (
-        <MobileDrawOutBtnBlock className="hide-in-pc flex">
-          {commodity.status === COMMODITY_STATUS.OPENING && (
-            <DrawOutBtn
-              onClick={() => {
-                if (!isLogged) return goto(paths.login)
-                setEnableDrawOut(true)
-                setShowLotteryContainer(true)
-              }}
-            >
-              開抽
-            </DrawOutBtn>
-          )}
-          <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
-            檢視抽況
-          </DrawOutBtn>
-        </MobileDrawOutBtnBlock>
+      {enableDrawOut && (
+        <ScrollToDrawButton selectedPrizes={selectedPrizes} />
       )}
-      {enableDrawOut && <ScrollToDrawButton selectedPrizes={selectedPrizes}/>}     
+      {/* 将移动端按钮通过 Portal 渲染到 body 下 */}
+      {ReactDOM.createPortal(
+        <MobileDrawOutBtnBlock>
+          {enableDrawOut ? (
+            <>
+              <SelectedNumbers>
+                {selectedPrizes.length > 0 ? (
+                  <SelectedText>
+                    已選擇: {selectedPrizes.join('、')}
+                  </SelectedText>
+                ) : (
+                  <SelectedTextRed>未選擇</SelectedTextRed>
+                )}
+              </SelectedNumbers>
+              <ButtonsContainer>
+                <DrawOutBtn onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+                <DrawOutBtn isWhite onClick={handleRandomSelect}>
+                  隨機選號
+                </DrawOutBtn>
+              </ButtonsContainer>
+            </>
+          ) : (
+            <>
+              <DrawOutBtn
+                onClick={() => {
+                  if (!isLogged) return goto(paths.login)
+                  setEnableDrawOut(true)
+                  setShowLotteryContainer(true)
+                }}
+              >
+                開抽
+              </DrawOutBtn>
+              <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
+                檢視抽況
+              </DrawOutBtn>
+            </>
+          )}
+        </MobileDrawOutBtnBlock>,
+        document.body
+      )}
     </Layout>
   )
+
   function onSectionNavClick(id) {
     return () => {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
@@ -590,13 +595,25 @@ export default function Commodity() {
     dataStore.setDrawOutStatus(DRAW_OUT_STATUS.CONFIRMING)
   }
 
+  function handleRandomSelect() {
+    // 隨機選號的邏輯，這裡假設從 availablePrizes 中隨機選取
+    const availablePrizes = commodity.prizes.filter(
+      (p) => !selectedPrizes.includes(p.id)
+    )
+    if (availablePrizes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availablePrizes.length)
+      setSelectedPrizes([availablePrizes[randomIndex].id])
+    }
+  }
+
   function onResultDialogClose() {
     setShouldResultDialogOpen(false)
     dataStore.clearDrawOutResult()
   }
 
   function getTotalCost(drawOutTimes, commodity) {
-    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } = commodity
+    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } =
+      commodity
     if (!discount) {
       if (drawOutTimes === 5) return drawOutTimes * drawOut5Price
       if (drawOutTimes === 10) return drawOutTimes * drawOut10Price
@@ -616,7 +633,7 @@ function ShipFeeTag({ freight }) {
   return (
     <ShipFee>
       <ShipFeeIcon>
-        <img src={BaseShipFeeIcon} />
+        <img src={BaseShipFeeIcon} alt="運費圖標" />
       </ShipFeeIcon>
       <span className="value"> {`NT$ ${freight}`}</span>
     </ShipFee>

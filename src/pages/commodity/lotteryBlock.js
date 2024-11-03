@@ -468,7 +468,7 @@ function Lotteries({
         )}
         {enableDrawOut && (
           <Block>
-            <DrawOutBtn id="draw-out-button ahow" onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
+            <DrawOutBtn id="draw-out-button-ahow" onClick={handleDrawOut}>立即抽獎</DrawOutBtn>
           </Block>
         )}
       </div>
