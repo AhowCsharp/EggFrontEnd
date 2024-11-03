@@ -4,8 +4,7 @@ import Pagination from '@app/shared/products/pagination'
 import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
 import { Header, MobileDrawOutBtnBlock } from './index'
-import { getPrizeViewLevel } from '@app/utils/getPrizeViewLevel';
-
+import { getPrizeViewLevel } from '@app/utils/getPrizeViewLevel'
 
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
