@@ -463,7 +463,7 @@ export default function Commodity() {
             </DrawOutBtn>
           </DrawOutBtnBlock>
           <DescBlock>
-            {!!countdownSec ? (
+            {/* {!!countdownSec ? (
               <Desc warning>
                 賞品鎖定中，解鎖倒數
                 <CountdownTimer
@@ -471,7 +471,16 @@ export default function Commodity() {
                   cb={() => dataStore.setCountdownSec(commodityId)}
                 />
               </Desc>
-            ) : null}
+            ) : null} */}
+            { commodity.protectTime && commodity.protectTime > 0 && (
+                <Desc warning>
+                保護玩家: {commodity.protectPlayer}⏰ 賞品鎖定中，解鎖倒數🛸               
+                <CountdownTimer
+                  initialSeconds={commodity.protectTime}
+                  cb={() => dataStore.setCountdownSec(commodityId)}
+                />
+              </Desc>
+            ) }
             <Desc bold>注意事項</Desc>
             <Desc>
               單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}
@@ -481,13 +490,16 @@ export default function Commodity() {
               抽獎前須知
             </Desc>
             <Desc warning>
-              任何廠商皆無法手動下架已經被抽過獎的賞品，請各位哥們放心，平台罩著 🧙‍♂️ <br/>
-              <br/>
+              任何廠商皆無法手動下架已經被抽過獎的賞品，請各位哥們放心，平台罩著 🧙‍♂️ <br/><br/>
               若該獎品上方出現 🔥，即代表" 所有 "貼上此圖標的獎品" 一起 " 被抽完後才會下架 !<br/>
-              <br/>
-              一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 ! <br/>
-              <br/>
-              一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋<br/>
+              { !commodity.protectTime && (
+                <>
+                  <br/>
+                  一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 ! <br/>
+                  <br/>
+                  一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋<br/> 
+                </>
+              )}
             </Desc>
           </DescBlock>
           {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
