@@ -25,7 +25,7 @@ const ProductContainer = styled.div`
   margin-top: -20px;
   min-height: 150px;
   width: 100%;
-  .item + .item {
+  .item:not(:nth-child(4n + 1)) {
     margin-left: 8px;
   }
   @media (max-width: 768px) {
