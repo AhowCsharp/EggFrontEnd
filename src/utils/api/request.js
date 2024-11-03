@@ -1,6 +1,6 @@
 import Reaxios from '@0y0/reaxios'
 import { dataStore } from '@app/store/index'
-const apiPath = 'http://localhost:5196/customer'
+const apiPath = 'https://api.lucky-egg.club/customer'
 
 function handleResponse(res) {
   if (res?.success !== true) {
