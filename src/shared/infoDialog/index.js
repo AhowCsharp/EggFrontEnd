@@ -59,13 +59,15 @@ const Header = styled(Block)`
 export const P = styled.p`
   display: flex;
   align-items: center;
-  margin: 5px 0;
+  margin: 10px 0; 
+  font-size: 12px; 
   justify-content: ${(p) => (p.center ? 'center' : 'unset')};
   opacity: ${(p) => p.opacity || 1};
+  
   input {
     width: 80%;
   }
-`
+`;
 
 const Footer = styled(Block)`
   position: absolute;
