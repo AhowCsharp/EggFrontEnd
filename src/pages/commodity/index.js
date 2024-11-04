@@ -575,7 +575,7 @@ export default function Commodity() {
               <SelectedNumbers>
                 {selectedPrizes.length > 0 ? (
                   <SelectedText>
-                    已選擇: {selectedPrizes.join('、')}
+                    已選擇: {selectedPrizes.map(prize => prize + 1).join('、')}
                   </SelectedText>
                 ) : (
                   <SelectedTextRed>未選擇</SelectedTextRed>
