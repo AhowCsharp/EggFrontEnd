@@ -990,7 +990,7 @@ export default class DataStore {
       }
     } catch (e) {
       const msg = e.response?.data
-      this.alertMessage = `發票開立失敗，請洽客服! ，${msg}，備註:儲值是有成功的`
+      this.alertMessage = `發票開立失敗，請洽客服! ${msg}，備註:儲值是有成功的`
       console.log('sendInvoice failed', e, msg)
     }
   }

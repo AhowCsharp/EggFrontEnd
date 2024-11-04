@@ -4,10 +4,27 @@ import { useEffect } from 'react'
 import { Container } from '../tabStyle'
 import { Content } from '../index'
 
-const isDev = process.env.NODE_ENV !== 'production'
-const APP_ID = 154437
-const APP_KEY =
-  'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
+// 新增的 styled 組件
+const InfoText = styled.div`
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+
+  @media (max-width: 1024px) {
+    font-size: 15px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    color: white;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    color: white;
+  }
+`
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -66,30 +83,38 @@ const config = {
   },
 }
 
-export default function TapPay({ onSubmit, selected,cancel }) {
+export default function TapPay({ onSubmit, selected, cancel }) {
+  const isDev = process.env.NODE_ENV !== 'production'
+  const APP_ID = 154437
+  const APP_KEY =
+    'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
   const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
     TPDirect.setupSDK(APP_ID, APP_KEY, serverType)
     TPDirect.card.setup(config)
-  }, [])
+  }, [APP_ID, APP_KEY, serverType])
 
   return (
     <Content>
       <Container>
+        <InfoText>
+          本站串接 喬睿科技 TapPay金流🕵️採3D驗證，請顧客放心⚠️
+        </InfoText>
         <TapPayContainer id="tap-pay">
           <div id="card-number"></div>
           <div id="card-expiration-date"></div>
           <div id="card-ccv"></div>
         </TapPayContainer>
         <ButtonContainer>
-          <Button onClick={()=>cancel(false)}>取消</Button>
+          <Button onClick={() => cancel(false)}>取消</Button>
           <Button onClick={onTopUp}>儲值</Button>
         </ButtonContainer>
       </Container>
     </Content>
   )
-  function onTopUp() {
+
+  function onTopUp(event) {
     event.preventDefault()
     const { canGetPrime } = TPDirect.card.getTappayFieldsStatus()
     if (!canGetPrime) return
