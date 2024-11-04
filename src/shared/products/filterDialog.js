@@ -223,6 +223,7 @@ export default function FilterDialog({
   category,
   filterOptions,
   setFilterOptions,
+  shouldOpen,
 }) {
   const [selectedOptions, setSelectedOptions] = useState(filterOptions)
   const manufacturers = useSelector(() => dataStore.manufacturers)
@@ -241,148 +242,152 @@ export default function FilterDialog({
   }, [filterOptions])
 
   return (
-    <>
-      <Mask onClick={onClose} />
-      <Container className="dialog">
-        <Header>
-          <h3>篩選</h3>
-        </Header>
-        <Content>
-          <Section type={FilterType.Selected}>
-            {Object.keys(selectedOptions).map((categoryKey) => {
-              const setting = FilterTypeByKey[categoryKey]
-              if (setting.hideInSelected) return null
-              switch (setting.type) {
-                case 'string':
-                  if (!selectedOptions[categoryKey]) return null
-                  return (
-                    <SelectedTag
-                      key={categoryKey}
-                      category={categoryKey}
-                      onClick={() =>
-                        setSelectedOptions({
-                          ...selectedOptions,
-                          [categoryKey]: null,
-                        })
-                      }
-                    >
-                      {selectedOptions[categoryKey]}
-                    </SelectedTag>
-                  )
-                case 'array':
-                  if (
-                    !selectedOptions[categoryKey] ||
-                    !selectedOptions[categoryKey].length
-                  )
-                    return null
-                  return selectedOptions[categoryKey]?.map((option) => {
-                    const tagLabel =
-                      categoryKey === FilterType.Tags.key
-                        ? tags.find((t) => t.id === option)?.tagName
-                        : option
+    shouldOpen && (
+      <>
+        <Mask onClick={onClose} />
+        <Container className="dialog">
+          <Header>
+            <h3>篩選</h3>
+          </Header>
+          <Content>
+            <Section type={FilterType.Selected}>
+              {Object.keys(selectedOptions).map((categoryKey) => {
+                const setting = FilterTypeByKey[categoryKey]
+                if (setting.hideInSelected) return null
+                switch (setting.type) {
+                  case 'string':
+                    if (!selectedOptions[categoryKey]) return null
                     return (
                       <SelectedTag
-                        key={option}
+                        key={categoryKey}
                         category={categoryKey}
                         onClick={() =>
                           setSelectedOptions({
                             ...selectedOptions,
-                            [categoryKey]: selectedOptions[categoryKey].filter(
-                              (o) => o !== option
-                            ),
+                            [categoryKey]: null,
                           })
                         }
                       >
-                        {tagLabel}
+                        {selectedOptions[categoryKey]}
                       </SelectedTag>
                     )
-                  })
-                default:
+                  case 'array':
+                    if (
+                      !selectedOptions[categoryKey] ||
+                      !selectedOptions[categoryKey].length
+                    )
+                      return null
+                    return selectedOptions[categoryKey]?.map((option) => {
+                      const tagLabel =
+                        categoryKey === FilterType.Tags.key
+                          ? tags.find((t) => t.id === option)?.tagName
+                          : option
+                      return (
+                        <SelectedTag
+                          key={option}
+                          category={categoryKey}
+                          onClick={() =>
+                            setSelectedOptions({
+                              ...selectedOptions,
+                              [categoryKey]: selectedOptions[
+                                categoryKey
+                              ].filter((o) => o !== option),
+                            })
+                          }
+                        >
+                          {tagLabel}
+                        </SelectedTag>
+                      )
+                    })
+                  default:
+                    return null
+                }
+              })}
+            </Section>
+            <Section type={FilterType.Manufacturer}>
+              {manufacturers?.map((m) => {
+                if (selectedOptions[FilterType.Manufacturer.key] === m.name)
                   return null
-              }
-            })}
-          </Section>
-          <Section type={FilterType.Manufacturer}>
-            {manufacturers?.map((m) => {
-              if (selectedOptions[FilterType.Manufacturer.key] === m.name)
-                return null
-              return (
-                <Tag
-                  key={m.id}
-                  category={FilterType.Manufacturer.key}
-                  onClick={handleClick(FilterType.Manufacturer, m, 'name')}
-                >
-                  {m.name}
-                </Tag>
-              )
-            })}
-          </Section>
-          <Section type={FilterType.Tags}>
-            {tags?.map((m) => {
-              if (selectedOptions[FilterType.Tags.key]?.includes(m.id))
-                return null
-              return (
-                <Tag
-                  key={m.id}
-                  category={FilterType.Tags.key}
-                  onClick={handleClick(FilterType.Tags, m, 'id')}
-                >
-                  {m.tagName}
-                </Tag>
-              )
-            })}
-          </Section>
-          <Section type={FilterType.CommodityCategory}>
-            {commodityCategoryOptions[category]?.map((m) => {
-              if (selectedOptions[FilterType.CommodityCategory.key] === m.label)
-                return null
-              return (
-                <Tag
-                  key={m.value}
-                  category={FilterType.CommodityCategory.key}
-                  onClick={handleClick(
-                    FilterType.CommodityCategory,
-                    m,
-                    'label'
-                  )}
-                >
-                  {m.label}
-                </Tag>
-              )
-            })}
-          </Section>
-          <Section type={FilterType.Keyword}>
-            <Input
-              placeholder="輸入關鍵字"
-              value={selectedOptions[FilterType.Keyword.key]}
-              onChange={(e) => {
-                setSelectedOptions({
-                  ...selectedOptions,
-                  [FilterType.Keyword.key]: e.target.value,
-                })
-              }}
-            />
-          </Section>
-          <Section>
-            <Checkbox
-              checked={selectedOptions[FilterType.IsDiscount.key]}
-              onChange={(e) => {
-                setSelectedOptions({
-                  ...selectedOptions,
-                  [FilterType.IsDiscount.key]: e.target.checked,
-                })
-              }}
-            />
-            <h3>折扣</h3>
-          </Section>
-        </Content>
-        <Footer>
-          <Button onClick={onClose}>關閉</Button>
-          <Button onClick={onReset}>重置</Button>
-          <Button onClick={onConfirm}>確認</Button>
-        </Footer>
-      </Container>
-    </>
+                return (
+                  <Tag
+                    key={m.id}
+                    category={FilterType.Manufacturer.key}
+                    onClick={handleClick(FilterType.Manufacturer, m, 'name')}
+                  >
+                    {m.name}
+                  </Tag>
+                )
+              })}
+            </Section>
+            <Section type={FilterType.Tags}>
+              {tags?.map((m) => {
+                if (selectedOptions[FilterType.Tags.key]?.includes(m.id))
+                  return null
+                return (
+                  <Tag
+                    key={m.id}
+                    category={FilterType.Tags.key}
+                    onClick={handleClick(FilterType.Tags, m, 'id')}
+                  >
+                    {m.tagName}
+                  </Tag>
+                )
+              })}
+            </Section>
+            <Section type={FilterType.CommodityCategory}>
+              {commodityCategoryOptions[category]?.map((m) => {
+                if (
+                  selectedOptions[FilterType.CommodityCategory.key] === m.label
+                )
+                  return null
+                return (
+                  <Tag
+                    key={m.value}
+                    category={FilterType.CommodityCategory.key}
+                    onClick={handleClick(
+                      FilterType.CommodityCategory,
+                      m,
+                      'label'
+                    )}
+                  >
+                    {m.label}
+                  </Tag>
+                )
+              })}
+            </Section>
+            <Section type={FilterType.Keyword}>
+              <Input
+                placeholder="輸入關鍵字"
+                value={selectedOptions[FilterType.Keyword.key]}
+                onChange={(e) => {
+                  setSelectedOptions({
+                    ...selectedOptions,
+                    [FilterType.Keyword.key]: e.target.value,
+                  })
+                }}
+              />
+            </Section>
+            <Section>
+              <Checkbox
+                checked={selectedOptions[FilterType.IsDiscount.key]}
+                onChange={(e) => {
+                  setSelectedOptions({
+                    ...selectedOptions,
+                    [FilterType.IsDiscount.key]: e.target.checked,
+                  })
+                }}
+              />
+              <h3>折扣</h3>
+            </Section>
+          </Content>
+          <Footer>
+            <Button onClick={onClose}>關閉</Button>
+            <Button onClick={onReset}>重置</Button>
+            <Button onClick={onConfirm}>確認</Button>
+          </Footer>
+        </Container>
+      </>
+    )
   )
   function handleClick(filterType, data, dataKey) {
     const key = filterType.key
