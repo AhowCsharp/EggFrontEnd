@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Radio, Modal, Input, Select } from 'antd'
 import styled from 'styled-components'
 import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants'
 import { dataStore, useSelector } from '@app/store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faCreditCard,faLandmark  } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCreditCard, faLandmark } from '@fortawesome/free-solid-svg-icons'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
 import { DrawOutBtn as Button } from '@app/pages/commodity'
 import { P } from '@app/shared/infoDialog'
@@ -35,14 +35,14 @@ const INVOICE_TYPES = [
     value: 3,
     label: '發票捐贈',
     donateOptions: [
-      { value: '1798', label: '	社團法人台灣浪浪幫客協會' },
+      { value: '1798', label: '社團法人台灣浪浪幫客協會' },
       { value: '9427', label: '社團法人浪浪的後盾協會' },
       { value: '56888', label: '社團法人雅風汪喵浪浪中途照護安養協會' },
       { value: '8866', label: '社團法人新北市流浪貓狗再生保護協會' },
       { value: '856203', label: '社團法人台灣幸褔狗流浪中途協會' },
       { value: '5866', label: '社團法人臺南市貓狗流浪終點協會' },
       { value: '9958', label: '社團法人台灣流浪貓狗關懷協會' },
-      { value: '591', label: '	台灣狗腳印幸福聯盟' },
+      { value: '591', label: '台灣狗腳印幸福聯盟' },
     ],
   },
 ]
@@ -124,13 +124,9 @@ const Price = styled.div`
 const StyledRadioGroup = styled(Radio.Group)`
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* 增加 margin-bottom 以增加距離 */
 
   .ant-radio-button-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
     width: 120px;
     height: 50px;
     line-height: 50px;
@@ -143,16 +139,28 @@ const StyledRadioGroup = styled(Radio.Group)`
     background-color: #f5f5f5;
     border: none;
     transition: background-color 0.3s, color 0.3s;
+    padding: 0 10px; /* 添加內邊距以容納圖標和文字 */
+    white-space: nowrap; /* 防止文字換行 */
+    overflow: hidden; /* 隱藏溢出文字 */
+    text-overflow: ellipsis; /* 使用省略號表示溢出文字 */
   }
 
   .ant-radio-button-wrapper-checked {
-    background-color: ${(p) => p.theme.color.topUpSelected};
-    color: #fff;
+    background-color: ${(p) => p.theme.color.topUpSelected} !important;
+    color: #fff !important;
   }
 
   .ant-radio-button-wrapper:hover {
     background-color: #f5f5f5;
     color: #666;
+  }
+
+  /* 調整手機版發票類型按鈕的文字 */
+  @media (max-width: 768px) {
+    .ant-radio-button-wrapper {
+      font-size: 14px; /* 減小字體大小 */
+      padding: 0 5px; /* 減少內邊距 */
+    }
   }
 `
 
@@ -172,11 +180,28 @@ const StyledInvoiceRadioGroup = styled(Radio.Group)`
     line-height: 38px;
     background-color: #f5f5f5;
     color: #333;
+    padding: 0 5px; /* 添加內邊距 */
+    white-space: nowrap; /* 防止文字換行 */
+    overflow: hidden; /* 隱藏溢出文字 */
+    text-overflow: ellipsis; /* 使用省略號表示溢出文字 */
   }
 
   .ant-radio-button-wrapper-checked {
     background-color: #f98d00;
     color: #fff;
+  }
+
+  .ant-radio-button-wrapper:hover {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+
+  /* 調整手機版發票類型按鈕的文字 */
+  @media (max-width: 768px) {
+    .ant-radio-button-wrapper {
+      font-size: 12px; /* 減小字體大小 */
+      padding: 0 3px; /* 減少內邊距 */
+    }
   }
 `
 
@@ -192,6 +217,12 @@ const InvoiceOptionLabel = styled.label`
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #000; /* 設定默認顏色為黑色 */
+
+  /* 在手機版時確保文字顏色為黑色 */
+  @media (max-width: 768px) {
+    color: #000;
+  }
 `
 
 const InvoiceInput = styled(Input)`
@@ -208,7 +239,8 @@ const InvoiceSelect = styled(Select)`
 const InvoiceNote = styled.p`
   font-size: 12px;
   color: #888;
-  margin-top: -10px;
+  margin-top: 3px;
+  margin-left: 5px;
   margin-bottom: 20px;
 `
 
@@ -262,39 +294,59 @@ export default function TopUp() {
         return
       }
     }
-    if(selectedPayWay === 'credit_card') {
+    if (selectedPayWay === 'credit_card') {
       setShowTapPayPage(true)
       setShowATMTapPayPage(false)
-    } else if(selectedPayWay === 'atm') {
+    } else if (selectedPayWay === 'atm') {
       setShowATMTapPayPage(true)
       setShowTapPayPage(false)
-    } 
+    }
   }
 
   if (showTapPayPage)
-    return <TapPay onSubmit={dataStore.topUp} selected={selectedPrice} cancel={setShowTapPayPage}/>
+    return (
+      <TapPay
+        onSubmit={dataStore.topUp}
+        selected={selectedPrice}
+        cancel={setShowTapPayPage}
+      />
+    )
   if (showATMTapPayPage) {
-    if(selectedPrice > 49999) {
+    if (selectedPrice > 49999) {
       Modal.error({
         title: 'ATM轉帳限制',
         content: 'ATM 轉帳單筆限制金額為 50,000 元，請選擇其他付款方式。',
       })
       setShowATMTapPayPage(false)
       return
-    }else {
-      return <AtmTapPay cancel={setShowATMTapPayPage} onSubmit={dataStore.atmTopUp} selected={selectedPrice} number={number} invoiceType={invoiceType}/>
+    } else {
+      return (
+        <AtmTapPay
+          cancel={setShowATMTapPayPage}
+          onSubmit={dataStore.atmTopUp}
+          selected={selectedPrice}
+          number={number}
+          invoiceType={invoiceType}
+        />
+      )
     }
   }
-    
+
   return (
     <Content>
       <Container>
         <Title>
           <span>step 1</span>請選擇付款方式
         </Title>
-        <StyledRadioGroup onChange={handlePayWayChange} value={selectedPayWay}>
+        <StyledRadioGroup
+          onChange={handlePayWayChange}
+          value={selectedPayWay}
+        >
           {PayWayOptions.map((option) => (
-            <Radio.Button key={option.value} value={option.value}>
+            <Radio.Button
+              key={option.value}
+              value={option.value}
+            >
               <FontAwesomeIcon icon={option.icon} className="icon" />{' '}
               {option.label}
             </Radio.Button>
