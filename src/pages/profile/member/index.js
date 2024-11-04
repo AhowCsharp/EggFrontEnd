@@ -310,7 +310,7 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
     <div>
       {member.lineUserId === null ? (
         <div
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", width: "200px", height: "200px" }}
           onClick={() => {
             headShotFile.current.click();
           }}
@@ -399,6 +399,7 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
                 lineHeight: "22px",
                 fontWeight: "500",
                 cursor: "pointer",
+                whiteSpace: "nowrap",
               }}
               onClick={handleSave}
             >

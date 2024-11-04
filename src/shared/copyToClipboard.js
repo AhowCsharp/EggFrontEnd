@@ -6,6 +6,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import copyImg from '@app/static/fi-br-copy-alt.png'
+import copyImgMobile from '@app/static/fi-br-copy-alt_w.png'
 
 const Container = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ export default function CopyToClipboard({
   return (
     <Container ref={ref} className={className} onClick={handleClick}>
       {children}
-      <img src={copyImg} alt="copyImg" style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
+      <img src={window.innerWidth > 768 ? copyImg : copyImgMobile} alt="copyImg" style={{ width: '20px', height: '20px', marginLeft: '10px' }} />
     </Container>
   )
 
