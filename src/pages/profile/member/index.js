@@ -57,7 +57,7 @@ function handleMemberInfo(member) {
             style={{ display: "flex", alignItems: "center" }}
           >
             <CopyToClipboard>{member[key]}</CopyToClipboard>
-            {key === "account" && member.lineUserId !== null && (
+            {key === "account" && (
               <div
                 style={{
                   display: "flex",
@@ -65,13 +65,42 @@ function handleMemberInfo(member) {
                   marginTop: "auto",
                 }}
               >
-                <div style={{ marginRight: "10px" }}></div>
-                <img
-                  style={{ width: "24px", height: "24px", marginRight: "6px" }}
-                  src={checkBrokenImg}
-                  alt="checkBrokenImg"
-                />
-                <BindSuccessText>已綁定LINE</BindSuccessText>
+                {member.isBindLineOa ? (
+                  // 當 IsBindLineOa 為 true 時顯示綁定成功的圖標和文字
+                  <>
+                    <img
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "10px",
+                      }}
+                      src={checkBrokenImg}
+                      alt="checkBrokenImg"
+                    />
+                    <BindSuccessText>已綁定Line官方帳號</BindSuccessText>
+                  </>
+                ) : (
+                  // 當 IsBindLineOa 為 false 時顯示紅色的 X Emoji 和紅色文字
+                  <>
+                    <div style={{ display: "flex", alignItems: "center"}}>
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          color: "red",
+                          marginRight: "10px" ,
+                          display: "flex",
+                          alignItems: "center",
+                          height: "24px", // 確保與文字高度一致
+                        }}
+                      >
+                        ❌
+                      </span>
+                      <span style={{ color: "red", lineHeight: "24px" }}>
+                        未綁定Line官方帳號
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </Descriptions.Item>
@@ -328,7 +357,9 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
               <Spin />
             </div>
           ) : (
-            <div style={{ position: "relative", width: "200px", height: "200px" }}>
+            <div
+              style={{ position: "relative", width: "200px", height: "200px" }}
+            >
               <div
                 style={{
                   position: "absolute",
