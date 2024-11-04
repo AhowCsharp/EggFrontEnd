@@ -2,6 +2,7 @@ import { dataStore } from "@app/store";
 import { DrawOutBtn } from "@app/pages/commodity";
 import { Form, Input } from "antd";
 import { Row } from "@app/pages/register/form";
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { ButtonContainer, Select } from "../tabStyle";
 import { Container } from "./editPassword";
@@ -24,6 +25,55 @@ export default function EditMember({ member }) {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const padNumber = (num) => String(num).padStart(2, '0');
+
+  // 創建一個 styled Select 元件
+  const StyledSelect = styled(Select)`
+  /* 桌面版樣式 */
+  .ant-select-selector {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+
+  /* 手機版樣式 */
+  @media only screen and (max-width: 768px) {
+    .ant-select-selector {
+      background-color: white !important;
+      color: black !important;
+    }
+
+    .ant-select-selection-placeholder {
+      color: black !important;
+    }
+
+    .ant-select-arrow {
+      color: black !important;
+    }
+
+    .ant-select-selection-item {
+      color: black !important;
+    }
+
+    /* 手機版禁用狀態樣式 */
+    &.ant-select-disabled .ant-select-selector {
+      background-color: #e0e0e0 !important; /* 禁用狀態下的背景色 */
+      color: #a0a0a0 !important; /* 禁用狀態下的文字色 */
+      cursor: not-allowed; /* 更改鼠標樣式 */
+    }
+
+    &.ant-select-disabled .ant-select-selection-placeholder {
+      color: #a0a0a0 !important; /* 禁用狀態下的佔位符文字色 */
+    }
+
+    &.ant-select-disabled .ant-select-arrow {
+      color: #a0a0a0 !important; /* 禁用狀態下的箭頭顏色 */
+    }
+
+    &.ant-select-disabled .ant-select-selection-item {
+      color: #a0a0a0 !important; /* 禁用狀態下的選中項文字色 */
+    }
+  }
+`;
+
 
   return (
     <Container id="edit-member">
@@ -57,25 +107,25 @@ export default function EditMember({ member }) {
               },
             ]}
           >
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Select value={year} onChange={(value) => setYear(value)} disabled={year}>
+            <div style={{ display: "flex", gap: "10px"}}>
+              <StyledSelect value={year} onChange={(value) => setYear(value)} disabled={member.birthday}>
                 <Option value="">請選擇年</Option>
                 {years.map((year) => (
                   <Option value={year}>{year}</Option>
                 ))}
-              </Select>
-              <Select value={month} onChange={(value) => setMonth(value)} disabled={month}>
+              </StyledSelect>
+              <StyledSelect value={month} onChange={(value) => setMonth(value)} disabled={member.birthday}>
                 <Option value="">請選擇月</Option>
                 {months.map((month) => (
                   <Option value={month}>{padNumber(month)}</Option>
                 ))}
-              </Select>
-              <Select value={day} onChange={(value) => setDay(value)} disabled={day}>
+              </StyledSelect>
+              <StyledSelect value={day} onChange={(value) => setDay(value)} disabled={member.birthday}>
                 <Option value="">請選擇日</Option>
                 {days.map((day) => (
                   <Option value={day}> {padNumber(day)}</Option>
                 ))}
-              </Select>
+              </StyledSelect>
             </div>
           </Form.Item>
           <Form.Item

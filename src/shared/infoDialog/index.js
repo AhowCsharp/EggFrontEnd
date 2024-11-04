@@ -115,6 +115,7 @@ export default function InfoDialog() {
   const onClose = () => dataStore.setInfoDialogType()
   const [wording, setWording] = useState()
   const [referralCode, setReferralCode] = useState(defaultReferralCode || '')
+  const [disabled,setDisabled] = useState(false)
   const [checked, setChecked] = useState(false)
   const isRegister = type === INFO_DIALOG_TYPE.REGISTER
   useEffect(() => {
@@ -123,7 +124,10 @@ export default function InfoDialog() {
   }, [type])
 
   useEffect(() => {
-    if (defaultReferralCode) setReferralCode(defaultReferralCode)
+    if (defaultReferralCode) {
+      setDisabled(true)
+      setReferralCode(defaultReferralCode)
+    }
   }, [defaultReferralCode])
 
   useEffect(() => {
@@ -163,6 +167,7 @@ export default function InfoDialog() {
                   placeholder="請輸入推薦碼（選填）"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value)}
+                  disabled={disabled}
                 />
               </P>
               <P center={true} opacity="0.6">
