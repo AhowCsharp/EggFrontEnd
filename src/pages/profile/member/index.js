@@ -72,7 +72,8 @@ function handleMemberInfo(member) {
                       style={{
                         width: "24px",
                         height: "24px",
-                        marginRight: "10px",
+                        marginRight: "6px",
+                        marginLeft: "8px",
                       }}
                       src={checkBrokenImg}
                       alt="checkBrokenImg"
@@ -87,7 +88,8 @@ function handleMemberInfo(member) {
                         style={{
                           fontSize: "18px",
                           color: "red",
-                          marginRight: "10px" ,
+                          marginRight: "6px" ,
+                          marginLeft: "8px",
                           display: "flex",
                           alignItems: "center",
                           height: "24px", // 確保與文字高度一致
