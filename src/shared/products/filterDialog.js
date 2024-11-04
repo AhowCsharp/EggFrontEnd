@@ -127,10 +127,10 @@ const Mask = styled.div`
 const Container = styled.div`
   position: fixed;
   color: #000;
-  top: 20%;
+  top: 175px;
   left: 20%;
   width: 60%;
-  max-height: calc(60vh - 40px);
+  max-height: calc(90vh - 175px);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   flex-direction: column;
@@ -234,8 +234,9 @@ export default function FilterDialog({
   }, [manufacturers])
 
   useEffect(() => {
+    if (!shouldOpen) return
     if (!tags) dataStore.getTags(category)
-  }, [tags])
+  }, [tags, shouldOpen])
 
   useEffect(() => {
     setSelectedOptions(filterOptions)
