@@ -22,6 +22,9 @@ export default function EditMember({ member }) {
   );
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  const padNumber = (num) => String(num).padStart(2, '0');
+
   return (
     <Container id="edit-member">
       <Form form={form} layout="vertical">
@@ -64,13 +67,13 @@ export default function EditMember({ member }) {
               <Select value={month} onChange={(value) => setMonth(value)} disabled={month}>
                 <Option value="">請選擇月</Option>
                 {months.map((month) => (
-                  <Option value={month}>{month}</Option>
+                  <Option value={month}>{padNumber(month)}</Option>
                 ))}
               </Select>
               <Select value={day} onChange={(value) => setDay(value)} disabled={day}>
                 <Option value="">請選擇日</Option>
                 {days.map((day) => (
-                  <Option value={day}>{day}</Option>
+                  <Option value={day}> {padNumber(day)}</Option>
                 ))}
               </Select>
             </div>
@@ -160,7 +163,9 @@ export default function EditMember({ member }) {
         const formData = form.getFieldsValue();
         let birthday = member.birthday;
         if (year && month && day) {
-          birthday = `${year}-${month}-${day}`;
+          const paddedMonth = padNumber(month);
+          const paddedDay = padNumber(day);
+          birthday = `${year}-${paddedMonth}-${paddedDay}`;
         }
         const req = {
           id: member.id,
