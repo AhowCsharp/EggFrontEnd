@@ -4,7 +4,11 @@ import styled from 'styled-components'
 import { TOP_UP_PRICE_OPTIONS } from '@app/utils/constants'
 import { dataStore, useSelector } from '@app/store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faCreditCard, faLandmark } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCheck,
+  faCreditCard,
+  faLandmark,
+} from '@fortawesome/free-solid-svg-icons'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
 import { DrawOutBtn as Button } from '@app/pages/commodity'
 import { P } from '@app/shared/infoDialog'
@@ -57,6 +61,7 @@ const Image = styled.img.attrs((p) => ({
 const Title = styled.div`
   font-weight: 700;
   margin-bottom: 10px;
+  color: #000;
   span {
     font-size: 1.25rem;
     color: rgb(245, 173, 61);
@@ -124,9 +129,9 @@ const Price = styled.div`
 const StyledRadioGroup = styled(Radio.Group)`
   display: flex;
   justify-content: center;
-  margin-bottom: 30px; /* 增加 margin-bottom 以增加距離 */
+  margin-bottom: 30px;
 
-  .ant-radio-button-wrapper {
+  & > .ant-radio-button-wrapper {
     width: 120px;
     height: 50px;
     line-height: 50px;
@@ -138,28 +143,28 @@ const StyledRadioGroup = styled(Radio.Group)`
     color: #666;
     background-color: #f5f5f5;
     border: none;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: background-color 0.3s, color 0.3s;
-    padding: 0 10px; /* 添加內邊距以容納圖標和文字 */
-    white-space: nowrap; /* 防止文字換行 */
-    overflow: hidden; /* 隱藏溢出文字 */
-    text-overflow: ellipsis; /* 使用省略號表示溢出文字 */
   }
 
-  .ant-radio-button-wrapper-checked {
+  & > .ant-radio-button-wrapper-checked,
+  & > .ant-radio-button-wrapper.ant-radio-button-wrapper-checked {
     background-color: ${(p) => p.theme.color.topUpSelected} !important;
     color: #fff !important;
   }
 
-  .ant-radio-button-wrapper:hover {
+  & > .ant-radio-button-wrapper:hover {
     background-color: #f5f5f5;
     color: #666;
   }
 
-  /* 調整手機版發票類型按鈕的文字 */
   @media (max-width: 768px) {
-    .ant-radio-button-wrapper {
-      font-size: 14px; /* 減小字體大小 */
-      padding: 0 5px; /* 減少內邊距 */
+    & > .ant-radio-button-wrapper {
+      font-size: 14px;
+      padding: 0 5px;
     }
   }
 `
@@ -169,7 +174,7 @@ const StyledInvoiceRadioGroup = styled(Radio.Group)`
   justify-content: space-between;
   margin-bottom: 20px;
 
-  .ant-radio-button-wrapper {
+  & > .ant-radio-button-wrapper {
     flex: 1;
     text-align: center;
     margin: 0 5px;
@@ -180,27 +185,28 @@ const StyledInvoiceRadioGroup = styled(Radio.Group)`
     line-height: 38px;
     background-color: #f5f5f5;
     color: #333;
-    padding: 0 5px; /* 添加內邊距 */
-    white-space: nowrap; /* 防止文字換行 */
-    overflow: hidden; /* 隱藏溢出文字 */
-    text-overflow: ellipsis; /* 使用省略號表示溢出文字 */
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.3s, color 0.3s;
   }
 
-  .ant-radio-button-wrapper-checked {
-    background-color: #f98d00;
-    color: #fff;
+  & > .ant-radio-button-wrapper-checked,
+  & > .ant-radio-button-wrapper.ant-radio-button-wrapper-checked {
+    background-color: #f98d00 !important;
+    color: #fff !important;
   }
 
-  .ant-radio-button-wrapper:hover {
+  & > .ant-radio-button-wrapper:hover {
     background-color: #f5f5f5;
     color: #333;
   }
 
-  /* 調整手機版發票類型按鈕的文字 */
   @media (max-width: 768px) {
-    .ant-radio-button-wrapper {
-      font-size: 12px; /* 減小字體大小 */
-      padding: 0 3px; /* 減少內邊距 */
+    & > .ant-radio-button-wrapper {
+      font-size: 12px;
+      padding: 0 3px;
     }
   }
 `
@@ -217,9 +223,9 @@ const InvoiceOptionLabel = styled.label`
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #000; /* 設定默認顏色為黑色 */
+  color: #000; /* 设置默认颜色为黑色 */
 
-  /* 在手機版時確保文字顏色為黑色 */
+  /* 在手机版时确保文字颜色为黑色 */
   @media (max-width: 768px) {
     color: #000;
   }
@@ -343,10 +349,7 @@ export default function TopUp() {
           value={selectedPayWay}
         >
           {PayWayOptions.map((option) => (
-            <Radio.Button
-              key={option.value}
-              value={option.value}
-            >
+            <Radio.Button key={option.value} value={option.value}>
               <FontAwesomeIcon icon={option.icon} className="icon" />{' '}
               {option.label}
             </Radio.Button>
