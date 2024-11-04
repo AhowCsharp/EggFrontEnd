@@ -127,10 +127,10 @@ const Mask = styled.div`
 const Container = styled.div`
   position: fixed;
   color: #000;
-  top: 25%;
+  top: 20%;
   left: 20%;
   width: 60%;
-  max-height: 80vh;
+  max-height: calc(60vh - 40px);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   flex-direction: column;
@@ -139,7 +139,10 @@ const Container = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   @media (max-width: 768px) {
+    top: 150px;
     width: 90%;
+    left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 
