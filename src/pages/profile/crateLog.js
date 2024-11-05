@@ -132,7 +132,7 @@ export default function CrateLog() {
   }, [req]);
 
   const data = crateLogs?.data || {};
-  const awards = currentCrateLogs|| [];
+  const awards = currentCrateLogs?.data || {};
 
   const moreAwards = ({ awards }) => {
     return (
@@ -149,16 +149,16 @@ export default function CrateLog() {
   };
 
   useEffect(() => {
-    if (awards.length !== 0) {
+    if (awards?.length) {
       setIsOpenCrateModalVisible(true);
       const rewardNums = awards.reduce((acc, curr) => acc + curr.getAmount, 0);
       const message =
       <div style={{textAlign: 'center'}}>
-        恭喜！<br/>您已成功開啟「{data.crates[0].crateName}寶箱*{data.crates.length}」，獲得 <span style={{fontSize: '20px', lineHeight: '28px'}}>{rewardNums}</span> 個獎勵！<br/>記得常來開箱，累積更多獎勵！
+        恭喜！<br/>您已成功開啟「{awards[0].crateName}寶箱*{awards.length}」，獲得 <span style={{fontSize: '20px', lineHeight: '28px'}}>{rewardNums}</span> 個獎勵！<br/>記得常來開箱，累積更多獎勵！
       </div>
       setOpenSuccessMessage(message);
 
-      if (awards.length > 1) {
+      if (awards?.length) {
         setOpenSuccessMessage2(moreAwards({ awards }));
       }
     }

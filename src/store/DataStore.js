@@ -398,7 +398,7 @@ export default class DataStore {
         // this.alertMessage = '開箱成功'
         if (!res) return
         const { source: data } = res
-        this.currentCrateLogs = data
+        this.currentCrateLogs = { data }
       }
     } catch (e) {
       const msg = e.response?.data
