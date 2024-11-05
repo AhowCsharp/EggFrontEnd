@@ -340,6 +340,17 @@ export default function LotteryBlock({
   function handleSelectPrize(index) {
     if (selectedPrizes.length === drawOutTimes) {
       if (drawOutTimes === 1) setSelectedPrizes([index])
+      else {
+        let newSelectedPrizes = [...selectedPrizes]
+
+        const alreadySelectedIndex = selectedPrizes.findIndex(
+          (i) => i === index
+        )
+        if (alreadySelectedIndex > -1) {
+          newSelectedPrizes.splice(alreadySelectedIndex, 1)
+        }
+        setSelectedPrizes(newSelectedPrizes)
+      }
       return
     }
     let newSelectedPrizes = [...selectedPrizes]
