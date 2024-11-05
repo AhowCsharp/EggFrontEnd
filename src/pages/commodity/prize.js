@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { PRIZE_LEVEL } from '@app/utils/constants'
+import { FaCoins, FaShippingFast } from 'react-icons/fa';
 
 // 保持原有的样式
 const Container = styled.div`
@@ -64,6 +65,25 @@ const FireEmoji = styled.span`
   }
 `
 
+// 定義 InfoItem 組件
+const InfoItem = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem; /* 調整文字大小 */
+  margin: 5px 0;
+
+  svg {
+    margin-right: 8px; /* 圖標與文字之間的間距 */
+    color: #a80502; /* 圖標顏色，可根據需求調整 */
+    flex-shrink: 0;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+
 // 主组件 Prize
 export default function Prize({ data, onClick, isCommodity }) {
   const name = data?.prizeName || data?.name
@@ -79,7 +99,16 @@ export default function Prize({ data, onClick, isCommodity }) {
       <h4>{name}</h4>
       {!isCommodity && (
         <>
-          <span>兌換金幣 : {data.reclaimPrice}</span>
+          <div>
+            <InfoItem>
+              <FaCoins /> {/* 圖標 */}
+              <span>兌換金幣 : {data.reclaimPrice}</span>
+            </InfoItem>
+            <InfoItem>
+              <FaShippingFast /> {/* 圖標 */}
+              <span>運費 : {data.freight}</span>
+            </InfoItem>
+          </div>
           <PrizeLevelAndAmount {...data} />
         </>
       )}
