@@ -399,6 +399,7 @@ export default class DataStore {
         if (!res) return
         const { source: data } = res
         this.currentCrateLogs = { data }
+        yield this.loadMember()
       }
     } catch (e) {
       const msg = e.response?.data
