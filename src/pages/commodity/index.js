@@ -475,6 +475,7 @@ export default function Commodity() {
                 <CountdownTimer
                   initialSeconds={commodity.protectTime}
                   cb={() => dataStore.setCountdownSec(commodityId)}
+                  dep={[commodity]}
                 />
               </Desc>
             )}
