@@ -227,6 +227,8 @@ export default function LotteryBlock({
   const drawTimeOptions = getDrawTimeOptions(
     commodity?.drawOutMultiplePriceStatus
   )
+  const isPaginationMode = displayMode === DisplayMode.Pagination
+
   useEffect(() => {
     setData(prizes.slice((page - 1) * PageSize, page * PageSize))
   }, [prizes, page])
