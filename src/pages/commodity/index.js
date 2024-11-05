@@ -7,10 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
 import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
-import {
-  DRAW_OUT_STATUS,
-  COMMODITY_STATUS,
-} from '@app/utils/constants'
+import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
 import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
@@ -87,12 +84,12 @@ const Description = styled.div`
   }
   @media (max-width: 768px) {
     color: #ffffff; /* 手機版文字顏色設為白色 */
-    
+
     & * {
       color: #ffffff !important;
     }
   }
-`;
+`
 
 const Name = styled.div`
   color: #3e3e3e;
@@ -472,15 +469,15 @@ export default function Commodity() {
             </DrawOutBtn>
           </DrawOutBtnBlock>
           <DescBlock>
-            { commodity.protectTime && commodity.protectTime > 0 && (
-                <Desc warning>
-                保護玩家: {commodity.protectPlayer}⏰ 賞品鎖定中，解鎖倒數🛸               
+            {commodity.protectTime && commodity.protectTime > 0 && (
+              <Desc warning>
+                保護玩家: {commodity.protectPlayer}⏰ 賞品鎖定中，解鎖倒數🛸
                 <CountdownTimer
                   initialSeconds={commodity.protectTime}
                   cb={() => dataStore.setCountdownSec(commodityId)}
                 />
               </Desc>
-            ) }
+            )}
             <Desc bold>注意事項</Desc>
             <Desc>
               單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}
@@ -490,14 +487,19 @@ export default function Commodity() {
               抽獎前須知
             </Desc>
             <Desc warning>
-              任何廠商皆無法手動下架已經被抽過獎的賞品，請各位哥們放心，平台罩著 🧙‍♂️ <br/><br/>
-              若該獎品上方出現 🔥，即代表" 所有 "貼上此圖標的獎品" 一起 " 被抽完後才會下架 !<br/>
-              { !commodity.protectTime && (
+              任何廠商皆無法手動下架已經被抽過獎的賞品，請各位哥們放心，平台罩著
+              🧙‍♂️ <br />
+              <br />
+              若該獎品上方出現 🔥，即代表" 所有 "貼上此圖標的獎品" 一起 "
+              被抽完後才會下架 !<br />
+              {!commodity.protectTime && (
                 <>
-                  <br/>
-                  一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 ! <br/>
-                  <br/>
-                  一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋<br/> 
+                  <br />
+                  一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 !{' '}
+                  <br />
+                  <br />
+                  一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋
+                  <br />
                 </>
               )}
             </Desc>
@@ -543,7 +545,7 @@ export default function Commodity() {
       )}
       <Header>下單前須知</Header>
       <Description>
-      <p>【雙重中獎】無二次中獎且不附籤紙。</p>
+        <p>【雙重中獎】無二次中獎且不附籤紙。</p>
         <p>
           【商品版本】根據合作店家的供應來源，可能會有多個不同版本的商品。如果您有疑問，請在購買前詢問。
         </p>
@@ -571,9 +573,7 @@ export default function Commodity() {
           【金融事項】根據政府的金融法規，短時間內頻繁刷卡可能被視為風險行為，並可能導致暫停信用卡功能。建議您一次性購買足夠的金幣以避免此情況。
         </p>
       </Description>
-      {enableDrawOut && (
-        <ScrollToDrawButton selectedPrizes={selectedPrizes} />
-      )}
+      {enableDrawOut && <ScrollToDrawButton selectedPrizes={selectedPrizes} />}
       {/* 将移动端按钮通过 Portal 渲染到 body 下 */}
       {ReactDOM.createPortal(
         <MobileDrawOutBtnBlock>
@@ -582,7 +582,8 @@ export default function Commodity() {
               <SelectedNumbers>
                 {selectedPrizes.length > 0 ? (
                   <SelectedText>
-                    已選擇: {selectedPrizes.map(prize => prize + 1).join('、')}
+                    已選擇:{' '}
+                    {selectedPrizes.map((prize) => prize + 1).join('、')}
                   </SelectedText>
                 ) : (
                   <SelectedTextRed>未選擇</SelectedTextRed>
@@ -644,24 +645,15 @@ export default function Commodity() {
   }
 
   function handleRandomSelect() {
-    // 根据 drawOutTimes 随机选择对应数量的号码
-    const availablePrizes = commodity.prizes.filter(
-      (p) => !selectedPrizes.includes(p.id)
-    )
-    if (availablePrizes.length >= drawOutTimes) {
-      const randomIndexes = []
-      while (randomIndexes.length < drawOutTimes) {
-        const randomIndex = Math.floor(Math.random() * availablePrizes.length)
-        const prizeId = availablePrizes[randomIndex].id
-        if (!randomIndexes.includes(prizeId)) {
-          randomIndexes.push(prizeId)
-        }
+    const randomPrizes = []
+    const prizes = commodity.prizeIndexs || []
+    while (randomPrizes.length < drawOutTimes) {
+      const randomIndex = Math.floor(Math.random() * prizes.length)
+      if (!randomPrizes.includes(randomIndex) && !prizes[randomIndex]) {
+        randomPrizes.push(randomIndex)
       }
-      setSelectedPrizes(randomIndexes)
-    } else {
-      // 如果剩余的奖品不足，则全选
-      setSelectedPrizes(availablePrizes.map((p) => p.id))
     }
+    setSelectedPrizes(randomPrizes)
   }
 
   function handleReselect() {
@@ -675,8 +667,7 @@ export default function Commodity() {
   }
 
   function getTotalCost(drawOutTimes, commodity) {
-    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } =
-      commodity
+    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } = commodity
     if (!discount) {
       if (drawOutTimes === 5) return drawOutTimes * drawOut5Price
       if (drawOutTimes === 10) return drawOutTimes * drawOut10Price
