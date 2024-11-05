@@ -101,35 +101,33 @@ const Content = styled(Block)`
   }
 `
 
-export default function SortDialog({ onClose, onClick, type, shouldOpen }) {
+export default function SortDialog({ onClose, onClick, type }) {
   const [sortType, setSortType] = useState(type)
   return (
-    shouldOpen && (
-      <>
-        <Mask onClick={onClose} />
-        <Container className="dialog">
-          <Header>
-            <h3>排序</h3>
-          </Header>
-          <Content>
-            <Radio.Group
-              onChange={(e) => setSortType(e.target.value)}
-              value={sortType}
-            >
-              {Object.values(SortType).map((key) => (
-                <Radio key={key} value={key}>
-                  {SortTypeLocale[key]}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </Content>
-          <Footer>
-            <Button onClick={onClose}>關閉</Button>
-            <Button onClick={onConfirm}>確認</Button>
-          </Footer>
-        </Container>
-      </>
-    )
+    <>
+      <Mask onClick={onClose} />
+      <Container className="dialog">
+        <Header>
+          <h3>排序</h3>
+        </Header>
+        <Content>
+          <Radio.Group
+            onChange={(e) => setSortType(e.target.value)}
+            value={sortType}
+          >
+            {Object.values(SortType).map((key) => (
+              <Radio key={key} value={key}>
+                {SortTypeLocale[key]}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </Content>
+        <Footer>
+          <Button onClick={onClose}>關閉</Button>
+          <Button onClick={onConfirm}>確認</Button>
+        </Footer>
+      </Container>
+    </>
   )
   function onConfirm() {
     onClick(sortType)

@@ -178,19 +178,21 @@ export default function Products({
       ) : (
         <ProductContainer center={true}>無結果</ProductContainer>
       )}
-      <SortDialog
-        onClose={() => setShouldSortDialogOpen(false)}
-        onClick={setSortType}
-        type={sortType}
-        shouldOpen={shouldSortDialogOpen}
-      />
-      <FilterDialog
-        onClose={() => setShouldFilterDialogOpen(false)}
-        filterOptions={filterOptions}
-        setFilterOptions={setFilterOptions}
-        category={category}
-        shouldOpen={shouldFilterDialogOpen}
-      />
+      {shouldSortDialogOpen && (
+        <SortDialog
+          onClose={() => setShouldSortDialogOpen(false)}
+          onClick={setSortType}
+          type={sortType}
+        />
+      )}
+      {shouldFilterDialogOpen && (
+        <FilterDialog
+          onClose={() => setShouldFilterDialogOpen(false)}
+          filterOptions={filterOptions}
+          setFilterOptions={setFilterOptions}
+          category={category}
+        />
+      )}
     </>
   )
   function handleClick(data) {
