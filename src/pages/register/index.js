@@ -43,7 +43,7 @@ export default function Register() {
       <Container>
         <h4>為避免您的賞品寄送權益，請務必如實填寫會員資料</h4>
         <h4>
-          <Warning>*</Warning>為必填項目
+          <Warning>*</Warning>為必填項目，嫌慢請用Line註冊🤛
         </h4>
         <LineButton wording="註冊" width="200px" />
       </Container>

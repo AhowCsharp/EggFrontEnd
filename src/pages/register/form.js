@@ -6,7 +6,7 @@ import CountdownTimer from '@app/shared/countdownTimer'
 
 const VerifyCodeBlockSec = 120
 
-export const PasswordRule = /^(?=.*[!@#$%^&*.])(?=.*[0-9])(?=.*[a-zA-Z])/
+export const PasswordRule = /^(?=.*[!@#$%^&*.\?_\-])(?=.*[0-9])(?=.*[a-zA-Z])/
 
 export const Row = styled.div`
   display: flex;
