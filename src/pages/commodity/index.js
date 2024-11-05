@@ -85,7 +85,14 @@ const Description = styled.div`
   p {
     margin: 5px 0;
   }
-`
+  @media (max-width: 768px) {
+    color: #ffffff; /* 手機版文字顏色設為白色 */
+    
+    & * {
+      color: #ffffff !important;
+    }
+  }
+`;
 
 const Name = styled.div`
   color: #3e3e3e;
