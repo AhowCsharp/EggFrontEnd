@@ -214,7 +214,7 @@ export default function Footer() {
           <p>客服LINE：only.egg.club</p>
           <p>客服信箱：onlyeggisreal@gmail.com</p>
           <p>公司名稱：尊嘟假嘟工作室</p>
-          <p>統一編號：91214848</p>
+          <p>統一編號：91214847</p>
           <p>合作邀約、疑難雜症請洽客服LINE💘</p>
           <p>歡迎加入官方LINE好友💯</p>
           <p>第一手掌握訂單、新品、優惠消息☝️</p>

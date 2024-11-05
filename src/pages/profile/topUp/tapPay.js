@@ -100,6 +100,9 @@ export default function TapPay({ onSubmit, selected, cancel }) {
       <Container>
         <InfoText>
           本站串接 喬睿科技 TapPay金流🕵️採3D驗證，請顧客放心⚠️
+          <br/>
+          <br/>
+          我們真不是詐騙集團🤣
         </InfoText>
         <TapPayContainer id="tap-pay">
           <div id="card-number"></div>

@@ -222,7 +222,7 @@ export default function LotteryBlock({
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
   const [selectedPrizesDisplay, setSelectedPrizesDisplay] = useState([])
-  const [displayMode, setDisplayMode] = useState(DisplayMode.Pagination)
+  const [displayMode, setDisplayMode] = useState(DisplayMode.Simple)
   const lotteryImg = lotteryImgs[category] || lotteryImgs.default
   const drawTimeOptions = getDrawTimeOptions(
     commodity?.drawOutMultiplePriceStatus
