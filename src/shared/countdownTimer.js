@@ -21,6 +21,10 @@ export default function CountdownTimer({
     }
   }, [seconds])
 
+  useEffect(() => {
+    setSeconds(initialSeconds)
+  }, [initialSeconds])
+
   return (
     <div>{isSmall ? <span>{seconds} 秒</span> : <h1>{seconds} 秒</h1>}</div>
   )
