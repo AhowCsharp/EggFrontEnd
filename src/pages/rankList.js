@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Layout from '@app/shared/layout';
-import { useSelector, dataStore } from '@app/store';
-import { Table, Tabs, Avatar } from 'antd';
-import othersImg from '@app/static/rankList/e.png';
-import { PRIZE_LEVEL } from '@app/utils/constants';
-import dayjs from 'dayjs';
-import { useNavigate, generatePath } from 'react-router-dom';
-import paths from '@app/utils/paths';
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Layout from '@app/shared/layout'
+import { useSelector, dataStore } from '@app/store'
+import { Table, Tabs, Avatar } from 'antd'
+// import othersImg from '@app/static/rankList/e.png';
+import { PRIZE_LEVEL } from '@app/utils/constants'
+import dayjs from 'dayjs'
+import { useNavigate, generatePath } from 'react-router-dom'
+import paths from '@app/utils/paths'
 
-const { Column } = Table;
+const { Column } = Table
 
 // 創建自定義的 StyledTabs 組件
 const StyledTabs = styled(Tabs)`
@@ -54,7 +54,7 @@ const StyledTabs = styled(Tabs)`
   .ant-tabs-nav .ant-tabs-tab-active::before {
     height: 2px;
   }
-`;
+`
 
 // 其他樣式組件
 const Content = styled.div`
@@ -62,7 +62,7 @@ const Content = styled.div`
   .ant-table-wrapper {
     min-width: 500px;
   }
-`;
+`
 
 const Customer = styled.div`
   font-size: 1.25rem;
@@ -79,7 +79,7 @@ const Customer = styled.div`
     display: flex;
     align-items: center;
   }
-`;
+`
 
 const PrizeName = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const PrizeName = styled.div`
 
   /* 保持可點擊性 */
   cursor: pointer;
-`;
+`
 
 const PrizeIcon = styled.img`
   width: 48px;
@@ -112,21 +112,21 @@ const PrizeIcon = styled.img`
     transform: scale(1.1);
     transition: transform 0.2s;
   }
-`;
+`
 
 export default function RankingList() {
-  const [currentView, setCurrentView] = useState('ranking');
-  const rankingList = useSelector(() => dataStore.rankingList);
-  const taskList = useSelector(() => dataStore.taskList);
-  const navigate = useNavigate();
+  const [currentView, setCurrentView] = useState('ranking')
+  const rankingList = useSelector(() => dataStore.rankingList)
+  const taskList = useSelector(() => dataStore.taskList)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (currentView === 'ranking') {
-      dataStore.getRankingList();
+      dataStore.getRankingList()
     } else if (currentView === 'task') {
-      dataStore.getTaskList();
+      dataStore.getTaskList()
     }
-  }, [currentView]);
+  }, [currentView])
 
   // 定義 Tabs 的 items
   const tabItems = [
@@ -140,7 +140,7 @@ export default function RankingList() {
       key: 'task',
       children: renderTaskTable(),
     },
-  ];
+  ]
 
   return (
     <Layout>
@@ -151,10 +151,10 @@ export default function RankingList() {
         items={tabItems}
       />
     </Layout>
-  );
+  )
 
   function handleTabChange(key) {
-    setCurrentView(key);
+    setCurrentView(key)
   }
 
   function renderRankingTable() {
@@ -173,7 +173,7 @@ export default function RankingList() {
           </Table>
         )}
       </Content>
-    );
+    )
   }
 
   function renderTaskTable() {
@@ -199,11 +199,11 @@ export default function RankingList() {
           </Table>
         )}
       </Content>
-    );
+    )
   }
 
   function renderAvatar({ customerName, headshotUrl }) {
-    const firstChar = customerName ? customerName.charAt(0) : '';
+    const firstChar = customerName ? customerName.charAt(0) : ''
     return (
       <Avatar
         src={headshotUrl}
@@ -212,20 +212,20 @@ export default function RankingList() {
       >
         {!headshotUrl && firstChar}
       </Avatar>
-    );
+    )
   }
 
   function renderPrize(text, record) {
     const handleClick = (e) => {
-      e.stopPropagation(); // 防止事件冒泡到行的 onClick 事件
-      const commodityId = record.commodityId; // 假設 record 中有 commodityId
+      e.stopPropagation() // 防止事件冒泡到行的 onClick 事件
+      const commodityId = record.commodityId // 假設 record 中有 commodityId
       if (commodityId) {
-        const path = generatePath(paths.commodity, { commodityId });
-        navigate(path);
+        const path = generatePath(paths.commodity, { commodityId })
+        navigate(path)
       } else {
-        console.log('Commodity ID is missing in the record:', record);
+        console.log('Commodity ID is missing in the record:', record)
       }
-    };
+    }
 
     return (
       <PrizeName onClick={handleClick}>
@@ -233,11 +233,11 @@ export default function RankingList() {
         獲得 <span>{record.prizeLevelView}</span>
         <span>{record.prizeName}</span>
       </PrizeName>
-    );
+    )
   }
 
   function renderNickname({ prizeLevel, customerName, commodityId }) {
-    const src = PRIZE_LEVEL[prizeLevel]?.rankImg || othersImg;
+    const src = PRIZE_LEVEL[prizeLevel]?.rankImg
     return (
       <Customer>
         <img
@@ -245,15 +245,19 @@ export default function RankingList() {
           alt="Prize Level"
           onClick={() => {
             if (commodityId) {
-              const path = generatePath(paths.commodity, { commodityId });
-              navigate(path);
+              const path = generatePath(paths.commodity, { commodityId })
+              navigate(path)
             } else {
-              console.log('Commodity ID is missing in the record:', { prizeLevel, customerName, commodityId });
+              console.log('Commodity ID is missing in the record:', {
+                prizeLevel,
+                customerName,
+                commodityId,
+              })
             }
           }}
         />
         <div>{customerName}</div>
       </Customer>
-    );
+    )
   }
 }
