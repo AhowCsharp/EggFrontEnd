@@ -482,7 +482,7 @@ export default function Commodity() {
             <Desc bold>注意事項</Desc>
             <Desc>
               單抽開獎保護{protectOneShot}秒，五連抽開獎保護{protectFiveShot}
-              秒，十連抽開獎保護{protectTenShot}秒。
+              秒，十連抽開獎保護{protectTenShot}秒，不疊加秒數。
             </Desc>
             <Desc warning bold>
               抽獎前須知
