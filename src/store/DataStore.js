@@ -7,6 +7,7 @@ import {
   DRAW_OUT_STATUS,
   TOP_UP_RESULT,
   REGISTER_STATUS,
+  CATEGORY,
 } from '@app/utils/constants'
 import locale from '@app/utils/formLocale'
 import wait from '@app/utils/wait'
@@ -14,6 +15,14 @@ import store from './helpers/store'
 
 const invoiceNumberEncodedKey = btoa('invoiceNumber')
 const invoiceTypeEncodedKey = btoa('invoiceType')
+
+const defaultFilterOptionsByCategory = Object.values(CATEGORY).reduce(
+  (acc, key) => {
+    acc[key] = {}
+    return acc
+  },
+  {}
+)
 
 const getToken = () => {
   const encodedKey = btoa('token')
@@ -690,11 +699,11 @@ export default class DataStore {
     const token = getToken()
     localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
     localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
-  
+
     // if (token) {
     //   yield TPDirect.virtualAccount.getPrime(getPrimeCallback(token, req, this))
     // }
-  
+
     // function getPrimeCallback(token, req, thx) {
     //   return async (result) => {
     //     try {
@@ -705,7 +714,7 @@ export default class DataStore {
     //       const prime = result.prime
     //       // 虛擬帳號支付可能會返回 payment_url
     //       const paymentUrl = result.payment_url
-  
+
     //       req = { ...req, prime }
     //       const res = await Api.atmTopUp(req, token)
     //       if (!res || !res?.source?.paymentUrl) throw res
@@ -993,6 +1002,18 @@ export default class DataStore {
       const msg = e.response?.data
       // this.alertMessage = `發票開立失敗，請洽客服! ${msg}，備註:儲值是有成功的`
       console.log('sendInvoice failed', e, msg)
+    }
+  }
+
+  // Filter Dialog
+  @observable
+  filterOptionsByCategory = defaultFilterOptionsByCategory
+
+  @action
+  setFilterOptions(category, options) {
+    this.filterOptionsByCategory = {
+      ...this.filterOptionsByCategory,
+      [category]: options,
     }
   }
 }

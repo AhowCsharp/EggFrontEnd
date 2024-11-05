@@ -233,9 +233,8 @@ export default function FilterDialog({
   }, [manufacturers])
 
   useEffect(() => {
-    if (!shouldOpen) return
     if (!tags) dataStore.getTags(category)
-  }, [tags, shouldOpen])
+  }, [tags])
 
   useEffect(() => {
     setSelectedOptions(filterOptions)

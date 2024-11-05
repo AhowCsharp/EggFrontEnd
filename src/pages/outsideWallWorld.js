@@ -9,15 +9,19 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
+const Category = CATEGORY.OUTSIDE_WALL_WORLD
+
 export default function OutsideWallWorld() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
-  const [filterOptions, setFilterOptions] = useState({})
+  const filterOptions = useSelector(
+    () => dataStore.filterOptionsByCategory[Category]
+  )
 
   useEffect(() => {
     const req = {
-      category: CATEGORY.OUTSIDE_WALL_WORLD,
+      category: Category,
       status,
       ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
@@ -32,16 +36,16 @@ export default function OutsideWallWorld() {
         data={commodities.data}
         status={status}
         setStatus={setStatus}
-        category={CATEGORY.OUTSIDE_WALL_WORLD}
+        category={Category}
         shouldSortDialogOpen={shouldSortDialogOpen}
         setShouldSortDialogOpen={setShouldSortDialogOpen}
-        setFilterOptions={setFilterOptions}
+        setFilterOptions={(opts) => dataStore.setFilterOptions(Category, opts)}
         filterOptions={filterOptions}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
-            category: CATEGORY.OUTSIDE_WALL_WORLD,
+            category: Category,
             pageNumber,
             pageSize,
           }

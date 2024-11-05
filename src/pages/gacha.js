@@ -9,15 +9,19 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
+const Category = CATEGORY.GACHA
+
 export default function Gacha() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
-  const [filterOptions, setFilterOptions] = useState({})
+  const filterOptions = useSelector(
+    () => dataStore.filterOptionsByCategory[Category]
+  )
 
   useEffect(() => {
     const req = {
-      category: CATEGORY.GACHA,
+      category: Category,
       status,
       ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
@@ -32,16 +36,16 @@ export default function Gacha() {
         data={commodities.data}
         status={status}
         setStatus={setStatus}
-        category={CATEGORY.GACHA}
+        category={Category}
         shouldSortDialogOpen={shouldSortDialogOpen}
         setShouldSortDialogOpen={setShouldSortDialogOpen}
-        setFilterOptions={setFilterOptions}
+        setFilterOptions={(opts) => dataStore.setFilterOptions(Category, opts)}
         filterOptions={filterOptions}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
-            category: CATEGORY.GACHA,
+            category: Category,
             pageNumber,
             pageSize,
           }

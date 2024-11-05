@@ -9,15 +9,19 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 
+const Category = CATEGORY.ICHIBAN
+
 export default function Ichiban() {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
-  const [filterOptions, setFilterOptions] = useState({})
+  const filterOptions = useSelector(
+    () => dataStore.filterOptionsByCategory[Category]
+  )
 
   useEffect(() => {
     const req = {
-      category: CATEGORY.ICHIBAN,
+      category: Category,
       status,
       ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
@@ -32,16 +36,16 @@ export default function Ichiban() {
         data={commodities.data}
         status={status}
         setStatus={setStatus}
-        category={CATEGORY.ICHIBAN}
+        category={Category}
         shouldSortDialogOpen={shouldSortDialogOpen}
         setShouldSortDialogOpen={setShouldSortDialogOpen}
-        setFilterOptions={setFilterOptions}
         filterOptions={filterOptions}
+        setFilterOptions={(opts) => dataStore.setFilterOptions(Category, opts)}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
-            category: CATEGORY.ICHIBAN,
+            category: Category,
             pageNumber,
             pageSize,
           }
