@@ -6,7 +6,7 @@ import { DRAW_OUT_STATUS, CATEGORY } from '@app/utils/constants'
 import { DrawOutBtn as Button } from './index'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -17,14 +17,15 @@ const Mask = styled.div`
 `
 
 const Container = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 25vh;
-  width: 60%;
+  position: fixed;
+  top: 50vh;
   left: 20%;
+  width: 60%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
+  max-height: calc(90vh - 175px);
+  transform: translateY(-50%);
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
@@ -34,6 +35,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     width: 90%;
     left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 

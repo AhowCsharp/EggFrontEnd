@@ -32,8 +32,8 @@ const theme = {
   },
   zIndex: {
     dialog: 3,
-    layoutImg: 2,
-    mask: 1,
+    footer: 1,
+    mask: 2,
     alertDialog: 5,
     alertMask: 4,
     header: 6,

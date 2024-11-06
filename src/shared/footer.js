@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import logoImg from '@app/static/logo.png'
 import customerserviceQrcode from '@app/static/customerserviceQrcode.jpg' //
-import friendQrcode from '@app/static/社群QrCode.jpg' 
+import friendQrcode from '@app/static/社群QrCode.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faLine,
@@ -35,7 +35,7 @@ const FooterContainer = styled.div`
   margin: 20px auto 0;
   padding: 20px;
   position: relative;
-  z-index: ${(p) => p.theme.zIndex.layoutImg};
+  z-index: ${(p) => p.theme.zIndex.footer};
   font-size: 0.875rem;
   line-height: 21px;
   color: #fff;

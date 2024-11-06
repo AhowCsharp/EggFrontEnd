@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -13,11 +13,12 @@ const Mask = styled.div`
 `
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   opacity: 1;
-  top: 25vh;
+  top: 50vh;
   width: 60%;
   left: 20%;
+  transform: translateY(-50%);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@ import { DrawOutBtn as Button } from './index'
 import Only1Prize from './only1Prize'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -17,23 +17,25 @@ const Mask = styled.div`
 `
 
 const Container = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 25vh;
+  position: fixed;
+  top: 175px;
+
   width: 80%;
   left: 10%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 350px;
+  max-height: calc(90vh - 175px);
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
   padding: 20px 40px 40px;
   @media (max-width: 768px) {
-    width: 100%;
-    left: 0;
-    padding: 20px 20px 40px;
+    top: 150px;
+    width: 90%;
+    left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 

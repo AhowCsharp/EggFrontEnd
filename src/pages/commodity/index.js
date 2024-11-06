@@ -635,7 +635,6 @@ export default function Commodity() {
       consecutive: drawOutTimes !== 1,
       chooseIndexes: selectedPrizes,
     }
-    onSectionNavClick('layout')()
     setDrawOutReq({
       req,
       category: commodity.category,
