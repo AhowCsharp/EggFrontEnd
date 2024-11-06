@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import wood from '@app/static/wood.png'; // 确保路径正确
+import wood from '@app/static/wood.png';
 
 export default function AnnouncementModal({ announcements }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,7 +89,7 @@ const ModalOverlay = styled.div.attrs({
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow-y: auto; /* 允许在移动设备上滚动 */
+  overflow-y: auto;
 `;
 
 const ModalContent = styled.div`
@@ -133,7 +133,7 @@ const CloseButton = styled.span`
   top: 10px;
   right: 20px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3; /* 将 z-index 提高到 3，确保位于最上层 */
 
   &:hover {
     color: #ccc;
@@ -142,11 +142,11 @@ const CloseButton = styled.span`
 
 const ContentWrapper = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 2; /* 确保 z-index 低于 CloseButton */
   width: 100%;
   padding: 50px 40px 20px;
   box-sizing: border-box;
-  overflow-y: auto; /* 当内容过多时，允许滚动 */
+  overflow-y: auto;
 
   @media (max-width: 768px) {
     padding: 40px 30px 20px;
@@ -188,7 +188,7 @@ const ListItem = styled.li`
   color: #fff;
 
   @media (max-width: 480px) {
-    font-size: 16px;
+    font-size: 14px; /* 调整移动版字体更小 */
   }
 `;
 
@@ -202,12 +202,13 @@ const NavButton = styled.button`
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   color: #333;
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 16px;
   font-family: 'DotGothic16', sans-serif;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  margin-top: 10px; /* 增加按钮与内容之间的间距 */
 
   &:hover:enabled {
     background-color: rgba(255, 255, 255, 1);
@@ -219,7 +220,8 @@ const NavButton = styled.button`
   }
 
   @media (max-width: 480px) {
-    padding: 6px 12px;
+    padding: 8px 16px;
     font-size: 14px;
+    margin-top: 4px; /* 适配移动设备 */
   }
 `;
