@@ -190,13 +190,13 @@ function ShipDialogForm({ form }) {
       {shipWay === 1 && (
         <UrlItem
           label="7-11 門市查詢網址"
-          url="https://emap.pcsc.com.tw/ecmap/default.aspx"
+          url="https://emap.pcsc.com.tw/emap.aspx"
         />
       )}
       {shipWay === 2 && (
         <UrlItem
           label="全家門市查詢網址"
-          url="https://emap.pcsc.com.tw/ecmap/default.aspx"
+          url="https://fmec.famiport.com.tw/FP_Entrance/QueryShop"
         />
       )}
       <Row>
