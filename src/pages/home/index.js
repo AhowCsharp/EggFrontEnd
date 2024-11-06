@@ -14,11 +14,34 @@ import { url } from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
 import newArrivalsImg from '@app/static/new-arrivals.png'
 import Button from '@app/shared/products/button'
+import AnnouncementModal from '@app/shared/announcementModal'
 import useRandomColors from '@app/utils/hooks/useRandomColors'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 
 export const DisplayPageSize = 4
+
+//限制為三條不跑版
+const announcements = [
+  {
+    title: '寶箱系統公告',
+    time: '2024年11月07日',
+    content: [
+      '每一次抽獎都有機會獲得寶箱或鑰匙 💥',
+      '單抽價格愈高，獲得高級寶箱機率愈高 🈵',
+      '一組同等級鑰匙與寶箱才能開啟，寶箱等級決定獎勵大小 🉐',
+    ],
+  },
+  {
+    title: '里程碑 - 首位儲值玩家現身',
+    time: '2024年11月07日 凌晨00:18',
+    content: [
+      '恭喜 玩家 : 陳世安✨ 成為開幕以來首位儲值消費的玩家 🫶',
+      '可喜可賀 以茲紀念 🎉 本站真不是詐騙 😭',
+      '歡迎顧客使用自身推薦碼邀請朋友加入 🎁 領取好禮大獎 😍',
+    ],
+  },
+];
 
 const ImageContainer = styled.div`
   overflow: hidden;
@@ -122,6 +145,7 @@ export default function Home() {
 
   return (
     <>
+      <AnnouncementModal announcements={announcements} />
       {newAds.length ? (
         <Carousel
           arrows
