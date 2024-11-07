@@ -149,6 +149,18 @@ function handleMemberInfo(member) {
     .filter(Boolean);
 }
 
+const CenteredTitle = styled.div`
+  text-align: center;      /* 置中對齊 */
+  font-size: 24px;         /* 字體大小，可根據需求調整 */
+  font-weight: bold;       /* 字體加粗 */
+  margin: 10px 0;   
+   @media (max-width: 768px) {
+    color: white;
+    font-size: 18px;
+    margin: 0;
+  }       
+`;
+
 // 保持原有的 Container，不修改
 const Container = styled.div`
   display: flex;
@@ -320,23 +332,23 @@ const ABContainer = styled.div`
 const ASection = styled.div`
   flex: 1;
   order: 2; /* 手機版時，A 區塊在後 */
-  margin-top: 20px; /* 與 B 區塊間距 */
+  margin-top: 10px; /* 與 B 區塊間距 */
 
   @media (min-width: 768px) {
     order: 1; /* 桌面版時，A 區塊在左 */
     margin-right: 20px; /* 與 B 區塊間距 */
-    margin-top: 0;
   }
 `;
 
 const BSection = styled(Info)`
+  display: ${(props) => (props.showNewHandInfo ? "block" : "none")};
   flex: 1;
   font-size: 0.8em; /* 字體較小 */
   order: 1; /* 手機版時，B 區塊在前 */
-
   @media (min-width: 768px) {
     order: 2; /* 桌面版時，B 區塊在右 */
     margin-left: 20px; /* 與 A 區塊間距 */
+    height: 60%;
   }
 `;
 
@@ -359,11 +371,6 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 6px;
-
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 150px;
-  }
 `;
 
 // HeadShotAndStatusMessegeComponent 定義保持不變
@@ -428,20 +435,6 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
                 height: "200px",
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "0",
-                  textAlign: "center",
-                  width: "200px",
-                  backgroundColor: "#ffffff",
-                  opacity: "0.5",
-                  padding: "10px 0",
-                  color: "#000000",
-                }}
-              >
-                編輯大頭貼
-              </div>
               <ProfileImage
                 src={
                   uploadHeadShotSuccess
@@ -565,6 +558,11 @@ export default function Member() {
   const member = useSelector(() => dataStore.member);
   const [memberDisplayInfos, setMemberDisplayInfos] = useState(null);
   const [walletInfo, setWalletInfo] = useState(null);
+  const [showNewHandInfo, setShowNewHandInfo] = useState(true);
+
+  const toggleVisibility = () => {
+    setShowNewHandInfo(!showNewHandInfo);
+  };
 
   useEffect(() => {
     if (member) {
@@ -595,8 +593,9 @@ export default function Member() {
             ))}
           </div>
         </InfoContainer>
-        <ABContainer>
-          <BSection>
+        <CenteredTitle>會員資料</CenteredTitle>
+        <ABContainer>      
+          <BSection showNewHandInfo>
             <Title>新手村公告</Title><br/>
             <div>金幣與御守等值。</div>
             <div>金幣可藉由儲值獲得。</div>
@@ -618,16 +617,6 @@ export default function Member() {
           </BSection>
           <ASection>
             <AContentContainer>
-              <div
-                style={{
-                  fontSize: "20px",
-                  lineHeight: "28px",
-                  fontWeight: "700",
-                  marginBottom: "20px",
-                }}
-              >
-                修改會員資料
-              </div>
               <HeadShotAndStatusMessegeComponent member={member} />
               <DescriptionsContainer>
                 <Descriptions
