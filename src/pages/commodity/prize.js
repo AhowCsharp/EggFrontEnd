@@ -83,6 +83,10 @@ const InfoItem = styled.div`
     display: flex;
     align-items: center;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 // 主组件 Prize
