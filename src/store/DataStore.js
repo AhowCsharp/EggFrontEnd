@@ -656,6 +656,19 @@ export default class DataStore {
     }
   }
 
+    // forget Password
+    @flow
+    *forgetPassword(req) {
+      try {
+        yield Api.forgetPassword(req)
+        this.alertMessage = '已成功寄送密碼重設信、簡訊，請查收'
+      } catch (e) {
+        const msg = e.response?.data
+        this.alertMessage = `重設信件寄送失敗，${msg}`
+        console.log('forget password failed', e, msg)
+      }
+    }
+
   // Top Up
 
   @observable

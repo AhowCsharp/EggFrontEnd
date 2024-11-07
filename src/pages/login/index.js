@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Layout from '@app/shared/layout'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, Input } from 'antd'
 import { useSelector, dataStore } from '@app/store'
 import paths from '@app/utils/paths'
@@ -8,6 +8,7 @@ import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
+import ForgetPwDialog from './forgetPwDialog'
 
 const loginButtonStyle = (p) => `
   background-color: #000;
@@ -45,7 +46,7 @@ export const Button = styled.button.attrs({ type: 'submit' })`
 
 const Section = styled.div`
   display: flex;
-  padding: 20px;
+  padding-left: 20px;
   flex: 1;
   flex-direction: column;
   h4 {
@@ -72,6 +73,21 @@ const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
   font-size: 1.25rem;
 `
 
+const ForgotPasswordLink = styled.a`
+  cursor: pointer;
+  color: #1890ff;
+  &:hover {
+    text-decoration: underline;
+  }
+  font-size: 0.75rem;
+  align-self: flex-end;
+
+  @media (max-width: 768px) {
+    align-self: flex-start;
+    color: white;
+  }
+`
+
 export default function Login() {
   const isLogged = useSelector(() => dataStore.isLogged)
   const goto = useNavigate()
@@ -82,6 +98,28 @@ export default function Login() {
     goto(paths.index)
   }, [isLogged])
   useScrollToTop()
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [msg, setMsg] = useState('')
+
+  function openForgotPasswordAlert() {
+    setMsg('即將發送新密碼至您的手機與您的信箱，確認後即刻送出並更改密碼')
+    setIsModalVisible(true)
+  }
+
+  async function handleAlertConfirm() {
+    const account = form.getFieldValue('account')
+    if (!account) {
+      message.error('請輸入帳號以重設密碼')
+      return
+    }
+    await dataStore.forgetPassword({ Account: account })
+    setIsModalVisible(false)
+  }
+
+  function handleAlertClose() {
+    setIsModalVisible(false)
+  }
 
   return (
     <Layout>
@@ -102,6 +140,11 @@ export default function Login() {
             >
               <Input.Password />
             </Form.Item>
+            <Form.Item>
+              <ForgotPasswordLink onClick={openForgotPasswordAlert}>
+                忘記密碼？
+              </ForgotPasswordLink>
+            </Form.Item>
           </Form>
           <Button isLogin onClick={onSubmit}>
             立即登入
@@ -110,7 +153,10 @@ export default function Login() {
         </Section>
         <Section>
           <h4>歡迎來到 瞇那賞-玩具所 官方網站！</h4>
-          <p>如果你還沒有帳號~</p>
+          <p>如果你還沒有帳號~👾</p>
+          <p>確認過眼神 你遇上對的人🧌</p>
+          <p>那就趕緊來註冊吧 別🦑</p>
+          <br/>
           <Button onClick={() => goto(paths.register)}>立即註冊</Button>
           <p>
             加入 <span className="highlight">瞇那賞-玩具所</span>{' '}
@@ -121,6 +167,14 @@ export default function Login() {
           </p>
         </Section>
       </Container>
+      {isModalVisible && (
+        <ForgetPwDialog
+          msg={msg}
+          onConfirm={handleAlertConfirm}
+          onClose={handleAlertClose}
+          showCancelButton={true}
+        />
+      )}
     </Layout>
   )
   async function onSubmit(e) {

@@ -141,6 +141,11 @@ export const editPassword = async (req, token) => {
   return res
 }
 
+export const forgetPassword = async (req) => {
+  const res = await Request.post('/forget').body(req)
+  return res
+}
+
 export const topUp = async (req, token) => {
   const res = await Request.post('/paybyprime').bearer(token).body(req)
   return res
