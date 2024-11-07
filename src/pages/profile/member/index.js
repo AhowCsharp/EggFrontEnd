@@ -1,3 +1,4 @@
+// Member.js
 import styled from "styled-components";
 import { Descriptions, Spin, Input } from "antd";
 import { useSelector, dataStore } from "@app/store";
@@ -20,6 +21,42 @@ import downImg from "@app/static/arrow-down.png";
 import defaultHeadShotUrl from "@app/static/imgUpload.png";
 import { Button } from "../../commodity/index";
 
+const Title = styled.h3`
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0.5rem 0;
+`
+
+const Warning = styled.div`
+  color: red;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+`;
+
+const Info = styled.div`
+  margin: 10px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  div {
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 0.8em;
+  }
+`;
+
 const BindSuccessText = styled.span`
   font-size: 16px;
   color: #58b83f;
@@ -40,6 +77,7 @@ const labelDisplay = {
   referralCodeUrl: "推薦連結",
 };
 
+// 處理會員資訊的函數
 function handleMemberInfo(member) {
   return Object.keys(member)
     .map((key) => {
@@ -66,7 +104,7 @@ function handleMemberInfo(member) {
                 }}
               >
                 {member.isBindLineOa ? (
-                  // 當 IsBindLineOa 為 true 時顯示綁定成功的圖標和文字
+                  // 當 isBindLineOa 為 true 時顯示綁定成功的圖標和文字
                   <>
                     <img
                       style={{
@@ -81,14 +119,14 @@ function handleMemberInfo(member) {
                     <BindSuccessText>已綁定Line官方帳號</BindSuccessText>
                   </>
                 ) : (
-                  // 當 IsBindLineOa 為 false 時顯示紅色的 X Emoji 和紅色文字
+                  // 當 isBindLineOa 為 false 時顯示紅色的 X Emoji 和紅色文字
                   <>
-                    <div style={{ display: "flex", alignItems: "center"}}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
                       <span
                         style={{
                           fontSize: "18px",
                           color: "red",
-                          marginRight: "6px" ,
+                          marginRight: "6px",
                           marginLeft: "8px",
                           display: "flex",
                           alignItems: "center",
@@ -111,11 +149,13 @@ function handleMemberInfo(member) {
     .filter(Boolean);
 }
 
+// 保持原有的 Container，不修改
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+// 保持原有的 InfoContainer，不修改
 const InfoContainer = styled.div`
   align-items: center;
   display: flex;
@@ -131,73 +171,7 @@ const InfoContainer = styled.div`
   }
 `;
 
-const InfoItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-  img {
-    width: 50px;
-    height: 50px;
-  }
-  span {
-    font-size: 0.8rem;
-  }
-  * + * {
-    margin-top: 2px;
-  }
-`;
-
-const Title = styled.div`
-  font-size: 18px;
-  line-height: 24px;
-  font-weight: 700;
-
-  @media (max-width: 768px) {
-    color: #ffffff;
-  }
-`;
-
-const ValueText = styled.div`
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    color: #ffffff;
-  }
-`;
-
-const SubValueText = styled.div`
-  display: flex;
-  margin-top: 4px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #999999;
-
-  @media (max-width: 768px) {
-    color: #cccccc;
-  }
-`;
-
-const ProfileImage = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 6px;
-`;
-
-const ProfileImageContainer = styled.div`
-  @media (max-width: 768px) {
-    position: static;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-`;
-
+// 保持原有的 InfoComponent 和其內部結構
 const InfoComponent = ({
   img,
   title,
@@ -229,7 +203,15 @@ const InfoComponent = ({
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Title>{title}</Title>
+          <div
+            style={{
+              fontSize: "18px",
+              lineHeight: "24px",
+              fontWeight: "700",
+            }}
+          >
+            {title}
+          </div>
           {showLevel && (
             <div style={{ display: "flex", marginLeft: "38px" }}>
               <div style={{ display: "flex", lineHeight: "20px" }}>
@@ -292,20 +274,99 @@ const InfoComponent = ({
             marginBottom: "8px",
           }}
         ></div>
-        <ValueText>
+        <div
+          style={{
+            fontSize: "16px",
+            lineHeight: "22px",
+            fontWeight: "500",
+          }}
+        >
           {value_title} {value}
-        </ValueText>
+        </div>
         {subValue_title && (
-          <SubValueText>
+          <div
+            style={{
+              display: "flex",
+              marginTop: "4px",
+              fontSize: "14px",
+              lineHeight: "20px",
+              fontWeight: "400",
+              color: "#999999",
+            }}
+          >
             <div>{subValue_title}&nbsp;</div>
             <div style={{ fontWeight: "600" }}>{subValue}</div>
-          </SubValueText>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
+// 新增的 Styled Components
+const ABContainer = styled.div`
+  display: flex;
+  flex-direction: column; /* 默認為垂直排列，手機版 */
+  align-items: center;
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row; /* 桌面版水平排列 */
+    align-items: flex-start; /* 讓子項目在桌面版時延伸相同高度 */
+    justify-content: space-between;
+  }
+`;
+
+const ASection = styled.div`
+  flex: 1;
+  order: 2; /* 手機版時，A 區塊在後 */
+  margin-top: 20px; /* 與 B 區塊間距 */
+
+  @media (min-width: 768px) {
+    order: 1; /* 桌面版時，A 區塊在左 */
+    margin-right: 20px; /* 與 B 區塊間距 */
+    margin-top: 0;
+  }
+`;
+
+const BSection = styled(Info)`
+  flex: 1;
+  font-size: 0.8em; /* 字體較小 */
+  order: 1; /* 手機版時，B 區塊在前 */
+
+  @media (min-width: 768px) {
+    order: 2; /* 桌面版時，B 區塊在右 */
+    margin-left: 20px; /* 與 A 區塊間距 */
+  }
+`;
+
+const AContentContainer = styled.div`
+  text-align: center;
+`;
+
+const DescriptionsContainer = styled.div`
+  margin-left: -8px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; /* 水平居中 */
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+`;
+
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 6px;
+
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
+
+// HeadShotAndStatusMessegeComponent 定義保持不變
 const HeadShotAndStatusMessegeComponent = ({ member }) => {
   const headShotFile = useRef(null);
   const [uploadHeadShotSuccess, setUploadHeadShotSuccess] = useState(false);
@@ -314,8 +375,6 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
 
   const handleUploadHeadShot = async () => {
-    // setIsUploadingHeadShot(true);
-
     console.log("headShotFile.current.files[0]", headShotFile.current.files[0]);
 
     setUploadHeadShotSuccess(true);
@@ -326,8 +385,6 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
       setPreviewSrc(reader.result);
     };
     reader.readAsDataURL(file);
-    // dataStore.uploadHeadShot(file, member.statusMessage);
-    // headShotFile.current.value = null;
   };
 
   const handleSave = () => {
@@ -341,7 +398,12 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
     <div>
       {member.lineUserId === null ? (
         <div
-          style={{ cursor: "pointer", width: "200px", height: "200px" }}
+          style={{
+            cursor: "pointer",
+            width: "200px",
+            height: "200px",
+            margin: "0 auto",
+          }}
           onClick={() => {
             headShotFile.current.click();
           }}
@@ -360,7 +422,11 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
             </div>
           ) : (
             <div
-              style={{ position: "relative", width: "200px", height: "200px" }}
+              style={{
+                position: "relative",
+                width: "200px",
+                height: "200px",
+              }}
             >
               <div
                 style={{
@@ -408,14 +474,15 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
           marginTop: "16px",
           display: "flex",
           marginBottom: "12px",
+          justifyContent: "center",
         }}
       >
         {member.lineUserId === null ? (
           <Input
             placeholder="尚未填寫"
-            // disabled={member.lineUserId === null}
             value={statusMessage}
             onChange={(e) => setStatusMessage(e.target.value)}
+            style={{ maxWidth: "300px" }}
           />
         ) : (
           <div>{member.statusMessage}</div>
@@ -493,6 +560,7 @@ const handleWalletInfo = (member) => {
   ];
 };
 
+// 主組件
 export default function Member() {
   const member = useSelector(() => dataStore.member);
   const [memberDisplayInfos, setMemberDisplayInfos] = useState(null);
@@ -512,6 +580,7 @@ export default function Member() {
   return (
     <Content>
       <Container>
+        {/* 保持最上面四個圖片的區域不變 */}
         <InfoContainer>
           <div
             style={{
@@ -526,29 +595,51 @@ export default function Member() {
             ))}
           </div>
         </InfoContainer>
-        <div style={{ position: "relative" }}>
-          <div
-            style={{
-              fontSize: "20px",
-              lineHeight: "28px",
-              fontWeight: "700",
-              marginBottom: "20px",
-            }}
-          >
-            修改會員資料
-          </div>
-          <HeadShotAndStatusMessegeComponent member={member} />
-          <div style={{ marginLeft: "-8px" }}>
-            <Descriptions
-              style={{ paddingLeft: "0px" }}
-              title=""
-              layout="vertical"
-              column={1}
-            >
-              {memberDisplayInfos?.map((item) => item)}
-            </Descriptions>
-          </div>
-        </div>
+        <ABContainer>
+          <BSection>
+            <Title>新手村教學</Title><br/>
+            <div>金幣與御守等值。</div>
+            <div>金幣可藉由儲值獲得。</div>
+            <div>
+              抽獎券可以用於福袋專區，請找尋對應廠商出品之福袋。
+            </div>
+            <div>
+              御守可透過完成任務、每日簽到、抽獎回饋、提升會員等級、分享推薦連結給朋友獲得。
+            </div>
+            <div>
+              抽獎券、免運券可就由當月消費滿額贈送，詳情請點擊廠商資訊查看門檻。
+            </div>
+            <Warning>
+              不同廠商抽獎券、免運券不得混合使用，平台抽獎券用於 剩蛋快樂 出品之福袋。
+            </Warning>
+          </BSection>
+          <ASection>
+            <AContentContainer>
+              <div
+                style={{
+                  fontSize: "20px",
+                  lineHeight: "28px",
+                  fontWeight: "700",
+                  marginBottom: "20px",
+                }}
+              >
+                修改會員資料
+              </div>
+              <HeadShotAndStatusMessegeComponent member={member} />
+              <DescriptionsContainer>
+                <Descriptions
+                  style={{ paddingLeft: "0px" }}
+                  title=""
+                  layout="vertical"
+                  column={1}
+                >
+                  {memberDisplayInfos?.map((item) => item)}
+                </Descriptions>
+              </DescriptionsContainer>
+            </AContentContainer>
+          </ASection>
+        </ABContainer>
+        {/* 其他編輯組件 */}
         <EditMember member={member} />
         {member.lineUserId == null ? <EditPassword /> : null}
       </Container>

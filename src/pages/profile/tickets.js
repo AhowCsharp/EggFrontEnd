@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { dataStore, useSelector } from '@app/store/index'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { Table } from 'antd'
+import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { Button } from '@app/pages/commodity'
 import useRandomColors from '@app/utils/hooks/useRandomColors'
@@ -62,6 +63,7 @@ export default function Tickets() {
       />
     )
   }
+  
   function renderTable() {
     return (
       <>

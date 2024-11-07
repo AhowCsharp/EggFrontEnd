@@ -14,11 +14,17 @@ const Container = styled.div`
   font-size: 16px;
   line-height: 22px;
   cursor: pointer;
+  color: black;
   &:hover {
     opacity: 0.8;
   }
   svg {
     margin-left: 5px;
+  }
+
+  /* 手機版顏色 */
+  @media (max-width: 768px) {
+    color: white;
   }
 `
 
