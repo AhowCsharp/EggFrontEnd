@@ -341,11 +341,10 @@ const ASection = styled.div`
 `;
 
 const BSection = styled(Info)`
-  display: ${(props) => (props.showNewHandInfo ? "block" : "none")};
-  flex: 1;
-  font-size: 0.8em; /* 字體較小 */
-  order: 1; /* 手機版時，B 區塊在前 */
+  display: none; /* 手機版隱藏 */
+
   @media (min-width: 768px) {
+    display: block; /* 桌面版顯示 */
     order: 2; /* 桌面版時，B 區塊在右 */
     margin-left: 20px; /* 與 A 區塊間距 */
     height: 60%;
@@ -558,12 +557,6 @@ export default function Member() {
   const member = useSelector(() => dataStore.member);
   const [memberDisplayInfos, setMemberDisplayInfos] = useState(null);
   const [walletInfo, setWalletInfo] = useState(null);
-  const [showNewHandInfo, setShowNewHandInfo] = useState(true);
-
-  const toggleVisibility = () => {
-    setShowNewHandInfo(!showNewHandInfo);
-  };
-
   useEffect(() => {
     if (member) {
       const memberDisplayInfos = handleMemberInfo(member);
@@ -595,7 +588,7 @@ export default function Member() {
         </InfoContainer>
         <CenteredTitle>會員資料</CenteredTitle>
         <ABContainer>      
-          <BSection showNewHandInfo>
+          <BSection>
             <Title>新手村公告</Title><br/>
             <div>金幣與御守等值。</div>
             <div>金幣可藉由儲值獲得。</div>
