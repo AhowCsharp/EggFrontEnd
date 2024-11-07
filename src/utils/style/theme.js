@@ -34,9 +34,9 @@ const theme = {
     dialog: 3,
     footer: 1,
     mask: 2,
-    alertDialog: 5,
-    alertMask: 4,
-    header: 6,
+    alertDialog: 6,
+    alertMask: 5,
+    header: 4,
     danmaku: 7,
   },
   mobile: {

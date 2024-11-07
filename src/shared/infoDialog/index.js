@@ -9,24 +9,22 @@ import topUpWording from './topUp.json'
 import drawProbability from './drawProbability.json'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   color: #000;
-  opacity: 1;
-  top: 20px;
+  top: 175px;
   width: 60%;
   left: 20%;
-  max-height: calc(90% - 20px);
+  max-height: calc(90vh - 175px);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
@@ -37,8 +35,11 @@ const Container = styled.div`
   padding: 20px 40px 60px;
   display: flex;
   @media (max-width: 768px) {
+    top: 150px;
     width: 90%;
     left: 5%;
+    max-height: calc(90vh - 165px);
+    padding: 20px 10px 60px;
   }
 `
 
@@ -50,7 +51,7 @@ const Block = styled.div`
 
 const Header = styled(Block)`
   position: relative;
-  top: 0;
+  top: -5px;
   h3 {
     margin: 0;
   }
@@ -59,15 +60,15 @@ const Header = styled(Block)`
 export const P = styled.p`
   display: flex;
   align-items: center;
-  margin: 10px 0; 
-  font-size: 12px; 
+  margin: 10px 0;
+  font-size: 12px;
   justify-content: ${(p) => (p.center ? 'center' : 'unset')};
   opacity: ${(p) => p.opacity || 1};
-  
+
   input {
     width: 80%;
   }
-`;
+`
 
 const Footer = styled(Block)`
   position: absolute;
@@ -81,6 +82,11 @@ const Content = styled(Block)`
   flex-direction: column;
   max-height: 70vh;
   overflow-y: auto;
+  align-items: center;
+  img {
+    width: 90%;
+    height: auto;
+  }
 `
 
 const Button = styled(DrawOutBtn)`
@@ -117,7 +123,7 @@ export default function InfoDialog() {
   const onClose = () => dataStore.setInfoDialogType()
   const [wording, setWording] = useState()
   const [referralCode, setReferralCode] = useState(defaultReferralCode || '')
-  const [disabled,setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false)
   const [checked, setChecked] = useState(false)
   const isRegister = type === INFO_DIALOG_TYPE.REGISTER
   useEffect(() => {
@@ -131,11 +137,6 @@ export default function InfoDialog() {
       setReferralCode(defaultReferralCode)
     }
   }, [defaultReferralCode])
-
-  useEffect(() => {
-    if (!type || !wording) return
-    document.getElementById('layout').scrollIntoView({ behavior: 'smooth' })
-  }, [type, wording])
 
   if (!type || !wording) return null
   const keys = Object.keys(wording?.others)

@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { useSelector, dataStore } from '@app/store'
 import paths from '@app/utils/paths'
+import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
@@ -80,6 +81,7 @@ export default function Login() {
     if (!isLogged) return
     goto(paths.index)
   }, [isLogged])
+  useScrollToTop()
 
   return (
     <Layout>

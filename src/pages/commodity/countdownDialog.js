@@ -3,25 +3,25 @@ import CountdownTimer from '@app/shared/countdownTimer'
 import { DrawOutBtn as Button } from './index'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
 const Container = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 25vh;
+  position: fixed;
+  top: 50vh;
+  transform: translateY(-50%);
   width: 60%;
   left: 20%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
+  max-height: calc(90vh - 175px);
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
@@ -31,6 +31,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     width: 90%;
     left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 
@@ -47,13 +48,13 @@ const Header = styled.div`
   align-items: center; /* 置中對齊 */
   padding: 1rem;
   text-align: center; /* 文字置中 */
-`;
+`
 
 const Title = styled.h3`
   font-size: 1.5rem;
   color: #333;
   margin: 0.5rem 0;
-`;
+`
 
 // 定義副標題的樣式
 const Subtitle = styled.span`
@@ -62,7 +63,7 @@ const Subtitle = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Footer = styled(Block)`
   position: absolute;
@@ -75,19 +76,20 @@ const Content = styled(Block)`
   padding: 20px 0;
 `
 
-export default function CountdownDialog({ countdownSec, onClose, cb,protectPlayer }) {
+export default function CountdownDialog({
+  countdownSec,
+  onClose,
+  cb,
+  protectPlayer,
+}) {
   if (!countdownSec) return null
   return (
     <>
       <Mask />
       <Container className="dialog">
         <Header>
-          <Title>
-            賞品鎖定中，解鎖倒數 ⏳
-          </Title>
-          <Subtitle>
-            👤 保護中玩家: {protectPlayer}
-          </Subtitle>
+          <Title>賞品鎖定中，解鎖倒數 ⏳</Title>
+          <Subtitle>👤 保護中玩家: {protectPlayer}</Subtitle>
         </Header>
         <Content>
           <CountdownTimer

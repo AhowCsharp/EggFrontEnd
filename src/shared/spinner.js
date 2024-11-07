@@ -2,20 +2,18 @@ import styled from 'styled-components'
 import animation from '@app/static/loading.gif'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.alertMask};
 `
 
 const Layout = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 50%;
+  position: fixed;
+  top: 50vh;
   transform: translateY(-50%);
   width: 50%;
   left: 25%;

@@ -4,6 +4,7 @@ import { dataStore, useSelector } from '@app/store'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import paths from '@app/utils/paths'
 import { useEffect } from 'react'
+import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import { LineButton } from '../login'
 import Form from './form'
 
@@ -37,6 +38,7 @@ export default function Register() {
     if (!isLogged) return
     goto(paths.index)
   }, [isLogged])
+  useScrollToTop()
 
   return (
     <Layout>

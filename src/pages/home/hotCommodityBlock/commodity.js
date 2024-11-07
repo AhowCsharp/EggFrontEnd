@@ -56,7 +56,6 @@ const BaseRankTag = styled.div`
 `
 
 const ImageContainer = styled.div`
-  height: 280px;
   overflow: hidden;
   position: relative;
   border-radius: 8px;

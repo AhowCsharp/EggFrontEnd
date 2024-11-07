@@ -4,25 +4,25 @@ import { DrawOutBtn as Button } from '@app/pages/commodity'
 import { useEffect, useState } from 'react'
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.alertMask};
 `
 
 const Container = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 25vh;
+  position: fixed;
+  top: 50vh;
+  transform: translateY(-50%);
   width: 60%;
   left: 20%;
   z-index: ${(p) => p.theme.zIndex.alertDialog};
   display: flex;
   min-height: 230px;
+  max-height: calc(90vh - 175px);
   font-size: 1.15rem;
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
@@ -33,6 +33,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     width: 90%;
     left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 

@@ -31,26 +31,24 @@ const UrlContainer = styled.div`
 `;
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.mask};
 `;
 
 const Container = styled.div`
-  position: absolute;
-  opacity: 1;
-  top: 0;
+  position: fixed;
+  top: 175px;
   width: 60%;
   left: 20%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
-  max-height: 90%;
+  max-height: calc(90vh - 175px);
   overflow-y: auto;
   flex-direction: column;
   background: ${(p) => p.theme.color.background};
@@ -60,8 +58,10 @@ const Container = styled.div`
   display: flex;
   padding-bottom: 55px;
   @media (max-width: 768px) {
-    width: 100%;
-    left: 0;
+    top: 150px;
+    width: 90%;
+    left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `;
 

@@ -24,24 +24,23 @@ const SortTypeLocale = {
 }
 
 const Mask = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
 const Container = styled.div`
   position: fixed;
   color: #000;
-  opacity: 1;
-  top: 25%;
   width: 60%;
+  top: 50vh;
+  transform: translateY(-50%);
   left: 20%;
-  max-height: 85vh;
+  max-height: calc(90vh - 175px);
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
   min-height: 250px;
@@ -53,6 +52,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     width: 90%;
     left: 5%;
+    max-height: calc(90vh - 165px);
   }
 `
 

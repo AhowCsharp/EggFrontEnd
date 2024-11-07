@@ -8,13 +8,11 @@ const Mask = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  border-radius: ${(p) => p.theme.borderRadius.content};
   z-index: ${(p) => p.theme.zIndex.mask};
 `
 
 const Container = styled.div`
   position: fixed;
-  opacity: 1;
   top: 50vh;
   width: 60%;
   left: 20%;

@@ -12,6 +12,7 @@ import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
 import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
+import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
 import CountdownDialog from './countdownDialog'
@@ -31,8 +32,8 @@ export const Info = styled.div`
 `
 
 const ImgContainer = styled.div`
-  width: 500px;
-  height: 500px;
+  width: calc(50vw - 84px);
+  height: calc(50vw - 84px);
   border: 10px solid #331212;
   margin-right: 20px;
   ${(p) => p.img && `background: url('${p.img}') no-repeat center/cover;`}
@@ -40,7 +41,7 @@ const ImgContainer = styled.div`
     margin-right: 0;
     margin-bottom: 20px;
     width: 100%;
-    max-height: 500px;
+    height: calc(100vw - 20px);
   }
 `
 
@@ -148,7 +149,19 @@ const DrawOutBtn = styled.div`
   }
 `
 
-export { DrawOutBtn, DrawOutBtn as Button }
+const DrawOutBtn_old = styled.div`
+  cursor: pointer;
+  background: #000;
+  color: ${(p) => p.theme.color.orange};
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  text-align: center;
+  border-radius: 10px;
+  ${(p) => p.isMultiDrawOut && multiDrawOutStyle}
+`
+
+export { DrawOutBtn_old as DrawOutBtn, DrawOutBtn as Button }
 
 export const Block = styled.div`
   display: flex;
@@ -338,6 +351,8 @@ export default function Commodity() {
   useEffect(() => {
     dataStore.getCommodity(commodityId)
   }, [])
+
+  useScrollToTop()
 
   useEffect(() => {
     setSelectedPrizes([])

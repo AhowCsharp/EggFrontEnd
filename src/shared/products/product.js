@@ -85,7 +85,6 @@ const SaleTag = styled.div`
 `
 
 const ImageContainer = styled.div`
-  height: 280px;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -183,7 +182,7 @@ const PrizeTag = styled.div`
     flex-direction: column;
     display: flex;
     align-items: center;
-    max-width: 2rem;
+    max-width: ${(p) => (p.length <= 2 ? '1rem' : '2rem')};
     font-size: 0.75rem;
     position: absolute;
     top: 15%;
