@@ -57,11 +57,12 @@ const ImgContainer = styled.div`
 // Spinner Component
 const Spinner = () => {
   const [showSpinner, setShowSpinner] = useState(false);
-  console.log(IS_FIRST_TIME);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const hasShown = localStorage.getItem(IS_FIRST_TIME);
-      if (hasShown) {
+
+      if (hasShown == 'true') {
         setShowSpinner(true);
       }
       else {
