@@ -97,6 +97,9 @@ export const INCLUDE_MEMBER_COLUMNS_ENABLE_COPY = [
   'referralCodeUrl',
 ]
 
+export const IS_FIRST_TIME = 'announcementModalShown_v1'
+
+
 export const SIGN_PRIZE_TYPE = {
   COIN: 0,
   LOTTERY: 1,

@@ -1,6 +1,9 @@
 // AnnouncementModal.jsx
 
 import React, { useState, useEffect } from 'react';
+import {
+  IS_FIRST_TIME
+} from "@app/utils/constants";
 import styled from 'styled-components';
 import wood from '@app/static/wood.png';
 
@@ -9,11 +12,10 @@ export default function AnnouncementModal({ announcements }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const ANNOUNCEMENT_KEY = 'announcementModalShown_v1'; // 可根据需要更改版本号
-    const hasShown = localStorage.getItem(ANNOUNCEMENT_KEY);
+    const hasShown = localStorage.getItem(IS_FIRST_TIME);
     if (!hasShown) {
       setIsOpen(true);
-      localStorage.setItem(ANNOUNCEMENT_KEY, 'true');
+      localStorage.setItem(IS_FIRST_TIME, 'true');
     }
   }, []);
 
@@ -88,7 +90,7 @@ const ModalOverlay = styled.div.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
   overflow-y: auto;
 `;
 

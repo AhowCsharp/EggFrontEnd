@@ -9,14 +9,13 @@ import Price from "./price";
 
 const PinIcon = styled(PushpinFilled)`
   position: absolute;
-  top: 1px; 
-  right: 1px;   
+  top: 2px; 
+  right: 2px;   
   color: #FFA500;  
-  font-size: 20px; 
+  font-size: 24px; 
   z-index: 2;  
   
   @media (max-width: 768px) {
-    font-size: 20px;
     top: 1px;
     right: 1px;
   }
