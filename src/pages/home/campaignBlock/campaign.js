@@ -20,9 +20,10 @@ const Container = styled.div`
   display: flex;
   cursor: pointer;
   flex-direction: ${(p) => (p.isHighLight ? 'column' : 'row')};
+  margin: 0 0 10px;
+
   @media (max-width: 768px) {
     width: 100%;
-    margin: 0 0 10px;
     flex-direction: row;
   }
 `

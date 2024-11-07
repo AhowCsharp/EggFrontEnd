@@ -94,10 +94,6 @@ export default function CampaignPage() {
   const news = useSelector(() => dataStore.news)
   const campaign = campaignDict[campaignId]
   const [otherCampaigns, setOtherCampaigns] = useState([])
-  console.log('🚀 ~ CampaignPage ~ otherCampaigns:', {
-    campaign,
-    otherCampaigns,
-  })
   const goto = useNavigate()
 
   useEffect(() => {

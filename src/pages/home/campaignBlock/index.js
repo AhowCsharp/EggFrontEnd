@@ -35,9 +35,7 @@ const Layout = styled.div`
   padding: 10px 0;
   margin: 1rem 0;
   justify-content: space-between;
-  .item + .item {
-    margin-top: 1.25rem;
-  }
+
   @media (max-width: 768px) {
     flex-direction: column;
     ${InnerContainer} {
