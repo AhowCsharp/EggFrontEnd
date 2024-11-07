@@ -503,7 +503,7 @@ const HeadShotAndStatusMessegeComponent = ({ member }) => {
               }}
               onClick={handleSave}
             >
-              儲存狀態
+              儲存
             </div>
           </Button>
         )}
@@ -597,7 +597,7 @@ export default function Member() {
         </InfoContainer>
         <ABContainer>
           <BSection>
-            <Title>新手村教學</Title><br/>
+            <Title>新手村公告</Title><br/>
             <div>金幣與御守等值。</div>
             <div>金幣可藉由儲值獲得。</div>
             <div>
@@ -608,6 +608,9 @@ export default function Member() {
             </div>
             <div>
               抽獎券、免運券可就由當月消費滿額贈送，詳情請點擊廠商資訊查看門檻。
+            </div>
+            <div>
+              每次抽獎都有一定機率獲得寶箱或鑰匙，單抽價格愈高獲得的寶箱、鑰匙等級也愈高。
             </div>
             <Warning>
               不同廠商抽獎券、免運券不得混合使用，平台抽獎券用於 剩蛋快樂 出品之福袋。

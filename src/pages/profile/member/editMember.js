@@ -186,14 +186,6 @@ export default function EditMember({ member }) {
         >
           <Input />
         </Form.Item>
-        {/* 
-        <Form.Item
-          label="狀態訊息"
-          name="statusMessage"
-          rules={[{ required: false, message: '' }]}
-        >
-          <Input />
-        </Form.Item> */}
       </Form>
       <ButtonContainer>
         <DrawOutBtn onClick={onEditMemberSubmit}>修改會員資料</DrawOutBtn>
