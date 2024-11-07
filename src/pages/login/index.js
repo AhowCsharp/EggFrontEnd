@@ -83,6 +83,7 @@ const ForgotPasswordLink = styled.a`
   align-self: flex-end;
 
   @media (max-width: 768px) {
+    font-size: 0.85rem;
     align-self: flex-start;
     color: white;
   }
