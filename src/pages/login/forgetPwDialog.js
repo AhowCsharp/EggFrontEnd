@@ -73,7 +73,7 @@ const Footer = styled.div`
   }
 `
 
-export default function ForgetPwDialog({ msg, onConfirm, onClose, showCancelButton }) {
+export default function ForgetPwDialog({ msg, onConfirm, onClose}) {
   useEffect(() => {
     const layoutElement = document.getElementById('layout')
     if (layoutElement) {
@@ -90,7 +90,7 @@ export default function ForgetPwDialog({ msg, onConfirm, onClose, showCancelButt
           <p>{msg}</p>
         </Content>
         <Footer>
-          {showCancelButton && <Button onClick={onClose}>取消</Button>}
+          <Button onClick={onClose}>取消</Button>
           <Button onClick={onConfirm}>確認</Button>
         </Footer>
       </Container>

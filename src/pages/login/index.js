@@ -172,7 +172,6 @@ export default function Login() {
           msg={msg}
           onConfirm={handleAlertConfirm}
           onClose={handleAlertClose}
-          showCancelButton={true}
         />
       )}
     </Layout>
