@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { PRIZE_LEVEL } from '@app/utils/constants'
-import { FaCoins, FaShippingFast } from 'react-icons/fa';
+import { formatDateToYmd as formatDate } from '@app/utils/date'
+import { FaCoins, FaShippingFast, FaBoxOpen, FaLayerGroup, FaCalendarAlt } from 'react-icons/fa';
 
 // 保持原有的样式
 const Container = styled.div`
@@ -69,7 +70,7 @@ const FireEmoji = styled.span`
 const InfoItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 0.9rem; /* 調整文字大小 */
+  font-size: 0.8rem; /* 調整文字大小 */
   margin: 5px 0;
 
   svg {
@@ -110,6 +111,22 @@ export default function Prize({ data, onClick, isCommodity }) {
             </InfoItem>
           </div>
           <PrizeLevelAndAmount {...data} />
+        </>
+      )}
+      {isCommodity && (
+        <>
+          <InfoItem>
+            <FaBoxOpen />
+            <span>類別 : {data.category}</span>
+          </InfoItem>
+          <InfoItem>
+            <FaLayerGroup /> 
+            <span>子類別 : {data.commodityCategory}</span>
+          </InfoItem>
+          <InfoItem>
+            <FaCalendarAlt />
+            <span>上架日 : {formatDate(data.createDate)}</span>
+          </InfoItem>
         </>
       )}
     </Container>

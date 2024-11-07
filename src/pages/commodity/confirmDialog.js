@@ -76,6 +76,12 @@ const HeightLight = styled.span`
   font-size: 1.2rem;
 `
 
+const GraySmallText = styled.span`
+  color: gray;
+  font-size: 12px;
+  margin-left: 7px;
+`;
+
 const Cost = styled.div`
   display: flex;
   flex-direction: row;
@@ -121,6 +127,7 @@ export default function ConfirmDialog({
                 <DollarSign category={category} />
                 {CATEGORY.LUCKY_BAG === category ? '1' : totalCost}
               </Cost>
+              <GraySmallText>(御守優先扣除)</GraySmallText>
             </p>
           </Content>
           <Footer>
