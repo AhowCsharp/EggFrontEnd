@@ -108,7 +108,7 @@ const navList = [
     type: PROFILE_TAB.CONSUME_LOG,
   },
   {
-    title: '待處理獎品列表',
+    title: '獎品列表',
     src: profileIcon.pendingPrizes,
     type: PROFILE_TAB.PENDING_PRIZES,
   },
@@ -125,11 +125,11 @@ const navList = [
   },
   { title: '神秘寶箱', src: profileIcon.crateLog, type: PROFILE_TAB.CRATE_LOG },
   {
-    title: '免運券紀錄',
+    title: '免運紀錄',
     src: profileIcon.freeShipping,
     type: PROFILE_TAB.FREE_SHIPPING,
   },
-  { title: '抽獎券查詢', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },
+  { title: '福袋紀錄', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },
 ]
 
 export default function Profile() {

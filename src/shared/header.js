@@ -321,7 +321,7 @@ const NavList = [
       { title: '儲值紀錄', path: `profile?type=${PROFILE_TAB.STORED_LOG}` },
       { title: '消費紀錄', path: `profile?type=${PROFILE_TAB.CONSUME_LOG}` },
       {
-        title: '待處理獎品列表',
+        title: '獎品列表',
         path: `profile?type=${PROFILE_TAB.PENDING_PRIZES}`,
       },
       { title: '回收紀錄', path: `profile?type=${PROFILE_TAB.RECLAIM_LOG}` },
@@ -329,10 +329,10 @@ const NavList = [
       { title: '任務成就', path: `profile?type=${PROFILE_TAB.TASK_HISTORY}` },
       { title: '神秘寶箱', path: `profile?type=${PROFILE_TAB.CRATE_LOG}` },
       {
-        title: '免運券紀錄',
+        title: '免運紀錄',
         path: `profile?type=${PROFILE_TAB.FREE_SHIPPING}`,
       },
-      { title: '抽獎券查詢', path: `profile?type=${PROFILE_TAB.TICKETS}` },
+      { title: '福袋紀錄', path: `profile?type=${PROFILE_TAB.TICKETS}` },
     ],
   },
   {

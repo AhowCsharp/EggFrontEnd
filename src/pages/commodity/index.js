@@ -134,7 +134,7 @@ const TagBlock = styled.div`
 
 const DrawOutBtn = styled.div`
   cursor: pointer;
-  padding: 0.5rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 4px;
   border: 1px solid ${(p) => p.theme.color.red};
   background: ${(p) => (p.isWhite ? '#fff' : p.theme.color.red)};
@@ -142,7 +142,7 @@ const DrawOutBtn = styled.div`
   text-align: center;
   margin-left: 5px;
   @media (max-width: 768px) {
-    padding: 0.5rem;
+    padding: 1rem;
     flex: 1;
     margin-left: 0;
     margin-right: 5px;
@@ -171,6 +171,9 @@ export const Block = styled.div`
 
 const DrawOutBtnBlock = styled(Block)`
   margin-bottom: 10px;
+  ${DrawOutBtn} {
+    padding: 0.5rem 1rem;
+  }
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
@@ -191,6 +194,9 @@ export const MobileDrawOutBtnBlock = styled(Block)`
     padding: 0 10px;
     margin: 0;
     z-index: ${(p) => p.theme.zIndex.dialog};
+    ${DrawOutBtn} {
+      padding: 0.5rem;
+    }
   }
 `
 
