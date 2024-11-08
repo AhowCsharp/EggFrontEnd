@@ -14,9 +14,11 @@ const DiscountPrice = styled(BasePrice)`
   color: #fff;
   font-size: 1rem;
   font-weight: normal;
+
   span {
     text-decoration: line-through;
     color: #565656;
+
     &.discount {
       color: #000;
       font-size: 1.5rem;
@@ -25,7 +27,19 @@ const DiscountPrice = styled(BasePrice)`
       margin-left: 5px;
     }
   }
-`
+    
+  @media (max-width: 768px) {
+    span {
+      color: #fff; 
+      text-decoration: line-through;
+      text-decoration-color: #fff; 
+      &.discount {
+        color: red; 
+        text-decoration: none;
+      }
+    }
+  }
+`;
 
 export default function Price({ category, drawOut1Price, discount }) {
   if (category === CATEGORY.LUCKY_BAG)
