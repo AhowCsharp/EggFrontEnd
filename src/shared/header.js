@@ -1,39 +1,42 @@
-import { memo, useState } from 'react'
-import styled, { css } from 'styled-components'
-import logoImg from '@app/static/logo.png'
-import paths from '@app/utils/paths'
-import { useNavigate } from 'react-router-dom'
-import gachaImg from '@app/static/gacha.png'
-import blindBoxImg from '@app/static/blind-box.png'
-import luckyBagImg from '@app/static/lucky-bag.png'
-import ichibanImg from '@app/static/ichiban.png'
-import specialImg from '@app/static/special.svg'
-import outsideWallWorldImg from '@app/static/outsideWallWorld.svg'
-import digitalWorldImg from '@app/static/digital-world.png'
-import signInImg from '@app/static/sign-in.png'
-import rankListImg from '@app/static/rank-list.png'
-import manufacturerImg from '@app/static/manufacturer.png'
-import coinImg from '@app/static/coin.svg'
-import ticket2000Img from '@app/static/ticket-2000.svg'
-import ticketPlatformImg from '@app/static/ticket-platform.svg'
-import coinWelfareImg from '@app/static/coin-welfare.svg'
-import userImg from '@app/static/profile/member.png'
-import topUpImg from '@app/static/profile/top-up.png'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleDollarToSlot, faBars } from '@fortawesome/free-solid-svg-icons'
-import { useSelector, dataStore } from '@app/store'
-import bgTopImg from '@app/static/bg-top.svg'
+import { memo, useState } from "react";
+import styled, { css } from "styled-components";
+import logoImg from "@app/static/logo.png";
+import paths from "@app/utils/paths";
+import { useNavigate } from "react-router-dom";
+import gachaImg from "@app/static/gacha.png";
+import blindBoxImg from "@app/static/blind-box.png";
+import luckyBagImg from "@app/static/lucky-bag.png";
+import ichibanImg from "@app/static/ichiban.png";
+import specialImg from "@app/static/special.svg";
+import outsideWallWorldImg from "@app/static/outsideWallWorld.svg";
+import digitalWorldImg from "@app/static/digital-world.png";
+import signInImg from "@app/static/sign-in.png";
+import rankListImg from "@app/static/rank-list.png";
+import manufacturerImg from "@app/static/manufacturer.png";
+import coinImg from "@app/static/coin.svg";
+import ticket2000Img from "@app/static/ticket-2000.svg";
+import ticketPlatformImg from "@app/static/ticket-platform.svg";
+import coinWelfareImg from "@app/static/coin-welfare.svg";
+import userImg from "@app/static/profile/member.png";
+import topUpImg from "@app/static/profile/top-up.png";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon as BaseFontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleDollarToSlot,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
+import { useSelector, dataStore } from "@app/store";
+import bgTopImg from "@app/static/bg-top.svg";
 import {
   faXmark,
   faPlus,
   faChevronRight,
   faMinus,
-} from '@fortawesome/free-solid-svg-icons'
-import { CATEGORY, PROFILE_TAB } from '@app/utils/constants'
+} from "@fortawesome/free-solid-svg-icons";
+import { CATEGORY, PROFILE_TAB } from "@app/utils/constants";
 
-library.add(faCircleDollarToSlot)
-library.add(faBars)
+library.add(faCircleDollarToSlot);
+library.add(faBars);
 
 export const hideScrollBarStyle = `
   scrollbar-width: none; /* Firefox */
@@ -43,7 +46,7 @@ export const hideScrollBarStyle = `
     background: transparent; /* make scrollbar transparent */
     display: none;
   }
-`
+`;
 
 const BaseNavItem = styled.div`
   padding: 4px 10px;
@@ -59,7 +62,7 @@ const BaseNavItem = styled.div`
     height: 2.5rem;
     margin-bottom: 3px;
   }
-`
+`;
 const scrolledStyle = css`
   background-color: ${(p) => p.theme.color.headerMask};
   ${BaseNavItem}${BaseNavItem} {
@@ -72,7 +75,7 @@ const scrolledStyle = css`
       padding: 0 0.5rem;
     }
   }
-`
+`;
 
 const HeaderModule = styled.div`
   width: 100%;
@@ -86,7 +89,7 @@ const HeaderModule = styled.div`
   @media (max-width: 768px) {
     padding-top: calc(env(safe-area-inset-top) + 10px);
   }
-`
+`;
 
 const MemberNav = styled.div`
   display: flex;
@@ -108,7 +111,35 @@ const MemberNav = styled.div`
   @media (max-width: 768px) {
     display: none;
   }
-`
+`;
+
+const PersonalInfoNavItem = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid ${(p) => p.theme.mobile.color.menuDivider};
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* 圖像樣式 */
+    .icon {
+      width: 45px; /* 根據需要調整圖標大小 */
+      height: 45px;
+      object-fit: contain; /* 確保圖像按比例縮放 */
+    }
+
+    .count {
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+`;
 
 const TopUpBtn = styled(BaseNavItem)`
   font-size: 0.875rem;
@@ -123,7 +154,7 @@ const TopUpBtn = styled(BaseNavItem)`
     margin-bottom: 0;
     margin-right: 3px;
   }
-`
+`;
 
 const Logo = styled.img`
   height: 100%;
@@ -133,11 +164,11 @@ const Logo = styled.img`
   @media (max-width: 768px) {
     transform: scale(1.2) translateX(-10%) translateY(-5%);
   }
-`
+`;
 
 const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
   color: #fff;
-`
+`;
 
 const MobileNavItem = styled.div`
   align-items: center;
@@ -150,8 +181,8 @@ const MobileNavItem = styled.div`
   align-items: center;
   height: 60px;
   cursor: pointer;
-  background-color: ${(p) => p.isChild && '#000'};
-`
+  background-color: ${(p) => p.isChild && "#000"};
+`;
 const MobileNavContainer = styled.div`
   position: fixed;
   top: env(safe-area-inset-top);
@@ -164,7 +195,7 @@ const MobileNavContainer = styled.div`
   z-index: ${(p) => p.theme.zIndex.header};
   background: #000;
   padding-bottom: 80px;
-`
+`;
 const MobileNav = styled.div`
   flex-direction: column;
   background: ${(p) => p.theme.mobile.color.background};
@@ -205,7 +236,7 @@ const MobileNav = styled.div`
       justify-content: flex-end;
     }
   }
-`
+`;
 
 const MobileNavButton = styled.div`
   display: none;
@@ -214,7 +245,7 @@ const MobileNavButton = styled.div`
   @media (max-width: 768px) {
     display: inline-block;
   }
-`
+`;
 
 const Block = styled.div`
   display: flex;
@@ -258,7 +289,7 @@ const Block = styled.div`
       display: flex;
     }
   }
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -281,7 +312,7 @@ const Container = styled.div`
     width: calc(100% - 20px);
     margin: 0 10px 10px;
   }
-`
+`;
 
 const Nav = styled(Block)`
   width: 100%;
@@ -306,112 +337,112 @@ const Nav = styled(Block)`
     margin-left: 10px;
     justify-content: flex-start;
   }
-`
+`;
 
 function NavItem({ title, type, src }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onClick = () => {
-    navigate(paths[type])
-  }
+    navigate(paths[type]);
+  };
 
   return (
     <BaseNavItem onClick={onClick}>
       <img src={src} />
       {title}
     </BaseNavItem>
-  )
+  );
 }
 
 const NavList = [
   {
-    title: '會員中心',
-    type: 'profile',
+    title: "會員中心",
+    type: "profile",
     src: userImg,
     checkIsLogged: true,
     hideInPc: true,
     children: [
-      { title: '會員管理', path: `profile?type=${PROFILE_TAB.MEMBER}` },
-      { title: '金幣儲值', path: `profile?type=${PROFILE_TAB.TOP_UP}` },
-      { title: '儲值紀錄', path: `profile?type=${PROFILE_TAB.STORED_LOG}` },
-      { title: '消費紀錄', path: `profile?type=${PROFILE_TAB.CONSUME_LOG}` },
+      { title: "會員管理", path: `profile?type=${PROFILE_TAB.MEMBER}` },
+      { title: "金幣儲值", path: `profile?type=${PROFILE_TAB.TOP_UP}` },
+      { title: "儲值紀錄", path: `profile?type=${PROFILE_TAB.STORED_LOG}` },
+      { title: "消費紀錄", path: `profile?type=${PROFILE_TAB.CONSUME_LOG}` },
       {
-        title: '獎品列表',
+        title: "獎品列表",
         path: `profile?type=${PROFILE_TAB.PENDING_PRIZES}`,
       },
-      { title: '回收紀錄', path: `profile?type=${PROFILE_TAB.RECLAIM_LOG}` },
-      { title: '配送紀錄', path: `profile?type=${PROFILE_TAB.SHIP_LOG}` },
-      { title: '任務成就', path: `profile?type=${PROFILE_TAB.TASK_HISTORY}` },
-      { title: '神秘寶箱', path: `profile?type=${PROFILE_TAB.CRATE_LOG}` },
+      { title: "回收紀錄", path: `profile?type=${PROFILE_TAB.RECLAIM_LOG}` },
+      { title: "配送紀錄", path: `profile?type=${PROFILE_TAB.SHIP_LOG}` },
+      { title: "任務成就", path: `profile?type=${PROFILE_TAB.TASK_HISTORY}` },
+      { title: "神秘寶箱", path: `profile?type=${PROFILE_TAB.CRATE_LOG}` },
       {
-        title: '免運紀錄',
+        title: "免運紀錄",
         path: `profile?type=${PROFILE_TAB.FREE_SHIPPING}`,
       },
-      { title: '福袋紀錄', path: `profile?type=${PROFILE_TAB.TICKETS}` },
+      { title: "福袋紀錄", path: `profile?type=${PROFILE_TAB.TICKETS}` },
     ],
   },
   {
     title: CATEGORY.GACHA,
-    type: 'gacha',
+    type: "gacha",
     src: gachaImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.BLIND_BOX,
-    type: 'blindBox',
+    type: "blindBox",
     src: blindBoxImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.LUCKY_BAG,
-    type: 'luckyBag',
+    type: "luckyBag",
     src: luckyBagImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.ICHIBAN,
-    type: 'ichiban',
+    type: "ichiban",
     src: ichibanImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.SPECIAL,
-    type: 'special',
+    type: "special",
     src: specialImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.OUTSIDE_WALL_WORLD,
-    type: 'outsideWallWorld',
+    type: "outsideWallWorld",
     src: outsideWallWorldImg,
     checkIsLogged: false,
   },
   {
     title: CATEGORY.DIGITAL_WORLD,
-    type: 'digitalWorld',
+    type: "digitalWorld",
     src: digitalWorldImg,
     checkIsLogged: false,
   },
-  { title: '每日簽到', type: 'signIn', src: signInImg, checkIsLogged: true },
-  { title: '榜單', type: 'rankList', src: rankListImg, checkIsLogged: false },
+  { title: "每日簽到", type: "signIn", src: signInImg, checkIsLogged: true },
+  { title: "榜單", type: "rankList", src: rankListImg, checkIsLogged: false },
   {
-    title: '廠商資訊',
-    type: 'manufacturer',
+    title: "廠商資訊",
+    type: "manufacturer",
     src: manufacturerImg,
     checkIsLogged: false,
   },
-]
+];
 
 const getNavList = (isLogged) => {
-  return NavList.filter((item) => !item.checkIsLogged || isLogged)
-}
+  return NavList.filter((item) => !item.checkIsLogged || isLogged);
+};
 
 function Header({ isScrolled }) {
-  const goto = useNavigate()
-  const isLogged = useSelector(() => dataStore.isLogged)
-  const member = useSelector(() => dataStore.member)
-  const navList = getNavList(isLogged)
-  const [openMobileNav, setOpenMobileNav] = useState(false)
-  const [openNavChildrenSetting, setOpenNavChildrenSetting] = useState({})
+  const goto = useNavigate();
+  const isLogged = useSelector(() => dataStore.isLogged);
+  const member = useSelector(() => dataStore.member);
+  const navList = getNavList(isLogged);
+  const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [openNavChildrenSetting, setOpenNavChildrenSetting] = useState({});
 
   return (
     <>
@@ -527,14 +558,40 @@ function Header({ isScrolled }) {
                 登入
               </MobileNavItem>
             )}
+            {isLogged && (
+              <PersonalInfoNavItem>
+                <div className="info-item">
+                  <img src={coinImg} alt="金幣" className="icon" />
+                  <div className="count">{member?.moneyAmount || 0}</div>
+                </div>
+                <div className="info-item">
+                  <img src={coinWelfareImg} alt="御守" className="icon" />
+                  <div className="count">{member?.welfareAmount || 0}</div>
+                </div>
+                <div className="info-item">
+                  <img
+                    src={ticketPlatformImg}
+                    alt="平台抽獎券"
+                    className="icon"
+                  />
+                  <div className="count">
+                    {member?.ticketEverydayAmount || 0}
+                  </div>
+                </div>
+                <div className="info-item">
+                  <img src={ticket2000Img} alt="廠商抽獎券" className="icon" />
+                  <div className="count">{member?.ticketAmount || 0}</div>
+                </div>
+              </PersonalInfoNavItem>
+            )}
             {navList.map((item, index) => {
-              const { type, title, children } = item
-              const isParent = children?.length
+              const { type, title, children } = item;
+              const isParent = children?.length;
               const icon = isParent
                 ? openNavChildrenSetting[type]
                   ? faMinus
                   : faPlus
-                : faChevronRight
+                : faChevronRight;
               return (
                 <>
                   <MobileNavItem
@@ -544,8 +601,8 @@ function Header({ isScrolled }) {
                         setOpenNavChildrenSetting({
                           ...openNavChildrenSetting,
                           [type]: !openNavChildrenSetting[type],
-                        })
-                      else mobileGoto(paths[type])
+                        });
+                      else mobileGoto(paths[type]);
                     }}
                   >
                     {title}
@@ -563,7 +620,7 @@ function Header({ isScrolled }) {
                       </MobileNavItem>
                     ))}
                 </>
-              )
+              );
             })}
             {isLogged && (
               <MobileNavItem onClick={() => dataStore.logout()}>
@@ -574,12 +631,12 @@ function Header({ isScrolled }) {
         </MobileNavContainer>
       ) : null}
     </>
-  )
+  );
   function mobileGoto(path) {
-    goto(path)
-    setOpenMobileNav(false)
-    setOpenNavChildrenSetting({})
+    goto(path);
+    setOpenMobileNav(false);
+    setOpenNavChildrenSetting({});
   }
 }
 
-export default memo(Header)
+export default memo(Header);
