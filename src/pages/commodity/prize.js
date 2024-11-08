@@ -1,7 +1,12 @@
-import styled from 'styled-components'
-import { PRIZE_LEVEL } from '@app/utils/constants'
-import { formatDateToYmd as formatDate } from '@app/utils/date'
-import { FaCoins, FaShippingFast, FaBoxOpen, FaLayerGroup, FaCalendarAlt } from 'react-icons/fa';
+import styled from "styled-components";
+import { PRIZE_LEVEL } from "@app/utils/constants";
+import { formatDateToYmd as formatDate } from "@app/utils/date";
+import {
+  FaCoins,
+  FaShippingFast,
+  FaLayerGroup,
+  FaCalendarAlt,
+} from "react-icons/fa";
 
 // 保持原有的样式
 const Container = styled.div`
@@ -12,7 +17,7 @@ const Container = styled.div`
   width: 190px;
   justify-content: space-between;
   cursor: pointer;
-  
+
   img {
     width: 150px;
     height: 150px;
@@ -20,7 +25,7 @@ const Container = styled.div`
       transform: scale(1.03);
     }
   }
-  
+
   h4 {
     margin: 8px 0;
     max-height: 37px;
@@ -31,7 +36,7 @@ const Container = styled.div`
     display: -webkit-box;
     -webkit-box-orient: vertical;
   }
-`
+`;
 
 const Label = styled.div`
   display: flex;
@@ -45,13 +50,13 @@ const Label = styled.div`
   flex-direction: row;
   padding: 8px;
   margin-top: 8px;
-`
+`;
 
 // 新增的样式组件
 const ImageWrapper = styled.div`
   position: relative;
   display: inline-block;
-`
+`;
 
 const FireEmoji = styled.span`
   position: absolute;
@@ -64,7 +69,7 @@ const FireEmoji = styled.span`
   @media (max-width: 768px) {
     font-size: 20px;
   }
-`
+`;
 
 // 定義 InfoItem 組件
 const InfoItem = styled.div`
@@ -91,15 +96,13 @@ const InfoItem = styled.div`
 
 // 主组件 Prize
 export default function Prize({ data, onClick, isCommodity }) {
-  const name = data?.prizeName || data?.name
-  const isOverAfterSoldOut = data?.isOverAfterSoldOut == true 
+  const name = data?.prizeName || data?.name;
+  const isOverAfterSoldOut = data?.isOverAfterSoldOut == true;
   return (
     <Container onClick={onClick}>
       <ImageWrapper>
         <img src={data?.imgUrl} alt={name} />
-        {isOverAfterSoldOut && (
-          <FireEmoji>🔥</FireEmoji>
-        )}
+        {isOverAfterSoldOut && <FireEmoji>🔥</FireEmoji>}
       </ImageWrapper>
       <h4>{name}</h4>
       {!isCommodity && (
@@ -119,22 +122,21 @@ export default function Prize({ data, onClick, isCommodity }) {
       )}
       {isCommodity && (
         <>
-          <InfoItem>
-            <FaBoxOpen />
-            <span>類別 : {data.category}</span>
-          </InfoItem>
-          <InfoItem>
-            <FaLayerGroup /> 
-            <span>子類別 : {data.commodityCategory}</span>
-          </InfoItem>
-          <InfoItem>
-            <FaCalendarAlt />
-            <span>上架日 : {formatDate(data.createDate)}</span>
-          </InfoItem>
+          <div>
+            <InfoItem>
+              <FaCalendarAlt />
+              <span>上架日 : {formatDate(data.createDate)}</span>
+            </InfoItem>
+            <InfoItem>
+              <FaLayerGroup />
+              <span>子類別 : {data.commodityCategory}</span>
+            </InfoItem>
+          </div>
+          <CommodityInformation {...data} />
         </>
       )}
     </Container>
-  )
+  );
 }
 
 function PrizeLevelAndAmount({ prizeLevel, amount, fixedAmount }) {
@@ -145,5 +147,16 @@ function PrizeLevelAndAmount({ prizeLevel, amount, fixedAmount }) {
         {amount}/{fixedAmount}
       </span>
     </Label>
-  )
+  );
+}
+
+function CommodityInformation({ totalDrawOutTimes, fixedTotalDrawOutTimes }) {
+  return (
+    <Label prizeLevel={99}>
+      <span>{PRIZE_LEVEL[99].name}</span>
+      <span>
+        {totalDrawOutTimes}/{fixedTotalDrawOutTimes}
+      </span>
+    </Label>
+  );
 }

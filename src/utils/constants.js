@@ -287,6 +287,9 @@ export const PRIZE_LEVEL = {
   27: {
     name: '最後賞',
   },
+  99: {
+    name: '總抽況',
+  },
 }
 
 export const TOP_UP_PRICE_OPTIONS = [
