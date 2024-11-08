@@ -178,6 +178,7 @@ export const PRIZE_LEVEL = {
     name: 'E賞',
     abbr: 'E',
     img: lotteryImg.lotteryE,
+    rankImg: rankListImg.e,
   },
   6: {
     name: 'F賞',
@@ -286,6 +287,9 @@ export const PRIZE_LEVEL = {
   },
   27: {
     name: '最後賞',
+    abbr: 'Last',
+    img: lotteryImg.lotteryE,
+    rankImg: rankListImg.f,
   },
   99: {
     name: '總抽況',
