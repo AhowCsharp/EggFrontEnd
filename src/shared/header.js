@@ -114,6 +114,7 @@ const MemberNav = styled.div`
 `;
 
 const PersonalInfoNavItem = styled.div`
+  margin-top: -0.9rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -133,7 +134,7 @@ const PersonalInfoNavItem = styled.div`
     }
 
     .count {
-      margin-top: 0.3rem;
+      margin-top: 0.5rem;
       font-size: 0.95rem;
       font-weight: bold;
       color: #fff;
