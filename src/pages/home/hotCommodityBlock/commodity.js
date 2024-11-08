@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Tag from '@app/shared/tag'
 import Price from './price'
+import { formatDiscount } from '@app/utils/formatDiscount'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -114,24 +115,6 @@ export default function Commodity({ data, handleClick }) {
     index,
   } = data
 
-  
-  const formatDiscount = (discount) => {
-    if (typeof discount !== "number") return discount;
-
-    if (discount >= 10 && discount < 100) {
-      const firstDigit = Math.floor(discount / 10);
-      const secondDigit = discount % 10;
-
-      if (secondDigit === 0) {
-        return `${firstDigit}`;
-      } else {
-        return `${firstDigit}.${secondDigit}`;
-      }
-    }
-
-    return discount.toString();
-  };
-  
   return (
     <Container onClick={handleClick(data)} className="item">
       <ImageContainer>

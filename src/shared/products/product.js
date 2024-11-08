@@ -5,6 +5,7 @@ import soldOutImg from '@app/static/sold-out.png'
 import prizeTagImg from '@app/static/prize-tag.png'
 import { hideScrollBarStyle } from '@app/shared/header'
 import { PushpinFilled } from '@ant-design/icons'
+import { formatDiscount } from '@app/utils/formatDiscount'
 import Price from './price'
 
 const PinIcon = styled(PushpinFilled)`
@@ -253,22 +254,6 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
       </SimpleProduct>
     )
 
-  const formatDiscount = (discount) => {
-    if (typeof discount !== 'number') return discount
-
-    if (discount >= 10 && discount < 100) {
-      const firstDigit = Math.floor(discount / 10)
-      const secondDigit = discount % 10
-
-      if (secondDigit === 0) {
-        return `${firstDigit}`
-      } else {
-        return `${firstDigit}.${secondDigit}`
-      }
-    }
-
-    return discount.toString()
-  }
   return (
     <BaseProduct onClick={handleClick(data)} className="item">
       <ImageContainer>
