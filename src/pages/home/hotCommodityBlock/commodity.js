@@ -101,6 +101,7 @@ const TagContainer = styled.div`
   }
 `
 
+
 export default function Commodity({ data, handleClick }) {
   const {
     imgUrl,
@@ -112,11 +113,30 @@ export default function Commodity({ data, handleClick }) {
     category,
     index,
   } = data
+
+  
+  const formatDiscount = (discount) => {
+    if (typeof discount !== "number") return discount;
+
+    if (discount >= 10 && discount < 100) {
+      const firstDigit = Math.floor(discount / 10);
+      const secondDigit = discount % 10;
+
+      if (secondDigit === 0) {
+        return `${firstDigit}`;
+      } else {
+        return `${firstDigit}.${secondDigit}`;
+      }
+    }
+
+    return discount.toString();
+  };
+  
   return (
     <Container onClick={handleClick(data)} className="item">
       <ImageContainer>
         <Image src={imgUrl} />
-        {!!discount && <SaleTag>{discount} 折</SaleTag>}
+        {!!discount && <SaleTag>{formatDiscount(discount)} 折</SaleTag>}
         <RankTag rank={index} />
       </ImageContainer>
       <InfoContainer>
