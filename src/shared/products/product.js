@@ -1,25 +1,25 @@
-import styled from "styled-components";
-import Tag from "@app/shared/tag";
-import { PRIZE_LEVEL } from "@app/utils/constants";
-import soldOutImg from "@app/static/sold-out.png";
-import prizeTagImg from "@app/static/prize-tag.png";
-import { hideScrollBarStyle } from "@app/shared/header";
-import { PushpinFilled } from '@ant-design/icons';
-import Price from "./price";
+import styled from 'styled-components'
+import Tag from '@app/shared/tag'
+import { PRIZE_LEVEL } from '@app/utils/constants'
+import soldOutImg from '@app/static/sold-out.png'
+import prizeTagImg from '@app/static/prize-tag.png'
+import { hideScrollBarStyle } from '@app/shared/header'
+import { PushpinFilled } from '@ant-design/icons'
+import Price from './price'
 
 const PinIcon = styled(PushpinFilled)`
   position: absolute;
-  top: 2px; 
-  right: 2px;   
-  color: #FFA500;  
-  font-size: 24px; 
-  z-index: 2;  
-  
+  top: 2px;
+  right: 2px;
+  color: #ffa500;
+  font-size: 24px;
+  z-index: 2;
+
   @media (max-width: 768px) {
     top: 1px;
     right: 1px;
   }
-`;
+`
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
@@ -28,7 +28,7 @@ const Image = styled.img.attrs((p) => ({
   vertical-align: middle;
   width: 100%;
   height: auto;
-`;
+`
 
 const SoldOutImg = styled.img.attrs((p) => ({
   src: soldOutImg,
@@ -39,7 +39,7 @@ const SoldOutImg = styled.img.attrs((p) => ({
   left: 0;
   right: 0;
   width: 100%;
-`;
+`
 
 const BaseProduct = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
@@ -60,7 +60,7 @@ const BaseProduct = styled.div`
     width: calc(50% - 4px);
     margin: 0 0 10px;
   }
-`;
+`
 
 const Title = styled.div`
   font-size: 1.25rem;
@@ -69,7 +69,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: keep-all;
-`;
+`
 
 const CountTag = styled.div`
   padding: 4px 16px;
@@ -82,22 +82,22 @@ const CountTag = styled.div`
   border-radius: 50px;
   align-items: center;
   font-size: 1.25rem;
-`;
+`
 
 const TagContainer = styled.div`
   display: flex;
   width: 100%;
-`;
+`
 
 const SaleTag = styled.div`
   padding: 10px 12px;
   color: ${(p) => p.theme.color.red};
   border: 1px solid ${(p) => p.theme.color.red};
-  border-bottom-left-radius: 8px;
+  border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   font-weight: 600;
   background: #fff;
-`;
+`
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -109,7 +109,7 @@ const ImageContainer = styled.div`
   &::after {
     background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.65));
     bottom: 0;
-    content: "";
+    content: '';
     display: block;
     left: 0;
     position: absolute;
@@ -133,10 +133,10 @@ const ImageContainer = styled.div`
   }
   ${SaleTag} {
     position: absolute;
-    top: 0;
-    right: 16px;
+    top: 48px;
+    left: 0;
   }
-`;
+`
 
 const SimpleProduct = styled(BaseProduct)`
   margin: 10px 5px 0;
@@ -156,7 +156,7 @@ const SimpleProduct = styled(BaseProduct)`
       padding: 8px 4px;
     }
   }
-`;
+`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -164,12 +164,12 @@ const InfoContainer = styled.div`
   min-height: 44px;
   padding: 10px 12px;
   flex-direction: column;
-`;
+`
 
 const Count = styled.span`
   font-size: 1.25rem;
   margin: 0 4px;
-`;
+`
 
 const PrizeTag = styled.div`
   font-size: 0.95rem;
@@ -197,7 +197,7 @@ const PrizeTag = styled.div`
     flex-direction: column;
     display: flex;
     align-items: center;
-    max-width: ${(p) => (p.length <= 2 ? "1rem" : "2rem")};
+    max-width: ${(p) => (p.length <= 2 ? '1rem' : '2rem')};
     font-size: 0.75rem;
     position: absolute;
     top: 15%;
@@ -211,7 +211,7 @@ const PrizeTag = styled.div`
     bottom: 29%;
     font-size: 0.75rem;
   }
-`;
+`
 
 const PrizeTagContainer = styled.div`
   display: flex;
@@ -225,7 +225,7 @@ const PrizeTagContainer = styled.div`
   ${PrizeTag} + ${PrizeTag} {
     margin-left: 5px;
   }
-`;
+`
 
 export default function Product({ data, handleClick, isBase, isSoldOut }) {
   const {
@@ -242,7 +242,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     isUsePrizeName,
     discount,
     isMain,
-  } = data;
+  } = data
   if (isBase)
     return (
       <SimpleProduct className="item">
@@ -251,24 +251,24 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         </ImageContainer>
         <Title>{name || prizeName}</Title>
       </SimpleProduct>
-    );
+    )
 
   const formatDiscount = (discount) => {
-    if (typeof discount !== "number") return discount;
+    if (typeof discount !== 'number') return discount
 
     if (discount >= 10 && discount < 100) {
-      const firstDigit = Math.floor(discount / 10);
-      const secondDigit = discount % 10;
+      const firstDigit = Math.floor(discount / 10)
+      const secondDigit = discount % 10
 
       if (secondDigit === 0) {
-        return `${firstDigit}`;
+        return `${firstDigit}`
       } else {
-        return `${firstDigit}.${secondDigit}`;
+        return `${firstDigit}.${secondDigit}`
       }
     }
 
-    return discount.toString();
-  };
+    return discount.toString()
+  }
   return (
     <BaseProduct onClick={handleClick(data)} className="item">
       <ImageContainer>
@@ -293,18 +293,18 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         </TagContainer>
         <PrizeTagContainer>
           {prizesOfCommodity.map((p) => {
-            const prizeInfo = PRIZE_LEVEL[p.prizeLevel];
-            const name = isUsePrizeName ? p.prizeName : prizeInfo.name;
+            const prizeInfo = PRIZE_LEVEL[p.prizeLevel]
+            const name = isUsePrizeName ? p.prizeName : prizeInfo.name
 
             return (
               <PrizeTag key={p.id} length={name.length}>
                 <span>{name}</span>
                 <span>{p.amount}</span>
               </PrizeTag>
-            );
+            )
           })}
         </PrizeTagContainer>
       </InfoContainer>
     </BaseProduct>
-  );
+  )
 }

@@ -35,6 +35,8 @@ const ImgContainer = styled.div`
   width: calc(50vw - 84px);
   height: calc(50vw - 84px);
   border: 10px solid #331212;
+  max-width: 640px;
+  max-height: 640px;
   margin-right: 20px;
   ${(p) => p.img && `background: url('${p.img}') no-repeat center/cover;`}
   @media (max-width: 768px) {

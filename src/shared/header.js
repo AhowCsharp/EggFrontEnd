@@ -1,5 +1,5 @@
 import { memo, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import logoImg from '@app/static/logo.png'
 import paths from '@app/utils/paths'
 import { useNavigate } from 'react-router-dom'
@@ -45,19 +45,6 @@ export const hideScrollBarStyle = `
   }
 `
 
-const HeaderModule = styled.div`
-  width: 100%;
-  position: sticky;
-  position: fixed;
-  top: 0;
-  z-index: ${(p) => p.theme.zIndex.header};
-  background-color: ${(p) => p.theme.color.danmakuMask};
-  padding: 10px 0;
-  @media (max-width: 768px) {
-    padding-top: calc(env(safe-area-inset-top) + 10px);
-  }
-`
-
 const BaseNavItem = styled.div`
   padding: 4px 10px;
   color: #fff;
@@ -71,6 +58,33 @@ const BaseNavItem = styled.div`
     width: 2.5rem;
     height: 2.5rem;
     margin-bottom: 3px;
+  }
+`
+const scrolledStyle = css`
+  background-color: ${(p) => p.theme.color.headerMask};
+  ${BaseNavItem}${BaseNavItem} {
+    flex-direction: row;
+    padding: 0 0.6rem;
+  }
+  @media (max-width: 768px) {
+    ${BaseNavItem}${BaseNavItem} {
+      flex-direction: column;
+      padding: 0 0.5rem;
+    }
+  }
+`
+
+const HeaderModule = styled.div`
+  width: 100%;
+  position: sticky;
+  position: fixed;
+  top: 0;
+  z-index: ${(p) => p.theme.zIndex.header};
+  transition: all 0.3s;
+  padding: 10px 0;
+  ${(p) => p.isScrolled && scrolledStyle}
+  @media (max-width: 768px) {
+    padding-top: calc(env(safe-area-inset-top) + 10px);
   }
 `
 
@@ -391,7 +405,7 @@ const getNavList = (isLogged) => {
   return NavList.filter((item) => !item.checkIsLogged || isLogged)
 }
 
-function Header() {
+function Header({ isScrolled }) {
   const goto = useNavigate()
   const isLogged = useSelector(() => dataStore.isLogged)
   const member = useSelector(() => dataStore.member)
@@ -401,7 +415,7 @@ function Header() {
 
   return (
     <>
-      <HeaderModule>
+      <HeaderModule isScrolled={isScrolled}>
         <Container>
           <Block className="logo">
             <Logo src={logoImg} onClick={() => goto(paths.index)} />

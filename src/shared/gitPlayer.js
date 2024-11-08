@@ -8,7 +8,7 @@ const Mask = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
-  z-index: ${(p) => p.theme.zIndex.mask};
+  z-index: ${(p) => p.theme.zIndex.alertMask};
 `
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ const Container = styled.div`
   width: 60%;
   left: 20%;
   transform: translateY(-50%);
-  z-index: ${(p) => p.theme.zIndex.dialog};
+  z-index: ${(p) => p.theme.zIndex.alertDialog};
   display: flex;
   flex-direction: column;
   img {

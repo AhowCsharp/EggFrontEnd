@@ -1,4 +1,4 @@
-import { memo, Suspense, lazy } from 'react'
+import { memo, Suspense, lazy, useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import bgTopImg from '@app/static/bg-top.svg'
@@ -85,6 +85,14 @@ const TopBg = styled.div`
   right: 0;
 `
 
+const TopPosition = styled.div`
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+`
+
 const BottomBg = styled.div`
   background-image: url(${bgBottomImg});
   background-size: contain;
@@ -101,14 +109,38 @@ const BottomBg = styled.div`
 `
 
 function AppRoute() {
+  const scrollRef = useRef()
+  const [isScrolled, setIsScrolled] = useState(false)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolled(!entry.isIntersecting)
+      },
+      {
+        root: null,
+        threshold: 0,
+      }
+    )
+
+    if (scrollRef.current) {
+      observer.observe(scrollRef.current)
+    }
+
+    return () => {
+      if (scrollRef.current) {
+        observer.unobserve(scrollRef.current)
+      }
+    }
+  }, [])
   return (
     <>
       <Danmaku />
       <GlobalStyle />
       <BrowserRouter>
-        <Header id="header" />
+        <Header id="header" isScrolled={isScrolled} />
         <SiteContainer id="app-container">
           <div className="content">
+            <TopPosition ref={scrollRef} />
             <TopBg />
             <BottomBg />
             <Wrapper>
