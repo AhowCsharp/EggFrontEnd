@@ -11,7 +11,6 @@ import { DrawOutBtn } from '@app/pages/commodity/index'
 const Container = styled.div`
   min-height: 400px;
   .img-container {
-    top: 5%;
     img {
       max-width: 500px;
       margin: 0 auto;
