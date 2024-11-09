@@ -42,12 +42,15 @@ const InfoContainer = styled.div`
 
 const Title = styled.div`
   font-size: 1.25rem;
-  height: 22px;
+  min-height: 22px;
+  max-height: 2.8rem;
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
-  word-break: keep-all;
   width: 100%;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   @media (max-width: 768px) {
     -webkit-line-clamp: 3;
     display: -webkit-box;

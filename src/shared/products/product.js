@@ -236,6 +236,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     manufacturerName,
     drawOut1Price,
     prizeName,
+    prizeLevel,
     fixedTotalDrawOutTimes,
     category,
     manufacturerId,
@@ -250,7 +251,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
         <ImageContainer>
           <Image src={imgUrl} />
         </ImageContainer>
-        <Title>{name || prizeName}</Title>
+        <Title>{`${PRIZE_LEVEL[prizeLevel].name} ${name || prizeName}`}</Title>
       </SimpleProduct>
     )
 

@@ -73,7 +73,7 @@ export default function ResultDialog({ isLoading, data, onClose }) {
   return (
     <>
       <Mask />
-      <Container>
+      <Container className="dialog">
         <Header>
           <h3>抽獎結果</h3>
         </Header>

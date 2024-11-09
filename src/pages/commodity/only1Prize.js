@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components'
+import { PRIZE_LEVEL } from '@app/utils/constants'
 
 const scaleIn = keyframes`
   0% {
@@ -30,11 +31,11 @@ const Image = styled.img`
 `
 
 export default function Only1Prize({ data }) {
-  const { imgUrl, prizeName } = data
+  const { imgUrl, prizeName, prizeLevel } = data
   return (
     <Container>
       <Image src={imgUrl} />
-      {prizeName}
+      {`${PRIZE_LEVEL[prizeLevel].name} ${prizeName}`}
     </Container>
   )
 }
