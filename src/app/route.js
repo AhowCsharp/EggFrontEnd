@@ -66,6 +66,7 @@ const MobileViewController = styled.div`
   position: relative;
   margin: 50px 60px 0;
   width: calc(100% - 120px);
+  min-height: calc(100vh - 520px);
   border-radius: 30px;
   @media (max-width: 768px) {
     margin: 30px 10px 0;
