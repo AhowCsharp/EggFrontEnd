@@ -59,11 +59,16 @@ export default function RegisterForm({
   onVerifySms,
 }) {
   const [form] = Form.useForm()
+  const [isSendingSms, setIsSendingSms] = useState(false)
   const [verifyCode, setVerifyCode] = useState('')
 
   return (
     <>
-      <Form form={form} layout="vertical">
+      <Form
+        form={form}
+        layout="vertical"
+        onValuesChange={handleFormValuesChange}
+      >
         <Row>
           <Form.Item
             label="帳號"
@@ -98,43 +103,45 @@ export default function RegisterForm({
           >
             <Input />
           </Form.Item>
-          <Form.Item className="btn-col" label="手機驗證碼">
-            <Input
-              value={verifyCode}
-              onChange={(e) => {
-                setVerifyCode(e.target.value)
-              }}
-            />
-            <Button
-              isLogin
-              onClick={() => {
-                const phoneNum = form.getFieldValue().phoneNum
-                phoneNum && onSendSms({ phoneNum })
-              }}
-              disable={!enableSendSms}
-            >
-              {enableSendSms ? (
-                '發送驗證碼'
-              ) : (
-                <CountdownTimer
-                  initialSeconds={VerifyCodeBlockSec}
-                  isSmall
-                  cb={onCountdownEnd}
-                />
-              )}
-            </Button>
-            {shouldShowVerifyBtn && (
+          {!!isSendingSms && (
+            <Form.Item className="btn-col" label="手機驗證碼">
+              <Input
+                value={verifyCode}
+                onChange={(e) => {
+                  setVerifyCode(e.target.value)
+                }}
+              />
               <Button
-                className="verify-btn"
                 isLogin
                 onClick={() => {
-                  verifyCode && onVerifySms(verifyCode)
+                  const phoneNum = form.getFieldValue().phoneNum
+                  phoneNum && onSendSms({ phoneNum })
                 }}
+                disable={!enableSendSms}
               >
-                驗證
+                {enableSendSms ? (
+                  '發送驗證碼'
+                ) : (
+                  <CountdownTimer
+                    initialSeconds={VerifyCodeBlockSec}
+                    isSmall
+                    cb={onCountdownEnd}
+                  />
+                )}
               </Button>
-            )}
-          </Form.Item>
+              {shouldShowVerifyBtn && (
+                <Button
+                  className="verify-btn"
+                  isLogin
+                  onClick={() => {
+                    verifyCode && onVerifySms(verifyCode)
+                  }}
+                >
+                  驗證
+                </Button>
+              )}
+            </Form.Item>
+          )}
         </Row>
         <Row>
           <Form.Item
@@ -224,6 +231,15 @@ export default function RegisterForm({
       </Footer>
     </>
   )
+
+  function handleFormValuesChange(changedValues) {
+    const fieldName = Object.keys(changedValues)[0]
+    if (fieldName === 'phoneNum') {
+      const value = changedValues[fieldName]
+      if (!!value && value.length === 10) setIsSendingSms(true)
+      else setIsSendingSms(false)
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()

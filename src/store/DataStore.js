@@ -332,6 +332,10 @@ export default class DataStore {
 
   @action
   setRegisterReq(req) {
+    if (!this.isSmsVerified) {
+      this.alertMessage = '請先驗證手機'
+      return
+    }
     this.registerReq = req
     this.setInfoDialogType(INFO_DIALOG_TYPE.REGISTER)
   }
@@ -656,18 +660,18 @@ export default class DataStore {
     }
   }
 
-    // forget Password
-    @flow
-    *forgetPassword(req) {
-      try {
-        yield Api.forgetPassword(req)
-        this.alertMessage = '已成功寄送密碼重設信、簡訊，請查收'
-      } catch (e) {
-        const msg = e.response?.data
-        this.alertMessage = `重設信件寄送失敗，${msg}`
-        console.log('forget password failed', e, msg)
-      }
+  // forget Password
+  @flow
+  *forgetPassword(req) {
+    try {
+      yield Api.forgetPassword(req)
+      this.alertMessage = '已成功寄送密碼重設信、簡訊，請查收'
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `重設信件寄送失敗，${msg}`
+      console.log('forget password failed', e, msg)
     }
+  }
 
   // Top Up
 
@@ -929,6 +933,9 @@ export default class DataStore {
   @observable
   sentSmsReq = undefined
 
+  @observable
+  isSmsVerified = false
+
   @action
   setSendSmsEnable() {
     this.enableSendSms = true
@@ -936,6 +943,7 @@ export default class DataStore {
 
   @flow
   *sendSms(req) {
+    this.isSmsVerified = false
     if (!this.enableSendSms) return
     try {
       const res = yield Api.sendSms(req)
@@ -954,6 +962,7 @@ export default class DataStore {
     try {
       const res = yield Api.verifySms({ ...this.sentSmsReq, sms })
       if (!res || !res.success) throw res
+      this.isSmsVerified = true
       this.alertMessage = '手機驗證成功'
     } catch (e) {
       console.log('verify sms failed', e)
