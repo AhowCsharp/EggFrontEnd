@@ -60,9 +60,79 @@ const BaseNavItem = styled.div`
     margin-bottom: 3px;
   }
 `
+
+const Block = styled.div`
+  display: flex;
+  flex: 0%;
+  min-width: 224px;
+  > * {
+    padding: 0 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &.row {
+    flex: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-content: center;
+    > * {
+      flex-direction: row;
+      padding: 0 0.25rem;
+    }
+  }
+  &.logo {
+    min-width: 145px;
+    min-height: 28px;
+  }
+  > * {
+    padding: 0 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  > ${TopUpBtn} {
+    padding: 4px 8px;
+  }
+  .divider {
+    border-left: 1px solid #fff;
+  }
+  @media (max-width: 768px) {
+    display: none;
+    &.logo {
+      display: flex;
+    }
+  }
+`
+
+const Nav = styled(Block)`
+  width: 100%;
+  justify-content: center;
+  ${hideScrollBarStyle}
+  ${BaseNavItem} {
+    padding: 0 1rem;
+    word-break: keep-all;
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    justify-content: center;
+    ${BaseNavItem} {
+      padding: 0 0.5rem;
+    }
+  }
+  @media (max-width: 576px) {
+    width: calc(100% - 10px);
+    overflow-x: auto;
+    margin-left: 10px;
+    justify-content: flex-start;
+  }
+`
+
 const scrolledStyle = css`
   background-color: ${(p) => p.theme.color.headerMask};
-  ${BaseNavItem}${BaseNavItem} {
+  ${Nav} ${BaseNavItem}${BaseNavItem} {
     flex-direction: row;
     padding: 0 0.6rem;
   }
@@ -245,50 +315,6 @@ const MobileNavButton = styled.div`
   }
 `
 
-const Block = styled.div`
-  display: flex;
-  flex: 0%;
-  min-width: 224px;
-  > * {
-    padding: 0 0.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  &.row {
-    flex: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    justify-content: center;
-    > * {
-      flex-direction: row;
-      padding: 0 0.25rem;
-    }
-  }
-  &.logo {
-    min-width: 145px;
-    min-height: 28px;
-  }
-  > * {
-    padding: 0 0.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  > ${TopUpBtn} {
-    padding: 4px 8px;
-  }
-  .divider {
-    border-left: 1px solid #fff;
-  }
-  @media (max-width: 768px) {
-    display: none;
-    &.logo {
-      display: flex;
-    }
-  }
-`
-
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -309,31 +335,6 @@ const Container = styled.div`
   @media (max-width: 768px) {
     width: calc(100% - 20px);
     margin: 0 10px 10px;
-  }
-`
-
-const Nav = styled(Block)`
-  width: 100%;
-  justify-content: center;
-  ${hideScrollBarStyle}
-  ${BaseNavItem} {
-    padding: 0 1rem;
-    word-break: keep-all;
-  }
-  @media (max-width: 768px) {
-    display: flex;
-    width: calc(100% - 20px);
-    margin: 0 10px;
-    justify-content: center;
-    ${BaseNavItem} {
-      padding: 0 0.5rem;
-    }
-  }
-  @media (max-width: 576px) {
-    width: calc(100% - 10px);
-    overflow-x: auto;
-    margin-left: 10px;
-    justify-content: flex-start;
   }
 `
 

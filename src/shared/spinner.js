@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import animation from '@app/static/loading.gif';
-import {
-  IS_FIRST_TIME
-} from "@app/utils/constants";
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import animation from '@app/static/loading.gif'
+import { IS_FIRST_TIME } from '@app/utils/constants'
 
 // Styled Components
 const Mask = styled.div`
@@ -14,7 +12,7 @@ const Mask = styled.div`
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
   z-index: ${(p) => p.theme.zIndex.alertMask};
-`;
+`
 
 const Layout = styled.div`
   position: fixed;
@@ -34,17 +32,18 @@ const Layout = styled.div`
     width: 80%;
     left: 10%;
   }
-`;
+`
 
 const ImgContainer = styled.div`
-  width: 36%;
+  width: 40%;
+  max-width: 450px;
   display: flex;
   z-index: ${(p) => p.theme.zIndex.dialog};
   justify-content: center;
   align-items: center;
 
   @media (max-width: 768px) {
-    width: 80%;
+    width: 60%;
   }
 
   img {
@@ -52,27 +51,26 @@ const ImgContainer = styled.div`
     height: auto;
     margin-bottom: 10px;
   }
-`;
+`
 
 // Spinner Component
 const Spinner = () => {
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const hasShown = localStorage.getItem(IS_FIRST_TIME);
+      const hasShown = localStorage.getItem(IS_FIRST_TIME)
 
       if (hasShown == 'true') {
-        setShowSpinner(true);
-      }
-      else {
-        setShowSpinner(false);
+        setShowSpinner(true)
+      } else {
+        setShowSpinner(false)
       }
     }
-  }, []);
+  }, [])
 
   if (!showSpinner) {
-    return null;
+    return null
   }
 
   return (
@@ -84,7 +82,7 @@ const Spinner = () => {
         </ImgContainer>
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default Spinner;
+export default Spinner
