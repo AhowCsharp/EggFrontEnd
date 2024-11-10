@@ -47,13 +47,18 @@ const MainContainer = styled.div`
 const OthersContainer = styled(MainContainer)`
   width: calc(40% - 8px);
   max-height: 700px;
-  overflow-y: auto;
+  overflow: hidden;
   background: #f2f2f2;
   border-radius: 1rem;
   ${hideScrollBarStyle}
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
   .header {
     margin-top: 0;
+  }
+  .content {
+    overflow-y: auto;
   }
   img {
     width: 160px;
@@ -140,21 +145,22 @@ export default function CampaignPage() {
           <Header className="header" red>
             推薦活動
           </Header>
-          {otherCampaigns.map((campaign) => (
-            <Campaign
-              data={campaign}
-              handleClick={handleClick}
-              isSimple={true}
-              key={campaign.id}
-            />
-          ))}
+          <div className="content">
+            {otherCampaigns.map((campaign) => (
+              <Campaign
+                data={campaign}
+                handleClick={handleClick}
+                isSimple={true}
+                key={campaign.id}
+              />
+            ))}
+          </div>
         </OthersContainer>
       </Container>
     </Layout>
   )
   function handleClick(data) {
     return () => {
-      console.log('click', data)
       goto(url.campaign({ campaignId: data.id }))
     }
   }

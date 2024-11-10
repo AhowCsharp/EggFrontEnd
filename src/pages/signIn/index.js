@@ -18,7 +18,6 @@ const Container = styled.div`
     @media (max-width: 768px) {
       width: 50%;
       left: 25%;
-      top: 10%;
     }
   }
 `
@@ -57,14 +56,14 @@ export default function SignIn() {
     <Layout>
       <Container>
         <Image />
-        {isSigning && (
+        {!isSigning && (
           <GifPlayer
             src={signInAnimation}
             onComplete={() => {
               dataStore.setIsSigning(false)
               dataStore.setAlertMessage(`抽中 ${signInResult}`)
             }}
-            duration={2000}
+            duration={20000}
           />
         )}
         <ButtonContainer>
