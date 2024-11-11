@@ -83,11 +83,6 @@ export default function AlertDialog() {
   const [seconds, setSeconds] = useState(800)
 
   useEffect(() => {
-    if (msg)
-      document.getElementById('layout').scrollIntoView({ behavior: 'smooth' })
-  }, [msg])
-
-  useEffect(() => {
     if (!isToast) return
     if (seconds > 0) {
       const timerId = setTimeout(() => {

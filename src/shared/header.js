@@ -131,15 +131,11 @@ const Nav = styled(Block)`
 `
 
 const scrolledStyle = css`
-  background-color: ${(p) => p.theme.color.headerMask};
-  ${Nav} ${BaseNavItem}${BaseNavItem} {
-    flex-direction: row;
-    padding: 0 0.6rem;
-  }
-  @media (max-width: 768px) {
-    ${BaseNavItem}${BaseNavItem} {
-      flex-direction: column;
-      padding: 0 0.5rem;
+  @media (min-width: 768px) {
+    background-color: ${(p) => p.theme.color.headerMask};
+    ${Nav} ${BaseNavItem}${BaseNavItem} {
+      flex-direction: row;
+      padding: 0 0.6rem;
     }
   }
 `
@@ -155,6 +151,7 @@ const HeaderModule = styled.div`
   ${(p) => p.isScrolled && scrolledStyle}
   @media (max-width: 768px) {
     padding-top: calc(env(safe-area-inset-top) + 10px);
+    background-color: ${(p) => p.theme.color.headerMask};
   }
 `
 

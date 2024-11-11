@@ -29,11 +29,14 @@ const Container = styled.div`
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
   padding: 20px 40px 40px;
+  overscroll-behavior: none;
   @media (max-width: 768px) {
     top: 150px;
     width: 90%;
     left: 5%;
     max-height: calc(90vh - 165px);
+    padding: 20px;
+    justify-content: center;
   }
 `
 
@@ -63,7 +66,12 @@ const Footer = styled(Block)`
 `
 
 const Content = styled(Block)`
-  padding: 10px 0;
+  margin: 20px 0;
+  overflow-y: auto;
+  justify-content: center;
+  @media (max-width: 768px) {
+    margin: 10px 0 30px;
+  }
 `
 
 export default function ResultDialog({ isLoading, data, onClose }) {

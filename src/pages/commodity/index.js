@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
-import Layout from "@app/shared/layout";
-import { useSelector, dataStore } from "@app/store";
-import { useParams, useNavigate } from "react-router-dom";
-import { breadCrumbs } from "@app/utils/paths";
-import paths from "@app/utils/paths";
-import ManufacturerTag from "@app/shared/tag";
-import { DRAW_OUT_STATUS, COMMODITY_STATUS } from "@app/utils/constants";
-import CountdownTimer from "@app/shared/countdownTimer";
-import { hideScrollBarStyle } from "@app/shared/header";
-import BaseShipFeeIcon from "@app/static/truck.png";
-import ScrollToDrawButton from "@app/shared/scrollToDrawButton";
-import useScrollToTop from "@app/utils/hooks/useScrollToTop";
-import Prize from "./prize";
-import ResultDialog from "./resultDialog";
-import CountdownDialog from "./countdownDialog";
-import ConfirmDialog from "./confirmDialog";
-import LotteryBlock from "./lotteryBlock";
-import Price from "./price";
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+import Layout from '@app/shared/layout'
+import { useSelector, dataStore } from '@app/store'
+import { useParams, useNavigate } from 'react-router-dom'
+import { breadCrumbs } from '@app/utils/paths'
+import paths from '@app/utils/paths'
+import ManufacturerTag from '@app/shared/tag'
+import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
+import CountdownTimer from '@app/shared/countdownTimer'
+import { hideScrollBarStyle } from '@app/shared/header'
+import BaseShipFeeIcon from '@app/static/truck.png'
+import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
+import useScrollToTop from '@app/utils/hooks/useScrollToTop'
+import Prize from './prize'
+import ResultDialog from './resultDialog'
+import CountdownDialog from './countdownDialog'
+import ConfirmDialog from './confirmDialog'
+import LotteryBlock from './lotteryBlock'
+import Price from './price'
 
 const multiDrawOutStyle = `
   background: #a80502;
   color: #fff;
-`;
+`
 
 export const Info = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-`;
+`
 
 const ImgContainer = styled.div`
   width: calc(50vw - 84px);
@@ -45,7 +45,7 @@ const ImgContainer = styled.div`
     width: 100%;
     height: calc(100vw - 20px);
   }
-`;
+`
 
 const DrawOutTimesTag = styled.div`
   border-radius: 100px;
@@ -59,7 +59,7 @@ const DrawOutTimesTag = styled.div`
     color: red; /* 折后价的颜色，可以根据需要调整 */
     font-weight: bold; /* 强调折后价 */
   }
-`;
+`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ const InfoContainer = styled.div`
       }
     }
   }
-`;
+`
 
 const PrizeContainer = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ const PrizeContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   ${hideScrollBarStyle}
-`;
+`
 
 const Description = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const Description = styled.div`
       color: #ffffff !important;
     }
   }
-`;
+`
 
 const Name = styled.div`
   color: #3e3e3e;
@@ -107,7 +107,7 @@ const Name = styled.div`
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.font};
   }
-`;
+`
 
 const Tag = styled.div`
   position: relative;
@@ -120,7 +120,7 @@ const Tag = styled.div`
   justify-content: center;
   margin: 10px 0;
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: -14px;
@@ -131,21 +131,21 @@ const Tag = styled.div`
     border-left: 14px solid #bdaa96;
     z-index: 1;
   }
-`;
+`
 
 const TagBlock = styled.div`
   ${Tag} + ${Tag} {
     margin-left: 1.5rem;
   }
-`;
+`
 
 const DrawOutBtn = styled.div`
   cursor: pointer;
   padding: 0.8rem 1.5rem;
   border-radius: 4px;
   border: 1px solid ${(p) => p.theme.color.red};
-  background: ${(p) => (p.isWhite ? "#fff" : p.theme.color.red)};
-  color: ${(p) => (p.isWhite ? p.theme.color.red : "#fff")};
+  background: ${(p) => (p.isWhite ? '#fff' : p.theme.color.red)};
+  color: ${(p) => (p.isWhite ? p.theme.color.red : '#fff')};
   text-align: center;
   margin-left: 5px;
   @media (max-width: 768px) {
@@ -154,7 +154,7 @@ const DrawOutBtn = styled.div`
     margin-left: 0;
     margin-right: 5px;
   }
-`;
+`
 
 const DrawOutBtn_old = styled.div`
   cursor: pointer;
@@ -166,15 +166,15 @@ const DrawOutBtn_old = styled.div`
   text-align: center;
   border-radius: 10px;
   ${(p) => p.isMultiDrawOut && multiDrawOutStyle}
-`;
+`
 
-export { DrawOutBtn_old as DrawOutBtn, DrawOutBtn as Button };
+export { DrawOutBtn_old as DrawOutBtn, DrawOutBtn as Button }
 
 export const Block = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-`;
+`
 
 const DrawOutBtnBlock = styled(Block)`
   margin-bottom: 10px;
@@ -184,7 +184,7 @@ const DrawOutBtnBlock = styled(Block)`
   ${DrawOutBtn} + ${DrawOutBtn} {
     margin-left: 1rem;
   }
-`;
+`
 
 export const MobileDrawOutBtnBlock = styled(Block)`
   display: none;
@@ -205,29 +205,29 @@ export const MobileDrawOutBtnBlock = styled(Block)`
       padding: 0.5rem;
     }
   }
-`;
+`
 
 const SelectedNumbers = styled.div`
   flex: 1;
   text-align: left;
   color: ${(p) => p.theme.color.red};
   font-weight: bold;
-`;
+`
 
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
-`;
+`
 
 const SelectedText = styled.span`
   color: ${(p) => p.theme.color.red};
   font-weight: bold;
-`;
+`
 
 const SelectedTextRed = styled(SelectedText)`
   color: red;
-`;
+`
 
 const DescBlock = styled.div`
   background-color: #f2f2f2;
@@ -236,23 +236,23 @@ const DescBlock = styled.div`
   @media (max-width: 768px) {
     background-color: ${(p) => p.theme.mobile.color.descBg};
   }
-`;
+`
 
 const Desc = styled.p`
   line-height: 1.25rem;
   color: ${(p) => p.warning && p.theme.color.warning};
-  ${(p) => p.large && "font-size: 1.25rem;"}
-  ${(p) => p.bold && "font-weight: bold;"}
+  ${(p) => p.large && 'font-size: 1.25rem;'}
+  ${(p) => p.bold && 'font-weight: bold;'}
   margin: 10px 0 0;
   @media (max-width: 768px) {
     color: ${(p) => p.warning && p.theme.mobile.color.warning};
   }
-`;
+`
 
 export const Header = styled.div`
   border-bottom: 1px solid
     ${(p) => (p.red ? p.theme.color.red : p.theme.color.headerBottomLine)};
-  color: ${(p) => (p.red ? p.theme.color.red : "#160d00")};
+  color: ${(p) => (p.red ? p.theme.color.red : '#160d00')};
   font-size: 1.5rem;
   padding-bottom: 8px;
   margin: 2rem 0;
@@ -276,7 +276,7 @@ export const Header = styled.div`
       }
     }
   }
-`;
+`
 
 const DrawOutTimesTagBlock = styled(Block)`
   margin: 10px 0;
@@ -288,7 +288,7 @@ const DrawOutTimesTagBlock = styled(Block)`
     margin-right: 6px;
     border-right: 1px solid ${(p) => p.theme.color.drawOutTimeBtn};
   }
-`;
+`
 
 const ShipFeeIcon = styled.div`
   background-color: ${(p) => p.theme.color.red};
@@ -301,7 +301,7 @@ const ShipFeeIcon = styled.div`
   justify-content: center;
   height: 100%;
   &::after {
-    content: "";
+    content: '';
     width: 8px;
     height: 8px;
     background-color: #fff;
@@ -315,7 +315,7 @@ const ShipFeeIcon = styled.div`
     width: 1rem;
     height: auto;
   }
-`;
+`
 
 const ShipFee = styled.div`
   background-color: #fff;
@@ -329,91 +329,91 @@ const ShipFee = styled.div`
   .value {
     margin: 0 0.5rem;
   }
-`;
+`
 
 export default function Commodity() {
-  const params = useParams();
-  const goto = useNavigate();
-  const commodityId = +params.commodityId;
-  const commodity = useSelector(() => dataStore.commodity);
-  const drawOutStatus = useSelector(() => dataStore.drawOutStatus);
-  const protectPlayer = useSelector(() => dataStore.protectPlayer);
-  const isDrawOuting = useSelector(() => dataStore.isDrawOuting);
-  const drawOutResult = useSelector(() => dataStore.drawOutResult);
-  const countdownSecDict = useSelector(() => dataStore.countdownSec);
-  const countdownSec = countdownSecDict[commodityId];
-  const isLogged = useSelector(() => dataStore.isLogged);
+  const params = useParams()
+  const goto = useNavigate()
+  const commodityId = +params.commodityId
+  const commodity = useSelector(() => dataStore.commodity)
+  const drawOutStatus = useSelector(() => dataStore.drawOutStatus)
+  const protectPlayer = useSelector(() => dataStore.protectPlayer)
+  const isDrawOuting = useSelector(() => dataStore.isDrawOuting)
+  const drawOutResult = useSelector(() => dataStore.drawOutResult)
+  const countdownSecDict = useSelector(() => dataStore.countdownSec)
+  const countdownSec = countdownSecDict[commodityId]
+  const isLogged = useSelector(() => dataStore.isLogged)
   const [shouldResultDialogOpen, setShouldResultDialogOpen] = useState(
     isDrawOuting || drawOutResult
-  );
+  )
   const [shouldCountDownDialogOpen, setShouldCountDownDialogOpen] =
-    useState(countdownSec);
-  const [drawOutTimes, setDrawOutTimes] = useState(1);
-  const [selectedPrizes, setSelectedPrizes] = useState([]);
-  const [showLotteryContainer, setShowLotteryContainer] = useState(false);
-  const [drawOutReq, setDrawOutReq] = useState();
-  const [enableDrawOut, setEnableDrawOut] = useState(false);
-  const [nowDisplay, setNowDisplay] = useState();
-  const [protectOneShot, setProtectOneShot] = useState(180);
-  const [protectFiveShot, setProtectFiveShot] = useState(600);
-  const [protectTenShot, setProtectTenShot] = useState(780);
+    useState(countdownSec)
+  const [drawOutTimes, setDrawOutTimes] = useState(1)
+  const [selectedPrizes, setSelectedPrizes] = useState([])
+  const [showLotteryContainer, setShowLotteryContainer] = useState(false)
+  const [drawOutReq, setDrawOutReq] = useState()
+  const [enableDrawOut, setEnableDrawOut] = useState(false)
+  const [nowDisplay, setNowDisplay] = useState()
+  const [protectOneShot, setProtectOneShot] = useState(180)
+  const [protectFiveShot, setProtectFiveShot] = useState(600)
+  const [protectTenShot, setProtectTenShot] = useState(780)
 
   const shouldDisplayDrawOutTimesTagBlock =
-    commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null;
+    commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
 
   useEffect(() => {
-    dataStore.getCommodity(commodityId);
-  }, []);
+    dataStore.getCommodity(commodityId)
+  }, [])
 
-  useScrollToTop();
-
-  useEffect(() => {
-    setSelectedPrizes([]);
-  }, [drawOutTimes]);
+  useScrollToTop()
 
   useEffect(() => {
-    if (countdownSec) setShouldCountDownDialogOpen(true);
-  }, [countdownSec]);
+    setSelectedPrizes([])
+  }, [drawOutTimes])
 
   useEffect(() => {
-    setShouldResultDialogOpen(isDrawOuting || drawOutResult);
-  }, [isDrawOuting, drawOutResult]);
+    if (countdownSec) setShouldCountDownDialogOpen(true)
+  }, [countdownSec])
 
   useEffect(() => {
-    if (!showLotteryContainer) return;
-    onSectionNavClick("lottery")();
-  }, [showLotteryContainer]);
+    setShouldResultDialogOpen(isDrawOuting || drawOutResult)
+  }, [isDrawOuting, drawOutResult])
 
   useEffect(() => {
-    if (!commodity) return;
-    if (!commodity.prizes) dataStore.getPrizes(commodityId);
-    setNowDisplay(commodity);
+    if (!showLotteryContainer) return
+    scrollToLottery()
+  }, [showLotteryContainer])
+
+  useEffect(() => {
+    if (!commodity) return
+    if (!commodity.prizes) dataStore.getPrizes(commodityId)
+    setNowDisplay(commodity)
     dataStore.setBreadCrumbs([
       ...breadCrumbs.default,
       commodity.category,
       commodity.name,
-    ]);
+    ])
 
     switch (commodity.category) {
-      case "扭蛋":
-        setProtectOneShot(120);
-        setProtectFiveShot(180);
-        setProtectTenShot(300);
-        break;
-      case "福袋":
-        setProtectOneShot(180);
-        setProtectFiveShot(240);
-        setProtectTenShot(360);
-        break;
+      case '扭蛋':
+        setProtectOneShot(120)
+        setProtectFiveShot(180)
+        setProtectTenShot(300)
+        break
+      case '福袋':
+        setProtectOneShot(180)
+        setProtectFiveShot(240)
+        setProtectTenShot(360)
+        break
       default:
-        setProtectOneShot(180);
-        setProtectFiveShot(600);
-        setProtectTenShot(780);
-        break;
+        setProtectOneShot(180)
+        setProtectFiveShot(600)
+        setProtectTenShot(780)
+        break
     }
-  }, [commodity]);
+  }, [commodity])
 
-  if (!commodity) return <Layout />;
+  if (!commodity) return <Layout />
   return (
     <Layout>
       {shouldResultDialogOpen && !drawOutReq && (
@@ -437,9 +437,9 @@ export default function Commodity() {
           data={drawOutReq}
           drawOutStatus={drawOutStatus}
           onClose={() => {
-            dataStore.setDrawOutStatus(DRAW_OUT_STATUS.SUCCESS);
-            setSelectedPrizes([]);
-            setDrawOutReq(false);
+            dataStore.setDrawOutStatus(DRAW_OUT_STATUS.SUCCESS)
+            setSelectedPrizes([])
+            setDrawOutReq(false)
           }}
           onSubmit={dataStore.drawOut}
         />
@@ -470,10 +470,10 @@ export default function Commodity() {
                     {commodity.discount ? (
                       <>
                         <span>
-                          每抽{" "}
+                          每抽{' '}
                           <span className="discounted-price">{`${Math.round(
                             (commodity.drawOut5Price * commodity.discount) / 100
-                          )}`}</span>{" "}
+                          )}`}</span>{' '}
                           元
                         </span>
                       </>
@@ -488,11 +488,11 @@ export default function Commodity() {
                     {commodity.discount ? (
                       <>
                         <span>
-                          每抽{" "}
+                          每抽{' '}
                           <span className="discounted-price">{`${Math.round(
                             (commodity.drawOut10Price * commodity.discount) /
                               100
-                          )}`}</span>{" "}
+                          )}`}</span>{' '}
                           元
                         </span>
                       </>
@@ -508,16 +508,25 @@ export default function Commodity() {
             {commodity.status === COMMODITY_STATUS.OPENING && (
               <DrawOutBtn
                 onClick={() => {
-                  if (!isLogged) return goto(paths.login);
-
-                  setEnableDrawOut(true);
-                  setShowLotteryContainer(true);
+                  if (!isLogged) {
+                    dataStore.setAlertMessage('請先登入再進行抽獎唷')
+                    return
+                  }
+                  setEnableDrawOut(true)
+                  setShowLotteryContainer(true)
+                  scrollToLottery()
                 }}
               >
                 開抽
               </DrawOutBtn>
             )}
-            <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
+            <DrawOutBtn
+              isWhite
+              onClick={() => {
+                setShowLotteryContainer(true)
+                scrollToLottery()
+              }}
+            >
               檢視抽況
             </DrawOutBtn>
           </DrawOutBtnBlock>
@@ -549,7 +558,7 @@ export default function Commodity() {
               {!commodity.protectTime && (
                 <>
                   <br />
-                  一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 !{" "}
+                  一番賞、盲盒、扭蛋、特別賞、抽獎型商品皆為「線上機率型」商品 !{' '}
                   <br />
                   <br />
                   一但完成抽獎程序，恕無法接受「退貨及退款」！🙆‍♂️🙇‍♀️🧏🙋‍♂️🤴🧕👰🤱🙋
@@ -558,7 +567,7 @@ export default function Commodity() {
               )}
             </Desc>
           </DescBlock>
-          {commodity.isValidateDrawOutTimes && "抽出次數已達上限"}
+          {commodity.isValidateDrawOutTimes && '抽出次數已達上限'}
         </Info>
       </InfoContainer>
       <TagBlock>
@@ -594,6 +603,7 @@ export default function Commodity() {
             drawOutTimes={drawOutTimes}
             handleDrawOut={handleDrawOut}
             setDrawOutTimes={setDrawOutTimes}
+            setAlertMessage={dataStore.setAlertMessage}
           />
         </>
       )}
@@ -608,7 +618,7 @@ export default function Commodity() {
         </p>
         <p>【出貨規定】我們使用宅配服務進行貨物的發送。</p>
         <p>
-          在商品發送之前，請確保提供的姓名和其他資訊是正確的，以確保順利的物流運送。如果由於個人填寫錯誤導致無法正常配送，買家需要自行支付再次發送的費用。{" "}
+          在商品發送之前，請確保提供的姓名和其他資訊是正確的，以確保順利的物流運送。如果由於個人填寫錯誤導致無法正常配送，買家需要自行支付再次發送的費用。{' '}
         </p>
         <p>
           【到貨時間】我們通常會在申請出貨後的隔日開始計算，然後在 7
@@ -636,8 +646,8 @@ export default function Commodity() {
               <SelectedNumbers>
                 {selectedPrizes.length > 0 ? (
                   <SelectedText>
-                    已選擇:{" "}
-                    {selectedPrizes.map((prize) => prize + 1).join("、")}
+                    已選擇:{' '}
+                    {selectedPrizes.map((prize) => prize + 1).join('、')}
                   </SelectedText>
                 ) : (
                   <SelectedTextRed>未選擇</SelectedTextRed>
@@ -657,14 +667,24 @@ export default function Commodity() {
             <>
               <DrawOutBtn
                 onClick={() => {
-                  if (!isLogged) return goto(paths.login);
-                  setEnableDrawOut(true);
-                  setShowLotteryContainer(true);
+                  if (!isLogged) {
+                    dataStore.setAlertMessage('請先登入再進行抽獎唷')
+                    return
+                  }
+                  setEnableDrawOut(true)
+                  setShowLotteryContainer(true)
+                  scrollToLottery()
                 }}
               >
                 開抽
               </DrawOutBtn>
-              <DrawOutBtn isWhite onClick={() => setShowLotteryContainer(true)}>
+              <DrawOutBtn
+                isWhite
+                onClick={() => {
+                  setShowLotteryContainer(true)
+                  scrollToLottery()
+                }}
+              >
                 檢視抽況
               </DrawOutBtn>
             </>
@@ -673,12 +693,13 @@ export default function Commodity() {
         document.body
       )}
     </Layout>
-  );
+  )
 
-  function onSectionNavClick(id) {
-    return () => {
-      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-    };
+  function scrollToLottery() {
+    const lotteryElement = document.getElementById('lottery')
+    if (lotteryElement) {
+      lotteryElement.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   function handleDrawOut() {
@@ -687,57 +708,56 @@ export default function Commodity() {
       times: drawOutTimes,
       consecutive: drawOutTimes !== 1,
       chooseIndexes: selectedPrizes,
-    };
+    }
     setDrawOutReq({
       req,
       category: commodity.category,
       totalDrawOutTimes: commodity.totalDrawOutTimes,
       totalCost: getTotalCost(drawOutTimes, commodity),
-    });
-    dataStore.setDrawOutStatus(DRAW_OUT_STATUS.CONFIRMING);
+    })
+    dataStore.setDrawOutStatus(DRAW_OUT_STATUS.CONFIRMING)
   }
 
   function handleRandomSelect() {
-    const randomPrizes = [];
-    const prizes = commodity.prizeIndexs || [];
+    const randomPrizes = []
+    const prizes = commodity.prizeIndexs || []
     while (randomPrizes.length < drawOutTimes) {
-      const randomIndex = Math.floor(Math.random() * prizes.length);
+      const randomIndex = Math.floor(Math.random() * prizes.length)
       if (!randomPrizes.includes(randomIndex) && !prizes[randomIndex]) {
-        randomPrizes.push(randomIndex);
+        randomPrizes.push(randomIndex)
       }
     }
-    setSelectedPrizes(randomPrizes);
+    setSelectedPrizes(randomPrizes)
   }
 
   function handleReselect() {
     // 清空已选择的号码
-    setSelectedPrizes([]);
+    setSelectedPrizes([])
   }
 
   function onResultDialogClose() {
-    setShouldResultDialogOpen(false);
-    dataStore.clearDrawOutResult();
+    setShouldResultDialogOpen(false)
+    dataStore.clearDrawOutResult()
   }
 
   function getTotalCost(drawOutTimes, commodity) {
-    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } =
-      commodity;
+    const { drawOut1Price, drawOut5Price, drawOut10Price, discount } = commodity
     if (!discount) {
-      if (drawOutTimes === 5) return drawOutTimes * drawOut5Price;
-      if (drawOutTimes === 10) return drawOutTimes * drawOut10Price;
-      return drawOut1Price;
+      if (drawOutTimes === 5) return drawOutTimes * drawOut5Price
+      if (drawOutTimes === 10) return drawOutTimes * drawOut10Price
+      return drawOut1Price
     } else {
       if (drawOutTimes === 5)
-        return drawOutTimes * Math.round((drawOut5Price * discount) / 100);
+        return drawOutTimes * Math.round((drawOut5Price * discount) / 100)
       if (drawOutTimes === 10)
-        return drawOutTimes * Math.round((drawOut10Price * discount) / 100);
-      return Math.round((drawOut1Price * discount) / 100);
+        return drawOutTimes * Math.round((drawOut10Price * discount) / 100)
+      return Math.round((drawOut1Price * discount) / 100)
     }
   }
 }
 
 function ShipFeeTag({ freight }) {
-  if (!freight) return null;
+  if (!freight) return null
   return (
     <ShipFee>
       <ShipFeeIcon>
@@ -745,5 +765,5 @@ function ShipFeeTag({ freight }) {
       </ShipFeeIcon>
       <span className="value"> {`NT$ ${freight}`}</span>
     </ShipFee>
-  );
+  )
 }

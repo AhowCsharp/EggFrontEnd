@@ -158,7 +158,7 @@ const BaseLottery = styled.div`
   padding: 5px;
   margin: 10px 17px;
   background-color: ${(p) => (p.isSelected ? '#f4c221' : 'unset')};
-  cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
+  cursor: pointer;
   position: relative;
   text-align: center;
   justify-content: center;
@@ -197,7 +197,7 @@ const Button = styled.div`
 const SimpleLottery = styled.div`
   width: calc(16.666% - 8px);
   margin: 10px 4px;
-  cursor: ${(p) => (p.enableDrawOut ? 'pointer' : 'default')};
+  cursor: pointer;
   background-color: ${(p) => {
     if (p.isDone) return p.theme.color.disable
     return p.isSelected ? p.theme.color.red : p.theme.mobile.color.descBg
@@ -216,6 +216,7 @@ export default function LotteryBlock({
   commodity,
   handleDrawOut,
   setDrawOutTimes,
+  setAlertMessage,
 }) {
   const prizes = commodity.prizeIndexs || []
   const category = commodity.category
@@ -311,6 +312,7 @@ export default function LotteryBlock({
         setSelectedPrizes={setSelectedPrizes}
         handleRandomSelectPrizes={handleRandomSelectPrizes}
         drawOutTimes={drawOutTimes}
+        setAlertMessage={setAlertMessage}
       />
     </>
   )
@@ -377,6 +379,7 @@ function Lottery({
   hover,
   isSimple,
   drawOutResult,
+  setAlertMessage,
 }) {
   const gifRef = useRef(null)
   if (isSimple) {
@@ -413,7 +416,10 @@ function Lottery({
     </BaseLottery>
   )
   function handleClick() {
-    if (!enableDrawOut) return
+    if (!enableDrawOut) {
+      setAlertMessage('請先按下「開抽」按鈕')
+      return
+    }
     onClick?.(index)
   }
 }
@@ -432,6 +438,7 @@ function Lotteries({
   setSelectedPrizes,
   handleRandomSelectPrizes,
   drawOutTimes,
+  setAlertMessage,
 }) {
   const isSimple = displayMode === DisplayMode.Simple
   const isPaginationMode = displayMode === DisplayMode.Pagination
@@ -454,6 +461,7 @@ function Lotteries({
                   isSelected={selectedPrizes.includes(index)}
                   isSimple={isSimple}
                   drawOutResult={p}
+                  setAlertMessage={setAlertMessage}
                 />
               )
 
@@ -469,6 +477,7 @@ function Lotteries({
                 isDone={true}
                 isSimple={isSimple}
                 drawOutResult={p}
+                setAlertMessage={setAlertMessage}
               />
             )
           })}

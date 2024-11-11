@@ -140,8 +140,7 @@ const ImageContainer = styled.div`
 `
 
 const SimpleProduct = styled(BaseProduct)`
-  margin: 10px 5px 0;
-  width: calc((100% - 30px) / 3);
+  width: calc((100% - 25px) / 4);
   ${Title} {
     min-height: 50px;
     font-size: 1rem;
@@ -151,6 +150,7 @@ const SimpleProduct = styled(BaseProduct)`
     height: auto;
   }
   @media (max-width: 768px) {
+    width: calc((100% - 8px) / 2);
     ${Title} {
       min-height: 40px;
       font-size: 0.8rem;
