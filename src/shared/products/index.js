@@ -75,27 +75,26 @@ const Radio = styled(BaseRadio)`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-radius: 4px;
-  div + div {
+
+  > div + div {
     margin-left: 8px;
   }
+
   @media (max-width: 768px) {
     flex-direction: column;
-    div + div {
-      margin-top: 16px;
-      margin-left: 0;
-    }
-    ${ButtonContainer}.inside-container {
-      flex-direction: row;
-      justify-content: flex-start;
-      div + div {
-        margin-top: 0;
-        margin-left: 8px;
-      }
+    align-items: center;
+    margin-top:10px;
+
+    &.inside-container {
+      flex-direction: row; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      align-items: center; 
     }
   }
-`
-
+`;
 export default function Products({
   data,
   category,
