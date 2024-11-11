@@ -56,7 +56,7 @@ export default function SignIn() {
     <Layout>
       <Container>
         <Image />
-        {!isSigning && (
+        {isSigning && (
           <GifPlayer
             src={signInAnimation}
             onComplete={() => {
