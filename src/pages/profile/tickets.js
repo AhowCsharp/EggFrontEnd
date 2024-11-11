@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import { dataStore, useSelector } from '@app/store/index'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { Table } from 'antd'
-import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { Button } from '@app/pages/commodity'
-import useRandomColors from '@app/utils/hooks/useRandomColors'
 import Tag from '@app/shared/tag'
 import { Content } from './index'
 import {
@@ -23,7 +21,6 @@ export default function Tickets() {
   const [req, setReq] = useState(DEFAULT_PAGINATION)
   const [usefulTicketCount, setUsefulTicketCount] = useState()
   const data = ticket?.data || []
-  const manufacturerColor = useRandomColors(ticket?.data, 'manufacturerName')
 
   useEffect(() => {
     dataStore.getTickets(req)
@@ -54,16 +51,10 @@ export default function Tickets() {
       </Container>
     </Content>
   )
-  function renderManufacturerName({ manufacturerName, id }) {
-    return (
-      <Tag
-        name={manufacturerName}
-        id={id}
-        color={manufacturerColor[manufacturerName]}
-      />
-    )
+  function renderManufacturerName({ manufacturerName, manufacturerId }) {
+    return <Tag name={manufacturerName} id={manufacturerId} />
   }
-  
+
   function renderTable() {
     return (
       <>

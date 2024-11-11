@@ -11,6 +11,7 @@ import {
 } from '@app/utils/constants'
 import locale from '@app/utils/formLocale'
 import wait from '@app/utils/wait'
+import getRandomColors from '@app/utils/getRandomColors'
 import store from './helpers/store'
 
 const invoiceNumberEncodedKey = btoa('invoiceNumber')
@@ -623,7 +624,9 @@ export default class DataStore {
   }
 
   @action
-  setManufacturerColors(colors) {
+  setManufacturerColors() {
+    if (!this.manufacturers || this.manufacturerColors) return
+    const colors = getRandomColors(this.manufacturers, 'id')
     this.manufacturerColors = colors
   }
 

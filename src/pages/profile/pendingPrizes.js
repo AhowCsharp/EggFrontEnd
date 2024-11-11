@@ -4,7 +4,6 @@ import { Table, InputNumber, Checkbox } from 'antd'
 import styled from 'styled-components'
 import { Button as BaseButton } from '@app/pages/commodity'
 import { getDefaultDateRange, formatDate } from '@app/utils/date'
-import useRandomColors from '@app/utils/hooks/useRandomColors'
 import Tag from '@app/shared/tag'
 import { Content } from './index'
 import {
@@ -99,10 +98,6 @@ export default function PendingPrizes() {
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
   })
-  const manufacturerColor = useRandomColors(
-    pendingPrize?.data,
-    'manufacturerName'
-  )
 
   const [itemCount, setItemCount] = useState(1)
 
@@ -175,15 +170,8 @@ export default function PendingPrizes() {
       </Container>
     </Content>
   )
-  function renderManufacturer({ manufacturerName, id }) {
-    return (
-      <Tag
-        name={manufacturerName}
-        id={id}
-        color={manufacturerColor[manufacturerName]}
-        isSmall={true}
-      />
-    )
+  function renderManufacturer({ manufacturerName, manufacturerId: id }) {
+    return <Tag name={manufacturerName} id={id} isSmall={true} />
   }
   function renderImg(src) {
     return (

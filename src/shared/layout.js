@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useSelector, dataStore } from '@app/store'
+import { useEffect } from 'react'
 import AlertDialog from './alertDialog'
 import InfoDialog from './infoDialog'
 import BreadCrumb from './breadCrumb'
@@ -19,6 +20,17 @@ const Container = styled.div`
 
 export default function Layout({ children }) {
   const isLoading = useSelector(() => dataStore.isLoading)
+  const manufacturers = useSelector(() => dataStore.manufacturers)
+  const manufacturerColors = useSelector(() => dataStore.manufacturerColors)
+
+  useEffect(() => {
+    if (Object.keys(manufacturerColors || {}).length) return
+    dataStore.setManufacturerColors()
+  }, [manufacturerColors, manufacturers])
+
+  useEffect(() => {
+    if (!manufacturers) dataStore.getManufacturers()
+  }, [manufacturers])
 
   return (
     <Container id="layout">

@@ -4,7 +4,6 @@ import { Table } from 'antd'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
 import { Button } from '@app/pages/commodity'
-import useRandomColors from '@app/utils/hooks/useRandomColors'
 import Tag from '@app/shared/tag'
 import CopyToClipboard from '@app/shared/copyToClipboard'
 import { Content } from './index'
@@ -36,10 +35,6 @@ export default function freeshippingTicketLog() {
     () => dataStore.freeshippingTicketLogs
   )
   const dateRange = getDefaultDateRange()
-  const manufacturerColor = useRandomColors(
-    freeshippingTicketLogs?.data,
-    'manufacturerName'
-  )
 
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
@@ -93,14 +88,8 @@ export default function freeshippingTicketLog() {
       </Container>
     </Content>
   )
-  function renderManufacturerName({ manufacturerName, id }) {
-    return (
-      <Tag
-        name={manufacturerName}
-        id={id}
-        color={manufacturerColor[manufacturerName]}
-      />
-    )
+  function renderManufacturerName({ manufacturerName, manufacturerId }) {
+    return <Tag name={manufacturerName} id={manufacturerId} />
   }
   function renderTable() {
     return (

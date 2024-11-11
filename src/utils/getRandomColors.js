@@ -1,21 +1,12 @@
-import { useEffect, useState } from 'react'
 const usedHues = new Set()
 
-export default function useRandomColors(data, key) {
-  const [colors, setColors] = useState({})
-  useEffect(() => {
-    if (!data || !data.length) return
-    const colorDict = data.reduce(
-      (acc, cur) => {
-        if (acc[cur[key]]) return acc
-        acc[cur[key]] = getRandomDarkColor()
-        return acc
-      },
-      { ...colors }
-    )
-    setColors(colorDict)
-  }, [data])
-  return colors
+export default function getRandomColors(data, key) {
+  const colorDict = data.reduce((acc, cur) => {
+    if (acc[cur[key]]) return acc
+    acc[cur[key]] = getRandomDarkColor()
+    return acc
+  }, {})
+  return colorDict
 }
 function getRandomDarkColor() {
   const hues = [0, 30, 60, 120, 180, 240, 300]

@@ -5,7 +5,6 @@ import Products from '@app/shared/products'
 import BaseCarousel from '@app/shared/carousel'
 import { useSelector, dataStore } from '@app/store'
 import {
-  CATEGORY,
   DEFAULT_COMMODITIES_PAGINATION,
   COMMODITY_STATUS,
 } from '@app/utils/constants'
@@ -15,7 +14,6 @@ import { useNavigate } from 'react-router-dom'
 import newArrivalsImg from '@app/static/new-arrivals.png'
 import Button from '@app/shared/products/button'
 import AnnouncementModal from '@app/shared/announcementModal'
-import useRandomColors from '@app/utils/hooks/useRandomColors'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 
@@ -29,7 +27,7 @@ const announcements = [
     content: [
       '目前僅開放刷卡方式 🎰',
       'ATM虛擬帳戶轉帳尚未開通 🃏',
-      'LinePay也尚未開通 ，工程師努力中🎭'
+      'LinePay也尚未開通 ，工程師努力中🎭',
     ],
   },
   {
@@ -68,7 +66,7 @@ const announcements = [
       '歡迎顧客使用自身推薦碼邀請朋友加入 🎁 領取好禮大獎 😍',
     ],
   },
-];
+]
 
 const ImageContainer = styled.div`
   overflow: hidden;
@@ -151,13 +149,8 @@ export default function Home() {
   const newAds = useSelector(() => dataStore.newAds)
   const news = useSelector(() => dataStore.news)
   const hotAds = useSelector(() => dataStore.hotAds)
-  const manufacturers = useSelector(() => dataStore.manufacturers)
   const goto = useNavigate()
-  const manufacturerColors = useRandomColors(manufacturers, 'id')
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
-  useEffect(() => {
-    dataStore.setManufacturerColors(manufacturerColors)
-  }, [manufacturerColors])
 
   useEffect(() => {
     const req = {
@@ -167,7 +160,6 @@ export default function Home() {
     dataStore.getCommodities(req)
     dataStore.getAds()
     dataStore.recordVisitCount()
-    dataStore.getManufacturers()
   }, [])
 
   return (
