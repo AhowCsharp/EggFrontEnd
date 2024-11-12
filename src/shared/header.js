@@ -26,9 +26,8 @@ import { useSelector, dataStore } from '@app/store'
 import bgTopImg from '@app/static/bg-top.svg'
 import {
   faXmark,
-  faPlus,
-  faChevronRight,
-  faMinus,
+  faChevronDown,
+  faChevronUp,
 } from '@fortawesome/free-solid-svg-icons'
 import { CATEGORY, PROFILE_TAB } from '@app/utils/constants'
 
@@ -235,9 +234,13 @@ const FontAwesomeIcon = styled(BaseFontAwesomeIcon)`
   color: #fff;
 `
 
+const showStyle = css`
+  height: 60px;
+  border-bottom: 1px solid ${(p) => p.theme.mobile.color.menuDivider};
+`
+
 const MobileNavItem = styled.div`
   align-items: center;
-  border-bottom: 1px solid ${(p) => p.theme.mobile.color.menuDivider};
   display: flex;
   flex-wrap: wrap;
   font-size: 1.25rem;
@@ -246,7 +249,12 @@ const MobileNavItem = styled.div`
   align-items: center;
   height: 60px;
   cursor: pointer;
+  overflow: hidden;
   background-color: ${(p) => p.isChild && '#000'};
+  transition: height 0.2s;
+  height: 0;
+  ${(p) => p.isChild && p.show && showStyle}
+  ${(p) => !p.isChild && showStyle}
 `
 const MobileNavContainer = styled.div`
   position: fixed;
@@ -258,8 +266,11 @@ const MobileNavContainer = styled.div`
   overflow-y: auto;
   overscroll-behavior: none;
   z-index: ${(p) => p.theme.zIndex.header};
-  background: #000;
+  background: ${(p) => p.theme.color.headerMask};
   padding-bottom: 80px;
+  transition: all 0.3s linear;
+  left: ${(p) => (p.show ? 'env(safe-area-inset-left)' : '100%')};
+  width: 100%;
 `
 const MobileNav = styled.div`
   flex-direction: column;
@@ -534,98 +545,97 @@ function Header({ isScrolled }) {
           )}
         </Nav>
       </HeaderModule>
-      {openMobileNav ? (
-        <MobileNavContainer>
-          <MobileNav>
-            <Block className="bar">
-              <Block className="logo">
-                <Logo src={logoImg} onClick={() => goto(paths.index)} />
-                <span className="digital-font divider">瞇那賞</span>
-              </Block>
-              <div className="icon">
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  onClick={() => setOpenMobileNav(false)}
-                />
-              </div>
+
+      <MobileNavContainer
+        onClick={() => setOpenMobileNav(false)}
+        show={openMobileNav}
+      >
+        <MobileNav onClick={(e) => e.stopPropagation()}>
+          <Block className="bar">
+            <Block className="logo">
+              <Logo src={logoImg} onClick={() => goto(paths.index)} />
+              <span className="digital-font divider">瞇那賞</span>
             </Block>
-            {!isLogged && (
-              <MobileNavItem onClick={() => mobileGoto(paths.login)}>
-                登入
-              </MobileNavItem>
-            )}
-            {isLogged && (
-              <PersonalInfoNavItem>
-                <div className="info-item">
-                  <img src={coinImg} alt="金幣" className="icon" />
-                  <div className="count">{member?.moneyAmount || 0}</div>
-                </div>
-                <div className="info-item">
-                  <img src={coinWelfareImg} alt="御守" className="icon" />
-                  <div className="count">{member?.welfareAmount || 0}</div>
-                </div>
-                <div className="info-item">
-                  <img
-                    src={ticketPlatformImg}
-                    alt="平台抽獎券"
-                    className="icon"
-                  />
-                  <div className="count">
-                    {member?.ticketEverydayAmount || 0}
-                  </div>
-                </div>
-                <div className="info-item">
-                  <img src={ticket2000Img} alt="廠商抽獎券" className="icon" />
-                  <div className="count">{member?.ticketAmount || 0}</div>
-                </div>
-              </PersonalInfoNavItem>
-            )}
-            {navList.map((item, index) => {
-              const { type, title, children } = item
-              const isParent = children?.length
-              const icon = isParent
-                ? openNavChildrenSetting[type]
-                  ? faMinus
-                  : faPlus
-                : faChevronRight
-              return (
-                <>
+            <div className="icon">
+              <FontAwesomeIcon
+                icon={faXmark}
+                onClick={() => setOpenMobileNav(false)}
+              />
+            </div>
+          </Block>
+          {!isLogged && (
+            <MobileNavItem onClick={() => mobileGoto(paths.login)}>
+              登入
+            </MobileNavItem>
+          )}
+          {isLogged && (
+            <PersonalInfoNavItem>
+              <div className="info-item">
+                <img src={coinImg} alt="金幣" className="icon" />
+                <div className="count">{member?.moneyAmount || 0}</div>
+              </div>
+              <div className="info-item">
+                <img src={coinWelfareImg} alt="御守" className="icon" />
+                <div className="count">{member?.welfareAmount || 0}</div>
+              </div>
+              <div className="info-item">
+                <img
+                  src={ticketPlatformImg}
+                  alt="平台抽獎券"
+                  className="icon"
+                />
+                <div className="count">{member?.ticketEverydayAmount || 0}</div>
+              </div>
+              <div className="info-item">
+                <img src={ticket2000Img} alt="廠商抽獎券" className="icon" />
+                <div className="count">{member?.ticketAmount || 0}</div>
+              </div>
+            </PersonalInfoNavItem>
+          )}
+          {navList.map((item, index) => {
+            const { type, title, children } = item
+            const isParent = children?.length
+            const icon = isParent
+              ? openNavChildrenSetting[type]
+                ? faChevronUp
+                : faChevronDown
+              : null
+            return (
+              <>
+                <MobileNavItem
+                  key={index}
+                  onClick={() => {
+                    if (isParent)
+                      setOpenNavChildrenSetting({
+                        ...openNavChildrenSetting,
+                        [type]: !openNavChildrenSetting[type],
+                      })
+                    else mobileGoto(paths[type])
+                  }}
+                >
+                  {title}
+                  {!!icon && <FontAwesomeIcon icon={icon} />}
+                </MobileNavItem>
+                {children?.map((child, childIndex) => (
                   <MobileNavItem
-                    key={index}
-                    onClick={() => {
-                      if (isParent)
-                        setOpenNavChildrenSetting({
-                          ...openNavChildrenSetting,
-                          [type]: !openNavChildrenSetting[type],
-                        })
-                      else mobileGoto(paths[type])
-                    }}
+                    isChild={true}
+                    key={`${index}-${childIndex}`}
+                    onClick={() => mobileGoto(child.path)}
+                    show={openNavChildrenSetting[type]}
                   >
-                    {title}
-                    <FontAwesomeIcon icon={icon} />
+                    {child.title}
                   </MobileNavItem>
-                  {openNavChildrenSetting[type] &&
-                    children?.map((child, childIndex) => (
-                      <MobileNavItem
-                        isChild={true}
-                        key={`${index}-${childIndex}`}
-                        onClick={() => mobileGoto(child.path)}
-                      >
-                        {child.title}
-                        <FontAwesomeIcon icon={faChevronRight} />
-                      </MobileNavItem>
-                    ))}
-                </>
-              )
-            })}
-            {isLogged && (
-              <MobileNavItem onClick={() => dataStore.logout()}>
-                登出
-              </MobileNavItem>
-            )}
-          </MobileNav>
-        </MobileNavContainer>
-      ) : null}
+                ))}
+              </>
+            )
+          })}
+          {isLogged && (
+            <MobileNavItem onClick={() => dataStore.logout()}>
+              登出
+            </MobileNavItem>
+          )}
+        </MobileNav>
+      </MobileNavContainer>
     </>
   )
   function mobileGoto(path) {

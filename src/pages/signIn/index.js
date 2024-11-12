@@ -63,7 +63,7 @@ export default function SignIn() {
               dataStore.setIsSigning(false)
               dataStore.setAlertMessage(`抽中 ${signInResult}`)
             }}
-            duration={20000}
+            duration={2000}
           />
         )}
         <ButtonContainer>

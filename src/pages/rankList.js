@@ -8,6 +8,7 @@ import { PRIZE_LEVEL } from '@app/utils/constants'
 import dayjs from 'dayjs'
 import { useNavigate, generatePath } from 'react-router-dom'
 import paths from '@app/utils/paths'
+import { MobileItem, MobileList } from '@app/pages/profile/tabStyle'
 
 const { Column } = Table
 
@@ -161,16 +162,40 @@ export default function RankingList() {
     return (
       <Content>
         {!!rankingList && (
-          <Table dataSource={rankingList} pagination={false} rowKey="id">
-            <Column title="暱稱" key="nickname" render={renderNickname} />
-            <Column
-              title="時間"
-              dataIndex="drawDate"
-              key="drawDate"
-              render={(d) => dayjs(d).format('YYYY/MM/DD HH:mm')}
-            />
-            <Column title="獲得賞品" key="prizeName" render={renderPrize} />
-          </Table>
+          <>
+            <Table
+              className="hide-in-mobile"
+              dataSource={rankingList}
+              pagination={false}
+              rowKey="id"
+            >
+              <Column title="暱稱" key="nickname" render={renderNickname} />
+              <Column
+                title="時間"
+                dataIndex="drawDate"
+                key="drawDate"
+                render={(d) => dayjs(d).format('YYYY/MM/DD HH:mm')}
+              />
+              <Column title="獲得賞品" key="prizeName" render={renderPrize} />
+            </Table>
+            <MobileList>
+              {rankingList.map((rank) => (
+                <MobileItem key={rank.id}>
+                  <div className="title vertical">
+                    <div>{renderNickname(rank)}</div>
+                  </div>
+                  <div>
+                    <span className="label">時間</span>
+                    {dayjs(rank.drawDate).format('YYYY/MM/DD HH:mm')}
+                  </div>
+                  <div>
+                    <span className="label">獲得賞品</span>
+                    {renderPrize(rank.prizeName, rank)}
+                  </div>
+                </MobileItem>
+              ))}
+            </MobileList>
+          </>
         )}
       </Content>
     )
@@ -180,23 +205,56 @@ export default function RankingList() {
     return (
       <Content>
         {!!taskList && (
-          <Table dataSource={taskList} pagination={false} rowKey="id">
-            <Column
-              title="頭像"
-              key="avatar"
-              render={(text, record) => renderAvatar(record)}
-              width={60} // 設置列寬，根據需求調整
-            />
-            <Column title="暱稱" dataIndex="customerName" key="customerName" />
-            <Column
-              title="完成時間"
-              dataIndex="completingTime"
-              key="completingTime"
-              render={(d) => dayjs(d).format('YYYY/MM/DD HH:mm')}
-            />
-            <Column title="任務名稱" dataIndex="taskTitle" key="taskTitle" />
-            <Column title="獎勵" dataIndex="award" key="award" />
-          </Table>
+          <>
+            <Table
+              className="hide-in-mobile"
+              dataSource={taskList}
+              pagination={false}
+              rowKey="id"
+            >
+              <Column
+                title="頭像"
+                key="avatar"
+                render={(text, record) => renderAvatar(record)}
+                width={60} // 設置列寬，根據需求調整
+              />
+              <Column
+                title="暱稱"
+                dataIndex="customerName"
+                key="customerName"
+              />
+              <Column
+                title="完成時間"
+                dataIndex="completingTime"
+                key="completingTime"
+                render={(d) => dayjs(d).format('YYYY/MM/DD HH:mm')}
+              />
+              <Column title="任務名稱" dataIndex="taskTitle" key="taskTitle" />
+              <Column title="獎勵" dataIndex="award" key="award" />
+            </Table>
+            <MobileList>
+              {taskList.map((record) => (
+                <MobileItem key={record.id}>
+                  <div className="title">
+                    <div>
+                      <span className="mr10">{renderAvatar(record)}</span>
+                      <span>{record.customerName}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="label">完成時間</span>
+                    {dayjs(record.completingTime).format('YYYY/MM/DD HH:mm')}
+                  </div>
+                  <div>
+                    <span className="label">任務名稱</span> {record.taskTitle}
+                  </div>
+                  <div>
+                    <span className="label">獎勵</span> {record.award}
+                  </div>
+                </MobileItem>
+              ))}
+            </MobileList>
+          </>
         )}
       </Content>
     )

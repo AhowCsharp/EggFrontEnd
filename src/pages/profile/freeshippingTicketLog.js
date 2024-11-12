@@ -69,6 +69,12 @@ export default function freeshippingTicketLog() {
           }}
           mb20={true}
         />
+        <Select
+          className="dark-in-mobile"
+          value={req.status}
+          options={STATUS_OPTIONS}
+          onChange={(value) => setReq({ ...req, status: value })}
+        />
         <Search
           placeholder="請輸入廠商完整名稱"
           enterButton={<Button>送出</Button>}
@@ -77,12 +83,6 @@ export default function freeshippingTicketLog() {
             setReq({ ...req, manufacturerName: value })
           }}
           mb20={true}
-        />
-        <Select
-          className="dark-in-mobile"
-          value={req.status}
-          options={STATUS_OPTIONS}
-          onChange={(value) => setReq({ ...req, status: value })}
         />
         {renderTable()}
       </Container>

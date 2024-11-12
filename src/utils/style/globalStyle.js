@@ -13,6 +13,9 @@ export default createGlobalStyle`
     overscroll-behavior: none;
     &::-webkit-scrollbar { width: 0; height: 0; }
   }
+  .mr10 {
+    margin-right: 10px;
+  }
   a {
     color:#000;
     text-decoration: none;
@@ -82,7 +85,7 @@ export default createGlobalStyle`
         color: rgba(255, 255, 255, 0.25) !important;
       }
     }
-    .ant-picker-range-separator span, .ant-picker .ant-picker-clear , .ant-picker .ant-picker-suffix {
+    .ant-picker-range-separator span, .ant-picker .ant-picker-clear , .ant-picker .ant-picker-suffix,.ant-tabs {
       color: ${(p) => p.theme.mobile.color.font} !important;
     }
     .ant-picker {
