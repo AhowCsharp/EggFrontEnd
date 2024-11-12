@@ -85,16 +85,16 @@ const ButtonContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
-    margin-top:10px;
+    margin-top: 10px;
 
     &.inside-container {
-      flex-direction: row; 
-      flex-wrap: wrap; 
-      justify-content: center; 
-      align-items: center; 
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
     }
   }
-`;
+`
 export default function Products({
   data,
   category,
@@ -168,10 +168,12 @@ export default function Products({
         )}
         {!isBase && shouldDisplayControlBar && (
           <ButtonContainer className="inside-container">
-            <Button
-              type={BUTTON_TYPE.FILTER}
-              onClick={() => setShouldFilterDialogOpen(true)}
-            />
+            {!!category && (
+              <Button
+                type={BUTTON_TYPE.FILTER}
+                onClick={() => setShouldFilterDialogOpen(true)}
+              />
+            )}
             <Button onClick={() => setShouldSortDialogOpen(true)} />
           </ButtonContainer>
         )}
