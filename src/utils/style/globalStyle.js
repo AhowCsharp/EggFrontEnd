@@ -98,5 +98,8 @@ export default createGlobalStyle`
       background-color: ${(p) => p.theme.mobile.color.background} !important;
 
     }
+     .dark-in-mobile.ant-checkbox-wrapper{
+      color: ${(p) => p.theme.mobile.color.font} !important;
+     }
   }
 `

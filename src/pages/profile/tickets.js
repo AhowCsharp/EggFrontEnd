@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { dataStore, useSelector } from '@app/store/index'
 import { DEFAULT_PAGINATION } from '@app/utils/constants'
-import { Table } from 'antd'
+import { Table, Checkbox } from 'antd'
+import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { Button } from '@app/pages/commodity'
 import Tag from '@app/shared/tag'
@@ -12,16 +13,18 @@ import {
   ButtonContainer,
   MobileItem,
   MobileList,
+  Select,
 } from './tabStyle'
 
 const { Column } = Table
 
 export default function Tickets() {
   const ticket = useSelector(() => dataStore.ticket)
+  const manufacturers = useSelector(() => dataStore.manufacturers)
   const [req, setReq] = useState(DEFAULT_PAGINATION)
   const [usefulTicketCount, setUsefulTicketCount] = useState()
   const data = ticket?.data || []
-
+  const [manufacturerWithPlatform, setManufacturerWithPlatform] = useState([])
   useEffect(() => {
     dataStore.getTickets(req)
   }, [req])
@@ -32,18 +35,40 @@ export default function Tickets() {
     setUsefulTicketCount(count)
   }, [data])
 
+  useEffect(() => {
+    if (!manufacturers || manufacturerWithPlatform.length) return
+    const platform = {
+      id: 0,
+      name: '平台方贈送',
+    }
+
+    setManufacturerWithPlatform(
+      [platform, ...manufacturers].map((m) => ({
+        value: m.name,
+        label: m.name,
+      }))
+    )
+  }, [manufacturers])
+
   return (
     <Content>
       <Container>
-        <Search
-          mt10
-          placeholder="請輸入廠商名稱"
-          enterButton={<Button>送出</Button>}
-          size="small"
-          onSearch={(value) => {
-            setReq({ ...req, manufacturerName: value })
-          }}
-        />
+        <ButtonContainer left={true}>
+          <Select
+            className="mr10 dark-in-mobile"
+            style={{ width: '60%' }}
+            placeholder="請選擇廠商"
+            value={req['manufacturerName']}
+            options={manufacturerWithPlatform}
+            onChange={(value) => setReq({ ...req, manufacturerName: value })}
+          />
+          <Checkbox
+            className="dark-in-mobile"
+            onChange={(e) => setReq({ ...req, isUsed: e.target.checked })}
+          >
+            已使用
+          </Checkbox>
+        </ButtonContainer>
         <ButtonContainer left={true}>
           可使用抽獎券：{usefulTicketCount}
         </ButtonContainer>

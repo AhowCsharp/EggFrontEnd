@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import logoImg from '@app/static/logo.png'
 import paths from '@app/utils/paths'
@@ -451,6 +451,12 @@ function Header({ isScrolled }) {
   const [openMobileNav, setOpenMobileNav] = useState(false)
   const [openNavChildrenSetting, setOpenNavChildrenSetting] = useState({})
 
+  useEffect(() => {
+    if (openMobileNav) return
+    const id = setTimeout(() => setOpenNavChildrenSetting({}), 500)
+    return () => clearTimeout(id)
+  }, [openMobileNav])
+
   return (
     <>
       <HeaderModule isScrolled={isScrolled}>
@@ -527,7 +533,12 @@ function Header({ isScrolled }) {
               </>
             )}
           </Block>
-          <MobileNavButton onClick={() => setOpenMobileNav(true)}>
+          <MobileNavButton
+            onClick={() => {
+              setOpenMobileNav(true)
+              setOpenNavChildrenSetting({})
+            }}
+          >
             <FontAwesomeIcon icon="fa-bars" />
           </MobileNavButton>
         </Container>
@@ -641,7 +652,6 @@ function Header({ isScrolled }) {
   function mobileGoto(path) {
     goto(path)
     setOpenMobileNav(false)
-    setOpenNavChildrenSetting({})
   }
 }
 

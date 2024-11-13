@@ -53,7 +53,7 @@ const INVOICE_TYPES = [
     value: 4,
     label: '企業統一編號',
     placeholder: '請輸入統編',
-  }
+  },
 ]
 
 const Image = styled.img.attrs((p) => ({
@@ -66,7 +66,6 @@ const Image = styled.img.attrs((p) => ({
 const Title = styled.div`
   font-weight: 700;
   margin-bottom: 10px;
-  color: #000;
   span {
     font-size: 1.25rem;
     color: rgb(245, 173, 61);
@@ -349,10 +348,7 @@ export default function TopUp() {
         <Title>
           <span>step 1</span>請選擇付款方式
         </Title>
-        <StyledRadioGroup
-          onChange={handlePayWayChange}
-          value={selectedPayWay}
-        >
+        <StyledRadioGroup onChange={handlePayWayChange} value={selectedPayWay}>
           {PayWayOptions.map((option) => (
             <Radio.Button key={option.value} value={option.value}>
               <FontAwesomeIcon icon={option.icon} className="icon" />{' '}
@@ -443,11 +439,9 @@ export default function TopUp() {
               </InvoiceSelect>
             </>
           )}
-          {(invoiceType === 4) && (
+          {invoiceType === 4 && (
             <>
-              <InvoiceOptionLabel>
-                統一編號
-              </InvoiceOptionLabel>
+              <InvoiceOptionLabel>統一編號</InvoiceOptionLabel>
               <InvoiceInput
                 placeholder={
                   INVOICE_TYPES.find((type) => type.value === invoiceType)
@@ -456,9 +450,7 @@ export default function TopUp() {
                 value={number}
                 onChange={(e) => dataStore.setInvoiceNumber(e.target.value)}
               />
-              <InvoiceNote>
-                統一編號共八碼
-              </InvoiceNote>
+              <InvoiceNote>統一編號共八碼</InvoiceNote>
             </>
           )}
         </InvoiceSection>

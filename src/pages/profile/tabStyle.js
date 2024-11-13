@@ -30,6 +30,9 @@ export const Select = styled(BaseSelect)`
       .ant-select-arrow {
         color: ${(p) => p.theme.mobile.color.font} !important;
       }
+      .ant-select-selection-placeholder {
+        color: ${(p) => p.theme.mobile.color.font} !important;
+      }
     }
   }
 `
@@ -50,8 +53,13 @@ export const Search = styled(BaseSearch)`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: ${(p) => (p.left ? 'flex-start' : 'center')};
   margin: 20px 0;
+  ${Select} {
+    margin: 0;
+    margin-right: 10px;
+  }
 `
 
 export const MobileList = styled.div`
@@ -80,6 +88,8 @@ export const MobileItem = styled.div`
   .label {
     font-weight: normal;
     color: ${(p) => p.theme.mobile.color.listItemTitleLabel};
+    min-width: 4rem;
+    margin-right: 0.5rem;
   }
   div.title {
     font-weight: bold;
