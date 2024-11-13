@@ -984,7 +984,7 @@ export default class DataStore {
     if (!res) return
     this.tagsByCategory = {
       ...this.tagsByCategory,
-      [category]: res.source,
+      [category || 'default']: res.source,
     }
   }
 

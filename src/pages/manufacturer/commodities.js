@@ -12,15 +12,23 @@ export default function Commodities({ manufacturerName }) {
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
+  const filterOptions = useSelector(
+    () => dataStore.filterOptionsByCategory[manufacturerName]
+  )
 
   useEffect(() => {
     const req = {
       manufacturerName,
       status,
+      ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
     }
     dataStore.getCommodities(req)
-  }, [status, manufacturerName])
+  }, [status, manufacturerName, filterOptions])
+
+  useEffect(() => {
+    if (!filterOptions) dataStore.setFilterOptions(manufacturerName, {})
+  }, [filterOptions])
 
   if (!commodities) return <Layout />
   return (
@@ -31,6 +39,11 @@ export default function Commodities({ manufacturerName }) {
         setStatus={setStatus}
         shouldSortDialogOpen={shouldSortDialogOpen}
         setShouldSortDialogOpen={setShouldSortDialogOpen}
+        setFilterOptions={(opts) =>
+          dataStore.setFilterOptions(manufacturerName, opts)
+        }
+        filterOptions={filterOptions}
+        manufacturerName={manufacturerName}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {

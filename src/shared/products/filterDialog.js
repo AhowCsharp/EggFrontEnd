@@ -1,124 +1,124 @@
-import styled from "styled-components";
-import { Button } from "@app/pages/commodity";
-import { useState, useEffect } from "react";
-import { CATEGORY } from "@app/utils/constants";
-import { dataStore, useSelector } from "@app/store";
-import { Checkbox, Input } from "antd";
+import styled from 'styled-components'
+import { Button } from '@app/pages/commodity'
+import { useState, useEffect } from 'react'
+import { CATEGORY } from '@app/utils/constants'
+import { dataStore, useSelector } from '@app/store'
+import { Checkbox, Input } from 'antd'
 
 const FilterType = {
   CommodityCategory: {
-    key: "commodityCategory",
-    name: "商品子類別",
-    type: "string",
+    key: 'commodityCategory',
+    name: '商品子類別',
+    type: 'string',
   },
   Keyword: {
-    key: "keyword",
-    name: "關鍵字",
-    type: "string",
+    key: 'keyword',
+    name: '關鍵字',
+    type: 'string',
     hideInSelected: true,
   },
   Manufacturer: {
-    key: "manufacturerName",
-    name: "廠商",
-    type: "string",
+    key: 'manufacturerName',
+    name: '廠商',
+    type: 'string',
   },
   IsDiscount: {
-    key: "isDiscount",
-    name: "折扣",
-    type: "bool",
+    key: 'isDiscount',
+    name: '折扣',
+    type: 'bool',
     hideInSelected: true,
   },
   IsMain: {
-    key: "isMain",
-    name: "主打商品",
-    type: "bool",
+    key: 'isMain',
+    name: '主打商品',
+    type: 'bool',
     hideInSelected: true,
   },
   Tags: {
-    key: "tagIds",
-    name: "標籤",
-    type: "array",
+    key: 'tagIds',
+    name: '標籤',
+    type: 'array',
   },
   Selected: {
-    key: "selected",
-    name: "已選（點擊移除）",
+    key: 'selected',
+    name: '已選（點擊移除）',
     hideInSelected: true,
   },
-};
+}
 
 const FilterTypeByKey = Object.values(FilterType).reduce((acc, cur) => {
-  acc[cur.key] = cur;
-  return acc;
-}, {});
+  acc[cur.key] = cur
+  return acc
+}, {})
 
-export const DefaultFilterOptions = {};
+export const DefaultFilterOptions = {}
 
 const commodityCategoryOptions = {
   [CATEGORY.GACHA]: [
-    { value: "公仔", label: "公仔" },
-    { value: "手辦", label: "手辦" },
-    { value: "獵奇", label: "獵奇" },
-    { value: "文創", label: "文創" },
+    { value: '公仔', label: '公仔' },
+    { value: '手辦', label: '手辦' },
+    { value: '獵奇', label: '獵奇' },
+    { value: '文創', label: '文創' },
   ],
   [CATEGORY.BLIND_BOX]: [
-    { value: "玩具", label: "玩具" },
-    { value: "拼圖", label: "拼圖" },
-    { value: "零食", label: "零食" },
-    { value: "動漫", label: "動漫" },
-    { value: "驚嚇包", label: "驚嚇包" },
+    { value: '玩具', label: '玩具' },
+    { value: '拼圖', label: '拼圖' },
+    { value: '零食', label: '零食' },
+    { value: '動漫', label: '動漫' },
+    { value: '驚嚇包', label: '驚嚇包' },
   ],
   [CATEGORY.LUCKY_BAG]: [
-    { value: "廠商回饋", label: "廠商回饋" },
-    { value: "出清", label: "出清" },
-    { value: "折扣品", label: "折扣品" },
-    { value: "送福利", label: "送福利" },
-    { value: "瓜哥送幸福", label: "瓜哥送幸福" },
+    { value: '廠商回饋', label: '廠商回饋' },
+    { value: '出清', label: '出清' },
+    { value: '折扣品', label: '折扣品' },
+    { value: '送福利', label: '送福利' },
+    { value: '瓜哥送幸福', label: '瓜哥送幸福' },
   ],
   [CATEGORY.ICHIBAN]: [
-    { value: "遊戲", label: "遊戲" },
-    { value: "電影", label: "電影" },
-    { value: "經典聯名", label: "經典聯名" },
-    { value: "機甲系列", label: "機甲系列" },
+    { value: '遊戲', label: '遊戲' },
+    { value: '電影', label: '電影' },
+    { value: '經典聯名', label: '經典聯名' },
+    { value: '機甲系列', label: '機甲系列' },
   ],
   [CATEGORY.SPECIAL]: [
-    { value: "植栽", label: "植栽" },
-    { value: "活體類", label: "活體類" },
-    { value: "寵物用品", label: "寵物用品" },
-    { value: "生活用品", label: "生活用品" },
-    { value: "廠商自製", label: "廠商自製" },
+    { value: '植栽', label: '植栽' },
+    { value: '活體類', label: '活體類' },
+    { value: '寵物用品', label: '寵物用品' },
+    { value: '生活用品', label: '生活用品' },
+    { value: '廠商自製', label: '廠商自製' },
   ],
   [CATEGORY.OUTSIDE_WALL_WORLD]: [
-    { value: "精品代購", label: "精品代購" },
-    { value: "韓團周邊", label: "韓團周邊" },
-    { value: "保養品", label: "保養品" },
-    { value: "化妝品", label: "化妝品" },
-    { value: "潮流玩物", label: "潮流玩物" },
-    { value: "運動用品", label: "運動用品" },
-    { value: "服飾品", label: "服飾品" },
+    { value: '精品代購', label: '精品代購' },
+    { value: '韓團周邊', label: '韓團周邊' },
+    { value: '保養品', label: '保養品' },
+    { value: '化妝品', label: '化妝品' },
+    { value: '潮流玩物', label: '潮流玩物' },
+    { value: '運動用品', label: '運動用品' },
+    { value: '服飾品', label: '服飾品' },
   ],
   [CATEGORY.DIGITAL_WORLD]: [
-    { value: "智慧型手機", label: "智慧型手機" },
-    { value: "智能家電", label: "智能家電" },
-    { value: "電動", label: "電動" },
-    { value: "電玩周邊", label: "電玩周邊" },
+    { value: '智慧型手機', label: '智慧型手機' },
+    { value: '智能家電', label: '智能家電' },
+    { value: '電動', label: '電動' },
+    { value: '電玩周邊', label: '電玩周邊' },
   ],
-};
+}
 
 // 修改 getCategoryColor 函數，使用同色系但更容易區分的顏色
 const getCategoryColor = (category) => {
   switch (category) {
     case FilterType.Manufacturer.key:
-      return "#a21a2b"; // 深紅色
+      return '#a21a2b' // 深紅色
     case FilterType.Tags.key:
-      return "#d9480f"; // 橘紅色
+      return '#d9480f' // 橘紅色
     case FilterType.CommodityCategory.key:
-      return "#f59f00"; // 黃色
+      return '#f59f00' // 黃色
     case FilterType.Selected.key:
-      return "#1864ab"; // 藍色
+      return '#1864ab' // 藍色
     default:
-      return "#868e96"; // 灰色，作為默認
+      return '#868e96' // 灰色，作為默認
   }
-};
+}
 
 const CheckboxLabel = styled.label`
   display: flex;
@@ -128,7 +128,7 @@ const CheckboxLabel = styled.label`
   @media (max-width: 768px) {
     margin-right: 15px;
   }
-`;
+`
 
 const LabelText = styled.span`
   margin-left: 8px;
@@ -144,7 +144,7 @@ const Mask = styled.div`
   height: 100%;
   background-color: ${(p) => p.theme.color.mask};
   z-index: ${(p) => p.theme.zIndex.mask};
-`;
+`
 
 const Container = styled.div`
   position: fixed;
@@ -166,13 +166,13 @@ const Container = styled.div`
     left: 5%;
     max-height: calc(90vh - 165px);
   }
-`;
+`
 
 const Block = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-`;
+`
 
 const Header = styled(Block)`
   position: relative;
@@ -183,7 +183,7 @@ const Header = styled(Block)`
   h3 {
     margin: 0;
   }
-`;
+`
 
 const Footer = styled(Block)`
   display: flex;
@@ -194,7 +194,7 @@ const Footer = styled(Block)`
   justify-content: center;
   gap: 1rem;
   border-top: 1px solid #ccc;
-`;
+`
 
 const Content = styled.div`
   padding: 20px;
@@ -207,7 +207,7 @@ const Content = styled.div`
       margin-bottom: 0.5rem;
     }
   }
-`;
+`
 
 // 修改 Tag 組件，設置字體為粗體，使用新的顏色
 const Tag = styled.div`
@@ -218,12 +218,12 @@ const Tag = styled.div`
   cursor: pointer;
   margin: 0.5rem 0.25rem 0 0;
   font-weight: bold;
-`;
+`
 
 // 修改 SelectedTag 組件，保持字體顏色為白色
 const SelectedTag = styled(Tag)`
   border: 2px solid #000;
-`;
+`
 
 const BaseSection = styled.div`
   margin-bottom: 1rem;
@@ -238,7 +238,7 @@ const BaseSection = styled.div`
       margin-left: 0.5rem;
     }
   }
-`;
+`
 
 export default function FilterDialog({
   onClose,
@@ -246,21 +246,21 @@ export default function FilterDialog({
   filterOptions,
   setFilterOptions,
 }) {
-  const [selectedOptions, setSelectedOptions] = useState(filterOptions);
-  const manufacturers = useSelector(() => dataStore.manufacturers);
-  const tagsByCategory = useSelector(() => dataStore.tagsByCategory);
-  const tags = tagsByCategory[category];
+  const [selectedOptions, setSelectedOptions] = useState(filterOptions)
+  const manufacturers = useSelector(() => dataStore.manufacturers)
+  const tagsByCategory = useSelector(() => dataStore.tagsByCategory)
+  const tags = tagsByCategory[category || 'default']
   useEffect(() => {
-    if (!manufacturers) dataStore.getManufacturers();
-  }, [manufacturers]);
+    if (!manufacturers) dataStore.getManufacturers()
+  }, [manufacturers])
 
   useEffect(() => {
-    if (!tags) dataStore.getTags(category);
-  }, [tags]);
+    if (!tags) dataStore.getTags(category)
+  }, [tags])
 
   useEffect(() => {
-    setSelectedOptions(filterOptions);
-  }, [filterOptions]);
+    setSelectedOptions(filterOptions)
+  }, [filterOptions])
 
   return (
     <>
@@ -272,11 +272,11 @@ export default function FilterDialog({
         <Content>
           <Section type={FilterType.Selected}>
             {Object.keys(selectedOptions).map((categoryKey) => {
-              const setting = FilterTypeByKey[categoryKey];
-              if (setting.hideInSelected) return null;
+              const setting = FilterTypeByKey[categoryKey]
+              if (setting.hideInSelected) return null
               switch (setting.type) {
-                case "string":
-                  if (!selectedOptions[categoryKey]) return null;
+                case 'string':
+                  if (!selectedOptions[categoryKey]) return null
                   return (
                     <SelectedTag
                       key={categoryKey}
@@ -290,18 +290,18 @@ export default function FilterDialog({
                     >
                       {selectedOptions[categoryKey]}
                     </SelectedTag>
-                  );
-                case "array":
+                  )
+                case 'array':
                   if (
                     !selectedOptions[categoryKey] ||
                     !selectedOptions[categoryKey].length
                   )
-                    return null;
+                    return null
                   return selectedOptions[categoryKey]?.map((option) => {
                     const tagLabel =
                       categoryKey === FilterType.Tags.key
                         ? tags.find((t) => t.id === option)?.tagName
-                        : option;
+                        : option
                     return (
                       <SelectedTag
                         key={option}
@@ -317,47 +317,49 @@ export default function FilterDialog({
                       >
                         {tagLabel}
                       </SelectedTag>
-                    );
-                  });
+                    )
+                  })
                 default:
-                  return null;
+                  return null
               }
             })}
           </Section>
-          <Section type={FilterType.Manufacturer}>
-            {manufacturers?.map((m) => {
-              if (selectedOptions[FilterType.Manufacturer.key] === m.name)
-                return null;
-              return (
-                <Tag
-                  key={m.id}
-                  category={FilterType.Manufacturer.key}
-                  onClick={handleClick(FilterType.Manufacturer, m, "name")}
-                >
-                  {m.name}
-                </Tag>
-              );
-            })}
-          </Section>
+          {!!category && (
+            <Section type={FilterType.Manufacturer}>
+              {manufacturers?.map((m) => {
+                if (selectedOptions[FilterType.Manufacturer.key] === m.name)
+                  return null
+                return (
+                  <Tag
+                    key={m.id}
+                    category={FilterType.Manufacturer.key}
+                    onClick={handleClick(FilterType.Manufacturer, m, 'name')}
+                  >
+                    {m.name}
+                  </Tag>
+                )
+              })}
+            </Section>
+          )}
           <Section type={FilterType.Tags}>
             {tags?.map((m) => {
               if (selectedOptions[FilterType.Tags.key]?.includes(m.id))
-                return null;
+                return null
               return (
                 <Tag
                   key={m.id}
                   category={FilterType.Tags.key}
-                  onClick={handleClick(FilterType.Tags, m, "id")}
+                  onClick={handleClick(FilterType.Tags, m, 'id')}
                 >
                   {m.tagName}
                 </Tag>
-              );
+              )
             })}
           </Section>
           <Section type={FilterType.CommodityCategory}>
             {commodityCategoryOptions[category]?.map((m) => {
               if (selectedOptions[FilterType.CommodityCategory.key] === m.label)
-                return null;
+                return null
               return (
                 <Tag
                   key={m.value}
@@ -365,12 +367,12 @@ export default function FilterDialog({
                   onClick={handleClick(
                     FilterType.CommodityCategory,
                     m,
-                    "label"
+                    'label'
                   )}
                 >
                   {m.label}
                 </Tag>
-              );
+              )
             })}
           </Section>
           <Section type={FilterType.Keyword}>
@@ -381,7 +383,7 @@ export default function FilterDialog({
                 setSelectedOptions({
                   ...selectedOptions,
                   [FilterType.Keyword.key]: e.target.value,
-                });
+                })
               }}
             />
           </Section>
@@ -393,7 +395,7 @@ export default function FilterDialog({
                   setSelectedOptions({
                     ...selectedOptions,
                     [FilterType.IsDiscount.key]: e.target.checked,
-                  });
+                  })
                 }}
               />
               <LabelText>折扣</LabelText>
@@ -406,7 +408,7 @@ export default function FilterDialog({
                   setSelectedOptions({
                     ...selectedOptions,
                     [FilterType.IsMain.key]: e.target.checked,
-                  });
+                  })
                 }}
               />
               <LabelText>主打商品</LabelText>
@@ -420,39 +422,39 @@ export default function FilterDialog({
         </Footer>
       </Container>
     </>
-  );
+  )
   function handleClick(filterType, data, dataKey) {
-    const key = filterType.key;
+    const key = filterType.key
     switch (filterType.type) {
-      case "string":
+      case 'string':
         return () => {
           setSelectedOptions({
             ...selectedOptions,
             [key]: data[dataKey],
-          });
-        };
-      case "array":
+          })
+        }
+      case 'array':
         return () => {
           setSelectedOptions({
             ...selectedOptions,
             [key]: [...(selectedOptions[key] || []), data[dataKey]],
-          });
-        };
+          })
+        }
       default:
         return () => {
           setSelectedOptions({
             ...selectedOptions,
             [key]: data[dataKey],
-          });
-        };
+          })
+        }
     }
   }
   function onConfirm() {
-    setFilterOptions(selectedOptions);
-    onClose();
+    setFilterOptions(selectedOptions)
+    onClose()
   }
   function onReset() {
-    setSelectedOptions({});
+    setSelectedOptions({})
   }
 }
 
@@ -462,5 +464,5 @@ function Section({ type, children }) {
       {!!type?.name && <h3>{type.name}</h3>}
       <div className="content">{children}</div>
     </BaseSection>
-  );
+  )
 }

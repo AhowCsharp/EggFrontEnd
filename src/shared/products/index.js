@@ -106,6 +106,7 @@ export default function Products({
   setShouldSortDialogOpen,
   filterOptions,
   setFilterOptions,
+  manufacturerName,
 }) {
   const goto = useNavigate()
   const isSoldOut = status === COMMODITY_STATUS.CLOSED
@@ -153,7 +154,7 @@ export default function Products({
         )
         break
     }
-  }, [category, sortType])
+  }, [category, sortType, manufacturerName])
 
   return (
     <>
@@ -168,12 +169,10 @@ export default function Products({
         )}
         {!isBase && shouldDisplayControlBar && (
           <ButtonContainer className="inside-container">
-            {!!category && (
-              <Button
-                type={BUTTON_TYPE.FILTER}
-                onClick={() => setShouldFilterDialogOpen(true)}
-              />
-            )}
+            <Button
+              type={BUTTON_TYPE.FILTER}
+              onClick={() => setShouldFilterDialogOpen(true)}
+            />
             <Button onClick={() => setShouldSortDialogOpen(true)} />
           </ButtonContainer>
         )}
@@ -207,6 +206,7 @@ export default function Products({
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
           category={category}
+          manufacturerName={manufacturerName}
         />
       )}
     </>
