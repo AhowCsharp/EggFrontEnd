@@ -157,7 +157,8 @@ const BaseLottery = styled.div`
   display: flex;
   padding: 5px;
   margin: 10px 17px;
-  background-color: ${(p) => (p.isSelected ? '#f4c221' : 'unset')};
+  background-color: ${(p) => (p.isSelected ? '#6B717C' : 'unset')};
+  color: ${(p) => (p.isSelected ? '#fff' : 'unset')};
   cursor: pointer;
   position: relative;
   text-align: center;
