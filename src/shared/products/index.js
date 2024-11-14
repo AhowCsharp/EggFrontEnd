@@ -108,6 +108,7 @@ export default function Products({
   filterOptions,
   setFilterOptions,
   manufacturerName,
+  isHome = true,
 }) {
   const goto = useNavigate()
   const isSoldOut = status === COMMODITY_STATUS.CLOSED
@@ -179,7 +180,7 @@ export default function Products({
         )}
       </ButtonContainer>
       {!!category && <Header category={category} />}
-      {!category && <ManufacturerHeader/>}
+      {!category && !isHome && <ManufacturerHeader/>}
       {sortedData && sortedData.length ? (
         <ProductContainer>
           {sortedData.map((p, index) => (

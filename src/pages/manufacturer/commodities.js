@@ -44,6 +44,7 @@ export default function Commodities({ manufacturerName }) {
         }
         filterOptions={filterOptions}
         manufacturerName={manufacturerName}
+        isHome={false}
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
