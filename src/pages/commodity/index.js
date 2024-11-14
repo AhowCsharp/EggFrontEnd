@@ -5,11 +5,10 @@ import Layout from '@app/shared/layout'
 import { useSelector, dataStore } from '@app/store'
 import { useParams, useNavigate } from 'react-router-dom'
 import { breadCrumbs } from '@app/utils/paths'
-import paths from '@app/utils/paths'
 import ManufacturerTag from '@app/shared/tag'
 import { DRAW_OUT_STATUS, COMMODITY_STATUS } from '@app/utils/constants'
 import CountdownTimer from '@app/shared/countdownTimer'
-import { hideScrollBarStyle } from '@app/shared/header'
+import { hideScrollBarStyle, showScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
 import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
 import useScrollToTop from '@app/utils/hooks/useScrollToTop'
@@ -81,7 +80,7 @@ const PrizeContainer = styled.div`
   height: 300px;
   width: 100%;
   overflow-x: auto;
-  ${hideScrollBarStyle}
+  ${showScrollBarStyle}
 `
 
 const Description = styled.div`

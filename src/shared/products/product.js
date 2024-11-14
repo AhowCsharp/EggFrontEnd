@@ -3,7 +3,7 @@ import Tag from '@app/shared/tag'
 import { PRIZE_LEVEL } from '@app/utils/constants'
 import soldOutImg from '@app/static/sold-out.png'
 import prizeTagImg from '@app/static/prize-tag.png'
-import { hideScrollBarStyle } from '@app/shared/header'
+import { showScrollBarStyle } from '@app/shared/header'
 import { PushpinFilled } from '@ant-design/icons'
 import { formatDiscount } from '@app/utils/formatDiscount'
 import Price from './price'
@@ -212,7 +212,7 @@ const PrizeTag = styled.div`
   span:last-child {
     margin-top: 5px;
     position: absolute;
-    bottom: 29%;
+    bottom: 30%;
     font-size: 0.75rem;
   }
 `
@@ -222,10 +222,12 @@ const PrizeTagContainer = styled.div`
   flex-direction: row;
   margin-top: 8px;
   color: #fff;
-  overflow-x: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
   min-height: 6.85rem;
   width: 100%;
-  ${hideScrollBarStyle}
+  cursor: unset;
+  ${showScrollBarStyle}
   ${PrizeTag} + ${PrizeTag} {
     margin-left: 5px;
   }

@@ -70,7 +70,7 @@ const Content = styled(Block)`
   overflow-y: auto;
   justify-content: center;
   @media (max-width: 768px) {
-    margin: 10px 0 30px;
+    margin: 10px 0 40px;
   }
 `
 

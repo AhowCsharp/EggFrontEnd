@@ -356,25 +356,29 @@ export default function FilterDialog({
               )
             })}
           </Section>
-          <Section type={FilterType.CommodityCategory}>
-            {commodityCategoryOptions[category]?.map((m) => {
-              if (selectedOptions[FilterType.CommodityCategory.key] === m.label)
-                return null
-              return (
-                <Tag
-                  key={m.value}
-                  category={FilterType.CommodityCategory.key}
-                  onClick={handleClick(
-                    FilterType.CommodityCategory,
-                    m,
-                    'label'
-                  )}
-                >
-                  {m.label}
-                </Tag>
-              )
-            })}
-          </Section>
+          {!!category && (
+            <Section type={FilterType.CommodityCategory}>
+              {commodityCategoryOptions[category]?.map((m) => {
+                if (
+                  selectedOptions[FilterType.CommodityCategory.key] === m.label
+                )
+                  return null
+                return (
+                  <Tag
+                    key={m.value}
+                    category={FilterType.CommodityCategory.key}
+                    onClick={handleClick(
+                      FilterType.CommodityCategory,
+                      m,
+                      'label'
+                    )}
+                  >
+                    {m.label}
+                  </Tag>
+                )
+              })}
+            </Section>
+          )}
           <Section type={FilterType.Keyword}>
             <Input
               placeholder="輸入關鍵字"

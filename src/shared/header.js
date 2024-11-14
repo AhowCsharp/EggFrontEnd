@@ -44,6 +44,28 @@ export const hideScrollBarStyle = `
   }
 `
 
+export const showScrollBarStyle = `
+  scrollbar-width: auto; /* Firefox */
+  -ms-overflow-style: unset; /* IE 10+ */
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.35rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 1);
+    border-radius: 9999px;
+    background-color: hsla(0, 0%, 89%, 0.8);
+    &:hover {
+      background-color: rgba(227, 227, 227, 1);
+    }
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 9999px;
+    background-color: transparent;
+  }
+`
+
 const BaseNavItem = styled.div`
   padding: 4px 10px;
   color: #fff;

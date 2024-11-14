@@ -31,11 +31,14 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.25rem;
-  height: 22px;
   font-weight: 700;
   text-overflow: ellipsis;
   overflow: hidden;
-  word-break: keep-all;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  height: 2.75rem;
 `
 
 const SaleTag = styled.div`
@@ -101,7 +104,6 @@ const TagContainer = styled.div`
     }
   }
 `
-
 
 export default function Commodity({ data, handleClick }) {
   const {

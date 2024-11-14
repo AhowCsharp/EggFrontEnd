@@ -1,19 +1,19 @@
-import styled from "styled-components";
-import { PRIZE_LEVEL } from "@app/utils/constants";
-import { formatDateToYmd as formatDate } from "@app/utils/date";
+import styled from 'styled-components'
+import { PRIZE_LEVEL } from '@app/utils/constants'
+import { formatDateToYmd as formatDate } from '@app/utils/date'
 import {
   FaCoins,
   FaShippingFast,
   FaLayerGroup,
   FaCalendarAlt,
-} from "react-icons/fa";
+} from 'react-icons/fa'
 
 // 保持原有的样式
 const Container = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 20px 20px 0;
+  padding: 15px 20px 5px;
   width: 190px;
   justify-content: space-between;
   cursor: pointer;
@@ -36,7 +36,7 @@ const Container = styled.div`
     display: -webkit-box;
     -webkit-box-orient: vertical;
   }
-`;
+`
 
 const Label = styled.div`
   display: flex;
@@ -50,13 +50,13 @@ const Label = styled.div`
   flex-direction: row;
   padding: 8px;
   margin-top: 8px;
-`;
+`
 
 // 新增的样式组件
 const ImageWrapper = styled.div`
   position: relative;
   display: inline-block;
-`;
+`
 
 const FireEmoji = styled.span`
   position: absolute;
@@ -69,7 +69,7 @@ const FireEmoji = styled.span`
   @media (max-width: 768px) {
     font-size: 20px;
   }
-`;
+`
 
 // 定義 InfoItem 組件
 const InfoItem = styled.div`
@@ -92,12 +92,12 @@ const InfoItem = styled.div`
   @media (max-width: 768px) {
     font-size: 0.9rem;
   }
-`;
+`
 
 // 主组件 Prize
 export default function Prize({ data, onClick, isCommodity }) {
-  const name = data?.prizeName || data?.name;
-  const isOverAfterSoldOut = data?.isOverAfterSoldOut == true;
+  const name = data?.prizeName || data?.name
+  const isOverAfterSoldOut = data?.isOverAfterSoldOut == true
   return (
     <Container onClick={onClick}>
       <ImageWrapper>
@@ -136,7 +136,7 @@ export default function Prize({ data, onClick, isCommodity }) {
         </>
       )}
     </Container>
-  );
+  )
 }
 
 function PrizeLevelAndAmount({ prizeLevel, amount, fixedAmount }) {
@@ -147,7 +147,7 @@ function PrizeLevelAndAmount({ prizeLevel, amount, fixedAmount }) {
         {amount}/{fixedAmount}
       </span>
     </Label>
-  );
+  )
 }
 
 function CommodityInformation({ totalDrawOutTimes, fixedTotalDrawOutTimes }) {
@@ -158,5 +158,5 @@ function CommodityInformation({ totalDrawOutTimes, fixedTotalDrawOutTimes }) {
         {totalDrawOutTimes}/{fixedTotalDrawOutTimes}
       </span>
     </Label>
-  );
+  )
 }
