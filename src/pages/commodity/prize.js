@@ -11,16 +11,20 @@ import {
 // 保持原有的样式
 const Container = styled.div`
   display: flex;
-  height: 100%;
   flex-direction: column;
   padding: 15px 20px 5px;
   width: 190px;
-  justify-content: space-between;
+  min-height: 315px; 
+  justify-content: flex-start;
   cursor: pointer;
 
   img {
     width: 150px;
     height: 150px;
+    object-fit: cover;
+    border-radius: 4px; 
+    transition: transform 0.3s ease; 
+    
     &:hover {
       transform: scale(1.03);
     }
@@ -28,13 +32,15 @@ const Container = styled.div`
 
   h4 {
     margin: 8px 0;
-    max-height: 37px;
+    min-height: 2.4em;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    -webkit-line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; 
+    line-height: 1.2em; 
+    text-align: center; 
   }
 `
 

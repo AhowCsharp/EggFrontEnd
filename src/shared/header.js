@@ -49,7 +49,7 @@ export const showScrollBarStyle = `
   -ms-overflow-style: unset; /* IE 10+ */
   &::-webkit-scrollbar {
     width: 0.5rem;
-    height: 0.35rem;
+    height: 0.75rem;
   }
   &::-webkit-scrollbar-thumb {
     border-width: 1px;

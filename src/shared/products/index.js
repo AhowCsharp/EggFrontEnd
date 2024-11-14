@@ -12,6 +12,7 @@ import Button, { BUTTON_TYPE } from './button'
 import Product from './product'
 import SortDialog, { SortType } from './sortDialog'
 import FilterDialog from './filterDialog'
+import ManufacturerHeader from '../../pages/manufacturer/manufacturerHeader'
 
 const { Group: BaseRadio } = AntdRadio
 
@@ -178,6 +179,7 @@ export default function Products({
         )}
       </ButtonContainer>
       {!!category && <Header category={category} />}
+      {!category && <ManufacturerHeader/>}
       {sortedData && sortedData.length ? (
         <ProductContainer>
           {sortedData.map((p, index) => (

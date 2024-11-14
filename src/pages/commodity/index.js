@@ -77,9 +77,10 @@ const InfoContainer = styled.div`
 
 const PrizeContainer = styled.div`
   display: flex;
-  height: 300px;
+  height: 325px;
   width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
   ${showScrollBarStyle}
 `
 
