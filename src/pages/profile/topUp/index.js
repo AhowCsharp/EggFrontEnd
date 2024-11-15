@@ -264,6 +264,7 @@ export default function TopUp() {
   const paymentUrl = useSelector(() => dataStore.paymentUrl)
   const invoiceType = useSelector(() => +dataStore.invoiceType)
   const number = useSelector(() => dataStore.invoiceNumber)
+  const companyName = useSelector(() => dataStore.invoiceCompanyName)
 
   useEffect(() => {
     if (paymentUrl) {
@@ -441,8 +442,17 @@ export default function TopUp() {
           )}
           {invoiceType === 4 && (
             <>
+              <InvoiceOptionLabel>公司名稱</InvoiceOptionLabel>
+              <InvoiceInput
+                placeholder="請輸入公司名稱"
+                value={companyName}
+                onChange={(e) =>
+                  dataStore.setInvoiceCompanyName(e.target.value)
+                }
+              />
               <InvoiceOptionLabel>統一編號</InvoiceOptionLabel>
               <InvoiceInput
+                status={number.length === 8 ? 'success' : 'error'}
                 placeholder={
                   INVOICE_TYPES.find((type) => type.value === invoiceType)
                     .placeholder

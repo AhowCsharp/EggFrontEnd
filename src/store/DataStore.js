@@ -16,6 +16,7 @@ import store from './helpers/store'
 
 const invoiceNumberEncodedKey = btoa('invoiceNumber')
 const invoiceTypeEncodedKey = btoa('invoiceType')
+const invoiceCompanyNameEncodedKey = btoa('invoiceCompanyName')
 
 const defaultFilterOptionsByCategory = Object.values(CATEGORY).reduce(
   (acc, key) => {
@@ -321,6 +322,7 @@ export default class DataStore {
     localStorage.removeItem('referralCode')
     localStorage.removeItem(invoiceNumberEncodedKey)
     localStorage.removeItem(invoiceTypeEncodedKey)
+    localStorage.removeItem(invoiceCompanyNameEncodedKey)
     this.member = undefined
     this.isLogged = false
     this.countdownSec = {}
@@ -689,6 +691,7 @@ export default class DataStore {
     const token = getToken()
     localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
     localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
+    localStorage.setItem(invoiceCompanyNameEncodedKey, this.invoiceCompanyName)
 
     if (token) {
       yield TPDirect.card.getPrime(getPrimeCallback(token, req, this))
@@ -719,6 +722,7 @@ export default class DataStore {
     const token = getToken()
     localStorage.setItem(invoiceNumberEncodedKey, this.invoiceNumber)
     localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
+    localStorage.setItem(invoiceCompanyNameEncodedKey, this.invoiceCompanyName)
 
     // if (token) {
     //   yield TPDirect.virtualAccount.getPrime(getPrimeCallback(token, req, this))
@@ -995,18 +999,22 @@ export default class DataStore {
   @observable
   invoiceNumber = localStorage.getItem(invoiceNumberEncodedKey) || ''
 
+  @observable
+  invoiceCompanyName = localStorage.getItem(invoiceCompanyNameEncodedKey) || ''
+
   @action
   setInvoiceType(value) {
-    console.log('setInvoiceType:', value)
-
     this.invoiceType = value
   }
 
   @action
   setInvoiceNumber(value) {
-    console.log('setInvoiceNumber:', value)
-
     this.invoiceNumber = value
+  }
+
+  @action
+  setInvoiceCompanyName(value) {
+    this.invoiceCompanyName = value
   }
 
   @flow
@@ -1016,6 +1024,9 @@ export default class DataStore {
       RecTradeId: rec_trade_id,
       InvoiceType: this.invoiceType,
       Number: this.invoiceNumber,
+    }
+    if (this.invoiceType === 4) {
+      req.CompanyName = this.invoiceCompanyName
     }
     console.log('sendInvoice ~ req:', req)
     try {
