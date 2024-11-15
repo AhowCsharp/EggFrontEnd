@@ -12,6 +12,7 @@ const ArrowButton = styled.div`
   color: #fff;
   font-size: 0.875rem;
   opacity: ${(p) => (p.disabled ? 0.6 : 1)};
+  pointer-events: ${(p) => (p.disabled ? 'none' : 'auto')};
   display: flex;
   justify-content: center;
   align-items: center;
