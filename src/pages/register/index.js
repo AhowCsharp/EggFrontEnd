@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import { LineButton } from '../login'
 import Form from './form'
+import { Helmet } from 'react-helmet';
 
 const Warning = styled.span`
   color: red;
@@ -41,6 +42,18 @@ export default function Register() {
   useScrollToTop()
 
   return (
+    <>
+      <Helmet>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ENGGR9ZBNL"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ENGGR9ZBNL');
+          `}
+        </script>
+      </Helmet>
     <Layout>
       <Container>
         <h4>為避免您的賞品寄送權益，請務必如實填寫會員資料</h4>
@@ -58,6 +71,7 @@ export default function Register() {
         onVerifySms={dataStore.verifySms}
       />
     </Layout>
+  </>
   )
   function useLoginByLine() {
     const loginByLineUrl = useSelector(() => dataStore.loginByLineUrl)

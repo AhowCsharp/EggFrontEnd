@@ -16,6 +16,7 @@ import Button from '@app/shared/products/button'
 import AnnouncementModal from '@app/shared/announcementModal'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
+import { Helmet } from 'react-helmet';
 
 export const DisplayPageSize = 4
 
@@ -164,6 +165,17 @@ export default function Home() {
 
   return (
     <>
+     <Helmet>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ENGGR9ZBNL"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ENGGR9ZBNL');
+          `}
+        </script>
+      </Helmet>
       <AnnouncementModal announcements={announcements} />
       {newAds.length ? (
         <Carousel
