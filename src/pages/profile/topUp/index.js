@@ -447,7 +447,8 @@ export default function TopUp() {
         <Title>
           <span>step 2</span>請選擇儲值金額
         </Title>
-        <P center={true}>首次儲值超過300元 會得到新手禮包50元的御守</P>
+        <P center={true}>首次儲值超過300元 會得到新手禮包50張 御守</P>
+        <P center={true}>請確保會員資料信箱、手機號碼、等相關個人資訊正確 避免發票無法寄出</P>
         <OptionContainer>
           {TOP_UP_PRICE_OPTIONS.map((option) => (
             <Option

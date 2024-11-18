@@ -54,7 +54,7 @@ export const DEFAULT_PAGINATION = {
 }
 
 export const DEFAULT_COMMODITIES_PAGINATION = {
-  pageSize: 50,
+  pageSize: 48,
   pageNumber: 1,
 }
 
@@ -365,9 +365,9 @@ export const TOP_UP_PRICE_OPTIONS = [
   },
   {
     id: 12,
-    name: '50000',
+    name: '49999',
     src: coinImg.b,
-    value: 50000,
+    value: 49999,
   },
   {
     id: 13,
