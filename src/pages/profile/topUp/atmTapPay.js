@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { DrawOutBtn as Button } from '@app/pages/commodity';
-import { Container } from '../tabStyle';
-import { Content } from '../index';
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+import { DrawOutBtn as Button } from '@app/pages/commodity'
+import { Container } from '../tabStyle'
+import { Content } from '../index'
 
 // TapPay SDK 初始化參數
-const isDev = process.env.NODE_ENV !== 'production';
-const APP_ID = 154437;
-const APP_KEY = 'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt';
+const isDev = process.env.NODE_ENV !== 'production'
+const APP_ID = 154437
+const APP_KEY =
+  'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
 
 const TapPayContainer = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 const SummaryCard = styled.div`
   width: 100%;
@@ -24,11 +25,11 @@ const SummaryCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
-  
+
   @media (max-width: 600px) {
     padding: 15px;
   }
-`;
+`
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const SummaryItem = styled.div`
       font-size: 14px;
     }
   }
-`;
+`
 
 const Title = styled.h2`
   font-size: 20px;
@@ -78,14 +79,14 @@ const Title = styled.h2`
     font-size: 18px;
     margin-bottom: 15px;
   }
-`;
+`
 
 const ErrorMessage = styled.div`
   color: #ff0000;
   margin-bottom: 15px;
   font-size: 14px;
   text-align: center;
-`;
+`
 
 const LoadingOverlay = styled.div`
   position: fixed;
@@ -109,10 +110,14 @@ const LoadingOverlay = styled.div`
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
-`;
+`
 
 // 發票類型對應的標籤
 const invoiceTypeMap = {
@@ -128,62 +133,107 @@ const invoiceTypeMap = {
     label: '發票捐贈',
     numberLabel: '捐贈碼',
   },
-};
+}
 
-export default function AtmTapPay({ onSubmit, selected, number, invoiceType, cancel }) {
-  const serverType = isDev ? 'sandbox' : 'production';
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
+export default function AtmTapPay({
+  onSubmit,
+  selected,
+  number,
+  invoiceType,
+  cancel,
+  payeeInfo,
+}) {
+  console.log('🚀 ~ payeeInfo:', {
+    payeeInfo,
+    onSubmit,
+    selected,
+    number,
+    invoiceType,
+    cancel,
+  })
+  const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
-    TPDirect.setupSDK(APP_ID, APP_KEY, serverType);
-  }, []);
+    TPDirect.setupSDK(APP_ID, APP_KEY, serverType)
+  }, [])
 
   // 根據 invoiceType 獲取相應的標籤
-  const currentInvoiceType = invoiceTypeMap[invoiceType] || {
+  const currentInvoiceType = invoiceTypeMap[
+    payeeInfo?.invoiceType || invoiceType
+  ] || {
     label: '未知發票類型',
     numberLabel: '發票號碼',
-  };
+  }
 
-  function onTopUp() {
-    event.preventDefault()
-    alert('開發中 尚未開通')
-    // const req = { amount: selected }
-    // onSubmit(req)
+  function onTopUp(e) {
+    e.preventDefault()
+    const req = { amount: selected }
+    onSubmit(req)
   }
 
   return (
     <Content>
-      {loading && (
-        <LoadingOverlay>
-          <div className="spinner"></div>
-        </LoadingOverlay>
-      )}
-      <Container>
-        <TapPayContainer id="tap-pay">
+      <Container>{renderContent()}</Container>
+    </Content>
+  )
+  function renderContent() {
+    if (payeeInfo)
+      return (
+        <TapPayContainer>
           <SummaryCard>
-            <Title>請確認您的消費資訊</Title>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <Title>消費資訊</Title>
             <SummaryItem>
               <span className="label">消費金額：</span>
-              <span className="value">NT$ {selected.toLocaleString()}</span>
+              <span className="value">NT$ {payeeInfo.amount}</span>
             </SummaryItem>
             <SummaryItem>
               <span className="label">{currentInvoiceType.numberLabel}：</span>
-              <span className="value">{number}</span>
+              <span className="value">{payeeInfo.invoiceNumber}</span>
             </SummaryItem>
             <SummaryItem>
               <span className="label">發票類型：</span>
               <span className="value">{currentInvoiceType.label}</span>
             </SummaryItem>
+            <SummaryItem>
+              <span className="label">繳費金融代碼：</span>
+              <span className="value">{payeeInfo.vacc_bank_code}</span>
+            </SummaryItem>
+            <SummaryItem>
+              <span className="label">繳費虛擬帳號：</span>
+              <span className="value">{payeeInfo.vacc_no}</span>
+            </SummaryItem>
+            <SummaryItem>
+              <span className="label">繳費截止時間：</span>
+              <span className="value">{payeeInfo.expire_time}</span>
+            </SummaryItem>
           </SummaryCard>
           <ButtonContainer>
-            <Button onClick={()=>cancel(false)}>取消</Button>
-            <Button onClick={onTopUp}>儲值</Button>
+            <Button onClick={() => cancel(false)}>返回</Button>
           </ButtonContainer>
         </TapPayContainer>
-      </Container>
-    </Content>
-  );
+      )
+    return (
+      <TapPayContainer>
+        <SummaryCard>
+          <Title>請確認您的消費資訊</Title>
+          <SummaryItem>
+            <span className="label">消費金額：</span>
+            <span className="value">NT$ {selected.toLocaleString()}</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span className="label">{currentInvoiceType.numberLabel}：</span>
+            <span className="value">{number}</span>
+          </SummaryItem>
+          <SummaryItem>
+            <span className="label">發票類型：</span>
+            <span className="value">{currentInvoiceType.label}</span>
+          </SummaryItem>
+        </SummaryCard>
+        <ButtonContainer>
+          <Button onClick={() => cancel(false)}>取消</Button>
+          <Button onClick={onTopUp}>儲值</Button>
+        </ButtonContainer>
+      </TapPayContainer>
+    )
+  }
 }

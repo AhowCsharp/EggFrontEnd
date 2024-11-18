@@ -262,6 +262,7 @@ export default function TopUp() {
   const [showTapPayPage, setShowTapPayPage] = useState(false)
   const [showATMTapPayPage, setShowATMTapPayPage] = useState(false)
   const paymentUrl = useSelector(() => dataStore.paymentUrl)
+  const payeeInfo = useSelector(() => dataStore.payeeInfo)
   const invoiceType = useSelector(() => +dataStore.invoiceType)
   const number = useSelector(() => dataStore.invoiceNumber)
   const companyName = useSelector(() => dataStore.invoiceCompanyName)
@@ -271,6 +272,14 @@ export default function TopUp() {
       window.open(paymentUrl, '_self')
     }
   }, [paymentUrl])
+
+  useEffect(() => {
+    if (!showATMTapPayPage) return
+    const layoutElement = document.getElementById('layout')
+    if (layoutElement) {
+      layoutElement.scrollIntoView({ behavior: 'instant' })
+    }
+  }, [showATMTapPayPage])
 
   const handlePayWayChange = (e) => {
     const value = e.target.value
@@ -301,6 +310,14 @@ export default function TopUp() {
         Modal.error({
           title: '請選擇捐贈機構',
           content: '請選擇要捐贈的機構',
+        })
+        return
+      }
+    } else if (invoiceType === 4) {
+      if (number.length !== 8) {
+        Modal.error({
+          title: '統一編號錯誤',
+          content: '請輸入正確的統一編號',
         })
         return
       }
@@ -338,6 +355,7 @@ export default function TopUp() {
           selected={selectedPrice}
           number={number}
           invoiceType={invoiceType}
+          payeeInfo={payeeInfo}
         />
       )
     }

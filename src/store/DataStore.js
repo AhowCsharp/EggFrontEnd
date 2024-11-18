@@ -694,7 +694,19 @@ export default class DataStore {
     localStorage.setItem(invoiceCompanyNameEncodedKey, this.invoiceCompanyName)
 
     if (token) {
-      yield TPDirect.card.getPrime(getPrimeCallback(token, req, this))
+      yield TPDirect.card.getPrime(
+        getPrimeCallback(
+          token,
+          {
+            ...req,
+            invoiceNumber: this.invoiceNumber,
+            invoiceType: this.invoiceType,
+            companyName:
+              this.invoiceType === 4 ? this.invoiceCompanyName : null,
+          },
+          this
+        )
+      )
     }
 
     function getPrimeCallback(token, req, thx) {
@@ -705,6 +717,11 @@ export default class DataStore {
           }
           const prime = result.card.prime
           req = { ...req, prime }
+          console.log('getPrimeCallback:', {
+            result,
+            token,
+            req,
+          })
           const res = await Api.topUp(req, token)
           if (!res || !res?.source?.paymentUrl) throw res
           thx.paymentUrl = res.source.paymentUrl
@@ -717,6 +734,9 @@ export default class DataStore {
     }
   }
 
+  @observable
+  payeeInfo = undefined;
+
   @flow
   *atmTopUp(req) {
     const token = getToken()
@@ -724,32 +744,50 @@ export default class DataStore {
     localStorage.setItem(invoiceTypeEncodedKey, this.invoiceType)
     localStorage.setItem(invoiceCompanyNameEncodedKey, this.invoiceCompanyName)
 
-    // if (token) {
-    //   yield TPDirect.virtualAccount.getPrime(getPrimeCallback(token, req, this))
-    // }
+    if (token) {
+      yield TPDirect.virtualAccount.getPrime(
+        getPrimeCallback(
+          token,
+          {
+            ...req,
+            invoiceNumber: this.invoiceNumber,
+            invoiceType: this.invoiceType,
+            companyName:
+              this.invoiceType === 4 ? this.invoiceCompanyName : null,
+          },
+          this
+        )
+      )
+    }
 
-    // function getPrimeCallback(token, req, thx) {
-    //   return async (result) => {
-    //     try {
-    //       if (result.status !== 0) {
-    //         throw new Error('get prime error ' + result.msg)
-    //       }
-    //       // 虛擬帳號支付時，prime 位於 result.prime
-    //       const prime = result.prime
-    //       // 虛擬帳號支付可能會返回 payment_url
-    //       const paymentUrl = result.payment_url
-
-    //       req = { ...req, prime }
-    //       const res = await Api.atmTopUp(req, token)
-    //       if (!res || !res?.source?.paymentUrl) throw res
-    //       thx.paymentUrl = res.source.paymentUrl || paymentUrl
-    //     } catch (e) {
-    //       const msg = e.response?.data || e?.source?.message
-    //       thx.alertMessage = `儲值失敗${!!msg ? '，' + msg : ''}`
-    //       console.log('atmTopUp failed', e, msg)
-    //     }
-    //   }
-    // }
+    function getPrimeCallback(token, req, thx) {
+      return async (err, result) => {
+        try {
+          if (result.status !== 0 || !!err) {
+            throw new Error('atm get prime error ' + result.msg)
+          }
+          const prime = result.prime
+          req = {
+            ...req,
+            prime,
+          }
+          console.log('atm getPrimeCallback:', {
+            result,
+            token,
+            req,
+            err,
+          })
+          const res = await Api.atmTopUp(req, token)
+          console.log('atm top up getPrimeCallback res:', res)
+          if (!res || !res?.source?.payeeInfo) throw res
+          thx.payeeInfo = { ...res.source.payeeInfo, ...req }
+        } catch (e) {
+          const msg = e.response?.data || e?.source?.message
+          // thx.alertMessage = `儲值失敗${!!msg ? '，' + msg : ''}`
+          console.log('atmTopUp failed', e, msg)
+        }
+      }
+    }
   }
 
   @flow
@@ -760,7 +798,7 @@ export default class DataStore {
         const res = yield Api.getTopUpResult(req, token)
         if (res && res.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          yield this.sendInvoice(req.rec_trade_id)
+          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
           return
         }
@@ -768,21 +806,21 @@ export default class DataStore {
         const res2 = yield Api.getTopUpResult(req, token)
         if (res2 && res2.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          yield this.sendInvoice(req.rec_trade_id)
+          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
         yield wait(1500)
         const res3 = yield Api.getTopUpResult(req, token)
         if (res3 && res3.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          yield this.sendInvoice(req.rec_trade_id)
+          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
         yield wait(1500)
         const res4 = yield Api.getTopUpResult(req, token)
         if (res4 && res4.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          yield this.sendInvoice(req.rec_trade_id)
+          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
       }
@@ -1026,7 +1064,7 @@ export default class DataStore {
       Number: this.invoiceNumber,
     }
     if (this.invoiceType === 4) {
-      req.CompanyName = this.invoiceCompanyName
+      req.companyName = this.invoiceCompanyName
     }
     console.log('sendInvoice ~ req:', req)
     try {
