@@ -24,11 +24,10 @@ export const DisplayPageSize = 4
 const announcements = [
   {
     title: '金流系統公告',
-    time: '2024年11月07日',
+    time: '2024年11月18日',
     content: [
-      '目前僅開放刷卡方式 🎰',
-      'ATM虛擬帳戶轉帳尚未開通 🃏',
-      'LinePay也尚未開通 ，工程師努力中🎭',
+      'ATM虛擬帳戶轉帳正式開通 🃏',
+      '刷卡轉帳正式開通 🎭',
     ],
   },
   {

@@ -27,7 +27,7 @@ const PayWayOptions = [
 const INVOICE_TYPES = [
   {
     value: 1,
-    label: '個人雲端發票',
+    label: '⼿機條碼載具',
     placeholder: '請輸入您的載具號碼',
   },
   {
@@ -281,6 +281,23 @@ export default function TopUp() {
     }
   }, [showATMTapPayPage])
 
+  function validateUBN(ubn) {
+    const weights = [1, 2, 1, 2, 1, 2, 4, 1];
+    let sum = 0;
+    for (let i = 0; i < weights.length; i++) {
+      let digit = parseInt(ubn.charAt(i), 10);
+      let product = digit * weights[i];
+      sum += Math.floor(product / 10) + (product % 10);
+    }
+    if (sum % 10 === 0) {
+      return true;
+    } else if (ubn.charAt(6) === '7' && (sum + 1) % 10 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const handlePayWayChange = (e) => {
     const value = e.target.value
     if (value === 'line_pay') {
@@ -288,6 +305,7 @@ export default function TopUp() {
         title: 'LINEPAY 尚未開放',
         content: '抱歉，LINEPAY 付款方式尚未開放，請選擇其他付款方式。',
         okText: '確定',
+        centered: true,
       })
       setSelectedPayWay('credit_card')
     } else {
@@ -296,30 +314,75 @@ export default function TopUp() {
   }
 
   const handleConfirm = () => {
-    // 驗證發票資訊
-    if (invoiceType === 1 || invoiceType === 2) {
+    if (invoiceType === 1) {
+      // 驗證載具號碼格式
+      const carrierPattern = /^\/{1}[A-Z0-9+-.]{7}$/i;
       if (!number) {
         Modal.error({
           title: '請輸入載具號碼',
           content: '請輸入您的載具號碼',
-        })
-        return
+          centered: true,
+        });
+        return false;
+      } else if (!carrierPattern.test(number)) {
+        Modal.error({
+          title: '載具號碼格式錯誤',
+          content: '載具號碼應以「/」開頭，後接 7 位英數字或符號',
+          centered: true,
+        });
+        return false;
+      }
+    } else if (invoiceType === 2) {
+      // 驗證自然人憑證格式
+      const citizenCertPattern = /^[A-Z]{2}\d{14}$/i;
+      if (!number) {
+        Modal.error({
+          title: '請輸入自然人憑證',
+          content: '請輸入您的自然人憑證',
+          centered: true,
+        });
+        return false;
+      } else if (!citizenCertPattern.test(number)) {
+        Modal.error({
+          title: '自然人憑證格式錯誤',
+          content: '自然人憑證應為 2 位字母加 14 位數字，共 16 位',
+          centered: true,
+        });
+        return false;
       }
     } else if (invoiceType === 3) {
+      // 驗證是否選擇捐贈機構
       if (!number) {
         Modal.error({
           title: '請選擇捐贈機構',
           content: '請選擇要捐贈的機構',
-        })
-        return
+          centered: true,
+        });
+        return false;
       }
     } else if (invoiceType === 4) {
-      if (number.length !== 8) {
+      // 驗證統一編號格式和合法性
+      if (!number) {
+        Modal.error({
+          title: '請輸入統一編號',
+          content: '請輸入您的統一編號',
+          centered: true,
+        });
+        return false;
+      } else if (!/^\d{8}$/.test(number)) {
+        Modal.error({
+          title: '統一編號格式錯誤',
+          content: '統一編號應為 8 位數字',
+          centered: true,
+        });
+        return false;
+      } else if (!validateUBN(number)) {
         Modal.error({
           title: '統一編號錯誤',
-          content: '請輸入正確的統一編號',
-        })
-        return
+          content: '請輸入有效的統一編號',
+          centered: true,
+        });
+        return false;
       }
     }
     if (selectedPayWay === 'credit_card') {
@@ -344,6 +407,7 @@ export default function TopUp() {
       Modal.error({
         title: 'ATM轉帳限制',
         content: 'ATM 轉帳單筆限制金額為 50,000 元，請選擇其他付款方式。',
+        centered: true,
       })
       setShowATMTapPayPage(false)
       return

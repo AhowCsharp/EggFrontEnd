@@ -122,7 +122,7 @@ const LoadingOverlay = styled.div`
 // 發票類型對應的標籤
 const invoiceTypeMap = {
   1: {
-    label: '個人雲端發票',
+    label: '⼿機條碼載具',
     numberLabel: '載具號碼',
   },
   2: {
@@ -132,6 +132,10 @@ const invoiceTypeMap = {
   3: {
     label: '發票捐贈',
     numberLabel: '捐贈碼',
+  },
+  4: {
+    label: '公司統編',
+    numberLabel: '公司統編',
   },
 }
 
