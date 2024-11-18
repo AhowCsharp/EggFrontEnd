@@ -779,8 +779,8 @@ export default class DataStore {
           })
           const res = await Api.atmTopUp(req, token)
           console.log('atm top up getPrimeCallback res:', res)
-          if (!res || !res?.source?.payeeInfo) throw res
-          thx.payeeInfo = { ...res.source.payeeInfo, ...req }
+          if (!res || !res?.source?.payee_info) throw res
+          thx.payeeInfo = { ...res.source.payee_info, ...req }
         } catch (e) {
           const msg = e.response?.data || e?.source?.message
           // thx.alertMessage = `儲值失敗${!!msg ? '，' + msg : ''}`
