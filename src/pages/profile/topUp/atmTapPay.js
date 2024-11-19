@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { DrawOutBtn as Button } from '@app/pages/commodity'
+import CopyToClipboard from '@app/shared/copyToClipboard'
 import { Container } from '../tabStyle'
 import { Content } from '../index'
 
@@ -38,6 +39,12 @@ const ButtonContainer = styled.div`
   div + div {
     margin-left: 8px;
   }
+`
+
+const Desc = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 `
 
 const SummaryItem = styled.div`
@@ -146,18 +153,14 @@ export default function AtmTapPay({
   invoiceType,
   cancel,
   payeeInfo,
+  clearPayeeInfo,
 }) {
-  console.log('🚀 ~ payeeInfo:', {
-    payeeInfo,
-    onSubmit,
-    selected,
-    number,
-    invoiceType,
-    cancel,
-  })
+  // console.log('🚀 ~ invoiceType:', invoiceType, payeeInfo)
   const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
+    console.log('setupSDK ~ APP_ID')
+
     TPDirect.setupSDK(APP_ID, APP_KEY, serverType)
   }, [])
 
@@ -172,6 +175,8 @@ export default function AtmTapPay({
   function onTopUp(e) {
     e.preventDefault()
     const req = { amount: selected }
+    console.log('儲值按鈕觸發事件 onTopUp:')
+
     onSubmit(req)
   }
 
@@ -200,19 +205,34 @@ export default function AtmTapPay({
             </SummaryItem>
             <SummaryItem>
               <span className="label">繳費金融代碼：</span>
-              <span className="value">{payeeInfo.vacc_bank_code}</span>
+              <span className="value">
+                {payeeInfo.vacc_bank_code}{' '}
+                {` ${payeeInfo.vacc_bank_code === '822' ? '中國信託' : ''}`}
+              </span>
             </SummaryItem>
             <SummaryItem>
               <span className="label">繳費虛擬帳號：</span>
-              <span className="value">{payeeInfo.vacc_no}</span>
+              <span className="value">
+                <CopyToClipboard className="dark-font-in-mobile">
+                  {payeeInfo.vacc_no}
+                </CopyToClipboard>
+              </span>
             </SummaryItem>
             <SummaryItem>
               <span className="label">繳費截止時間：</span>
               <span className="value">{payeeInfo.expire_time}</span>
             </SummaryItem>
           </SummaryCard>
+          <Desc>匯款成功後請重新整理網頁以刷新帳戶資訊</Desc>
           <ButtonContainer>
-            <Button onClick={() => cancel(false)}>返回</Button>
+            <Button
+              onClick={() => {
+                clearPayeeInfo()
+                cancel(false)
+              }}
+            >
+              返回
+            </Button>
           </ButtonContainer>
         </TapPayContainer>
       )

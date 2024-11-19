@@ -735,7 +735,12 @@ export default class DataStore {
   }
 
   @observable
-  payeeInfo = undefined;
+  payeeInfo = undefined
+
+  @action
+  clearPayeeInfo() {
+    this.payeeInfo = undefined
+  }
 
   @flow
   *atmTopUp(req) {
@@ -745,6 +750,8 @@ export default class DataStore {
     localStorage.setItem(invoiceCompanyNameEncodedKey, this.invoiceCompanyName)
 
     if (token) {
+      console.log('action atmTopUp ~ start getPrime')
+
       yield TPDirect.virtualAccount.getPrime(
         getPrimeCallback(
           token,
@@ -771,14 +778,9 @@ export default class DataStore {
             ...req,
             prime,
           }
-          console.log('atm getPrimeCallback:', {
-            result,
-            token,
-            req,
-            err,
-          })
+          console.log('get prime done, in atm getPrimeCallback')
           const res = await Api.atmTopUp(req, token)
-          console.log('atm top up getPrimeCallback res:', res)
+          // console.log('atm top up getPrimeCallback res:', res)
           if (!res || !res?.source?.payee_info) throw res
           thx.payeeInfo = { ...res.source.payee_info, ...req }
         } catch (e) {
@@ -798,7 +800,6 @@ export default class DataStore {
         const res = yield Api.getTopUpResult(req, token)
         if (res && res.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
           return
         }
@@ -806,21 +807,18 @@ export default class DataStore {
         const res2 = yield Api.getTopUpResult(req, token)
         if (res2 && res2.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
         yield wait(1500)
         const res3 = yield Api.getTopUpResult(req, token)
         if (res3 && res3.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
         yield wait(1500)
         const res4 = yield Api.getTopUpResult(req, token)
         if (res4 && res4.success && res?.source?.success) {
           this.topUpResult = TOP_UP_RESULT.SUCCESS
-          // yield this.sendInvoice(req.rec_trade_id)
           yield this.loadMember()
         }
       }
@@ -1053,30 +1051,6 @@ export default class DataStore {
   @action
   setInvoiceCompanyName(value) {
     this.invoiceCompanyName = value
-  }
-
-  @flow
-  *sendInvoice(rec_trade_id) {
-    if (!rec_trade_id) return
-    const req = {
-      RecTradeId: rec_trade_id,
-      InvoiceType: this.invoiceType,
-      Number: this.invoiceNumber,
-    }
-    if (this.invoiceType === 4) {
-      req.companyName = this.invoiceCompanyName
-    }
-    console.log('sendInvoice ~ req:', req)
-    try {
-      const token = getToken()
-      if (token) {
-        yield Api.sendInvoice(req, token)
-      }
-    } catch (e) {
-      const msg = e.response?.data
-      // this.alertMessage = `發票開立失敗，請洽客服! ${msg}，備註:儲值是有成功的`
-      console.log('sendInvoice failed', e, msg)
-    }
   }
 
   // Filter Dialog

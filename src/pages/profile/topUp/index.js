@@ -282,19 +282,19 @@ export default function TopUp() {
   }, [showATMTapPayPage])
 
   function validateUBN(ubn) {
-    const weights = [1, 2, 1, 2, 1, 2, 4, 1];
-    let sum = 0;
+    const weights = [1, 2, 1, 2, 1, 2, 4, 1]
+    let sum = 0
     for (let i = 0; i < weights.length; i++) {
-      let digit = parseInt(ubn.charAt(i), 10);
-      let product = digit * weights[i];
-      sum += Math.floor(product / 10) + (product % 10);
+      let digit = parseInt(ubn.charAt(i), 10)
+      let product = digit * weights[i]
+      sum += Math.floor(product / 10) + (product % 10)
     }
     if (sum % 10 === 0) {
-      return true;
+      return true
     } else if (ubn.charAt(6) === '7' && (sum + 1) % 10 === 0) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 
@@ -316,39 +316,39 @@ export default function TopUp() {
   const handleConfirm = () => {
     if (invoiceType === 1) {
       // 驗證載具號碼格式
-      const carrierPattern = /^\/{1}[A-Z0-9+-.]{7}$/i;
+      const carrierPattern = /^\/{1}[A-Z0-9+-.]{7}$/i
       if (!number) {
         Modal.error({
           title: '請輸入載具號碼',
           content: '請輸入您的載具號碼',
           centered: true,
-        });
-        return false;
+        })
+        return false
       } else if (!carrierPattern.test(number)) {
         Modal.error({
           title: '載具號碼格式錯誤',
           content: '載具號碼應以「/」開頭，後接 7 位英數字或符號',
           centered: true,
-        });
-        return false;
+        })
+        return false
       }
     } else if (invoiceType === 2) {
       // 驗證自然人憑證格式
-      const citizenCertPattern = /^[A-Z]{2}\d{14}$/i;
+      const citizenCertPattern = /^[A-Z]{2}\d{14}$/i
       if (!number) {
         Modal.error({
           title: '請輸入自然人憑證',
           content: '請輸入您的自然人憑證',
           centered: true,
-        });
-        return false;
+        })
+        return false
       } else if (!citizenCertPattern.test(number)) {
         Modal.error({
           title: '自然人憑證格式錯誤',
           content: '自然人憑證應為 2 位字母加 14 位數字，共 16 位',
           centered: true,
-        });
-        return false;
+        })
+        return false
       }
     } else if (invoiceType === 3) {
       // 驗證是否選擇捐贈機構
@@ -357,8 +357,8 @@ export default function TopUp() {
           title: '請選擇捐贈機構',
           content: '請選擇要捐贈的機構',
           centered: true,
-        });
-        return false;
+        })
+        return false
       }
     } else if (invoiceType === 4) {
       // 驗證統一編號格式和合法性
@@ -367,22 +367,22 @@ export default function TopUp() {
           title: '請輸入統一編號',
           content: '請輸入您的統一編號',
           centered: true,
-        });
-        return false;
+        })
+        return false
       } else if (!/^\d{8}$/.test(number)) {
         Modal.error({
           title: '統一編號格式錯誤',
           content: '統一編號應為 8 位數字',
           centered: true,
-        });
-        return false;
+        })
+        return false
       } else if (!validateUBN(number)) {
         Modal.error({
           title: '統一編號錯誤',
           content: '請輸入有效的統一編號',
           centered: true,
-        });
-        return false;
+        })
+        return false
       }
     }
     if (selectedPayWay === 'credit_card') {
@@ -420,6 +420,7 @@ export default function TopUp() {
           number={number}
           invoiceType={invoiceType}
           payeeInfo={payeeInfo}
+          clearPayeeInfo={dataStore.clearPayeeInfo}
         />
       )
     }
@@ -448,7 +449,9 @@ export default function TopUp() {
           <span>step 2</span>請選擇儲值金額
         </Title>
         <P center={true}>首次儲值超過300元 會得到新手禮包50張 御守</P>
-        <P center={true}>請確保會員資料信箱、手機號碼、等相關個人資訊正確 避免發票無法寄出</P>
+        <P center={true}>
+          請確保會員資料信箱、手機號碼、等相關個人資訊正確 避免發票無法寄出
+        </P>
         <OptionContainer>
           {TOP_UP_PRICE_OPTIONS.map((option) => (
             <Option

@@ -72,7 +72,9 @@ export const getReclaimLog = async (req, token) => {
 }
 
 export const getFreeshippingticketLogs = async (req, token) => {
-  const res = await Request.get('/freeshippingtickets').bearer(token).params(req)
+  const res = await Request.get('/freeshippingtickets')
+    .bearer(token)
+    .params(req)
   return res
 }
 
@@ -98,11 +100,6 @@ export const getShipLog = async (req, token) => {
 
 export const reclaim = async (req, token) => {
   const res = await Request.post('/reclaim').bearer(token).body(req)
-  return res
-}
-
-export const sendInvoice = async (req, token) => {
-  const res = await Request.post('/invoice').bearer(token).body(req)
   return res
 }
 
@@ -152,6 +149,37 @@ export const topUp = async (req, token) => {
 }
 
 export const atmTopUp = async (req, token) => {
+  console.log('in atmTopUp api')
+
+  // return {
+  //   source: {
+  //     status: 0,
+  //     msg: 'Success',
+  //     rec_trade_id: 'VA20241119Wk3kCW',
+  //     bank_transaction_id: '56T1732012347A1',
+  //     amount: 1,
+  //     order_number: '56T1732012347A1',
+  //     acquirer: 'TW_TAPPAY_ATM',
+  //     transaction_time_millis: 1731983547350,
+  //     bank_transaction_time: {
+  //       start_time_millis: '1731983547381',
+  //       end_time_millis: '1731983547962',
+  //     },
+  //     merchant_id: 'tppf_onlyeggisreal_5984001',
+  //     payee_info: {
+  //       expire_time: '2024-11-20 23:59:59',
+  //       vacc_bank_code: '822',
+  //       vacc_no: '9259624110003546',
+  //     },
+  //     bank_result_code: 'SUCCESS',
+  //     bank_result_msg: '',
+  //   },
+  //   pageCount: null,
+  //   totalItemCount: null,
+  //   success: true,
+  //   errors: '',
+  //   correctMessage: null,
+  // }
   const res = await Request.post('/atmpaybyprime').bearer(token).body(req)
   return res
 }
