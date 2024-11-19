@@ -3,6 +3,7 @@ import { formatDateToYmd as formatDate } from '@app/utils/date'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
+  alt: p.alt || '瞇那賞',
 }))`
   height: ${(p) => (p.isHighLight ? 'auto' : '100px')}; // auto;
   width: ${(p) => (p.isHighLight ? '100%' : 'auto')};
@@ -117,7 +118,7 @@ export default function Campaign({
       className="item"
       isHighLight={isHighLight}
     >
-      <Image src={imgUrl} isHighLight={isHighLight} />
+      <Image src={imgUrl} isHighLight={isHighLight} alt={newsTitle}/>
       <InfoContainer>
         <Title>{newsTitle}</Title>
         {!isSimple && (

@@ -22,6 +22,7 @@ const Description = styled.div`
 `
 const Image = styled.img.attrs((p) => ({
   src: p.src,
+  alt: p.alt || '瞇那賞 線上一番賞',
 }))`
   height: auto;
   width: 100%;
@@ -135,7 +136,7 @@ export default function CampaignPage() {
               活動期間：{formatDate(startDate)}~{formatDate(endDate)}
             </div>
           </DateInfo>
-          <Image src={imgUrl} isHighLight />
+          <Image src={imgUrl} isHighLight alt={newsTitle}/>
           <Description
             id="description"
             dangerouslySetInnerHTML={{ __html: newsDetails }}

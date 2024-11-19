@@ -5,6 +5,7 @@ import { formatDiscount } from '@app/utils/formatDiscount'
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
+  alt: p.alt || '瞇那賞 線上一番賞',
 }))`
   transition: all 0.3s;
   vertical-align: middle;
@@ -120,7 +121,7 @@ export default function Commodity({ data, handleClick }) {
   return (
     <Container onClick={handleClick(data)} className="item">
       <ImageContainer>
-        <Image src={imgUrl} />
+        <Image src={imgUrl} alt={name}/>
         {!!discount && <SaleTag>{formatDiscount(discount)} 折</SaleTag>}
         <RankTag rank={index} />
       </ImageContainer>

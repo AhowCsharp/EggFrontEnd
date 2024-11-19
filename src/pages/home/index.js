@@ -199,7 +199,7 @@ export default function Home() {
         >
           {newAds.map((data, index) => (
             <ImageContainer key={index} onClick={handleClick(data)}>
-              <img src={data.imgUrl} />
+              <img src={data.imgUrl} alt={data.name}/>
               <NewArrivalTag />
             </ImageContainer>
           ))}

@@ -24,6 +24,7 @@ const PinIcon = styled(PushpinFilled)`
 
 const Image = styled.img.attrs((p) => ({
   src: p.src,
+  alt: p.alt || '瞇那賞 線上一番賞', // 設定默認的 alt 文本（可選）
 }))`
   transition: all 0.3s;
   vertical-align: middle;
@@ -254,7 +255,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     return (
       <SimpleProduct className="item">
         <ImageContainer>
-          <Image src={imgUrl} />
+          <Image src={imgUrl} alt={name}/>
         </ImageContainer>
         <Title>{`${PRIZE_LEVEL[prizeLevel].name} ${name || prizeName}`}</Title>
       </SimpleProduct>
@@ -263,7 +264,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
   return (
     <BaseProduct onClick={handleClick(data)} className="item">
       <ImageContainer>
-        <Image src={imgUrl} />
+        <Image src={imgUrl} alt={name}/>
         <Price
           category={category}
           drawOut1Price={drawOut1Price}
