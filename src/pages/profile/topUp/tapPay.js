@@ -1,8 +1,8 @@
-import { DrawOutBtn as Button } from '@app/pages/commodity';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react'; // 确保导入 useState
-import { Container } from '../tabStyle';
-import { Content } from '../index';
+import { DrawOutBtn as Button } from '@app/pages/commodity'
+import styled from 'styled-components'
+import { useState, useEffect } from 'react' // 确保导入 useState
+import { Container } from '../tabStyle'
+import { Content } from '../index'
 
 // 新增的 styled 组件
 const InfoText = styled.div`
@@ -24,7 +24,7 @@ const InfoText = styled.div`
     font-size: 13px;
     color: white;
   }
-`;
+`
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const ButtonContainer = styled.div`
   div + div {
     margin-left: 8px;
   }
-`;
+`
 
 const TapPayContainer = styled.div`
   padding: 10px;
@@ -51,30 +51,21 @@ const TapPayContainer = styled.div`
     padding: 0 10px;
     border-radius: 6px;
   }
-`;
+`
 
 export default function TapPay({ onSubmit, selected, cancel }) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  const isDev = process.env.NODE_ENV !== 'production';
-  const APP_ID = 154437;
-  const APP_KEY =
-    'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt';
-  const serverType = isDev ? 'sandbox' : 'production';
-
+  const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
 
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
-    TPDirect.setupSDK(APP_ID, APP_KEY, serverType);
-
     const config = {
       fields: {
         number: {
@@ -104,10 +95,10 @@ export default function TapPay({ onSubmit, selected, cancel }) {
         beginIndex: 4,
         endIndex: 11,
       },
-    };
+    }
 
-    TPDirect.card.setup(config);
-  }, [APP_ID, APP_KEY, serverType, isMobile]); // 添加 isMobile 作为依赖
+    TPDirect.card.setup(config)
+  }, [isMobile]) // 添加 isMobile 作为依赖
 
   return (
     <Content>
@@ -129,13 +120,13 @@ export default function TapPay({ onSubmit, selected, cancel }) {
         </ButtonContainer>
       </Container>
     </Content>
-  );
+  )
 
   function onTopUp(event) {
-    event.preventDefault();
-    const { canGetPrime } = TPDirect.card.getTappayFieldsStatus();
-    if (!canGetPrime) return;
-    const req = { amount: selected };
-    onSubmit(req);
+    event.preventDefault()
+    const { canGetPrime } = TPDirect.card.getTappayFieldsStatus()
+    if (!canGetPrime) return
+    const req = { amount: selected }
+    onSubmit(req)
   }
 }

@@ -5,12 +5,6 @@ import CopyToClipboard from '@app/shared/copyToClipboard'
 import { Container } from '../tabStyle'
 import { Content } from '../index'
 
-// TapPay SDK 初始化參數
-const isDev = process.env.NODE_ENV !== 'production'
-const APP_ID = 154437
-const APP_KEY =
-  'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
-
 const TapPayContainer = styled.div`
   padding: 20px;
   display: flex;
@@ -155,15 +149,6 @@ export default function AtmTapPay({
   payeeInfo,
   clearPayeeInfo,
 }) {
-  // console.log('🚀 ~ invoiceType:', invoiceType, payeeInfo)
-  const serverType = isDev ? 'sandbox' : 'production'
-
-  useEffect(() => {
-    console.log('setupSDK ~ APP_ID')
-
-    TPDirect.setupSDK(APP_ID, APP_KEY, serverType)
-  }, [])
-
   // 根據 invoiceType 獲取相應的標籤
   const currentInvoiceType = invoiceTypeMap[
     payeeInfo?.invoiceType || invoiceType

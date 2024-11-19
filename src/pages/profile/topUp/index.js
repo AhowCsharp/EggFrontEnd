@@ -23,6 +23,11 @@ const PayWayOptions = [
   { value: 'line_pay', label: 'LINEPAY', icon: faLine },
 ]
 
+const isDev = process.env.NODE_ENV !== 'production'
+const APP_ID = 154437
+const APP_KEY =
+  'app_FwMCJkWJTC66UdYQU4CP3iYN9ECAarqcNzqn9hJnegjRiyp4RdOiPKioRjLt'
+
 // 定義發票類型和選項
 const INVOICE_TYPES = [
   {
@@ -266,12 +271,18 @@ export default function TopUp() {
   const invoiceType = useSelector(() => +dataStore.invoiceType)
   const number = useSelector(() => dataStore.invoiceNumber)
   const companyName = useSelector(() => dataStore.invoiceCompanyName)
+  const serverType = isDev ? 'sandbox' : 'production'
 
   useEffect(() => {
     if (paymentUrl) {
       window.open(paymentUrl, '_self')
     }
   }, [paymentUrl])
+
+  useEffect(() => {
+    console.log('setupSDK ~ APP_ID')
+    TPDirect.setupSDK(APP_ID, APP_KEY, serverType)
+  }, [])
 
   useEffect(() => {
     if (!showATMTapPayPage) return
