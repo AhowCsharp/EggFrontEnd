@@ -83,10 +83,10 @@ const Description = styled.div`
 `
 
 export const DateInfo = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   display: flex;
   line-height: 1rem;
-  margin-top: 0.75rem;
+  margin-top: 0.95rem;
   color: ${(p) => p.theme.color.desc};
   flex-wrap: wrap;
   div:first-child {
@@ -128,7 +128,7 @@ export default function Campaign({
               dangerouslySetInnerHTML={{ __html: newsDetails }}
             />
             <DateInfo>
-              <div>{formatDate(releaseDate)}</div>
+              <div>發布日期:{formatDate(releaseDate)}</div>
               <div>
                 活動期間：{formatDate(startDate)}~{formatDate(endDate)}
               </div>

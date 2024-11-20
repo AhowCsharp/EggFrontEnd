@@ -151,7 +151,6 @@ export default function CampaignPage() {
               <Campaign
                 data={campaign}
                 handleClick={handleClick}
-                isSimple={true}
                 key={campaign.id}
               />
             ))}

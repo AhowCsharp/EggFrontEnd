@@ -3,6 +3,7 @@ import Layout from '@app/shared/layout'
 import { useEffect, useState } from 'react'
 import Products from '@app/shared/products'
 import BaseCarousel from '@app/shared/carousel'
+import Pagination from '@app/shared/products/pagination'
 import { useSelector, dataStore } from '@app/store'
 import {
   DEFAULT_COMMODITIES_PAGINATION,
@@ -223,6 +224,16 @@ export default function Home() {
           setShouldSortDialogOpen={setShouldSortDialogOpen}
           shouldDisplayControlBar={false}
         />
+        <Pagination
+          onChange={(pageNumber, pageSize) => {
+            const req = {
+              pageNumber,
+              pageSize,
+            }
+            dataStore.getCommodities(req)
+          }}
+          totalCount={commodities?.totalCount}
+      />
       </Layout>
     </>
   )
