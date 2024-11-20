@@ -6,7 +6,7 @@ import useAuth from '@app/utils/hooks/useAuth'
 import GifPlayer from '@app/shared/gitPlayer'
 import signInAnimation from '@app/static/sign-in-animation.gif'
 import signInImg from '@app/static/sign-in-lottery.png'
-import { DrawOutBtn } from '@app/pages/commodity/index'
+import { DrawOutBtn as Button } from '@app/pages/commodity/index'
 
 const Container = styled.div`
   min-height: 400px;
@@ -26,10 +26,6 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: center;
-`
-
-const Button = styled(DrawOutBtn)`
-  font-size: 0.8rem;
 `
 
 const Image = styled.div`

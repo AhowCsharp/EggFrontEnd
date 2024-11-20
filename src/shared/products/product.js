@@ -144,7 +144,7 @@ const ImageContainer = styled.div`
 `
 
 const SimpleProduct = styled(BaseProduct)`
-  width: calc((100% - 25px) / 4);
+  width: calc((100% - 25px) / 5);
   ${Title} {
     min-height: 50px;
     font-size: 1rem;
@@ -255,7 +255,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
     return (
       <SimpleProduct className="item">
         <ImageContainer>
-          <Image src={imgUrl} alt={name}/>
+          <Image src={imgUrl} alt={name} />
         </ImageContainer>
         <Title>{`${PRIZE_LEVEL[prizeLevel].name} ${name || prizeName}`}</Title>
       </SimpleProduct>
@@ -264,7 +264,7 @@ export default function Product({ data, handleClick, isBase, isSoldOut }) {
   return (
     <BaseProduct onClick={handleClick(data)} className="item">
       <ImageContainer>
-        <Image src={imgUrl} alt={name}/>
+        <Image src={imgUrl} alt={name} />
         <Price
           category={category}
           drawOut1Price={drawOut1Price}
