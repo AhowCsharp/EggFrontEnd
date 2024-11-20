@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { hideScrollBarStyle } from '@app/shared/header'
-import PcContainer from './pcContainer'
-import MobileContainer from './mobileContainer'
+import styled from 'styled-components';
+import { hideScrollBarStyle } from '@app/shared/header';
+import PcContainer from './pcContainer';
+import MobileContainer from './mobileContainer';
 
 const ArrowButton = styled.div`
   width: 24px;
@@ -16,37 +16,39 @@ const ArrowButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const InnerContainer = styled.div`
-  width: calc(50% - 8px);
-`
+  flex: 0 0 60%;
+  margin-right: 30px; /* 可根據需要調整間距 */
+`;
 
-const OthersContainer = styled(InnerContainer)`
+const OthersContainer = styled.div`
+  flex: 0 0 40%;
   max-height: 550px;
   overflow-y: auto;
   .item {
     align-items: center;
   }
   ${hideScrollBarStyle}
-`
+`;
 
 const Layout = styled.div`
   display: flex;
   padding: 10px 0;
   margin: 1rem 0;
-  justify-content: space-between;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    ${InnerContainer} {
+    ${InnerContainer}, ${OthersContainer} {
       width: 100%;
+      margin-right: 0;
     }
     ${OthersContainer} {
       display: none;
     }
   }
-`
+`;
 
 const Header = styled.div`
   border-bottom: 1px solid ${(p) => p.theme.color.red};
@@ -70,7 +72,7 @@ const Header = styled.div`
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.font};
   }
-`
+`;
 
 export {
   Layout as Container,
@@ -78,7 +80,7 @@ export {
   Header,
   InnerContainer,
   OthersContainer,
-}
+};
 
 const Container = styled.div`
   .container {
@@ -99,7 +101,7 @@ const Container = styled.div`
       }
     }
   }
-`
+`;
 
 export default function CampaignBlock({ data }) {
   return (
@@ -107,5 +109,5 @@ export default function CampaignBlock({ data }) {
       <PcContainer data={data} />
       <MobileContainer data={data} />
     </Container>
-  )
+  );
 }

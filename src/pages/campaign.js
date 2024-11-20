@@ -131,7 +131,7 @@ export default function CampaignPage() {
         <MainContainer>
           <Title>{newsTitle}</Title>
           <DateInfo>
-            <div>{formatDate(startDate)}</div>
+            <div>發布日期 : {formatDate(startDate)}</div>
             <div>
               活動期間：{formatDate(startDate)}~{formatDate(endDate)}
             </div>

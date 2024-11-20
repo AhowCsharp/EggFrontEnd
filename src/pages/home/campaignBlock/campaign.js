@@ -72,14 +72,22 @@ const Description = styled.div`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   margin-top: 0.75rem;
+  font-size: 0.8rem;
   color: ${(p) => p.theme.color.desc};
-  line-height: 1.25rem;
+  line-height: 1rem;
   p {
     margin: 0;
   }
+
   @media (max-width: 768px) {
-    display: none;
+    -webkit-line-clamp: 3;
+    color: #8E8E8E;
+    height: 3rem;
+    display: -webkit-box;
+    font-size: 0.75rem;
+    -webkit-box-orient: vertical;
   }
+
 `
 
 export const DateInfo = styled.div`
@@ -128,7 +136,7 @@ export default function Campaign({
               dangerouslySetInnerHTML={{ __html: newsDetails }}
             />
             <DateInfo>
-              <div>發布日期:{formatDate(releaseDate)}</div>
+              <div>發布日期 : {formatDate(releaseDate)}</div>
               <div>
                 活動期間：{formatDate(startDate)}~{formatDate(endDate)}
               </div>
