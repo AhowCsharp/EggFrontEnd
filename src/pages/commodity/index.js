@@ -340,6 +340,7 @@ export default function Commodity() {
   const protectPlayer = useSelector(() => dataStore.protectPlayer)
   const isDrawOuting = useSelector(() => dataStore.isDrawOuting)
   const drawOutResult = useSelector(() => dataStore.drawOutResult)
+  const drawOutBonusResult = useSelector(() => dataStore.drawOutBonusResult)
   const countdownSecDict = useSelector(() => dataStore.countdownSec)
   const countdownSec = countdownSecDict[commodityId]
   const isLogged = useSelector(() => dataStore.isLogged)
@@ -420,6 +421,7 @@ export default function Commodity() {
         <ResultDialog
           isLoading={isDrawOuting}
           data={drawOutResult}
+          drawOutBonusResult={drawOutBonusResult}
           onClose={onResultDialogClose}
         />
       )}

@@ -146,6 +146,9 @@ export default class DataStore {
   @observable.ref
   drawOutResult = undefined
 
+  @observable.ref
+  drawOutBonusResult = {}
+
   @observable
   commodity = undefined
 
@@ -158,6 +161,7 @@ export default class DataStore {
   @action
   clearDrawOutResult() {
     this.drawOutResult = undefined
+    this.drawOutBonusResult = {}
   }
 
   @action
@@ -179,6 +183,25 @@ export default class DataStore {
       const res = yield Api.drawOut(req, token)
       this.drawOutStatus = DRAW_OUT_STATUS.DRAWING
       this.drawOutResult = res.source.getPrizes
+      let keysByType, cratesByType
+      if (res.source.keys) {
+        keysByType = res.source.keys.reduce((acc, cur) => {
+          if (acc[cur['keyType']]) acc[cur['keyType']] += 1
+          else acc[cur['keyType']] = 1
+          return acc
+        }, {})
+      }
+      if (res.source.crates) {
+        cratesByType = res.source.crates.reduce((acc, cur) => {
+          if (acc[cur['crateType']]) acc[cur['crateType']] += 1
+          else acc[cur['crateType']] = 1
+          return acc
+        }, {})
+      }
+      this.drawOutBonusResult = {
+        keys: keysByType || {},
+        crates: cratesByType || {},
+      }
       if (res.source.timer) {
         const timer = handleTimer(res.source.timer)
         this.setCountdownSec(req.commodityId, timer)

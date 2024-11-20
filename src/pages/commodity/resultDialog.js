@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import Products from '@app/shared/products'
+import img from '@app/static/crateLog'
 import Carousel from './carousel'
 import { DrawOutBtn as Button } from './index'
 import Only1Prize from './only1Prize'
@@ -28,7 +29,7 @@ const Container = styled.div`
   background: ${(p) => p.theme.color.background};
   border: 1px solid ${(p) => p.theme.color.dialogBorder};
   border-radius: ${(p) => p.theme.borderRadius.dialogContainer};
-  padding: 20px 40px 40px;
+  padding: 20px 40px 10px;
   overscroll-behavior: none;
   @media (max-width: 768px) {
     top: 150px;
@@ -55,9 +56,6 @@ const Header = styled(Block)`
 `
 
 const Footer = styled(Block)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
   margin: 10px 0;
   justify-content: center;
   * + * {
@@ -69,13 +67,29 @@ const Content = styled(Block)`
   margin: 20px 0;
   overflow-y: auto;
   justify-content: center;
-  @media (max-width: 768px) {
-    margin: 10px 0 40px;
+  &.bonus {
+    align-items: center;
+    margin: 10px 0;
+    min-height: 40px;
+    flex-wrap: wrap;
   }
 `
 
-export default function ResultDialog({ isLoading, data, onClose }) {
+const Icon = styled.img.attrs(({ src }) => ({ src }))`
+  width: 40px;
+  height: 40px;
+`
+
+export default function ResultDialog({
+  isLoading,
+  data,
+  onClose,
+  drawOutBonusResult,
+}) {
   const [isAnimationFinished, setIsAnimationFinished] = useState(false)
+  const { keys, crates } = drawOutBonusResult
+  const isBonusResultExisted =
+    !!Object.keys(keys).length || !!Object.keys(crates).length
   const [shouldDisplayAll, setShouldDisplayAll] = useState(false)
   if (isLoading || !data) return '抽獎中...'
   return (
@@ -86,6 +100,30 @@ export default function ResultDialog({ isLoading, data, onClose }) {
           <h3>抽獎結果</h3>
         </Header>
         <Content>{renderContent()}</Content>
+        {isBonusResultExisted && (
+          <Content className="bonus">
+            恭喜額外獲得
+            {Object.keys(keys).map((k, index) => {
+              const count = keys[k]
+              return (
+                <>
+                  <Icon src={img.keys[k]} alt="鑰匙" /> *{count}
+                  {index !== Object.keys(keys).length - 1 && '、'}
+                </>
+              )
+            })}
+            {Object.keys(crates).map((c, index) => {
+              const count = crates[c]
+              return (
+                <>
+                  {index === 0 && !!Object.keys(keys).length && '、'}
+                  <Icon src={img.crates[c]} alt="寶箱" /> *{count}
+                  {index !== Object.keys(crates).length - 1 && '、'}
+                </>
+              )
+            })}
+          </Content>
+        )}
         <Footer>
           {isAnimationFinished && (
             <Button onClick={() => setShouldDisplayAll(true)}>顯示所有</Button>

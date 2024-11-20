@@ -417,6 +417,7 @@ function Lottery({
     </BaseLottery>
   )
   function handleClick() {
+    if (isDone) return
     if (!enableDrawOut) {
       setAlertMessage('請先按下「開抽」按鈕')
       return
@@ -514,6 +515,7 @@ function Lotteries({
                   isSelected={selectedPrizes.includes(index)}
                   isSimple={true}
                   drawOutResult={p}
+                  setAlertMessage={setAlertMessage}
                 />
               )
             return (
@@ -523,6 +525,7 @@ function Lotteries({
                 isDone={true}
                 isSimple={true}
                 drawOutResult={p}
+                setAlertMessage={setAlertMessage}
               />
             )
           })}
