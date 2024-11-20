@@ -1,12 +1,12 @@
-import { useSelector, dataStore } from '@app/store'
-import { useEffect, useState } from 'react'
-import { Table } from 'antd'
-import { DEFAULT_PAGINATION } from '@app/utils/constants'
-import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
-import { Button } from '@app/pages/commodity'
-import Tag from '@app/shared/tag'
-import CopyToClipboard from '@app/shared/copyToClipboard'
-import { Content } from './index'
+import { useSelector, dataStore } from '@app/store';
+import { useEffect, useState } from 'react';
+import { Table } from 'antd';
+import { DEFAULT_PAGINATION } from '@app/utils/constants';
+import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date';
+import { Button } from '@app/pages/commodity';
+import Tag from '@app/shared/tag';
+import CopyToClipboard from '@app/shared/copyToClipboard';
+import { Content } from './index';
 import {
   Container,
   RangePicker,
@@ -14,9 +14,10 @@ import {
   Select,
   MobileItem,
   MobileList,
-} from './tabStyle'
+} from './tabStyle';
+import Pagination from './mobilePagination';
 
-const { Column } = Table
+const { Column } = Table;
 
 const STATUS_OPTIONS = [
   { value: null, label: '全部' },
@@ -28,26 +29,26 @@ const STATUS_OPTIONS = [
     value: true,
     label: '已使用',
   },
-]
+];
 
 export default function freeshippingTicketLog() {
   const freeshippingTicketLogs = useSelector(
     () => dataStore.freeshippingTicketLogs
-  )
-  const dateRange = getDefaultDateRange()
-
+  );
+  const dateRange = getDefaultDateRange();
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
     status: null,
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
-  })
+  });
 
   useEffect(() => {
-    dataStore.getFreeshippingticketLogs(req)
-  }, [req])
+    dataStore.getFreeshippingticketLogs(req);
+  }, [req]);
 
-  const data = freeshippingTicketLogs?.data || []
+  const data = freeshippingTicketLogs?.data || [];
   return (
     <Content>
       <Container>
@@ -58,14 +59,14 @@ export default function freeshippingTicketLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
-            const start = formatDate(value[0])
-            const end = formatDate(value[1])
-            if (start === 'Invalid Date' || end === 'Invalid Date') return
+            const start = formatDate(value[0]);
+            const end = formatDate(value[1]);
+            if (start === 'Invalid Date' || end === 'Invalid Date') return;
             setReq({
               ...req,
               start,
               end,
-            })
+            });
           }}
           mb20={true}
         />
@@ -80,16 +81,16 @@ export default function freeshippingTicketLog() {
           enterButton={<Button>送出</Button>}
           size="small"
           onSearch={(value) => {
-            setReq({ ...req, manufacturerName: value })
+            setReq({ ...req, manufacturerName: value });
           }}
           mb20={true}
         />
         {renderTable()}
       </Container>
     </Content>
-  )
+  );
   function renderManufacturerName({ manufacturerName, manufacturerId }) {
-    return <Tag name={manufacturerName} id={manufacturerId} />
+    return <Tag name={manufacturerName} id={manufacturerId} />;
   }
   function renderTable() {
     return (
@@ -98,11 +99,13 @@ export default function freeshippingTicketLog() {
           className="hide-in-mobile"
           dataSource={data}
           pagination={{
+            current: page,
             total: freeshippingTicketLogs?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
-              setReq({ ...req, pageNumber, pageSize })
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
             },
           }}
         >
@@ -167,8 +170,17 @@ export default function freeshippingTicketLog() {
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={freeshippingTicketLogs?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
-    )
+    );
   }
 }

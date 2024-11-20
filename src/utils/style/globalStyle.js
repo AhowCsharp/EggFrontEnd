@@ -16,6 +16,9 @@ export default createGlobalStyle`
   .mr10 {
     margin-right: 10px;
   }
+  .mt10{
+    margin-top: 10px;
+  }
   a {
     color:#000;
     text-decoration: none;

@@ -1,33 +1,34 @@
-import { useSelector, dataStore } from '@app/store'
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Table } from 'antd'
+import { useSelector, dataStore } from '@app/store';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Table } from 'antd';
 import {
   DEFAULT_PAGINATION,
   SHIP_STATUS_LOCALE,
   SHIP_STATUS_OPTIONS,
   SHIP_STATUS,
-} from '@app/utils/constants'
-import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Content } from './index'
+} from '@app/utils/constants';
+import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Content } from './index';
 import {
   Container,
   RangePicker,
   Select,
   MobileItem,
   MobileList,
-} from './tabStyle'
+} from './tabStyle';
+import Pagination from './mobilePagination';
 
-const { Column } = Table
+const { Column } = Table;
 
 // 新增一个 HeaderSection 组件，用于包含 Info 和过滤器
 const HeaderSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 // 修改 Info 组件，使其内容居中并美化
 const Info = styled.div`
@@ -44,7 +45,7 @@ const Info = styled.div`
   @media (max-width: 768px) {
     color: ${(p) => p.theme.mobile.color.font};
   }
-`
+`;
 
 const CollapseIcon = styled.div`
   cursor: pointer;
@@ -55,24 +56,25 @@ const CollapseIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export default function ShipLog() {
-  const shipLog = useSelector(() => dataStore.shipLog)
-  const dateRange = getDefaultDateRange()
-  const [collapseByIndex, setCollapseByIndex] = useState({})
+  const shipLog = useSelector(() => dataStore.shipLog);
+  const dateRange = getDefaultDateRange();
+  const [collapseByIndex, setCollapseByIndex] = useState({});
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
     status: SHIP_STATUS.PENDING,
-  })
+  });
 
   useEffect(() => {
-    dataStore.getShipLog(req)
-  }, [req])
+    dataStore.getShipLog(req);
+  }, [req]);
 
-  const data = shipLog?.data || []
+  const data = shipLog?.data || [];
   return (
     <Content>
       <Container>
@@ -88,14 +90,14 @@ export default function ShipLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
-            const start = formatDate(value[0])
-            const end = formatDate(value[1])
-            if (start === 'Invalid Date' || end === 'Invalid Date') return
+            const start = formatDate(value[0]);
+            const end = formatDate(value[1]);
+            if (start === 'Invalid Date' || end === 'Invalid Date') return;
             setReq({
               ...req,
               start,
               end,
-            })
+            });
           }}
           mb20={true}
         />
@@ -108,13 +110,13 @@ export default function ShipLog() {
         {renderTable()}
       </Container>
     </Content>
-  )
+  );
   function onCollapse(index) {
     return () =>
       setCollapseByIndex({
         ...collapseByIndex,
         [index]: !collapseByIndex[index],
-      })
+      });
   }
   function renderTable() {
     return (
@@ -123,11 +125,13 @@ export default function ShipLog() {
           className="hide-in-mobile"
           dataSource={data}
           pagination={{
+            current: page,
             total: shipLog?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
-              setReq({ ...req, pageNumber, pageSize })
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
             },
           }}
           expandable={{
@@ -220,9 +224,18 @@ export default function ShipLog() {
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={shipLog?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
-    )
+    );
   }
 }
 
@@ -232,5 +245,5 @@ function DetailTable({ detail }) {
       <Column title="獎品" dataIndex="prizeName" key="prizeName" />
       <Column title="數量" dataIndex="amount" key="amount" />
     </Table>
-  )
+  );
 }

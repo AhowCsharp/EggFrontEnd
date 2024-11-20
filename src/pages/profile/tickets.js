@@ -1,54 +1,53 @@
-import { useEffect, useState } from 'react'
-import { dataStore, useSelector } from '@app/store/index'
-import { DEFAULT_PAGINATION } from '@app/utils/constants'
-import { Table, Checkbox } from 'antd'
-import styled from 'styled-components'
-import dayjs from 'dayjs'
-import { Button } from '@app/pages/commodity'
-import Tag from '@app/shared/tag'
-import { Content } from './index'
+import { useEffect, useState } from 'react';
+import { dataStore, useSelector } from '@app/store/index';
+import { DEFAULT_PAGINATION } from '@app/utils/constants';
+import { Table, Checkbox } from 'antd';
+import dayjs from 'dayjs';
+import Tag from '@app/shared/tag';
+import { Content } from './index';
 import {
   Container,
-  Search,
   ButtonContainer,
   MobileItem,
   MobileList,
   Select,
-} from './tabStyle'
+} from './tabStyle';
+import Pagination from './mobilePagination';
 
-const { Column } = Table
+const { Column } = Table;
 
 export default function Tickets() {
-  const ticket = useSelector(() => dataStore.ticket)
-  const manufacturers = useSelector(() => dataStore.manufacturers)
-  const [req, setReq] = useState(DEFAULT_PAGINATION)
-  const [usefulTicketCount, setUsefulTicketCount] = useState()
-  const data = ticket?.data || []
-  const [manufacturerWithPlatform, setManufacturerWithPlatform] = useState([])
+  const ticket = useSelector(() => dataStore.ticket);
+  const manufacturers = useSelector(() => dataStore.manufacturers);
+  const [req, setReq] = useState(DEFAULT_PAGINATION);
+  const [usefulTicketCount, setUsefulTicketCount] = useState();
+  const data = ticket?.data || [];
+  const [manufacturerWithPlatform, setManufacturerWithPlatform] = useState([]);
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
   useEffect(() => {
-    dataStore.getTickets(req)
-  }, [req])
+    dataStore.getTickets(req);
+  }, [req]);
 
   useEffect(() => {
-    if (!data || !data.length) return
-    const count = data.filter((t) => !t.isUsed).length
-    setUsefulTicketCount(count)
-  }, [data])
+    if (!data || !data.length) return;
+    const count = data.filter((t) => !t.isUsed).length;
+    setUsefulTicketCount(count);
+  }, [data]);
 
   useEffect(() => {
-    if (!manufacturers || manufacturerWithPlatform.length) return
+    if (!manufacturers || manufacturerWithPlatform.length) return;
     const platform = {
       id: 0,
       name: '平台方贈送',
-    }
+    };
 
     setManufacturerWithPlatform(
       [platform, ...manufacturers].map((m) => ({
         value: m.name,
         label: m.name,
       }))
-    )
-  }, [manufacturers])
+    );
+  }, [manufacturers]);
 
   return (
     <Content>
@@ -75,9 +74,9 @@ export default function Tickets() {
         {renderTable()}
       </Container>
     </Content>
-  )
+  );
   function renderManufacturerName({ manufacturerName, manufacturerId }) {
-    return <Tag name={manufacturerName} id={manufacturerId} />
+    return <Tag name={manufacturerName} id={manufacturerId} />;
   }
 
   function renderTable() {
@@ -87,11 +86,13 @@ export default function Tickets() {
           className="hide-in-mobile"
           dataSource={data}
           pagination={{
+            current: page,
             total: ticket?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
-              setReq({ ...req, pageNumber, pageSize })
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
             },
           }}
         >
@@ -135,8 +136,17 @@ export default function Tickets() {
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={ticket?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
-    )
+    );
   }
 }

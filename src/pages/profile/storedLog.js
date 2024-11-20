@@ -4,6 +4,7 @@ import { Table, Radio } from 'antd';
 import styled from 'styled-components';
 import { DEFAULT_PAGINATION } from '@app/utils/constants';
 import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date';
+import Pagination from './mobilePagination';
 import { Content } from './index';
 import { Container, RangePicker, MobileList, MobileItem } from './tabStyle';
 
@@ -47,14 +48,14 @@ const StyledRadio = styled(Radio)`
 export default function StoredLog() {
   const storedLogs = useSelector(() => dataStore.storedLogs);
   const dateRange = getDefaultDateRange();
-
   const [status, setStatus] = useState(null);
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
 
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
-    isSuccessful: null, 
+    isSuccessful: null,
   });
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function StoredLog() {
   }, [req]);
 
   const data = storedLogs?.data || [];
+
   return (
     <Content>
       <Container>
@@ -104,7 +106,7 @@ export default function StoredLog() {
       </Container>
     </Content>
   );
-  
+
   function renderTable() {
     return (
       <>
@@ -114,8 +116,10 @@ export default function StoredLog() {
           pagination={{
             total: storedLogs?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
+            current: page,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
+              setPage(pageNumber);
               setReq({ ...req, pageNumber, pageSize });
             },
           }}
@@ -151,6 +155,15 @@ export default function StoredLog() {
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={storedLogs?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
     );

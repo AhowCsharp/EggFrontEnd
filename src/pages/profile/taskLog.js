@@ -1,35 +1,37 @@
-import { useSelector, dataStore } from '@app/store'
-import { useEffect, useState } from 'react'
-import { Table } from 'antd'
-import { DEFAULT_PAGINATION } from '@app/utils/constants'
-import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date'
-import { Button } from '@app/pages/commodity'
-import { Content } from './index'
+import { useSelector, dataStore } from '@app/store';
+import { useEffect, useState } from 'react';
+import { Table } from 'antd';
+import { DEFAULT_PAGINATION } from '@app/utils/constants';
+import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date';
+import { Button } from '@app/pages/commodity';
+import { Content } from './index';
 import {
   Container,
   RangePicker,
   Search,
   MobileItem,
   MobileList,
-} from './tabStyle'
+} from './tabStyle';
+import Pagination from './mobilePagination';
 
-const { Column } = Table
+const { Column } = Table;
 
 export default function TaskLog() {
-  const taskHistoryLogs = useSelector(() => dataStore.taskHistoryLogs)
-  const dateRange = getDefaultDateRange()
+  const taskHistoryLogs = useSelector(() => dataStore.taskHistoryLogs);
+  const dateRange = getDefaultDateRange();
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
 
   const [req, setReq] = useState({
     ...DEFAULT_PAGINATION,
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
-  })
+  });
 
   useEffect(() => {
-    dataStore.getTaskHistoryLogs(req)
-  }, [req])
+    dataStore.getTaskHistoryLogs(req);
+  }, [req]);
 
-  const data = taskHistoryLogs?.data || []
+  const data = taskHistoryLogs?.data || [];
   return (
     <Content>
       <Container>
@@ -40,14 +42,14 @@ export default function TaskLog() {
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
-            const start = formatDate(value[0])
-            const end = formatDate(value[1])
-            if (start === 'Invalid Date' || end === 'Invalid Date') return
+            const start = formatDate(value[0]);
+            const end = formatDate(value[1]);
+            if (start === 'Invalid Date' || end === 'Invalid Date') return;
             setReq({
               ...req,
               start,
               end,
-            })
+            });
           }}
           mb20={true}
         />
@@ -56,14 +58,14 @@ export default function TaskLog() {
           enterButton={<Button>送出</Button>}
           size="small"
           onSearch={(value) => {
-            setReq({ ...req, taskName: value })
+            setReq({ ...req, taskName: value });
           }}
           mb20={true}
         />
         {renderTable()}
       </Container>
     </Content>
-  )
+  );
   function renderTable() {
     return (
       <>
@@ -71,11 +73,13 @@ export default function TaskLog() {
           className="hide-in-mobile"
           dataSource={data}
           pagination={{
+            current: page,
             total: taskHistoryLogs?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
-              setReq({ ...req, pageNumber, pageSize })
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
             },
           }}
         >
@@ -103,8 +107,17 @@ export default function TaskLog() {
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={taskHistoryLogs?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
-    )
+    );
   }
 }

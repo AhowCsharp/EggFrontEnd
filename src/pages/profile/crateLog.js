@@ -1,19 +1,20 @@
-import { useSelector, dataStore } from "@app/store";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Table, Modal, Select, InputNumber, message, Carousel } from "antd";
-import { DEFAULT_PAGINATION } from "@app/utils/constants";
-import { getDefaultDateRange, formatDate, renderDate } from "@app/utils/date";
-import { Content } from "./index";
+import { useSelector, dataStore } from '@app/store';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Table, Modal, Select, InputNumber, message, Carousel } from 'antd';
+import { DEFAULT_PAGINATION } from '@app/utils/constants';
+import { getDefaultDateRange, formatDate, renderDate } from '@app/utils/date';
+import { Content } from './index';
 import {
   Container,
   RangePicker,
   ButtonContainer,
   MobileList,
   MobileItem,
-} from "./tabStyle";
-import img from "@app/static/crateLog";
-import { Button } from "../commodity/index";
+} from './tabStyle';
+import img from '@app/static/crateLog';
+import { Button } from '../commodity/index';
+import Pagination from './mobilePagination';
 const { Column } = Table;
 const { Option } = Select;
 
@@ -75,6 +76,7 @@ export default function CrateLog() {
   const [openSuccessMessage2, setOpenSuccessMessage2] = useState(null);
   const crateLogs = useSelector(() => dataStore.crateLogs);
   const dateRange = getDefaultDateRange();
+  const [page, setPage] = useState(DEFAULT_PAGINATION.pageNumber);
 
   const closeOpenCrateModal = () => {
     setIsOpenCrateModalVisible(false);
@@ -108,11 +110,11 @@ export default function CrateLog() {
 
   const onOpenCrate = async () => {
     if (!selectedLevel) {
-      message.error("請選擇寶箱等級");
+      message.error('請選擇寶箱等級');
       return;
     }
     if (!crateAmount || crateAmount <= 0 || crateAmount > 15) {
-      message.error("請輸入有效的寶箱數量（1-15）");
+      message.error('請輸入有效的寶箱數量（1-15）');
       return;
     }
 
@@ -136,13 +138,37 @@ export default function CrateLog() {
 
   const moreAwards = ({ awards }) => {
     return (
-      <div >
-        <div style={{ backgroundColor: '#F2F2F2', padding:'20px', paddingLeft:'24px', borderRadius: '10px', marginTop: '24px'}}>
-        <div style={{ fontSize: '20px', fontWeight: '700', color: '#333333', marginBottom: '16px'}}>開箱獎勵明細</div>
+      <div>
+        <div
+          style={{
+            backgroundColor: '#F2F2F2',
+            padding: '20px',
+            paddingLeft: '24px',
+            borderRadius: '10px',
+            marginTop: '24px',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '20px',
+              fontWeight: '700',
+              color: '#333333',
+              marginBottom: '16px',
+            }}
+          >
+            開箱獎勵明細
+          </div>
           {awards.map((award, index) => (
-              <div key={index} >・開啟{award.crateName}寶箱，獲得 {award.getAmount} 獎勵</div>
+            <div key={index}>
+              ・開啟{award.crateName}寶箱，獲得 {award.getAmount} 獎勵
+            </div>
           ))}
-          <div style={{ fontSize: '16px', color: '#000000', marginTop: '16px'}}>總計獲得：{awards.reduce((acc, curr) => acc + curr.getAmount, 0)} 獎勵</div>
+          <div
+            style={{ fontSize: '16px', color: '#000000', marginTop: '16px' }}
+          >
+            總計獲得：{awards.reduce((acc, curr) => acc + curr.getAmount, 0)}{' '}
+            獎勵
+          </div>
         </div>
       </div>
     );
@@ -152,10 +178,19 @@ export default function CrateLog() {
     if (awards?.length) {
       setIsOpenCrateModalVisible(true);
       const rewardNums = awards.reduce((acc, curr) => acc + curr.getAmount, 0);
-      const message =
-      <div style={{textAlign: 'center'}}>
-        恭喜！<br/>您已成功開啟「{awards[0].crateName}寶箱*{awards.length}」，獲得 <span style={{fontSize: '20px', lineHeight: '28px'}}>{rewardNums}</span> 個獎勵！<br/>記得常來開箱，累積更多獎勵！
-      </div>
+      const message = (
+        <div style={{ textAlign: 'center' }}>
+          恭喜！
+          <br />
+          您已成功開啟「{awards[0].crateName}寶箱*{awards.length}」，獲得 
+          <span style={{ fontSize: '20px', lineHeight: '28px' }}>
+            {rewardNums}
+          </span>{' '}
+          個獎勵！
+          <br />
+          記得常來開箱，累積更多獎勵！
+        </div>
+      );
       setOpenSuccessMessage(message);
 
       if (awards?.length) {
@@ -164,14 +199,14 @@ export default function CrateLog() {
     }
   }, [awards]);
 
-  const levels = ["Level1", "Level2", "Level3", "Level4", "Level5", "Level6"];
+  const levels = ['Level1', 'Level2', 'Level3', 'Level4', 'Level5', 'Level6'];
   const levelLabels = {
-    Level1: "塑膠",
-    Level2: "黃銅",
-    Level3: "白銀",
-    Level4: "白金",
-    Level5: "黃金",
-    Level6: "神秘",
+    Level1: '塑膠',
+    Level2: '黃銅',
+    Level3: '白銀',
+    Level4: '白金',
+    Level5: '黃金',
+    Level6: '神秘',
   };
 
   return (
@@ -196,7 +231,7 @@ export default function CrateLog() {
           ))}
         </InfoContainer>
         <CrateModal
-          bodyStyle={{borderRadius: '20px'}}
+          bodyStyle={{ borderRadius: '20px' }}
           style={{ borderRadius: '20px' }}
           title="開啟寶箱結果"
           visible={isOpenCrateModalVisible}
@@ -204,8 +239,8 @@ export default function CrateLog() {
           onCancel={closeOpenCrateModal}
           okText="關閉"
           footer={
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ width: "120px", textAlign: "center" }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '120px', textAlign: 'center' }}>
                 <Button
                   width="120px"
                   textAlign="center"
@@ -218,7 +253,7 @@ export default function CrateLog() {
             </div>
           }
         >
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: '16px' }}>
             {openSuccessMessage}
             {openSuccessMessage2}
           </div>
@@ -234,10 +269,10 @@ export default function CrateLog() {
           okText="確認"
           cancelText="取消"
         >
-          <div style={{ marginBottom: "16px" }}>
+          <div style={{ marginBottom: '16px' }}>
             <span>選擇寶箱等級：</span>
             <Select
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               placeholder="請選擇寶箱等級"
               value={selectedLevel}
               onChange={(value) => setSelectedLevel(value)}
@@ -256,20 +291,20 @@ export default function CrateLog() {
               max={15}
               value={crateAmount}
               onChange={(value) => setCrateAmount(value)}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             />
           </div>
         </Modal>
         <RangePicker
           showTime={{
-            format: "HH:mm",
+            format: 'HH:mm',
           }}
           format="YYYY-MM-DD HH:mm"
           defaultValue={dateRange}
           onOk={(value) => {
             const start = formatDate(value[0]);
             const end = formatDate(value[1]);
-            if (start === "Invalid Date" || end === "Invalid Date") return;
+            if (start === 'Invalid Date' || end === 'Invalid Date') return;
             setReq({
               ...req,
               start,
@@ -289,10 +324,12 @@ export default function CrateLog() {
           className="hide-in-mobile"
           dataSource={data.crates}
           pagination={{
+            current: page,
             total: crateLogs?.totalCount || 0,
             defaultPageSize: DEFAULT_PAGINATION.pageSize,
             showSizeChanger: true,
             onChange: (pageNumber, pageSize) => {
+              setPage(pageNumber);
               setReq({ ...req, pageNumber, pageSize });
             },
           }}
@@ -323,15 +360,24 @@ export default function CrateLog() {
                 <span className="label">獲得獎勵</span> {item.getAmount}
               </div>
               <div>
-                <span className="label">獲得時間</span>{" "}
+                <span className="label">獲得時間</span>{' '}
                 {renderDate(item.createDate)}
               </div>
               <div>
-                <span className="label">開箱時間</span>{" "}
+                <span className="label">開箱時間</span>{' '}
                 {renderDate(item.usedDate)}
               </div>
             </MobileItem>
           ))}
+          <Pagination
+            onChange={(pageNumber, pageSize) => {
+              setPage(pageNumber);
+              setReq({ ...req, pageNumber, pageSize });
+            }}
+            page={page}
+            totalCount={crateLogs?.totalCount || 0}
+            alignCenter={true}
+          />
         </MobileList>
       </>
     );
