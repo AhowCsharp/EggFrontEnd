@@ -42,8 +42,11 @@ const zoomIn = keyframes`
   }
 `
 
-// 样式组件定义
-const Image = styled.div`
+
+const Image = styled.div.attrs((p) => ({
+  role: 'img',
+  'aria-label': p.alt,
+  }))`
   width: 100%;
   height: 180px;
   vertical-align: middle;
@@ -256,7 +259,7 @@ export default function Product({ data, handleClick }) {
 
   return (
     <BaseProduct onClick={handleClick(data)}>
-      <Image src={logoUrl} />
+      <Image src={logoUrl} alt={name}/>
       <InfoContainer>
         <Title>
           <div className="digital-font">{name}</div>
