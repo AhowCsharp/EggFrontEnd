@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import { Form, Input } from 'antd'
+import { Form, Input, Select } from 'antd'
 import { Button } from '@app/pages/login'
 import { useState } from 'react'
+import CityCodes from '@app/utils/cityCodes'
 import CountdownTimer from '@app/shared/countdownTimer'
 
 const VerifyCodeBlockSec = 120
@@ -42,6 +43,12 @@ export const Row = styled.div`
     .ant-form-item + .ant-form-item {
       margin-left: 0;
     }
+    &.nowrap-in-mobile {
+      flex-direction: row;
+      .ant-form-item + .ant-form-item {
+        margin-left: 4px;
+      }
+    }
   }
 `
 
@@ -61,6 +68,7 @@ export default function RegisterForm({
   const [form] = Form.useForm()
   const [isSendingSms, setIsSendingSms] = useState(false)
   const [verifyCode, setVerifyCode] = useState('')
+  const [areaList, setAreaList] = useState()
 
   return (
     <>
@@ -143,7 +151,7 @@ export default function RegisterForm({
             </Form.Item>
           )}
         </Row>
-        <Row>
+        <Row className="nowrap-in-mobile">
           <Form.Item
             label="收貨姓名"
             name="name"
@@ -193,27 +201,39 @@ export default function RegisterForm({
             <Input.Password />
           </Form.Item>
         </Row>
-        <Row>
+        <Row className="nowrap-in-mobile">
           <Form.Item
             label="郵遞區號"
             name="districtNo"
             rules={[{ required: true, message: '不可為空' }]}
           >
-            <Input />
+            <Input placeholder="請選擇縣市及行政區" />
           </Form.Item>
           <Form.Item
-            label="居住城市"
+            label="縣市"
             name="city"
             rules={[{ required: true, message: '不可為空' }]}
           >
-            <Input />
+            <Select
+              options={CityCodes}
+              placeholder="請選擇"
+              onChange={(_, v) => {
+                setAreaList(v.areaList)
+                form.setFieldValue('districtName', null)
+                form.setFieldValue('districtNo', null)
+              }}
+            />
           </Form.Item>
           <Form.Item
-            label="居住地區"
+            label="行政區"
             name="districtName"
             rules={[{ required: true, message: '不可為空' }]}
           >
-            <Input />
+            <Select
+              options={areaList}
+              placeholder={!!areaList ? '請選擇' : '請先選擇縣市'}
+              onChange={(_, v) => form.setFieldValue('districtNo', v.zipCode)}
+            />
           </Form.Item>
         </Row>
         <Form.Item
