@@ -103,7 +103,7 @@ const PrizeName = styled.div`
 const PrizeIcon = styled.img`
   width: 48px;
   height: 48px;
-  margin-right: 8px;
+  margin-right: 20px;
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer; /* 添加指針光標 */
@@ -188,9 +188,9 @@ export default function RankingList() {
                     <span className="label">時間</span>
                     {dayjs(rank.drawDate).format('YYYY/MM/DD HH:mm')}
                   </div>
-                  <div>
+                  <div className="prize">
                     <span className="label">獲得賞品</span>
-                    {renderPrize(rank.prizeName, rank)}
+                    <span className="content">{renderPrize(rank.prizeName, rank)}</span>
                   </div>
                 </MobileItem>
               ))}

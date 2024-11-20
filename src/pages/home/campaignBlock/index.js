@@ -97,6 +97,7 @@ const Container = styled.div`
         display: none;
       }
       &.mobile {
+        margin-top: -20px;
         display: block;
       }
     }

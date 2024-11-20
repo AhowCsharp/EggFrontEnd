@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 32px;
   position: relative;
   @media (max-width: 768px) {
-    padding: 32px 0;
+    padding: 10px 0;
     background: ${(p) => p.theme.mobile.color.background};
   }
 `

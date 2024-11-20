@@ -113,6 +113,26 @@ export const MobileItem = styled.div`
   > div:last-child {
     border-bottom: none;
   }
+
+  /* 針對 .prize 類的 div 進行樣式調整 */
+  .prize {
+    display: flex;
+    justify-content: flex-start; /* 從左側開始排列 */
+    align-items: center; /* 垂直居中 */
+    /* 移除 margin-left: 1.25rem; */
+  }
+
+  /* 保持標籤和內容之間的間距 */
+  .prize .label {
+    margin-right: 0.5rem;
+  }
+
+  /* 為內容添加額外的左邊距 */
+  .prize .content {
+    margin-left: 15%; /* 根據需求調整間距 */
+    color: white; /* 手機版文字變白色 */
+  }
+
   ${MobileList} {
     background-color: ${(p) => p.theme.mobile.color.background};
     border: none;
