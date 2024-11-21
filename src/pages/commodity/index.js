@@ -81,6 +81,7 @@ const PrizeContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior: auto;
   ${showScrollBarStyle}
 `
 

@@ -122,13 +122,13 @@ const BtnBlock = styled.div`
 `
 
 const LotteryContainer = styled.div`
-  padding: 0 60px;
+  padding: 20px 60px 0px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
   @media (max-width: 768px) {
-    padding: 0 10px;
+    padding: 20px 10px 0px;
   }
 `
 
@@ -196,8 +196,8 @@ const Button = styled.div`
 `
 
 const SimpleLottery = styled.div`
-  width: calc(16.666% - 8px);
-  margin: 10px 4px;
+  width: calc(12.666% - 16px);
+  margin: 20px;
   cursor: pointer;
   background-color: ${(p) => {
     if (p.isDone) return p.theme.color.disable
@@ -207,6 +207,10 @@ const SimpleLottery = styled.div`
   text-align: center;
   border-radius: 8px;
   color: #fff;
+  @media (max-width: 768px) {
+    width: calc(16.666% - 8px);
+    margin: 10px 6px;
+  }
 `
 
 export default function LotteryBlock({
