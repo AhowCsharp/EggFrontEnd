@@ -23,6 +23,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleDollarToSlot, faBars } from '@fortawesome/free-solid-svg-icons'
 import { useSelector, dataStore } from '@app/store'
+import bgTopMobileImg from '@app/static/bg-top-mb.svg'
 import bgTopImg from '@app/static/bg-top.svg'
 import {
   faXmark,
@@ -172,10 +173,10 @@ const HeaderModule = styled.div`
   ${(p) => p.isScrolled && scrolledStyle}
   @media (max-width: 768px) {
     padding-top: calc(env(safe-area-inset-top) + 10px);
-    background-image: url(${bgTopImg});
+    background-image: url(${bgTopMobileImg});
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: top;
+    background-position: center;
   }
 `
 
