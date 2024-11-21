@@ -41,6 +41,35 @@ const ProductContainer = styled.div`
   }
 `
 
+const DrawOutProductContainer = styled.div`
+  display: flex;
+  justify-content: ${(p) => (p.center ? 'center' : 'flex-start')};
+  align-items: center;
+  padding: 10px 0;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+  min-height: 150px;
+  width: 100%;
+  gap: 8px;
+
+  .item {
+    flex: 1 1 calc((100% - (8px * 4)) / 5);
+    max-width: calc((100% - (8px * 4)) / 5);
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    margin: 0.5rem 0;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .item {
+      flex: 1 1 calc((100% - 8px) / 2);
+      max-width: calc((100% - 8px) / 2);
+    }
+  }
+`;
+
 const Radio = styled(BaseRadio)`
   .ant-radio-button-wrapper {
     border: none;
@@ -109,6 +138,7 @@ export default function Products({
   setFilterOptions,
   manufacturerName,
   isHome = true,
+  isDrawOutShowAll = false,
 }) {
   const goto = useNavigate()
   const isSoldOut = status === COMMODITY_STATUS.CLOSED
@@ -181,21 +211,37 @@ export default function Products({
       </ButtonContainer>
       {!!category && <Header category={category} />}
       {!category && !isHome && <ManufacturerHeader/>}
-      {sortedData && sortedData.length ? (
-        <ProductContainer>
-          {sortedData.map((p, index) => (
-            <Product
-              key={index}
-              data={p}
-              handleClick={handleClick}
-              isBase={isBase}
-              isSoldOut={isSoldOut}
-            />
-          ))}
-        </ProductContainer>
-      ) : (
-        <ProductContainer center={true}>無結果</ProductContainer>
-      )}
+      {
+        sortedData && sortedData.length ? (
+          isDrawOutShowAll ? (
+            <DrawOutProductContainer>
+              {sortedData.map((p, index) => (
+                <Product
+                  key={index}
+                  data={p}
+                  handleClick={handleClick}
+                  isBase={isBase}
+                  isSoldOut={isSoldOut}
+                />
+              ))}
+            </DrawOutProductContainer>
+          ) : (
+            <ProductContainer>
+              {sortedData.map((p, index) => (
+                <Product
+                  key={index}
+                  data={p}
+                  handleClick={handleClick}
+                  isBase={isBase}
+                  isSoldOut={isSoldOut}
+                />
+              ))}
+            </ProductContainer>
+          )
+        ) : (
+          <ProductContainer center={true}>無結果</ProductContainer>
+        )
+      }
       {shouldSortDialogOpen && (
         <SortDialog
           onClose={() => setShouldSortDialogOpen(false)}

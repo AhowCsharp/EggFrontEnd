@@ -124,6 +124,9 @@ export const MobileItem = styled.div`
 
   /* 保持標籤和內容之間的間距 */
   .prize .label {
+    font-weight: normal;
+    color: ${(p) => p.theme.mobile.color.listItemTitleLabel};
+    min-width: 4rem;
     margin-right: 0.5rem;
   }
 
@@ -131,6 +134,7 @@ export const MobileItem = styled.div`
   .prize .content {
     margin-left: 15%; /* 根據需求調整間距 */
     color: white; /* 手機版文字變白色 */
+    text-align: left; /* 文字靠左對齊 */
   }
 
   ${MobileList} {

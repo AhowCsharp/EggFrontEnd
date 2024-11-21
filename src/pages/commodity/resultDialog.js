@@ -125,9 +125,7 @@ export default function ResultDialog({
           </Content>
         )}
         <Footer>
-          {isAnimationFinished && (
-            <Button onClick={() => setShouldDisplayAll(true)}>顯示所有</Button>
-          )}
+          {!shouldDisplayAll && (<Button onClick={() => setShouldDisplayAll(true)}>跳過動畫</Button>)}         
           <Button onClick={onClose}>關閉</Button>
         </Footer>
       </Container>
@@ -138,7 +136,7 @@ export default function ResultDialog({
       case data.length === 1:
         return <Only1Prize data={data[0]} />
       case shouldDisplayAll:
-        return <Products data={data} isBase={true} />
+        return <Products data={data} isBase={true} isDrawOutShowAll={true}/>
       case data.length > 1:
         return (
           <Carousel

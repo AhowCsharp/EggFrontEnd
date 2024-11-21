@@ -189,7 +189,7 @@ export default function RankingList() {
                     {dayjs(rank.drawDate).format('YYYY/MM/DD HH:mm')}
                   </div>
                   <div className="prize">
-                    <span className="label">獲得賞品</span>
+                    <span className="label">賞品</span>
                     <span className="content">{renderPrize(rank.prizeName, rank)}</span>
                   </div>
                 </MobileItem>

@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { DEFAULT_COMMODITIES_PAGINATION } from '@app/utils/constants'
 import { Header, MobileDrawOutBtnBlock } from './index'
 import { getPrizeViewLevel } from '@app/utils/getPrizeViewLevel'
+import InlineCountdownTimer from '@app/shared/inlineCountdownTimer'
 
 const PageSize = DEFAULT_COMMODITIES_PAGINATION.pageSize
 
@@ -271,6 +272,21 @@ export default function LotteryBlock({
           總數量：
           <span className="value">{commodity.fixedTotalDrawOutTimes}</span>
         </span>
+        {commodity.protectTime && commodity.protectTime > 0 && (
+          <>
+            <span>
+              保護倒數：
+              <span className="value">
+                <InlineCountdownTimer
+                  isSmall={true}
+                  initialSeconds={commodity.protectTime}
+                  cb={() => dataStore.setCountdownSec(commodityId)}
+                  dep={[commodity]}
+                />
+              </span>
+            </span>
+          </>
+        )}
       </DrawOutInfo>
       {enableDrawOut && (
         <>
