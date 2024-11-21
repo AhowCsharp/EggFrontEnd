@@ -125,7 +125,7 @@ export default function ResultDialog({
           </Content>
         )}
         <Footer>
-          {!shouldDisplayAll && (<Button onClick={() => setShouldDisplayAll(true)}>跳過動畫</Button>)}         
+          {!shouldDisplayAll && !isAnimationFinished && !data.length === 1 && (<Button onClick={() => setShouldDisplayAll(true)}>跳過動畫</Button>)}         
           <Button onClick={onClose}>關閉</Button>
         </Footer>
       </Container>
