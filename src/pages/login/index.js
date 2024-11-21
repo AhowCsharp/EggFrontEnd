@@ -46,7 +46,7 @@ export const Button = styled.button.attrs({ type: 'submit' })`
 
 const Section = styled.div`
   display: flex;
-  padding-left: 20px;
+  padding: 20px;
   flex: 1;
   flex-direction: column;
   h4 {

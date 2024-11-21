@@ -225,6 +225,7 @@ const PrizeTagContainer = styled.div`
   color: #fff;
   overflow-x: scroll;
   overflow-y: hidden;
+  overscroll-behavior: auto;
   min-height: 6.85rem;
   width: 100%;
   cursor: unset;
