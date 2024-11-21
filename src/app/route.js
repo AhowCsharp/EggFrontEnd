@@ -76,7 +76,7 @@ const MobileViewController = styled.div`
 
 const TopBg = styled.div`
   background-image: url(${bgTopImg});
-  background-size: contain; // cover
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
   height: 400px;
@@ -84,6 +84,9 @@ const TopBg = styled.div`
   top: 0;
   left: 0;
   right: 0;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const TopPosition = styled.div`

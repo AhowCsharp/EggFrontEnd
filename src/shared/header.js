@@ -172,7 +172,10 @@ const HeaderModule = styled.div`
   ${(p) => p.isScrolled && scrolledStyle}
   @media (max-width: 768px) {
     padding-top: calc(env(safe-area-inset-top) + 10px);
-    background-color: ${(p) => p.theme.color.headerMask};
+    background-image: url(${bgTopImg});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
   }
 `
 
