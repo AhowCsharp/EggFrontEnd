@@ -85,7 +85,7 @@ const TopBg = styled.div`
   left: 0;
   right: 0;
   @media (max-width: 768px) {
-    display: none;
+    height: 200px;
   }
 `
 
