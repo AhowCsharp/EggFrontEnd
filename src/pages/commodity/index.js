@@ -359,7 +359,7 @@ export default function Commodity() {
   const [protectOneShot, setProtectOneShot] = useState(180)
   const [protectFiveShot, setProtectFiveShot] = useState(600)
   const [protectTenShot, setProtectTenShot] = useState(780)
-
+  const [nowProtectSec, setNowProtectSec] = useState(0)
   const shouldDisplayDrawOutTimesTagBlock =
     commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
 
@@ -541,6 +541,7 @@ export default function Commodity() {
                   initialSeconds={commodity.protectTime}
                   cb={() => dataStore.setCountdownSec(commodityId)}
                   dep={[commodity]}
+                  returnSeconds ={setNowProtectSec}
                 />
               </Desc>
             )}
@@ -607,6 +608,7 @@ export default function Commodity() {
             handleDrawOut={handleDrawOut}
             setDrawOutTimes={setDrawOutTimes}
             setAlertMessage={dataStore.setAlertMessage}
+            protectTime={nowProtectSec}
           />
         </>
       )}

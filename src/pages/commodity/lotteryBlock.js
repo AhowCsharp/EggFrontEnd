@@ -223,6 +223,7 @@ export default function LotteryBlock({
   handleDrawOut,
   setDrawOutTimes,
   setAlertMessage,
+  protectTime = 0,
 }) {
   const prizes = commodity.prizeIndexs || []
   const category = commodity.category
@@ -272,15 +273,15 @@ export default function LotteryBlock({
           總數量：
           <span className="value">{commodity.fixedTotalDrawOutTimes}</span>
         </span>
-        {commodity.protectTime && commodity.protectTime > 0 && (
+        {protectTime > 0 && (
           <>
             <span>
               保護倒數：
               <span className="value">
                 <InlineCountdownTimer
                   isSmall={true}
-                  initialSeconds={commodity.protectTime}
-                  cb={() => dataStore.setCountdownSec(commodityId)}
+                  initialSeconds={protectTime}
+                  cb={() => dataStore.setCountdownSec(commodity.id)}
                   dep={[commodity]}
                 />
               </span>
