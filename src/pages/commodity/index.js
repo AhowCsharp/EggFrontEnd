@@ -11,6 +11,7 @@ import CountdownTimer from '@app/shared/countdownTimer'
 import { hideScrollBarStyle, showScrollBarStyle } from '@app/shared/header'
 import BaseShipFeeIcon from '@app/static/truck.png'
 import ScrollToDrawButton from '@app/shared/scrollToDrawButton'
+import FixedCountdownTimer from '@app/shared/fixedCountdownTimer'
 import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import Prize from './prize'
 import ResultDialog from './resultDialog'
@@ -236,6 +237,7 @@ const DescBlock = styled.div`
   padding: 1.25rem 1.5rem;
   @media (max-width: 768px) {
     background-color: ${(p) => p.theme.mobile.color.descBg};
+    margin-top: 15px;
   }
 `
 
@@ -359,6 +361,11 @@ export default function Commodity() {
   const [protectOneShot, setProtectOneShot] = useState(180)
   const [protectFiveShot, setProtectFiveShot] = useState(600)
   const [protectTenShot, setProtectTenShot] = useState(780)
+  const [showTimer, setShowTimer] = useState(false)
+
+  const handleCompletion = () => {
+    setShowTimer(false) 
+  }
 
   const shouldDisplayDrawOutTimesTagBlock =
     commodity?.drawOut5Price !== null || commodity?.drawOut10Price !== null
@@ -395,6 +402,10 @@ export default function Commodity() {
       commodity.category,
       commodity.name,
     ])
+
+    if(commodity.protectTime && commodity.protectTime > 0) {
+      setShowTimer(true)
+    }
 
     switch (commodity.category) {
       case '扭蛋':
@@ -641,6 +652,13 @@ export default function Commodity() {
         </p>
       </Description>
       {enableDrawOut && <ScrollToDrawButton selectedPrizes={selectedPrizes} />}
+      {showTimer && (
+        <FixedCountdownTimer
+          initialSeconds={commodity?.protectTime}
+          onComplete={handleCompletion}
+        />
+      )}
+
       {/* 将移动端按钮通过 Portal 渲染到 body 下 */}
       {ReactDOM.createPortal(
         <MobileDrawOutBtnBlock>
