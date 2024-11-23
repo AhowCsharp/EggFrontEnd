@@ -8,6 +8,7 @@ import {
   COMMODITY_STATUS,
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
+import { SEO } from '@app/shared/SEO'
 
 const Category = CATEGORY.BLIND_BOX
 
@@ -31,6 +32,7 @@ export default function BlindBox() {
   if (!commodities) return <Layout />
   return (
     <Layout>
+      <SEO type="blind-box" />
       <Products
         data={commodities.data}
         status={status}

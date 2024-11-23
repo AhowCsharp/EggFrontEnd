@@ -18,6 +18,8 @@ import CountdownDialog from './countdownDialog'
 import ConfirmDialog from './confirmDialog'
 import LotteryBlock from './lotteryBlock'
 import Price from './price'
+import { SEO } from '@app/shared/SEO'
+import { Helmet } from 'react-helmet'
 
 const multiDrawOutStyle = `
   background: #a80502;
@@ -418,6 +420,18 @@ export default function Commodity() {
   if (!commodity) return <Layout />
   return (
     <Layout>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{commodity.name + ' - 瞇那賞-玩具所'}</title>
+        <meta name="description" content={commodity.description} />
+        <meta name="keywords" content={commodity.keywords} />
+        <meta property="twitter:title" content={commodity.name + ' - 瞇那賞-玩具所'} />
+        <meta property="twitter:description" content={commodity.description} />
+        <meta property="twitter:image" content={commodity.imgUrl} />
+        <meta property="og:title" content={commodity.name + ' - 瞇那賞-玩具所'} />
+        <meta property="og:description" content={commodity.description} />
+        <meta property="og:image" content={commodity.imgUrl} />
+      </Helmet>
       {shouldResultDialogOpen && !drawOutReq && (
         <ResultDialog
           isLoading={isDrawOuting}

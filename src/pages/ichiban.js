@@ -8,6 +8,7 @@ import {
   COMMODITY_STATUS,
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
+import { SEO } from '@app/shared/SEO'
 
 const Category = CATEGORY.ICHIBAN
 
@@ -32,6 +33,7 @@ export default function Ichiban() {
   if (!commodities) return <Layout />
   return (
     <Layout>
+      <SEO type="ichiban" />
       <Products
         data={commodities.data}
         status={status}
