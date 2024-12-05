@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FontAwesomeIcon as BaseFontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLine } from '@fortawesome/free-brands-svg-icons'
 import ForgetPwDialog from './forgetPwDialog'
+import { SEO } from '@app/shared/SEO'
 
 const loginButtonStyle = (p) => `
   background-color: #000;
@@ -124,6 +125,7 @@ export default function Login() {
 
   return (
     <Layout>
+      <SEO type="login" />
       <Container>
         <Section>
           <Form form={form} layout="vertical">

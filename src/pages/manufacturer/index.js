@@ -6,6 +6,7 @@ import paths from '@app/utils/paths'
 import { useEffect, useState } from 'react'
 import Item from './item'
 import Commodities from './commodities'
+import { SEO } from '@app/shared/SEO'
 
 const List = styled.div`
   display: flex;
@@ -36,6 +37,7 @@ export default function Manufacturer() {
   if (manufacturer) return <Commodities manufacturerName={manufacturer} />
   return (
     <Layout>
+      <SEO type="manufacturer" />
       <List>
         {manufacturers.map((m) => (
           <Item key={m.id} data={m} handleClick={handleClick} />

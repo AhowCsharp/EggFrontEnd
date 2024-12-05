@@ -5,6 +5,7 @@ export default function CountdownTimer({
   isSmall = false,
   cb,
   dep = [],
+  returnSeconds,
 }) {
   const [seconds, setSeconds] = useState(initialSeconds)
 
@@ -13,7 +14,9 @@ export default function CountdownTimer({
       const timerId = setTimeout(() => {
         setSeconds(seconds - 1)
       }, 1000)
-
+      if (returnSeconds) {     
+        returnSeconds(seconds - 1);
+      }
       return () => {
         clearTimeout(timerId)
       }

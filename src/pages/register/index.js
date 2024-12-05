@@ -8,6 +8,7 @@ import useScrollToTop from '@app/utils/hooks/useScrollToTop'
 import { LineButton } from '../login'
 import Form from './form'
 import { Helmet } from 'react-helmet';
+import { SEO } from '@app/shared/SEO'
 
 const Warning = styled.span`
   color: red;
@@ -54,6 +55,7 @@ export default function Register() {
           `}
         </script>
       </Helmet>
+      <SEO type="register" />
     <Layout>
       <Container>
         <h4>為避免您的賞品寄送權益，請務必如實填寫會員資料</h4>

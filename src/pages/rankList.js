@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { useNavigate, generatePath } from 'react-router-dom'
 import paths from '@app/utils/paths'
 import { MobileItem, MobileList } from '@app/pages/profile/tabStyle'
+import { SEO } from '@app/shared/SEO'
 
 const { Column } = Table
 
@@ -145,6 +146,7 @@ export default function RankingList() {
 
   return (
     <Layout>
+      <SEO type="rank-list" />
       {/* 使用 StyledTabs 並傳遞 items 屬性 */}
       <StyledTabs
         activeKey={currentView}
