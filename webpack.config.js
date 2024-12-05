@@ -1,9 +1,9 @@
-const path = require('path')
-const HtmlWebPackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const webpack = require('webpack')
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.js',
@@ -39,14 +39,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(svg|png|jpe?g|gif|ico)$/i,
@@ -61,6 +54,21 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /robots\.txt$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.xml$/,
+        use: ['xml-loader'],
+      },
     ],
   },
   plugins: [
@@ -69,10 +77,13 @@ module.exports = {
       filename: 'index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './src/manifest.json', to: 'manifest.json' }],
+      patterns: [
+        { from: './src/static/sitemap.xml', to: 'sitemap.xml' },
+        { from: './src/static/robots.txt', to: 'robots.txt' },
+      ],
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
-}
+};
