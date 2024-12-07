@@ -191,6 +191,8 @@ const InfoComponent = ({
   value,
   subValue_title,
   subValue,
+  subValue_remain,
+  subRemainValue,
   showLevel,
   member,
 }) => {
@@ -308,6 +310,21 @@ const InfoComponent = ({
           >
             <div>{subValue_title}&nbsp;</div>
             <div style={{ fontWeight: '600' }}>{subValue}</div>
+          </div>
+        )}
+        {subValue_remain && (
+          <div
+            style={{
+              display: 'flex',
+              marginTop: '4px',
+              fontSize: '14px',
+              lineHeight: '20px',
+              fontWeight: '400',
+              color: '#999999',
+            }}
+          >
+            <div>{subValue_remain}&nbsp;</div>
+            <div style={{ fontWeight: '600' }}>{subRemainValue}</div>
           </div>
         )}
       </div>
@@ -520,10 +537,12 @@ const handleWalletInfo = (member) => {
       showLevel: true,
       img: coinImg,
       title: membershipLevel[member.membershipLevel],
-      value_title: '可用金幣',
+      value_title: '目前金幣',
       value: member.moneyAmount,
       subValue_title: '生涯總儲值',
       subValue: member.totalStoredMoney,
+      subValue_remain: '距離升級',
+      subRemainValue: member.remainHowMuch,
     },
     {
       img: coinWelfareImg,
