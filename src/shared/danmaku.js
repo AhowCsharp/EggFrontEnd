@@ -134,7 +134,7 @@ export default function Danmaku() {
         {nowShowing.eventType === 'ranking' &&
           `🚀 恭喜 ${nowShowing.customerName} 抽中 ${nowShowing.prizeLevelView} ${nowShowing.prizeName}`}
         {nowShowing.eventType === 'task' &&
-          `🎯 恭喜 ${nowShowing.customerName} 完成 ${nowShowing.taskTitle} 任務內容為 ${nowShowing.award}`}
+          `🎯 恭喜 ${nowShowing.customerName} 完成 ${nowShowing.taskTitle} 獎勵: ${nowShowing.award}`}
       </Item>
     </Container>
   );
