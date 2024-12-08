@@ -236,7 +236,7 @@ export default function Footer() {
         </ContactContainer>
         <ContactContainer>
           <a
-            href="https://line.me/your-line-link"
+            href="https://lin.ee/vkEnd87"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -245,7 +245,7 @@ export default function Footer() {
             </ContactInfo>
           </a>
           <a
-            href="https://www.facebook.com/your-facebook-page"
+            href="https://line.me/ti/g2/-6sw7ZG-zW0gN0j2N6MZsv91T51LIGED1xRMtA?utm_source=invitation&utm_medium=QR_code&utm_campaign=default"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -254,7 +254,7 @@ export default function Footer() {
             </ContactInfo>
           </a>
           <a
-            href="https://www.instagram.com/your-instagram-page"
+            href="https://www.instagram.com/mina_sunny_gi?igsh=dHdydzBkZmtib28y"
             target="_blank"
             rel="noopener noreferrer"
           >

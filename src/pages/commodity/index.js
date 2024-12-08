@@ -164,7 +164,7 @@ const DrawOutBtn_old = styled.div`
   cursor: pointer;
   background: #000;
   color: ${(p) => p.theme.color.orange};
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   padding: 10px 14px;
   text-align: center;
