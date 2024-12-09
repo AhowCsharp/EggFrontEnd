@@ -49,8 +49,11 @@ export default function Commodities({ manufacturerName }) {
       <Pagination
         onChange={(pageNumber, pageSize) => {
           const req = {
+            manufacturerName,
+            status,
             pageNumber,
             pageSize,
+            ...filterOptions,
           }
           dataStore.getCommodities(req)
         }}
