@@ -43,6 +43,7 @@ export const Button = styled(BaseButton)`
   text-align: center;
   ${(p) => p.disable && disableStyle}
   @media (max-width: 768px) {
+    font-size: 1.05rem;
     flex: 1;
   }
 `
