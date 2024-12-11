@@ -283,10 +283,10 @@ export default function PendingPrizes() {
             dataIndex="reclaimPrize"
             key="reclaimPrize"
           />
-          <Column title="數量" dataIndex="totalAmount" key="totalAmount" />
+          <Column title="擁有數量" dataIndex="totalAmount" key="totalAmount" />
           <Column title="商品尺寸" key="size" dataIndex="size" />
           <Column title="狀態" dataIndex="status" key="status" />
-          <Column title="" key="action" render={renderAction} width={220} />
+          <Column title="需運送或回收數量" key="action" render={renderAction} width={220} />
         </Table>
         <MobileList>
           {data.map((item, index) => (
@@ -332,7 +332,7 @@ export default function PendingPrizes() {
                 <span className="label">狀態</span> {item.status}
               </div>
               <div>
-                <div></div>
+                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
                 {renderAction(item)}
               </div>
             </MobileItem>

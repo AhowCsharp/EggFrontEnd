@@ -463,6 +463,9 @@ export default function TopUp() {
         <P center={true}>
           請確保會員資料信箱、手機號碼、等相關個人資訊正確 避免發票無法寄出
         </P>
+        <P center={true}>
+          若個資不正確，儲值申請會遭到銀行拒絕導致交易失敗唷~有疑問請留言客服
+        </P>
         <OptionContainer>
           {TOP_UP_PRICE_OPTIONS.map((option) => (
             <Option

@@ -935,7 +935,7 @@ export default class DataStore {
       this.isLogged = true
       yield this.loadMember()
       this.alertMessage =
-        '登入成功，請記得去會員中心修改個資，個資正確方能確保儲值流程無誤，若有任何問題請聯繫下方客服'
+        '登入成功，首次登入請務必先進會員中心填寫資料，祝您好運'
     } catch (e) {
       console.log('get profile by line failed', e)
       const msg = e.response?.data

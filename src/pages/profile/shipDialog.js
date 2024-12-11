@@ -47,6 +47,7 @@ const Container = styled.div`
   left: 20%;
   z-index: ${(p) => p.theme.zIndex.dialog};
   display: flex;
+  flex-direction: column; /* 重要：確保 Content 和 Footer 垂直排列 */
   min-height: 250px;
   max-height: calc(90vh - 175px);
   overflow-y: auto;
@@ -80,11 +81,9 @@ const Header = styled(Block)`
 `;
 
 const Footer = styled(Block)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin: 10px 0;
+  margin-top: 20px;
   justify-content: center;
+  
   ${Button} + ${Button} {
     margin-left: 20px;
   }
