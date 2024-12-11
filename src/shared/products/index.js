@@ -18,16 +18,18 @@ const { Group: BaseRadio } = AntdRadio
 
 const ProductContainer = styled.div`
   display: flex;
-  justify-content: ${(p) => (p.center ? 'center' : 'flex-start')};
+  justify-content: ${(p) => (p.center ? 'center' : 'center')};
   align-items: center;
+  align-self: center;
   padding: 10px 0;
-  margin: 1rem 0;
+  margin: 1rem auto;
   flex-wrap: wrap;
   margin-top: -20px;
   min-height: 150px;
   width: 100%;
+  max-width: 1140px;
   .item:not(:nth-child(4n + 1)) {
-    margin-left: 8px;
+    margin-left: 40px;
   }
   @media (max-width: 768px) {
     margin: 0.5rem 0;
@@ -215,6 +217,7 @@ export default function Products({
         sortedData && sortedData.length ? (
           isDrawOutShowAll ? (
             <DrawOutProductContainer>
+              
               {sortedData.map((p, index) => (
                 <Product
                   key={index}
