@@ -18,18 +18,16 @@ const { Group: BaseRadio } = AntdRadio
 
 const ProductContainer = styled.div`
   display: flex;
-  justify-content: ${(p) => (p.center ? 'center' : 'center')};
+  justify-content: ${(p) => (p.center ? 'center' : 'flex-start')};
   align-items: center;
-  align-self: center;
   padding: 10px 0;
-  margin: 1rem auto;
+  margin: 1rem 0;
   flex-wrap: wrap;
   margin-top: -20px;
   min-height: 150px;
   width: 100%;
-  max-width: 1140px;
   .item:not(:nth-child(4n + 1)) {
-    margin-left: 40px;
+    margin-left: 8px;
   }
   @media (max-width: 768px) {
     margin: 0.5rem 0;

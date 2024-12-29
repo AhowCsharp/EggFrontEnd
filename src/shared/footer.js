@@ -28,6 +28,7 @@ const LogoContainer = styled.div`
 
 const FooterContainer = styled.div`
   display: flex;
+  max-width: 1295px;
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: space-between;

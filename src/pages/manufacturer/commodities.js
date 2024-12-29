@@ -7,8 +7,13 @@ import {
   COMMODITY_STATUS,
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
-
+import { useLocation, useNavigate } from 'react-router-dom'
 export default function Commodities({ manufacturerName }) {
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const page = searchParams.get('page')
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
@@ -17,14 +22,24 @@ export default function Commodities({ manufacturerName }) {
   )
 
   useEffect(() => {
+    let pageNumber = 1
+    if (page && !isNaN(page)) {
+      pageNumber = page
+    } else {
+      searchParams.delete('page')
+      searchParams.set('page', 1)
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+      return
+    }
     const req = {
       manufacturerName,
       status,
       ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
+      pageNumber: pageNumber,
     }
     dataStore.getCommodities(req)
-  }, [status, manufacturerName, filterOptions])
+  }, [status, manufacturerName, filterOptions, page])
 
   useEffect(() => {
     if (!filterOptions) dataStore.setFilterOptions(manufacturerName, {})
@@ -48,15 +63,18 @@ export default function Commodities({ manufacturerName }) {
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
-          const req = {
-            manufacturerName,
-            status,
-            pageNumber,
-            pageSize,
-            ...filterOptions,
-          }
-          dataStore.getCommodities(req)
+          searchParams.set('page', pageNumber)
+          navigate(`${location.pathname}?${searchParams.toString()}`);
+          // const req = {
+          //   manufacturerName,
+          //   status,
+          //   pageNumber,
+          //   pageSize,
+          //   ...filterOptions,
+          // }
+          // dataStore.getCommodities(req)
         }}
+        pageNumber={isNaN(page) ? 1 : page}
         totalCount={commodities.totalCount}
       />
     </Layout>

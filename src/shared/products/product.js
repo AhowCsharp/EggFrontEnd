@@ -47,10 +47,8 @@ const BaseProduct = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   overflow: hidden;
-  width: calc(25% - 40px);
-  max-width: 260px;
+  width: calc(25% - 11.25px);
   margin-top: 20px;
-  align-self: center;
   flex-grow: 0;
   cursor: pointer;
   &:hover ${Image} {

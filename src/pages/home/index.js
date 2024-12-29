@@ -18,6 +18,7 @@ import AnnouncementModal from '@app/shared/announcementModal'
 import HotCommodityBlock, { Header } from './hotCommodityBlock'
 import CampaignBlock from './campaignBlock/index'
 import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom'
 
 export const DisplayPageSize = 4
 
@@ -85,6 +86,7 @@ const ImageContainer = styled.div`
 `
 
 const Carousel = styled(BaseCarousel)`
+  max-width: 1295px;
   margin: 0px auto 50px;
   padding: 16px 8px;
   .slick-slide {
@@ -147,6 +149,11 @@ const NewArrivalTag = styled.img.attrs({ src: newArrivalsImg })`
 `
 
 export default function Home() {
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const page = searchParams.get('page')
   const commodities = useSelector(() => dataStore.commodities)
   const newAds = useSelector(() => dataStore.newAds)
   const news = useSelector(() => dataStore.news)
@@ -155,14 +162,24 @@ export default function Home() {
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
 
   useEffect(() => {
+    let pageNumber = 1
+    if (page && !isNaN(page)) {
+      pageNumber = page
+    } else {
+      searchParams.delete('page')
+      searchParams.set('page', 1)
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+      return
+    }
     const req = {
       status: COMMODITY_STATUS.OPENING,
       ...DEFAULT_COMMODITIES_PAGINATION,
+      pageNumber: pageNumber,
     }
     dataStore.getCommodities(req)
     dataStore.getAds()
     dataStore.recordVisitCount()
-  }, [])
+  }, [page])
 
   return (
     <>
@@ -227,12 +244,15 @@ export default function Home() {
         />
         <Pagination
           onChange={(pageNumber, pageSize) => {
-            const req = {
-              pageNumber,
-              pageSize,
-            }
-            dataStore.getCommodities(req)
+            searchParams.set('page', pageNumber)
+            navigate(`${location.pathname}?${searchParams.toString()}`);
+            // const req = {
+            //   pageNumber,
+            //   pageSize,
+            // }
+            // dataStore.getCommodities(req)
           }}
+          pageNumber={isNaN(page) ? 1 : page}
           totalCount={commodities?.totalCount}
       />
       </Layout>

@@ -6,11 +6,16 @@ const Pagination = styled(BasePagination)`
   text-align: ${(p) => (p.alignCenter ? 'center' : 'right')};
 `
 
-export default function Page({ onChange, totalCount, alignCenter = false }) {
+export default function Page({
+  onChange,
+  totalCount,
+  pageNumber,
+  alignCenter = false,
+}) {
   return (
     <Pagination
       className="pagination"
-      defaultCurrent={DEFAULT_COMMODITIES_PAGINATION.pageNumber}
+      defaultCurrent={pageNumber}
       total={totalCount}
       defaultPageSize={DEFAULT_COMMODITIES_PAGINATION.pageSize}
       showSizeChanger={false}

@@ -8,6 +8,8 @@ import Spinner from './spinner'
 
 const Container = styled.div`
   width: 100%;
+  max-width: 1295px;
+  margin: auto;
   border-radius: ${(p) => p.theme.borderRadius.content};
   background: ${(p) => p.theme.color.background};
   padding: 32px;
