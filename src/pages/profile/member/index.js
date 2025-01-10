@@ -22,9 +22,12 @@ import defaultHeadShotUrl from "@app/static/imgUpload.png";
 import { Button } from "../../commodity/index";
 
 const Title = styled.h3`
-  font-size: 1.5rem;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
   color: #333;
   margin: 0.5rem 0;
+  text-align: center;
 `;
 
 const Warning = styled.div`
@@ -46,7 +49,7 @@ const Info = styled.div`
   font-size: 0.85em;
   font-weight: bold;
   color: #333;
-  text-align: center;
+  text-align: start;
   div {
     line-height: 1.5;
   }
@@ -342,7 +345,7 @@ const ABContainer = styled.div`
 
   @media (min-width: 768px) {
     flex-direction: column; /* 桌面版水平排列 */
-    align-items: center; /* 讓子項目在桌面版時延伸相同高度 */
+    align-items: start; /* 讓子項目在桌面版時延伸相同高度 */
     justify-content: space-between;
   }
 `;
@@ -359,7 +362,6 @@ const ASection = styled.div`
 
 const BSection = styled(Info)`
   display: none; /* 手機版隱藏 */
-
   flex: 1;
   width: calc(100% - 20px);
 
@@ -577,6 +579,20 @@ const handleWalletInfo = (member) => {
   ];
 };
 
+const SubTitle = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  justify-content: start;
+  align-items: start;
+`;
+
+const SubTitleContent = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+`;
+
 // 主組件
 export default function Member() {
   const member = useSelector(() => dataStore.member);
@@ -614,23 +630,58 @@ export default function Member() {
         <ABContainer>
           <BSection>
             <Title>新手村公告</Title>
-            <br />
-            <div>金幣與御守等值。</div>
-            <div>金幣可藉由儲值獲得。</div>
-            <div>抽獎券可以用於福袋專區，請找尋對應廠商出品之福袋。</div>
-            <div>
-              御守可透過完成任務、每日簽到、抽獎回饋、提升會員等級、分享推薦連結給朋友獲得。
-            </div>
-            <div>
-              抽獎券、免運券可就由當月消費滿額贈送，詳情請點擊廠商資訊查看門檻。
-            </div>
-            <div>
-              每次抽獎都有一定機率獲得寶箱或鑰匙，單抽價格愈高獲得的寶箱、鑰匙等級也愈高。
-            </div>
-            <Warning>
-              不同廠商抽獎券、免運券不得混合使用，平台抽獎券用於 剩蛋快樂
-              出品之福袋。
-            </Warning>
+
+            <SubTitle
+              style={{
+                marginTop: "20px",
+                marginBottom: "10px",
+                fontWeight: "700",
+              }}
+            >
+              金幣與御守等值，玩法多樣
+            </SubTitle>
+            <SubTitleContent>
+              &nbsp;&nbsp;•&nbsp;&nbsp;金幣：可透過儲值獲得，輕鬆累積更多抽獎機會。
+            </SubTitleContent>
+            <SubTitleContent>
+              &nbsp;&nbsp;•&nbsp;&nbsp;御守：完成任務、每日簽到、抽獎回饋、提升會員等級，或分享推薦連結給朋友即可獲得。
+            </SubTitleContent>
+
+            <SubTitle style={{ marginTop: "10px", marginBottom: "10px" }}>
+              抽獎券使用指南
+            </SubTitle>
+            <SubTitleContent>
+              &nbsp;&nbsp;•&nbsp;&nbsp;抽獎券可於福袋專區使用，選擇喜歡的福袋，享受對應廠商的獨家好禮。
+            </SubTitleContent>
+            <SubTitleContent>
+              &nbsp;&nbsp;•&nbsp;&nbsp;抽獎券及免運券也可透過當月消費滿額贈送，詳情請點擊廠商資訊查看相關門檻。
+            </SubTitleContent>
+
+            <SubTitle style={{ marginTop: "10px", marginBottom: "10px" }}>
+              寶箱與鑰匙獲取
+            </SubTitle>
+            <SubTitleContent>
+              &nbsp;&nbsp;•&nbsp;&nbsp;每次抽獎都有機會獲得寶箱或鑰匙，單抽價格愈高，寶箱及鑰匙等級也愈高！
+            </SubTitleContent>
+
+            <SubTitle
+              style={{
+                marginTop: "10px",
+                marginBottom: "10px",
+                color: "#A21A2B",
+              }}
+            >
+              使用規則提醒
+            </SubTitle>
+            <SubTitleContent style={{ color: "#A21A2B" }}>
+              &nbsp;&nbsp;•&nbsp;&nbsp;不同廠商的抽獎券與免運券
+              <span style={{ fontWeight: "600" }}>不得混合使用</span>。
+            </SubTitleContent>
+            <SubTitleContent style={{ color: "#A21A2B" }}>
+              &nbsp;&nbsp;•&nbsp;&nbsp;平台抽獎券僅適用於
+              <span style={{ fontWeight: "600" }}>剩蛋快樂</span>
+              出品的福袋，敬請留意！
+            </SubTitleContent>
           </BSection>
           <ASection>
             <CenteredTitle>會員資料</CenteredTitle>
