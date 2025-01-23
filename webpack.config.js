@@ -65,10 +65,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.xml$/,
-        use: ['xml-loader'],
-      },
     ],
   },
   plugins: [
@@ -76,12 +72,12 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: './src/static/sitemap.xml', to: 'sitemap.xml' },
-        { from: './src/static/robots.txt', to: 'robots.txt' },
-      ],
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     { from: './src/static/sitemap.xml', to: 'sitemap.xml' },
+    //     { from: './src/static/robots.txt', to: 'robots.txt' },
+    //   ],
+    // }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),

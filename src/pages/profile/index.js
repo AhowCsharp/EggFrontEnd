@@ -18,6 +18,8 @@ import FreeshippingTicketLog from './freeshippingTicketLog'
 import StoredLog from './storedLog'
 import TaskLog from './taskLog'
 import CrateLog from './crateLog'
+import FriendList from './friendList'
+import MailBox from './mailBox'
 
 const Nav = styled.div`
   width: 180px;
@@ -130,6 +132,12 @@ const navList = [
     type: PROFILE_TAB.FREE_SHIPPING,
   },
   { title: '福袋紀錄', src: profileIcon.tickets, type: PROFILE_TAB.TICKETS },
+  {
+    title: '信箱管理',
+    src: profileIcon.mailBox,
+    type: PROFILE_TAB.MAIL_BOX,
+  },
+  { title: '好友名單', src: profileIcon.addFriend, type: PROFILE_TAB.ADD_FRIEND },
 ]
 
 export default function Profile() {
@@ -193,6 +201,8 @@ export default function Profile() {
         return <FreeshippingTicketLog />
       case PROFILE_TAB.TASK_HISTORY:
         return <TaskLog />
+      case PROFILE_TAB.MAIL_BOX:
+        return <MailBox />
       case PROFILE_TAB.TOP_UP_RESULT:
         return (
           <TopUpResult
@@ -201,6 +211,8 @@ export default function Profile() {
             rec_trade_id={rec_trade_id}
           />
         )
+      case PROFILE_TAB.ADD_FRIEND:
+        return <FriendList />
       default:
         return <Member />
     }

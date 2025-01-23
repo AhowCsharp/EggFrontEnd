@@ -508,6 +508,25 @@ export default class DataStore {
     }
   }
 
+
+  @flow
+  *getMineTaskList(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getMineTaskList(req, token)
+      if (!res) return
+      const { source: data, totalItemCount: totalCount } = res
+        this.mineTaskList = { data, totalCount }
+      }
+    } catch (e) {
+      const msg = e.response?.data
+      this.alertMessage = `取得失敗，${msg}`
+      console.log('mineTaskList failed', e, msg)
+    }
+  }
+
+
   @flow
   *getStoredLogs(req) {
     try {
@@ -627,6 +646,9 @@ export default class DataStore {
 
   @observable.ref
   taskList = undefined;
+
+  @observable.ref
+  mineTaskList = undefined;
 
   @flow
   *getTaskList() {
@@ -1085,6 +1107,216 @@ export default class DataStore {
     this.filterOptionsByCategory = {
       ...this.filterOptionsByCategory,
       [category]: options,
+    }
+  }
+
+  /* Friend List */
+
+  @observable
+  friendList = undefined;
+
+  @observable
+  invitedFriendList = undefined;
+
+  @observable
+  sendInviteFriendList = undefined;
+
+  @flow
+  *getFriendList(req) {
+    try {
+      const token = getToken()
+      console.log('getFriendList req:', req)
+      console.log('getFriendList token:', token)
+      if (token) {
+      const res = yield Api.getFriendList(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.friendList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getFriendList failed', e)
+    }
+  }
+
+  @flow
+  *getFriendListOptions(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getFriendListOptions(req, token)
+        if (!res) return
+        this.friendListOptions = res.source
+      }
+    } catch (e) {
+      console.log('getFriendListOptions failed', e)
+    }
+  }
+
+  @flow
+  *getSendInviteFriendList(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getSendInviteFriendList(req, token)
+        if (!res) return
+
+        const { source: data, totalItemCount: totalCount } = res
+        this.sendInviteFriendList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getSendInviteFriendList failed', e)
+    }
+  }
+
+  // @flow
+  // *getStoredLogs(req) {
+  //   try {
+  //     const token = getToken()
+  //     if (token) {
+  //       const res = yield Api.getStoredLogs(req, token)
+  //       if (!res) return
+  //       const { source: data, totalItemCount: totalCount } = res
+  //       this.storedLogs = { data, totalCount }
+  //     }
+  //   } catch (e) {
+  //     const msg = e.response?.data
+  //     this.alertMessage = `取得失敗，${msg}`
+  //     console.log('storedLogs failed', e, msg)
+  //   }
+  // }
+
+  @flow
+  *addFriend(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.addFriend(req, token)
+      if (!res) return
+        this.alertMessage = '已成功送出好友邀請'
+      }
+    } catch (e) {
+      console.log('addFriend failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `送出好友邀請失敗，${msg}`
+    }
+  }
+
+  @flow
+  *editFriend(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.editFriend(req, token)
+      if (!res) return
+      this.friendList = res.source
+        this.alertMessage = '已成功修改好友資料'
+      }
+    } catch (e) {
+      console.log('editFriend failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `修改好友資料失敗，${msg}`
+    }
+  }
+
+  @flow
+  *getInvitedFriendList(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getInvitedFriendList(req, token)
+      if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.invitedFriendList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getInvitedFriendList failed', e)
+    }
+  }
+
+  @flow
+  *sendGift(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.sendGift(req, token)
+        if (!res) return
+        this.alertMessage = '已成功送出禮物'
+      }
+    } catch (e) {
+      console.log('sendGift failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `送出禮物失敗，${msg}`
+    }
+  }
+
+  @observable
+  readMailList = undefined;
+
+  @observable
+  unreadMailList = undefined;
+
+  @observable
+  draftMailList = undefined;
+
+  @flow
+  *getReadMailList(req) {
+    try {
+      const token = getToken()
+      console.log('getReadMailList token:', token)
+      if (token) {
+        const res = yield Api.getReadMailList(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.readMailList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getReadMailList failed', e)
+    }
+  }
+
+  @flow
+  *getUnreadMailList(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getUnreadMailList(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.unreadMailList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getUnreadMailList failed', e)
+    }
+  }
+
+  @flow
+  *getDraftMailList(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.getDraftMailList(req, token)
+        if (!res) return
+        const { source: data, totalItemCount: totalCount } = res
+        this.draftMailList = { data, totalCount }
+      }
+    } catch (e) {
+      console.log('getDraftMailList failed', e)
+    }
+  }
+
+  @flow
+  *sendMail(req) {
+    try {
+      const token = getToken()
+      if (token) {
+        const res = yield Api.sendMail(req, token)
+      if (!res) return
+        this.alertMessage = '已成功送出郵件'
+      }
+    } catch (e) {
+      console.log('sendMail failed', e)
+      const msg = e.response?.data
+      this.alertMessage = `送出郵件失敗，${msg}`
     }
   }
 }

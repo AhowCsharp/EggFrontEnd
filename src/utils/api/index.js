@@ -128,6 +128,11 @@ export const getTaskList = async () => {
   return res
 }
 
+export const getMineTaskList = async (req, token) => {
+  const res = await Request.get('/mine/task').bearer(token).params(req)
+  return res
+}
+
 export const getManufacturers = async () => {
   const res = await Request.get('/manufacturers')
   return res
@@ -241,5 +246,68 @@ export const getNews = async (newsId) => {
 
 export const getTagOptions = async (category) => {
   const res = await Request.get('/tags').params({ category })
+  return res
+}
+
+// 好友
+export const getFriendList = async (req, token) => {
+  const res = await Request.get('/friends').bearer(token).params(req)
+  return res
+}
+
+export const getFriendListOptions = async (req, token) => {
+  const res = await Request.get('/friend/options').bearer(token).params(req)
+  return res
+}
+
+export const addFriend = async (req, token) => {
+  const res = await Request.post('/friend').bearer(token).body(req)
+  return res
+}
+
+export const editFriend = async (req, token) => {
+  const res = await Request.put('/friend').bearer(token).body(req)
+  return res
+}
+
+export const getInvitedFriendList = async (req, token) => {
+  const res = await Request.get('/invited/friend').bearer(token).params(req)
+  return res
+}
+
+export const getSendInviteFriendList = async (req, token) => {
+  const res = await Request.get('/wait/reject/friend').bearer(token).params(req)
+  return res
+}
+
+
+export const sendGift = async (req, token) => {
+  const res = await Request.post('/gift').bearer(token).body(req)
+  return res
+}
+
+export const getGiftList = async (req, token) => {
+  const res = await Request.get('/gift').bearer(token).params(req)
+  return res
+}
+
+export const getReadMailList = async (req, token) => {
+  console.log('getReadMailList', token)
+  const res = await Request.get('/read/mails').bearer(token).params(req)
+  return res
+}
+
+export const getUnreadMailList = async (req, token) => {
+  const res = await Request.get('/notyet/mails').bearer(token).params(req)
+  return res
+}
+
+export const getDraftMailList = async (req, token) => {
+  const res = await Request.get('/send/mails').bearer(token).params(req)
+  return res
+}
+
+export const sendMail = async (req, token) => {
+  const res = await Request.post('/mail').bearer(token).body(req)
   return res
 }

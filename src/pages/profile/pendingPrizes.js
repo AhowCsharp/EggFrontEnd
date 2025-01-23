@@ -1,27 +1,29 @@
-import { useSelector, dataStore } from '@app/store'
-import { useEffect, useState } from 'react'
-import { Table, InputNumber, Checkbox } from 'antd'
-import styled from 'styled-components'
-import { Button as BaseButton } from '@app/pages/commodity'
-import { getDefaultDateRange, formatDate } from '@app/utils/date'
-import Tag from '@app/shared/tag'
-import { Content } from './index'
+import { useSelector, dataStore } from "@app/store";
+import { useEffect, useState } from "react";
+import { Table, InputNumber, Checkbox, Select, Input, Modal } from "antd";
+import styled from "styled-components";
+import { Button as BaseButton } from "@app/pages/commodity";
+import { getDefaultDateRange, formatDate } from "@app/utils/date";
+import Tag from "@app/shared/tag";
+import { Content } from "./index";
 import {
   Container,
   RangePicker,
   ButtonContainer,
   MobileItem,
   MobileList,
-} from './tabStyle'
-import ShipDialog from './shipDialog'
+} from "./tabStyle";
+import ShipDialog from "./shipDialog";
+import Tab from "@app/shared/tab";
+import BigButton from "@app/shared/bigButton";
 
-const { Column } = Table
+const { Column } = Table;
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-`
+`;
 
 const Img = styled.img.attrs((p) => ({ src: p.src }))`
   height: 80px;
@@ -31,12 +33,12 @@ const Img = styled.img.attrs((p) => ({ src: p.src }))`
     max-width: 300px;
     height: auto;
   }
-`
+`;
 
 const disableStyle = `
   cursor: not-allowed;
   opacity: 0.5;
-`
+`;
 
 export const Button = styled(BaseButton)`
   font-size: 0.8rem;
@@ -46,7 +48,7 @@ export const Button = styled(BaseButton)`
     font-size: 1.05rem;
     flex: 1;
   }
-`
+`;
 
 const ActionContainer = styled.div`
   display: flex;
@@ -67,119 +69,231 @@ const ActionContainer = styled.div`
   ${Button} + ${Button} {
     margin-left: 5px;
   }
-`
+`;
 
 const Warning = styled.div`
   color: red;
-`
+`;
 
 const Info = styled.div`
   margin: 10px;
   div {
     line-height: 1.5;
   }
-`
+`;
 
 function formatShipDict(data) {
   return data.reduce((acc, cur) => {
-    const { prizeId, prizeName, commodityName } = cur
-    acc[prizeId] = { amount: 1, prizeName, commodityName }
-    return acc
-  }, {})
+    const { prizeId, prizeName, commodityName } = cur;
+    acc[prizeId] = { amount: 1, prizeName, commodityName };
+    return acc;
+  }, {});
 }
 
 export default function PendingPrizes() {
-  const pendingPrize = useSelector(() => dataStore.pendingPrize)
-  const dateRange = getDefaultDateRange()
-  const [isReclaiming, setIsReclaiming] = useState(false)
-  const [shipDict, setShipDict] = useState()
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [shipInfo, setShipInfo] = useState()
+  const pendingPrize = useSelector(() => dataStore.pendingPrize);
+  const dateRange = getDefaultDateRange();
+  const [isReclaiming, setIsReclaiming] = useState(false);
+  const [shipDict, setShipDict] = useState();
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [shipInfo, setShipInfo] = useState();
   const [listReq, setListReq] = useState({
     start: formatDate(dateRange[0]),
     end: formatDate(dateRange[1]),
-  })
+  });
 
-  const [itemCount, setItemCount] = useState(1)
+  const [itemCount, setItemCount] = useState(1);
+  const tabList = ["抽獎結果", "我的禮物"];
+  const [activeTab, setActiveTab] = useState(0);
+  const [isOpenGiftModal, setIsOpenGiftModal] = useState(false);
+  const [friendId, setFriendId] = useState();
+  const [sendGiftList, setSendGiftList] = useState([]);
+  const [selectedGift, setSelectedGift] = useState({});
 
   useEffect(() => {
-    if (!pendingPrize) return
-    const dict = formatShipDict(pendingPrize.data)
-    setShipDict(dict)
-  }, [pendingPrize])
+    if (!pendingPrize) return;
+    const dict = formatShipDict(pendingPrize.data);
+    setShipDict(dict);
+  }, [pendingPrize]);
 
   useEffect(() => {
-    dataStore.getPendingPrize(listReq)
-  }, [listReq])
+    dataStore.getPendingPrize(listReq);
+  }, [listReq]);
 
   const rowSelection = {
     selectedRowKeys,
     onChange: (ids) => {
-      setSelectedRowKeys(ids)
+      setSelectedRowKeys(ids);
     },
-  }
+  };
 
-  const data = pendingPrize?.data || []
+  const onSendGift = () => {
+    const req = {
+      giftInfo: sendGiftList,
+      friendId: friendId,
+    };
+    dataStore.sendGift(req);
+    setIsOpenGiftModal(false);
+  };
+
+  console.log("selectedGift", selectedGift);
+  const data = pendingPrize?.data || [];
   return (
-    <Content>
-      {shipInfo && (
-        <ShipDialog
-          onClose={() => {
-            setShipInfo(null)
-            setSelectedRowKeys([])
+    <div
+      style={{
+        width: "100%",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Modal
+        width="80vw"
+        closeIcon={false}
+        visible={isOpenGiftModal}
+        footer={null}
+        style={{
+          paddingTop: "24px",
+          paddingBottom: "24px",
+          paddingLeft: "0px",
+          paddingRight: "0px",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "20px",
+            lineHeight: "28px",
+            fontWeight: "bold",
+            color: "#000000",
+            textAlign: "center",
+            marginBottom: "20px",
           }}
-          onSubmit={dataStore.ship}
-          shipInfoData={shipInfo}
-        />
-      )}
-      <Container tableMinWidth={700}>
-        <Info>
-          <div>單筆訂單尺寸 45 （含）以內🉑使用711店到店。</div>
-          <div>超過125（含）只能選擇宅配。</div>
-          <div>運費價格取單筆訂單最高的賞品運費價格去做計算。</div>
-          <div> 例： 單筆訂單 有2個A賞+1個B賞：</div>
-          <div>
-            A賞運費價格150，B賞運費價格120，此筆訂單運費則挑150最高價格最為此單運費。
+        >
+          贈送禮物給好友
+        </div>
+
+        <div
+          style={{
+            paddingTop: "16px",
+            paddingBottom: "16px",
+            borderTop: "1px solid #EBE9F1",
+            borderBottom: "1px solid #EBE9F1",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "15px",
+              lineHeight: "21px",
+              color: "#000000",
+              fontWeight: "500",
+              marginBottom: "12px",
+            }}
+          >
+            填寫送禮數量
           </div>
-          <Warning>
-            不同廠商的賞品不得合併出貨，若未處理獎品超過30天，則廠商會自動回收該獎品!!
-          </Warning>
-        </Info>
-        <RangePicker
-          showTime={{
-            format: 'HH:mm',
+          <Input
+            style={{
+              height: "41px",
+            }}
+            type="number"
+            min={1}
+            max={selectedGift.totalAmount}
+            defaultValue={1}
+            onChange={setItemCount}
+            size="small"
+          />
+        </div>
+
+        <div>
+
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "20px",
+            gap: "12px",
           }}
-          format="YYYY-MM-DD HH:mm"
-          defaultValue={dateRange}
-          onOk={(value) => {
-            const start = formatDate(value[0])
-            const end = formatDate(value[1])
-            if (start === 'Invalid Date' || end === 'Invalid Date') return
-            setListReq({
-              ...listReq,
-              start,
-              end,
-            })
-          }}
-        />
-        <ButtonContainer>
-          <Button disable={!selectedRowKeys.length} onClick={onShip}>
-            配送
-          </Button>
-        </ButtonContainer>
-        {renderTable()}
-      </Container>
-    </Content>
-  )
+        >
+          <BigButton
+            onClick={() => {
+              setIsOpenGiftModal(false);
+            }}
+            backgroundColor="#EBE9F1"
+            color="#817D8D"
+          >
+            稍後再說
+          </BigButton>
+
+          <BigButton onClick={onSendGift}>送給好友</BigButton>
+        </div>
+      </Modal>
+      <Tab
+        tabList={tabList}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
+      <Content>
+        {shipInfo && (
+          <ShipDialog
+            onClose={() => {
+              setShipInfo(null);
+              setSelectedRowKeys([]);
+            }}
+            onSubmit={dataStore.ship}
+            shipInfoData={shipInfo}
+          />
+        )}
+        <Container tableMinWidth={700}>
+          <Info>
+            <div>單筆訂單尺寸 45 （含）以內🉑使用711店到店。</div>
+            <div>超過125（含）只能選擇宅配。</div>
+            <div>運費價格取單筆訂單最高的賞品運費價格去做計算。</div>
+            <div> 例： 單筆訂單 有2個A賞+1個B賞：</div>
+            <div>
+              A賞運費價格150，B賞運費價格120，此筆訂單運費則挑150最高價格最為此單運費。
+            </div>
+            <Warning>
+              不同廠商的賞品不得合併出貨，若未處理獎品超過30天，則廠商會自動回收該獎品!!
+            </Warning>
+          </Info>
+          <RangePicker
+            showTime={{
+              format: "HH:mm",
+            }}
+            format="YYYY-MM-DD HH:mm"
+            defaultValue={dateRange}
+            onOk={(value) => {
+              const start = formatDate(value[0]);
+              const end = formatDate(value[1]);
+              if (start === "Invalid Date" || end === "Invalid Date") return;
+              setListReq({
+                ...listReq,
+                start,
+                end,
+              });
+            }}
+          />
+          <ButtonContainer>
+            <Button disable={!selectedRowKeys.length} onClick={onShip}>
+              配送
+            </Button>
+          </ButtonContainer>
+          {renderTable()}
+        </Container>
+      </Content>
+    </div>
+  );
   function renderManufacturer({ manufacturerName, manufacturerId: id }) {
-    return <Tag name={manufacturerName} id={id} isSmall={true} />
+    return <Tag name={manufacturerName} id={id} isSmall={true} />;
   }
   function renderImg(src) {
     return (
       <ImgContainer>
         <Img src={src} />
       </ImgContainer>
-    )
+    );
   }
   function renderAction(data) {
     if (selectedRowKeys.includes(data.prizeId))
@@ -191,7 +305,7 @@ export default function PendingPrizes() {
           onChange={onSelectedItemAmountChange(data.prizeId)}
           size="small"
         />
-      )
+      );
     if (isReclaiming && isReclaiming === data.prizeId)
       return (
         <ActionContainer>
@@ -205,27 +319,56 @@ export default function PendingPrizes() {
           <Button onClick={onReclaim}>確定</Button>
           <Button
             onClick={() => {
-              setIsReclaiming(false)
-              setItemCount(1)
+              setIsReclaiming(false);
+              setItemCount(1);
             }}
           >
             取消
           </Button>
         </ActionContainer>
-      )
+      );
     return (
       <ActionContainer>
         <Button onClick={() => setIsReclaiming(data.prizeId)}>回收</Button>
+        <div
+          onClick={() => {
+            // setSelectedGift(data);
+            // setIsOpenGiftModal(true);
+          }}
+          style={{
+            marginRight: "10px",
+            cursor: "pointer",
+            width: "43px",
+            height: "38px",
+            marginLeft: "10px",
+            border: "1px solid #A21A2B",
+            borderRadius: "4px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              color: "#A21A2B",
+              fontSize: "14px",
+              lineHeight: "20px",
+              fontWeight: "500",
+            }}
+          >
+            贈禮
+          </div>
+        </div>
       </ActionContainer>
-    )
+    );
     function onReclaim() {
       const req = {
         amount: itemCount,
         prizeId: isReclaiming,
-      }
-      dataStore.reclaim(req)
-      setIsReclaiming(false)
-      setItemCount(1)
+      };
+      dataStore.reclaim(req);
+      setIsReclaiming(false);
+      setItemCount(1);
     }
   }
   function onSelectedItemAmountChange(prizeId) {
@@ -233,18 +376,18 @@ export default function PendingPrizes() {
       setShipDict({
         ...shipDict,
         [prizeId]: { ...shipDict[prizeId], amount: value },
-      })
-    }
+      });
+    };
   }
   function onShip() {
-    if (!selectedRowKeys.length) return
+    if (!selectedRowKeys.length) return;
     const infos = Object.keys(shipDict).reduce((acc, key) => {
       if (selectedRowKeys.includes(+key)) {
-        acc[key] = shipDict[key]
+        acc[key] = shipDict[key];
       }
-      return acc
-    }, {})
-    setShipInfo(infos)
+      return acc;
+    }, {});
+    setShipInfo(infos);
   }
   function renderTable() {
     return (
@@ -287,7 +430,12 @@ export default function PendingPrizes() {
           <Column title="擁有數量" dataIndex="totalAmount" key="totalAmount" />
           <Column title="商品尺寸" key="size" dataIndex="size" />
           <Column title="狀態" dataIndex="status" key="status" />
-          <Column title="需運送或回收數量" key="action" render={renderAction} width={220} />
+          <Column
+            title="需運送或回收數量"
+            key="action"
+            render={renderAction}
+            width={220}
+          />
         </Table>
         <MobileList>
           {data.map((item, index) => (
@@ -298,11 +446,11 @@ export default function PendingPrizes() {
                   className="dark-in-mobile"
                   onChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedRowKeys([...selectedRowKeys, item.prizeId])
+                      setSelectedRowKeys([...selectedRowKeys, item.prizeId]);
                     } else {
                       setSelectedRowKeys(
                         selectedRowKeys.filter((key) => key !== item.prizeId)
-                      )
+                      );
                     }
                   }}
                 />
@@ -333,13 +481,15 @@ export default function PendingPrizes() {
                 <span className="label">狀態</span> {item.status}
               </div>
               <div>
-                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
+                <div>
+                  {selectedRowKeys.includes(item.prizeId) ? "配送數量" : ""}
+                </div>
                 {renderAction(item)}
               </div>
             </MobileItem>
           ))}
         </MobileList>
       </>
-    )
+    );
   }
 }

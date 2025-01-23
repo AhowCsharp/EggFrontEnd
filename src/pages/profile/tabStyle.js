@@ -16,6 +16,7 @@ export const Container = styled.div`
 
 export const RangePicker = styled(BaseRangePicker)`
   ${(p) => p.mb20 && `margin-bottom: 20px;`}
+  width: 100%;
 `
 
 export const Select = styled(BaseSelect)`

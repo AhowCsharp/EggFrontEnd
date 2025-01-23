@@ -25,6 +25,8 @@ export const PROFILE_TAB = {
   TICKETS: 'tickets',
   TOP_UP: 'topUp',
   TOP_UP_RESULT: 'topUpResult',
+  ADD_FRIEND: 'addFriend',
+  MAIL_BOX: 'mailBox',
 }
 
 export const COMMODITY_STATUS = {

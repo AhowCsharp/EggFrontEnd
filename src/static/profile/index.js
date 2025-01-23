@@ -9,6 +9,8 @@ import crateLog from './crate-log.svg'
 import freeShipping from './free-shipping.svg'
 import storedLog from './stored-log.svg'
 import taskHistory from './task-history.svg'
+import addFriend from './add-friend.png'
+import mailBox from './mailBox.png'
 
 export default {
   consumeLog,
@@ -22,4 +24,6 @@ export default {
   freeShipping,
   storedLog,
   taskHistory,
+  addFriend,
+  mailBox,
 }

@@ -9,10 +9,14 @@ import {
 } from '@app/utils/constants'
 import { useEffect, useState } from 'react'
 import { SEO } from '@app/shared/SEO'
-
+import { useNavigate, useLocation } from 'react-router-dom'
 const Category = CATEGORY.SPECIAL
 
 export default function Special() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const page = searchParams.get('page')
   const commodities = useSelector(() => dataStore.commodities)
   const [status, setStatus] = useState(COMMODITY_STATUS.OPENING)
   const [shouldSortDialogOpen, setShouldSortDialogOpen] = useState(false)
@@ -21,14 +25,24 @@ export default function Special() {
   )
 
   useEffect(() => {
+    let pageNumber = 1
+    if (page && !isNaN(page)) {
+      pageNumber = page
+    } else {
+      searchParams.delete('page')
+      searchParams.set('page', 1)
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+      return
+    }
     const req = {
       category: Category,
       status,
       ...filterOptions,
       ...DEFAULT_COMMODITIES_PAGINATION,
+      pageNumber,
     }
     dataStore.getCommodities(req)
-  }, [status, filterOptions])
+  }, [status, filterOptions, page])
 
   if (!commodities) return <Layout />
   return (
@@ -46,13 +60,16 @@ export default function Special() {
       />
       <Pagination
         onChange={(pageNumber, pageSize) => {
-          const req = {
-            category: Category,
-            pageNumber,
-            pageSize,
-          }
-          dataStore.getCommodities(req)
+          searchParams.set('page', pageNumber)
+          navigate(`${location.pathname}?${searchParams.toString()}`);
+          // const req = {
+          //   category: Category,
+          //   pageNumber,
+          //   pageSize,
+          // }
+          // dataStore.getCommodities(req)
         }}
+        pageNumber={isNaN(page) ? 1 : page}
         totalCount={commodities.totalCount}
       />
     </Layout>
