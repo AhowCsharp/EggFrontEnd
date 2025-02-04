@@ -83,7 +83,7 @@ const Info = styled.div`
 function formatShipDict(data) {
   return data.reduce((acc, cur) => {
     const { prizeId, prizeName, commodityName } = cur
-    acc[prizeId] = { amount: 1, prizeName, commodityName }
+    acc[prizeId] = { amount: cur.totalAmount, prizeName, commodityName }
     return acc
   }, {})
 }
@@ -187,7 +187,7 @@ export default function PendingPrizes() {
         <InputNumber
           min={1}
           max={data.totalAmount}
-          defaultValue={1}
+          defaultValue={data.totalAmount}
           onChange={onSelectedItemAmountChange(data.prizeId)}
           size="small"
         />
@@ -311,6 +311,10 @@ export default function PendingPrizes() {
                 <span className="label">獎品</span> {item.prizeName}
               </div>
               <div>
+                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
+                {renderAction(item)}
+              </div>
+              <div>
                 <span className="label">廠商</span>
                 {renderManufacturer(item)}
               </div>
@@ -331,10 +335,6 @@ export default function PendingPrizes() {
               </div>
               <div>
                 <span className="label">狀態</span> {item.status}
-              </div>
-              <div>
-                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
-                {renderAction(item)}
               </div>
             </MobileItem>
           ))}
