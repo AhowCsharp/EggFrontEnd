@@ -13,10 +13,15 @@ import Pagination from "./mobilePagination";
 import { renderDate } from "@app/utils/date";
 import logo from "@app/static/logo.png";
 import birthdayHat from "@app/static/profile/birthday.png";
+import { Grid } from "antd";
 
+const useBreakpoint = Grid.useBreakpoint;
 const { Column } = Table;
 
 const FriendList = () => {
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint.xs;
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [friendAccount, setFriendAccount] = useState("");
   const [activeTab, setActiveTab] = useState(0);
@@ -179,10 +184,10 @@ const FriendList = () => {
       >
         <div
           style={{
-            fontSize: "24px",
-            lineHeight: "32px",
+            fontSize: isMobile ? "20px" : "24px",
+            lineHeight: isMobile ? "28px" : "32px",
             fontWeight: "bold",
-            color: "#333333",
+            color: isMobile ? "#FFFFFF" : "#333333",
           }}
         >
           好友名單
@@ -201,7 +206,7 @@ const FriendList = () => {
         style={{
           display: "flex",
           padding: "16px",
-          backgroundColor: "#F8F7FA",
+          backgroundColor: isMobile ? "#212B3A" : "#F8F7FA",
           borderRadius: "6px",
           marginBottom: "20px",
         }}
@@ -217,14 +222,18 @@ const FriendList = () => {
               style={{
                 fontSize: "20px",
                 lineHeight: "28px",
-                color: "#000000",
+                color: isMobile ? "#FFFFFF" : "#000000",
                 marginBottom: "2px",
               }}
             >
               {friendList?.length || 0}
             </div>
             <div
-              style={{ fontSize: "14px", lineHeight: "20px", color: "#5D596C" }}
+              style={{
+                fontSize: "14px",
+                lineHeight: "20px",
+                color: isMobile ? "#BCBFC4" : "#5D596C",
+              }}
             >
               好友人數
             </div>
@@ -241,14 +250,18 @@ const FriendList = () => {
               style={{
                 fontSize: "20px",
                 lineHeight: "28px",
-                color: "#000000",
+                color: isMobile ? "#FFFFFF" : "#000000",
                 marginBottom: "2px",
               }}
             >
               {friendList?.length || 0}
             </div>
             <div
-              style={{ fontSize: "14px", lineHeight: "20px", color: "#5D596C" }}
+              style={{
+                fontSize: "14px",
+                lineHeight: "20px",
+                color: isMobile ? "#BCBFC4" : "#5D596C",
+              }}
             >
               已推薦人數
             </div>
@@ -454,23 +467,24 @@ const FriendList = () => {
                     borderRadius: "50%",
                     marginRight: "10px",
                   }}
-                  src={item.headShotUrl}
+                  src={item.headShotUrl || logo}
                   alt="大頭照"
                 />
                 <div
                   style={{
-                    fontSize: "15px",
+                    fontSize: "16px",
                     lineHeight: "22px",
-                    fontWeight: "500",
-                    color: "#6F6B7D",
+                    fontWeight: "600",
+                    color: "#FFFFFF",
                   }}
                 >
-                  {item.nickName}
+                  {item.friendName}
                 </div>
               </div>
             </div>
-            <div className="title" style={{ maxWidth: "20%" }}>
-              <span className="label">狀態消息</span> {item.statusMessage}
+            <div>
+              <span className="label">狀態消息</span>{" "}
+              {item.statusMessage || "無狀態消息"}
             </div>
             {activeTab === 0 && (
               <div
@@ -481,13 +495,14 @@ const FriendList = () => {
                   whiteSpace: "nowrap",
                 }}
               >
-                <span className="label">友情時刻</span> {item.processingDate}
+                <span className="label">友情時刻</span>{" "}
+                {renderDate(item.processingDate)}
               </div>
             )}
             {activeTab === 0 && (
               <div>
                 <span className="label">好友生日</span>{" "}
-                {renderDate(item.birthday)}
+                {renderDate(item.birthday) || "尚未設定生日"}
               </div>
             )}
           </MobileItem>

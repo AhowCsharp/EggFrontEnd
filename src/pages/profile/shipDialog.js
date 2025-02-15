@@ -182,6 +182,7 @@ export default function ShipDialog({
   }
 }
 
+
 function ShipDialogForm({ form }) {
   const [shipWay, setShipWay] = useState(0);
   return (
@@ -247,13 +248,15 @@ function ShipDialogForm({ form }) {
           <Input style={{ width: 80 }} />
         </Form.Item>
       </Row>
-      <Form.Item
-        label="超商店號"
-        name="convenienceStoreName"
-        rules={[{ required: shipWay, message: "不可為空" }]}
-      >
-        <Input />
-      </Form.Item>
+      {shipWay !== 0 && (
+        <Form.Item
+          label="超商店號"
+          name="convenienceStoreName"
+          rules={[{ required: shipWay, message: "不可為空" }]}
+        >
+          <Input />
+        </Form.Item>
+      )}
       <Form.Item
         label="詳細地址（超商地址）"
         name="recipientAddress"

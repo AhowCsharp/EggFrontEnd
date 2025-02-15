@@ -5,7 +5,7 @@ import TextEditor from "@app/shared/TextEditor";
 import { dataStore, useSelector } from "@app/store";
 import { DEFAULT_PAGINATION } from "@app/utils/constants";
 import { renderDate } from "@app/utils/date";
-import { Input, Modal, Table } from "antd";
+import { Grid, Input, Modal, Table } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "./mobilePagination";
 import { MobileItem, MobileList, Select } from "./tabStyle";
@@ -13,6 +13,8 @@ import { MobileItem, MobileList, Select } from "./tabStyle";
 const { Column } = Table;
 
 const MailBox = () => {
+  const breakpoint = Grid.useBreakpoint();
+  const isMobile = breakpoint.xs;
   const [isSendMailModalVisible, setIsSendMailModalVisible] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState([]);
   const [subject, setSubject] = useState("");
@@ -226,10 +228,10 @@ const MailBox = () => {
       >
         <div
           style={{
-            fontSize: "24px",
-            lineHeight: "32px",
+            fontSize: isMobile ? "20px" : "24px",
+            lineHeight: isMobile ? "28px" : "32px",
             fontWeight: "bold",
-            color: "#333333",
+            color: isMobile ? "#FFFFFF" : "#333333",
           }}
         >
           E-mail通知管理

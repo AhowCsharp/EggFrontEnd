@@ -411,6 +411,14 @@ const NavList = [
         path: `profile?type=${PROFILE_TAB.FREE_SHIPPING}`,
       },
       { title: '福袋紀錄', path: `profile?type=${PROFILE_TAB.TICKETS}` },
+      {
+        title: '信箱管理',
+        path: `profile?type=${PROFILE_TAB.MAIL_BOX}`,
+      },
+      {
+        title: '好友名單',
+        path: `profile?type=${PROFILE_TAB.ADD_FRIEND}`,
+      },
     ],
   },
   {

@@ -1,6 +1,6 @@
 import { useSelector, dataStore } from "@app/store";
 import { useEffect, useState } from "react";
-import { Table, Modal } from "antd";
+import { Table, Modal, Grid } from "antd";
 import { DEFAULT_PAGINATION } from "@app/utils/constants";
 import { getDefaultDateRange, formatDate, renderDate } from "@app/utils/date";
 import { Button } from "@app/pages/commodity";
@@ -19,6 +19,8 @@ import SmallButton from "@app/shared/smallButton";
 const { Column } = Table;
 
 export default function TaskLog() {
+  const breakpoint = Grid.useBreakpoint();
+  const isMobile = breakpoint.xs;
   const taskHistoryLogs = useSelector(() => dataStore.taskHistoryLogs);
   const mineTaskList = useSelector(() => dataStore.mineTaskList);
   const dateRange = getDefaultDateRange();
@@ -235,7 +237,7 @@ export default function TaskLog() {
           setActiveTab={setActiveTab}
         />
 
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div style={{ display: isMobile ? "block" : "flex", gap: "12px" }}>
           <div style={{ flex: 1 }}>
             <RangePicker
               showTime={{
@@ -429,7 +431,7 @@ export default function TaskLog() {
                   <span className="label">任務類型</span> {item.taskType}
                 </div>
               )}
-              <div className="title" style={{ maxWidth: "20%" }}>
+              <div className={activeTab === 0 ? "" : "title"}>
                 <span className="label">任務名稱</span>{" "}
                 {activeTab === 0 ? item.taskTitle : item.taskName}
               </div>
@@ -442,7 +444,18 @@ export default function TaskLog() {
                 }}
               >
                 <span className="label">獎勵內容</span>{" "}
-                {activeTab === 0 ? item.award : item.detailContent}
+                <div
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    maxWidth: "80%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {activeTab === 0 ? item.award : item.detailContent}
+                </div>
               </div>
               {activeTab === 3 && (
                 <div>
@@ -454,10 +467,48 @@ export default function TaskLog() {
                 <span className="label">
                   {activeTab === 0 ? "達成時間" : "達成狀態"}
                 </span>{" "}
-                {activeTab === 0
-                  ? renderDate(item.completingTime)
-                  : item.isFinish}
+                {activeTab === 0 ? (
+                  renderDate(item.completingTime)
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: item.isFinish === true ? "#28C76F" : "#EA5455",
+                        backgroundColor:
+                          item.isFinish === true ? "#D4F4E2" : "#FBDDDD",
+                        fontSize: "13px",
+                        lineHeight: "14px",
+                        padding: "5px 10px",
+                        borderRadius: "12px",
+                        height: "24px",
+                      }}
+                    >
+                      {item.isFinish === true ? "已完成" : "未完成"}
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {activeTab !== 0 && (
+                <div style={{ display: "flex", justifyContent: "end" }}>
+                  <div style={{ width: "80px" }}>
+                    <SmallButton
+                      onClick={() => {
+                        setIsShowTaskDetail(true);
+                        setSelectedTask(item);
+                      }}
+                    >
+                      查看任務
+                    </SmallButton>
+                  </div>
+                </div>
+              )}
             </MobileItem>
           ))}
           <Pagination

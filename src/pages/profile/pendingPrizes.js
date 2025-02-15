@@ -16,12 +16,13 @@ import {
 import ShipDialog from "./shipDialog";
 import Tab from "@app/shared/tab";
 import BigButton from "@app/shared/bigButton";
+import { Grid } from "antd";
 
 const { Column } = Table;
 
 const ImgContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   width: 100%;
 `;
 
@@ -46,10 +47,20 @@ export const Button = styled(BaseButton)`
   ${(p) => p.disable && disableStyle}
   @media (max-width: 768px) {
     font-size: 1.05rem;
-    flex: 1;
   }
 `;
 
+const MobileButton = styled(Button)`
+  font-size: 0.8rem;
+  text-align: center;
+  ${(p) => p.disable && disableStyle}
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    max-width: 76px;
+    width: 76px;
+    height: 38px;
+  }
+`;
 const ActionContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -69,6 +80,13 @@ const ActionContainer = styled.div`
   ${Button} + ${Button} {
     margin-left: 5px;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: end;
+    flex-direction: row;
+    align-items: end;
+    margin-right: -10px;
+  }
 `;
 
 const Warning = styled.div`
@@ -84,13 +102,15 @@ const Info = styled.div`
 
 function formatShipDict(data) {
   return data.reduce((acc, cur) => {
-    const { prizeId, prizeName, commodityName } = cur;
-    acc[prizeId] = { amount: 1, prizeName, commodityName };
-    return acc;
-  }, {});
+    const { prizeId, prizeName, commodityName } = cur
+    acc[prizeId] = { amount: cur.totalAmount, prizeName, commodityName }
+    return acc
+  }, {})
 }
 
 export default function PendingPrizes() {
+  const breakpoint = Grid.useBreakpoint();
+  const isMobile = breakpoint.xs;
   const pendingPrize = useSelector(() => dataStore.pendingPrize);
   const dateRange = getDefaultDateRange();
   const [isReclaiming, setIsReclaiming] = useState(false);
@@ -301,7 +321,7 @@ export default function PendingPrizes() {
         <InputNumber
           min={1}
           max={data.totalAmount}
-          defaultValue={1}
+          defaultValue={data.totalAmount}
           onChange={onSelectedItemAmountChange(data.prizeId)}
           size="small"
         />
@@ -329,7 +349,7 @@ export default function PendingPrizes() {
       );
     return (
       <ActionContainer>
-        <Button onClick={() => setIsReclaiming(data.prizeId)}>回收</Button>
+        <MobileButton onClick={() => setIsReclaiming(data.prizeId)}>回收</MobileButton>
         <div
           onClick={() => {
             // setSelectedGift(data);
@@ -338,7 +358,7 @@ export default function PendingPrizes() {
           style={{
             marginRight: "10px",
             cursor: "pointer",
-            width: "43px",
+            width: isMobile ? "76px" : "43px",
             height: "38px",
             marginLeft: "10px",
             border: "1px solid #A21A2B",
@@ -346,6 +366,7 @@ export default function PendingPrizes() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            backgroundColor: "#FFFFFF",
           }}
         >
           <div
@@ -354,6 +375,7 @@ export default function PendingPrizes() {
               fontSize: "14px",
               lineHeight: "20px",
               fontWeight: "500",
+              marginTop: "1px",
             }}
           >
             贈禮
@@ -441,7 +463,6 @@ export default function PendingPrizes() {
           {data.map((item, index) => (
             <MobileItem key={index}>
               <div className="title vertical">
-                {renderImg(item.prizeImgUrl)}
                 <Checkbox
                   className="dark-in-mobile"
                   onChange={(e) => {
@@ -455,9 +476,14 @@ export default function PendingPrizes() {
                   }}
                 />
               </div>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <span className="label">商品圖</span>
+                {renderImg(item.prizeImgUrl)}
+              </div>
               <div>
                 <span className="label">獎品</span> {item.prizeName}
               </div>
+              
               <div>
                 <span className="label">廠商</span>
                 {renderManufacturer(item)}
@@ -481,9 +507,7 @@ export default function PendingPrizes() {
                 <span className="label">狀態</span> {item.status}
               </div>
               <div>
-                <div>
-                  {selectedRowKeys.includes(item.prizeId) ? "配送數量" : ""}
-                </div>
+                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
                 {renderAction(item)}
               </div>
             </MobileItem>
