@@ -5,10 +5,12 @@ import TextEditor from "@app/shared/TextEditor";
 import { dataStore, useSelector } from "@app/store";
 import { DEFAULT_PAGINATION } from "@app/utils/constants";
 import { renderDate } from "@app/utils/date";
-import { Grid, Input, Modal, Table } from "antd";
+import { Grid, Input, Modal, Table, Drawer } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "./mobilePagination";
 import { MobileItem, MobileList, Select } from "./tabStyle";
+import close from "@app/static/profile/close.png";
+import send from "@app/static/profile/send.png";
 
 const { Column } = Table;
 
@@ -16,6 +18,7 @@ const MailBox = () => {
   const breakpoint = Grid.useBreakpoint();
   const isMobile = breakpoint.xs;
   const [isSendMailModalVisible, setIsSendMailModalVisible] = useState(false);
+  const [isSendMailDrawerVisible, setIsSendMailDrawerVisible] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState([]);
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
@@ -30,7 +33,7 @@ const MailBox = () => {
   });
   const [page, setPage] = useState(1);
 
-  const tabList = ["已讀信件", "未讀信件", "寄件備份"];
+  const tabList = ["已讀信件", "未讀信件"];
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
@@ -60,11 +63,25 @@ const MailBox = () => {
   });
 
   const sendMail = () => {
+    if (!selectedFriend) {
+      dataStore.setAlertMessage("請選擇收件人");
+      return;
+    }
+    if (!subject) {
+      dataStore.setAlertMessage("請輸入主旨");
+      return;
+    }
+    if (!content) {
+      dataStore.setAlertMessage("請輸入郵件內容");
+      return;
+    }
     const req = {
-      account: subject,
+      title: subject,
+      // account: selectedFriend,
       content: content,
       recevierId: selectedFriend,
     };
+
     dataStore.sendMail(req);
     setIsSendMailModalVisible(false);
     setSubject("");
@@ -74,6 +91,120 @@ const MailBox = () => {
 
   return (
     <div style={{ width: "100%" }}>
+      <Drawer
+        placement="bottom"
+        width="100vw"
+        padding="12px"
+        height="100dvh"
+        closeIcon={false}
+        visible={isSendMailDrawerVisible}
+        footer={null}
+        zIndex={99}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <img
+            src={close}
+            style={{ width: "24px", height: "24px" }}
+            alt="close"
+            onClick={() => {
+              setIsSendMailDrawerVisible(false);
+              setSubject("");
+              setContent("");
+              setSelectedFriend();
+            }}
+          />
+          <div
+            style={{
+              fontSize: "18px",
+              lineHeight: "24px",
+              fontWeight: "600",
+            }}
+          >
+            撰寫郵件
+          </div>
+          <img
+            src={send}
+            style={{ width: "24px", height: "24px" }}
+            alt="sendMail"
+            onClick={sendMail}
+          />
+        </div>
+
+        <div
+          style={{
+            marginTop: "8px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "13px",
+              lineHeight: "20px",
+              color: "#5D596C",
+              marginBottom: "4px",
+            }}
+          >
+            寄件人
+          </div>
+          <Input value={member?.nickName} disabled />
+
+          <div
+            style={{
+              marginTop: "10px",
+              fontSize: "13px",
+              lineHeight: "20px",
+              color: "#5D596C",
+              marginBottom: "4px",
+            }}
+          >
+            收件人
+          </div>
+          <Select
+            placeholder="請選擇收件人"
+            value={selectedFriend}
+            onChange={(value) => {
+              setSelectedFriend(value);
+            }}
+            style={{ width: "100%", marginBottom: "0px" }}
+            options={friendListData || []}
+          />
+          <div
+            style={{
+              marginTop: "10px",
+              fontSize: "13px",
+              lineHeight: "20px",
+              color: "#5D596C",
+              marginBottom: "4px",
+            }}
+          >
+            主旨
+          </div>
+          <Input
+            value={subject}
+            onChange={(e) => {
+              setSubject(e.target.value);
+            }}
+          />
+          <div
+            style={{
+              marginTop: "10px",
+              fontSize: "13px",
+              lineHeight: "20px",
+              color: "#5D596C",
+              marginBottom: "4px",
+            }}
+          >
+            郵件內容
+          </div>
+          <TextEditor value={content} onChange={setContent} />
+        </div>
+      </Drawer>
       <Modal
         width="80vw"
         closeIcon={false}
@@ -137,7 +268,9 @@ const MailBox = () => {
             <Select
               placeholder="請選擇收件人"
               value={selectedFriend}
-              onChange={setSelectedFriend}
+              onChange={(value) => {
+                setSelectedFriend(value);
+              }}
               style={{ width: "100%" }}
               options={friendListData || []}
             />
@@ -182,13 +315,16 @@ const MailBox = () => {
           <BigButton
             onClick={() => {
               setIsSendMailModalVisible(false);
+              setSubject("");
+              setContent("");
+              setSelectedFriend();
             }}
             backgroundColor="#EBE9F1"
             color="#817D8D"
           >
             取消編輯
           </BigButton>
-          <div
+          {/* <div
             style={{
               marginRight: "10px",
               cursor: "pointer",
@@ -212,7 +348,7 @@ const MailBox = () => {
             >
               儲存草稿
             </div>
-          </div>
+          </div> */}
           <BigButton onClick={sendMail}>傳送郵件</BigButton>
         </div>
       </Modal>
@@ -239,7 +375,11 @@ const MailBox = () => {
         <BigButton
           cursor="pointer"
           onClick={() => {
-            setIsSendMailModalVisible(true);
+            if (isMobile) {
+              setIsSendMailDrawerVisible(true);
+            } else {
+              setIsSendMailModalVisible(true);
+            }
           }}
         >
           撰寫新郵件

@@ -1,6 +1,14 @@
 import { useSelector, dataStore } from "@app/store";
 import { useEffect, useState } from "react";
-import { Table, InputNumber, Checkbox, Select, Input, Modal } from "antd";
+import {
+  Table,
+  InputNumber,
+  Checkbox,
+  Select,
+  Input,
+  Modal,
+  Radio,
+} from "antd";
 import styled from "styled-components";
 import { Button as BaseButton } from "@app/pages/commodity";
 import { getDefaultDateRange, formatDate } from "@app/utils/date";
@@ -12,11 +20,15 @@ import {
   ButtonContainer,
   MobileItem,
   MobileList,
+  Search,
 } from "./tabStyle";
 import ShipDialog from "./shipDialog";
 import Tab from "@app/shared/tab";
 import BigButton from "@app/shared/bigButton";
 import { Grid } from "antd";
+import logo from "@app/static/logo.png";
+import { DEFAULT_PAGINATION } from "@app/utils/constants";
+import { formatDateToYmd } from "@app/utils/date";
 
 const { Column } = Table;
 
@@ -102,16 +114,18 @@ const Info = styled.div`
 
 function formatShipDict(data) {
   return data.reduce((acc, cur) => {
-    const { prizeId, prizeName, commodityName } = cur
-    acc[prizeId] = { amount: cur.totalAmount, prizeName, commodityName }
-    return acc
-  }, {})
+    const { prizeId, prizeName, commodityName } = cur;
+    acc[prizeId] = { amount: cur.totalAmount, prizeName, commodityName };
+    return acc;
+  }, {});
 }
 
 export default function PendingPrizes() {
   const breakpoint = Grid.useBreakpoint();
   const isMobile = breakpoint.xs;
   const pendingPrize = useSelector(() => dataStore.pendingPrize);
+  const friendList = useSelector(() => dataStore.friendList);
+
   const dateRange = getDefaultDateRange();
   const [isReclaiming, setIsReclaiming] = useState(false);
   const [shipDict, setShipDict] = useState();
@@ -122,13 +136,17 @@ export default function PendingPrizes() {
     end: formatDate(dateRange[1]),
   });
 
+  const [friendReq, setFriendReq] = useState({
+    name: "",
+    ...DEFAULT_PAGINATION,
+  });
   const [itemCount, setItemCount] = useState(1);
   const tabList = ["抽獎結果", "我的禮物"];
   const [activeTab, setActiveTab] = useState(0);
   const [isOpenGiftModal, setIsOpenGiftModal] = useState(false);
-  const [friendId, setFriendId] = useState();
-  const [sendGiftList, setSendGiftList] = useState([]);
   const [selectedGift, setSelectedGift] = useState({});
+  const [selectedFriend, setSelectedFriend] = useState("");
+  const [selectedGiftAmount, setSelectedGiftAmount] = useState(1);
 
   useEffect(() => {
     if (!pendingPrize) return;
@@ -138,7 +156,11 @@ export default function PendingPrizes() {
 
   useEffect(() => {
     dataStore.getPendingPrize(listReq);
-  }, [listReq]);
+  }, [listReq, isOpenGiftModal]);
+
+  useEffect(() => {
+    dataStore.getFriendList(friendReq);
+  }, [friendReq]);
 
   const rowSelection = {
     selectedRowKeys,
@@ -148,15 +170,28 @@ export default function PendingPrizes() {
   };
 
   const onSendGift = () => {
+    if (!selectedFriend) {
+      dataStore.setAlertMessage("請選擇贈禮對象");
+      return;
+    }
     const req = {
-      giftInfo: sendGiftList,
-      friendId: friendId,
+      // giftInfo: {
+      //   [selectedGift.prizeId]: {
+      //     amount: selectedGiftAmount,
+      //     prizeName: selectedGift.prizeName,
+      //     commodityName: selectedGift.commodityName,
+      //   },
+      // },
+      giftInfo: {
+        [selectedGift.prizeId]: selectedGiftAmount,
+      },
+      friendId: selectedFriend,
     };
+
     dataStore.sendGift(req);
     setIsOpenGiftModal(false);
   };
 
-  console.log("selectedGift", selectedGift);
   const data = pendingPrize?.data || [];
   return (
     <div
@@ -168,7 +203,6 @@ export default function PendingPrizes() {
       }}
     >
       <Modal
-        width="80vw"
         closeIcon={false}
         visible={isOpenGiftModal}
         footer={null}
@@ -177,6 +211,11 @@ export default function PendingPrizes() {
           paddingBottom: "24px",
           paddingLeft: "0px",
           paddingRight: "0px",
+        }}
+        onCancel={() => {
+          setIsOpenGiftModal(false);
+          setSelectedGift({});
+          setSelectedGiftAmount(1);
         }}
       >
         <div
@@ -219,13 +258,122 @@ export default function PendingPrizes() {
             min={1}
             max={selectedGift.totalAmount}
             defaultValue={1}
-            onChange={setItemCount}
+            onChange={(e) => {
+              setSelectedGiftAmount(e.target.value);
+            }}
             size="small"
           />
         </div>
 
         <div>
+          <div
+            style={{
+              marginTop: "16px",
+              fontSize: "15px",
+              lineHeight: "21px",
+              color: "#000000",
+              fontWeight: "500",
+              marginBottom: "12px",
+            }}
+          >
+            選擇贈禮對象
+          </div>
 
+          <Search
+            placeholder="請輸入好友暱稱"
+            enterButton={<Button>送出</Button>}
+            size="small"
+            onSearch={(value) => {
+              setFriendReq({ ...friendReq, name: value });
+            }}
+            mb20={true}
+          />
+
+          <Table
+            style={{ maxWidth: "100%", overflow: "hidden" }}
+            // className="hide-in-mobile"
+            dataSource={friendList?.data || []}
+            pagination={{
+              current: friendReq.page,
+              total: friendList?.totalCount || 0,
+              defaultPageSize: friendReq.pageSize,
+              showSizeChanger: true,
+              onChange: (pageNumber, pageSize) => {
+                setFriendReq({ ...friendReq, page: pageNumber, pageSize });
+              },
+            }}
+          >
+            <Column
+              title=""
+              dataIndex=""
+              key=""
+              render={(text, record) => {
+                return (
+                  <Radio
+                    value={record.friendId}
+                    onChange={(e) => {
+                      setSelectedFriend(e.target.value);
+                    }}
+                  />
+                );
+              }}
+            />
+            <Column
+              title="好友暱稱"
+              dataIndex={["name", "headShotUrl"]}
+              key="name"
+              render={(text, record) => {
+                return (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ position: "relative" }}>
+                      <img
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "50%",
+                          marginRight: "10px",
+                          zIndex: 10,
+                          position: "relative",
+                        }}
+                        src={record.headShotUrl || logo}
+                        alt="大頭照"
+                      />
+                      {record.isBirthday && (
+                        <img
+                          style={{
+                            position: "absolute",
+                            top: "-8px",
+                            right: "8px",
+                            zIndex: 1,
+                          }}
+                          src={birthdayHat}
+                          alt="生日帽"
+                        />
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        lineHeight: "22px",
+                        fontWeight: "500",
+                        color: "#6F6B7D",
+                      }}
+                    >
+                      {record.friendName}
+                    </div>
+                  </div>
+                );
+              }}
+            />
+            <Column
+              title="好友生日"
+              dataIndex="birthday"
+              key="birthday"
+              render={(text) => {
+                return <div>{formatDateToYmd(text) || "尚未設定生日"}</div>;
+              }}
+            />
+          </Table>
         </div>
 
         <div
@@ -239,6 +387,8 @@ export default function PendingPrizes() {
           <BigButton
             onClick={() => {
               setIsOpenGiftModal(false);
+              setSelectedGift({});
+              setSelectedGiftAmount(1);
             }}
             backgroundColor="#EBE9F1"
             color="#817D8D"
@@ -349,38 +499,42 @@ export default function PendingPrizes() {
       );
     return (
       <ActionContainer>
-        <MobileButton onClick={() => setIsReclaiming(data.prizeId)}>回收</MobileButton>
-        <div
-          onClick={() => {
-            // setSelectedGift(data);
-            // setIsOpenGiftModal(true);
-          }}
-          style={{
-            marginRight: "10px",
-            cursor: "pointer",
-            width: isMobile ? "76px" : "43px",
-            height: "38px",
-            marginLeft: "10px",
-            border: "1px solid #A21A2B",
-            borderRadius: "4px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#FFFFFF",
-          }}
-        >
+        <MobileButton onClick={() => setIsReclaiming(data.prizeId)}>
+          回收
+        </MobileButton>
+        {activeTab === 0 && (
           <div
+            onClick={() => {
+              setSelectedGift(data);
+              setIsOpenGiftModal(true);
+            }}
             style={{
-              color: "#A21A2B",
-              fontSize: "14px",
-              lineHeight: "20px",
-              fontWeight: "500",
-              marginTop: "1px",
+              marginRight: "10px",
+              cursor: "pointer",
+              width: isMobile ? "76px" : "43px",
+              height: "38px",
+              marginLeft: "10px",
+              border: "1px solid #A21A2B",
+              borderRadius: "4px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#FFFFFF",
             }}
           >
-            贈禮
+            <div
+              style={{
+                color: "#A21A2B",
+                fontSize: "14px",
+                lineHeight: "20px",
+                fontWeight: "500",
+                marginTop: "1px",
+              }}
+            >
+              贈禮
+            </div>
           </div>
-        </div>
+        )}
       </ActionContainer>
     );
     function onReclaim() {
@@ -438,6 +592,9 @@ export default function PendingPrizes() {
             key="manufacturerName"
             render={renderManufacturer}
           />
+          {activeTab === 1 && (
+            <Column title="贈禮好友" dataIndex="giftFriend" key="giftFriend" />
+          )}
           <Column
             title="總花費"
             dataIndex="totalCostMoney"
@@ -476,18 +633,23 @@ export default function PendingPrizes() {
                   }}
                 />
               </div>
-              <div style={{display: 'flex', alignItems: 'center'}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <span className="label">商品圖</span>
                 {renderImg(item.prizeImgUrl)}
               </div>
               <div>
                 <span className="label">獎品</span> {item.prizeName}
               </div>
-              
+
               <div>
                 <span className="label">廠商</span>
                 {renderManufacturer(item)}
               </div>
+              {activeTab === 1 && (
+                <div>
+                  <span className="label">贈禮好友</span> {item.giftFriend}
+                </div>
+              )}
               <div>
                 <span className="label">總花費</span> {item.totalCostMoney}
               </div>
@@ -507,7 +669,9 @@ export default function PendingPrizes() {
                 <span className="label">狀態</span> {item.status}
               </div>
               <div>
-                <div>{selectedRowKeys.includes(item.prizeId) ? '配送數量':''}</div>
+                <div>
+                  {selectedRowKeys.includes(item.prizeId) ? "配送數量" : ""}
+                </div>
                 {renderAction(item)}
               </div>
             </MobileItem>

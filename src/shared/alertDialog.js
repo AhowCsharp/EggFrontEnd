@@ -130,7 +130,7 @@ export default function AlertDialog() {
   return (
     <>
       <Mask />
-      <Container className="dialog">
+      <Container className="dialog" zIndex={9999}>
         <Content>
           <p>{msg}</p>
         </Content>

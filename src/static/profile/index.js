@@ -11,6 +11,8 @@ import storedLog from './stored-log.svg'
 import taskHistory from './task-history.svg'
 import addFriend from './add-friend.png'
 import mailBox from './mailBox.png'
+import send from './send.png'
+import close from './close.png'
 
 export default {
   consumeLog,
@@ -26,4 +28,6 @@ export default {
   taskHistory,
   addFriend,
   mailBox,
+  send,
+  close,
 }

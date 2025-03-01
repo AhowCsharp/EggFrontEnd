@@ -31,6 +31,7 @@ const FriendList = () => {
   });
   const [page, setPage] = useState(1);
 
+  const member = useSelector(() => dataStore.member);
   const friendList = useSelector(() => dataStore.friendList);
   const invitedFriendList = useSelector(() => dataStore.invitedFriendList);
   const sendInviteFriendList = useSelector(
@@ -58,10 +59,6 @@ const FriendList = () => {
     dataStore.getSendInviteFriendList(req);
     dataStore.getInvitedFriendList(req);
   }, [activeTab]);
-
-  console.log("friendList", friendList);
-  console.log("invitedFriendList", invitedFriendList);
-  console.log("sendInviteFriendList", sendInviteFriendList);
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -226,7 +223,7 @@ const FriendList = () => {
                 marginBottom: "2px",
               }}
             >
-              {friendList?.length || 0}
+              {friendList?.data?.length || 0}
             </div>
             <div
               style={{
@@ -254,7 +251,7 @@ const FriendList = () => {
                 marginBottom: "2px",
               }}
             >
-              {friendList?.length || 0}
+              {invitedFriendList?.data?.length || 0}
             </div>
             <div
               style={{
@@ -504,6 +501,70 @@ const FriendList = () => {
                 <span className="label">好友生日</span>{" "}
                 {renderDate(item.birthday) || "尚未設定生日"}
               </div>
+            )}
+            {activeTab === 1 && (
+              <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  marginRight: "10px",
+                  cursor: "pointer",
+                  width: "52px",
+                  height: "31px",
+                  border: "1px solid #A21A2B",
+                  borderRadius: "4px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#FFFFFF",
+                }}
+                onClick={() => {
+                  acceptInviteFriend(item.id);
+                }}
+              >
+                <div
+                  style={{
+                    color: "#A21A2B",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    fontWeight: "500",
+                  }}
+                >
+                  接受
+                </div>
+              </div>
+              <div
+                style={{
+                  cursor: "pointer",
+                  width: "52px",
+                  height: "31px",
+                  backgroundColor: "#DBDADE",
+                  borderRadius: "4px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onClick={() => {
+                  rejectInviteFriend(item.id);
+                }}
+              >
+                <div
+                  style={{
+                    color: "#817D8D",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    fontWeight: "500",
+                  }}
+                >
+                  拒絕
+                </div>
+              </div>
+            </div>
             )}
           </MobileItem>
         ))}

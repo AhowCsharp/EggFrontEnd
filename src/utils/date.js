@@ -9,7 +9,7 @@ export function formatDate(date) {
 }
 
 export function formatDateToYmd(date) {
-  return dayjs(date).format('YYYY/MM/DD')
+  return date ? dayjs(date).format("YYYY/MM/DD") : "";
 }
 
 export function renderDate(date) {
